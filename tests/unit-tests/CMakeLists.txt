@@ -1,0 +1,32 @@
+# pluggins
+include(FetchContent)
+
+# sources
+set(SOURCES_UTESTS Test.test.cpp ../../src/Test.cpp ../../src/Test.h)
+
+# dependencies
+FetchContent_Declare(
+        catch2
+        GIT_REPOSITORY  https://github.com/catchorg/Catch2.git
+        GIT_TAG         v2.6.1
+)
+
+FetchContent_GetProperties(catch2)
+if(NOT catch2_POPULATED)
+    FetchContent_Populate(catch2)
+    add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+endif()
+
+if (ENABLE_COVERAGE)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
+    find_package(codecov)
+    add_coverage(SelfTest)
+    list(APPEND LCOV_REMOVE_PATTERNS "/usr/")
+    coverage_evaluate()
+endif()
+
+
+# targets
+add_executable(utests ${SOURCES_UTESTS})
+
+target_link_libraries(utests Catch2::Catch2)
