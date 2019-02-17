@@ -27,7 +27,7 @@
 #include "catch2/catch.hpp"
 ```
 
-### Json
+### json
 
 ```cpp
 #include "nlohmann/json.hpp"
@@ -46,13 +46,13 @@ using json = nlohmann::json;
 #include "INIReader.h"
 ```
 
-### Json
+### csv
 
-```csv
+```cpp
 #include "csvmonkey.hpp"
 ```
 
-### Loggin
+### loggin
 
 ```cpp
 #include "easylogging++.h"
