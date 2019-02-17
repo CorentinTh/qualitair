@@ -11,6 +11,9 @@
 class SpikeDetection : public IDataProcess {
     public:
         SpikeDetection & operator = ( SpikeDetection other );
+
+        void apply() override;
+
         SpikeDetection ( const SpikeDetection & other );
         SpikeDetection ( );
         virtual ~SpikeDetection ( );

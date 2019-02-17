@@ -6,8 +6,22 @@
 #define QUALITAIR_STATSCOMMAND_H
 
 
-class StatsCommand {
+#include "Command.h"
 
+class StatsCommand : public Command {
+    public:
+
+        StatsCommand & operator = ( StatsCommand other );
+        StatsCommand ( const StatsCommand & other );
+        StatsCommand ( );
+        virtual ~StatsCommand ( );
+
+        void execute() override;
+
+        void output() override;
+
+protected:
+        friend void swap(StatsCommand & first, StatsCommand & second);
 };
 
 

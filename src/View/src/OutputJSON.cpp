@@ -3,3 +3,23 @@
 //
 
 #include "../include/OutputJSON.h"
+
+void OutputJSON::printSpikes() {
+
+}
+
+void OutputJSON::printStats() {
+
+}
+
+void OutputJSON::printSim() {
+
+}
+
+void OutputJSON::printBroken() {
+
+}
+
+void OutputJSON::printIngest() {
+
+}

@@ -15,7 +15,9 @@ class Aggregation : public IDataProcess {
         double computeAverage();
         double computeExtrems();
         double computeDeviation();
-        
+
+        void apply() override;
+
         Aggregation & operator = ( Aggregation other );
         Aggregation ( const Aggregation & other );
         Aggregation ( );

@@ -6,8 +6,22 @@
 #define QUALITAIR_SPIKESCOMMAND_H
 
 
-class SpikesCommand {
+#include "Command.h"
 
+class SpikesCommand : public Command {
+    public:
+
+        SpikesCommand & operator = ( SpikesCommand other );
+        SpikesCommand ( const SpikesCommand & other );
+        SpikesCommand ( );
+        virtual ~SpikesCommand ( );
+
+        void execute() override;
+
+        void output() override;
+
+protected:
+        friend void swap(SpikesCommand & first, SpikesCommand & second);
 };
 
 

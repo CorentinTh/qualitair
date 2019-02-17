@@ -3,3 +3,24 @@
 //
 
 #include "../include/Controller.h"
+#include "../include/StatsCommand.h"
+
+Controller &Controller::operator=(Controller other) {
+    return *this;
+}
+
+Controller::Controller(const Controller &other) {
+
+}
+
+Controller::Controller() {
+
+}
+
+Controller::~Controller() {
+
+}
+
+Command* Controller::parseCommand() {
+    return new StatsCommand();
+}

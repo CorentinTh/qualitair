@@ -12,17 +12,18 @@
 
 class BrokenDetection : IDataProcess {
     public:
-    
-            BrokenDetection & operator = ( BrokenDetection other );
-            BrokenDetection ( const BrokenDetection & other );
-            BrokenDetection ( );
-            virtual ~BrokenDetection ( );
+        void apply() override;
+
+        BrokenDetection & operator = ( BrokenDetection other );
+        BrokenDetection ( const BrokenDetection & other );
+        BrokenDetection ( );
+        virtual ~BrokenDetection ( );
     
     protected:
-            friend void swap(BrokenDetection & first, BrokenDetection & second);
+        friend void swap(BrokenDetection & first, BrokenDetection & second);
 
-            int timeThreshold;
-            std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
+        int timeThreshold;
+        std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
 };
 
 

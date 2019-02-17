@@ -6,8 +6,19 @@
 #define QUALITAIR_CONTROLLER_H
 
 
-class Controller {
+#include "Command.h"
 
+class Controller {
+    public:
+
+        Controller & operator = ( Controller other );
+        Controller ( const Controller & other );
+        Controller ( );
+        virtual ~Controller ( );
+
+    protected:
+        Command* parseCommand();
+        friend void swap(Controller & first, Controller & second);
 };
 
 

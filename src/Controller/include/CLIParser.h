@@ -6,8 +6,24 @@
 #define QUALITAIR_CLIPARSER_H
 
 
-class CLIParser {
+#include <string>
+#include <vector>
 
+class CLIParser {
+    public:
+        std::string getArgument(std::string name);
+        std::string getVerb();
+
+        CLIParser & operator = ( CLIParser other );
+        CLIParser ( const CLIParser & other );
+        CLIParser ( );
+        virtual ~CLIParser ( );
+
+    protected:
+        friend void swap(CLIParser & first, CLIParser & second);
+
+        int argc;
+        std::vector<std::string> argv;
 };
 
 

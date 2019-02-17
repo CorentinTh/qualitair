@@ -6,8 +6,22 @@
 #define QUALITAIR_DETECTSIMCOMMAND_H
 
 
-class DetectSimCommand {
+#include "Command.h"
 
+class DetectSimCommand : public Command {
+    public:
+
+        DetectSimCommand & operator = ( DetectSimCommand other );
+        DetectSimCommand ( const DetectSimCommand & other );
+        DetectSimCommand ( );
+        virtual ~DetectSimCommand ( );
+
+        void execute() override;
+
+        void output() override;
+
+protected:
+        friend void swap(DetectSimCommand & first, DetectSimCommand & second);
 };
 
 

@@ -16,6 +16,14 @@ class ETL : public IETL {
             return instance;
         }
 
+        void ingest(std::string csvData) override {
+
+        }
+
+        void getData() override {
+
+        }
+
         ETL(ETL const&)       = delete;
         void operator=(ETL const&)  = delete;
 

@@ -3,3 +3,7 @@
 //
 
 #include "../include/ConnectionFactory.h"
+
+void ConnectionFactory::createConnection() {
+
+}

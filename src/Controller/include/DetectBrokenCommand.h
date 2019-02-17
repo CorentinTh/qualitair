@@ -6,8 +6,22 @@
 #define QUALITAIR_DETECTBROKENCOMMAND_H
 
 
-class DetectBrokenCommand {
+#include "Command.h"
 
+class DetectBrokenCommand : public Command {
+    public:
+
+        DetectBrokenCommand & operator = ( DetectBrokenCommand other );
+        DetectBrokenCommand ( const DetectBrokenCommand & other );
+        DetectBrokenCommand ( );
+        virtual ~DetectBrokenCommand ( );
+
+        void execute() override;
+
+        void output() override;
+
+protected:
+        friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
 };
 
 
