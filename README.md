@@ -12,3 +12,51 @@
         <img src="https://codecov.io/gh/CorentinTh/qualitair/branch/master/graph/badge.svg?token=b9f6pNeqj9" />
     </a>
 </p>
+
+
+## Includes
+### SQLiteCpp
+
+```cpp
+#include "SQLiteCpp/SQLiteCpp.h"
+```
+
+### Catch2
+
+```cpp
+#include "catch2/catch.hpp"
+```
+
+### Json
+
+```cpp
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+```
+
+### argh
+
+```cpp
+#include "argh.h"
+```
+
+### .ini
+
+```cpp
+#include "INIReader.h"
+```
+
+### Json
+
+```csv
+#include "csvmonkey.hpp"
+```
+
+### Loggin
+
+```cpp
+#include "easylogging++.h"
+```
+
+
+
