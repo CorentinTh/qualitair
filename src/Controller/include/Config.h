@@ -10,11 +10,22 @@
 
 class Config {
     public:
+        static const std::string FILEPATH;
+
         void load();
+
+        int getThreshold();
+        int getEpsilon();
+        int getBrokenTime();
+        int getValueThreshold();
+        int getTimeThreshold();
+        int getSearchingGranularity();
+        std::unordered_map<std::string, std::pair<int,int>> getAdmissibleRanges();
+        std::string getIGQAFormula();
 
         Config & operator = ( Config other );
         Config ( const Config & other );
-        Config ( );
+        Config ( std::string path = FILEPATH );
         virtual ~Config ( );
 
     protected:
@@ -29,6 +40,8 @@ class Config {
         int searchingGranularity;
         std::unordered_map<std::string, std::pair<int,int>> admissibleRanges;
         std::string igqaFormula;
+
+        std::string filepath;
 };
 
 
