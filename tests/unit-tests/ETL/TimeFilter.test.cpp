@@ -21,8 +21,8 @@ TEST_CASE("Testing TimeFilter with start and end", "[]") {
 TEST_CASE("Testing TimeFilter with start and end inverted", "[]") {
     TimeFilter timeFilter;
 
-    time_t end = 1550430257;  // 17/02/2019 à 19:04:17
-    time_t start = 1550516657;    // 18/02/2019 à 19:04:17
+    time_t end = 1550430257;    // 17/02/2019 à 19:04:17
+    time_t start = 1550516657;  // 18/02/2019 à 19:04:17
 
     timeFilter.setStart(start);
     timeFilter.setEnd(end);
