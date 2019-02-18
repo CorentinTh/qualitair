@@ -2,6 +2,7 @@
 #define QUALITAIR_UTILS_HPP
 
 #include <random>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -41,6 +42,24 @@ string randomString(size_t length) {
     }
 
     return str;
+}
+
+
+/**
+ * Vector to string ex: vector [1, 2, 3] to "1, 2, 3"
+ * @param v
+ * @param delimiter
+ * @return
+ */
+string join(vector<string> &v, string delimiter = ", "){
+
+    string str = "";
+    auto it = v.begin();
+    for (;  it < v.end() - 1 ; ++it) {
+        str += *it + delimiter;
+    }
+
+    return str += *(it++);
 }
 
 
