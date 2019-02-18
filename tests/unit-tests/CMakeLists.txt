@@ -2,7 +2,7 @@
 include(FetchContent)
 
 # sources
-set(SOURCES_UTESTS Test.test.cpp ../../src/Test.cpp ../../src/Test.h)
+set(SOURCES_UTESTS Test.test.cpp ../../src/Test.cpp ../../src/Test.h DataProcessor/Aggregation.test.cpp DataProcessor/FormulaComputer.test.cpp DataProcessor/SpikeDetection.test.cpp DataProcessor/SimilarDetection.test.cpp DataProcessor/BrokenDetection.cpp DataProcessor/DataProcessor.test.cpp Controller/CLIParser.test.cpp Controller/Config.test.cpp View/OutputCLI.test.cpp View/OutputHTML.test.cpp View/OutputJSON.test.cpp Data/ConnectionFactory.test.cpp Data/QueryBuilder.test.cpp ETL/ETL.test.cpp ETL/TimeFilter.test.cpp ETL/GeoFilter.test.cpp ETL/AttributeFilter.test.cpp ETL/SensorFilter.test.cpp ETL/Interpolater.test.cpp)
 
 # dependencies
 FetchContent_Declare(
