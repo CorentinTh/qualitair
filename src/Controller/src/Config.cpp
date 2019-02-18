@@ -34,7 +34,15 @@ int Config::getTimeThreshold() {
     return 0;
 }
 
-int Config::getSearchingGranularity() {
+int Config::getSpatialGranularity(){
+    return 0;
+}
+
+int Config::getTemporalGranularity(){
+    return 0;
+}
+
+int Config::getMinimalArea(){
     return 0;
 }
 

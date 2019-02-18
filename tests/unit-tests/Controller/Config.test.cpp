@@ -8,18 +8,26 @@
 #include "../../../src/Controller/include/Config.h"
 
 TEST_CASE("Testing Config::load", "[UT-C-3]") {
-    Config config = Config("tests/config-sample.ini");
+    Config config = Config("data/config-sample.ini");
     config.load();
 
     // TODO set actual values from sample file
-    REQUIRE(config.getBrokenTime() == 0);
+    REQUIRE(config.getBrokenTime() == 3600);
     REQUIRE(config.getEpsilon() == 5);
     REQUIRE(config.getThreshold() == 10);
-    REQUIRE(config.getIGQAFormula() == "");
-    REQUIRE(config.getSearchingGranularity() == 0);
-    REQUIRE(config.getTimeThreshold() == 0);
-    REQUIRE(config.getValueThreshold() == 0);
-    REQUIRE(config.getAdmissibleRanges() == std::unordered_map<std::string, std::pair<int, int>>());
+    REQUIRE(config.getIGQAFormula() == "1/({attr1}+{attr2})+3*{attr3}");
+    REQUIRE(config.getTemporalGranularity() == 1000);
+    REQUIRE(config.getSpatialGranularity() == 1000);
+    REQUIRE(config.getTimeThreshold() == 12);
+    REQUIRE(config.getValueThreshold() == 500);
+    REQUIRE(config.getMinimalArea() == 10000);
+    REQUIRE(
+            config.getAdmissibleRanges()
+            ==
+            std::unordered_map<std::string, std::pair<int, int>>() {
+                {0, 15}, {10, 100}
+            }
+    );
 
 
 
