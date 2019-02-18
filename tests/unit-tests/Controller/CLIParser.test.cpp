@@ -32,3 +32,22 @@ TEST_CASE("Testing CLIParser::getArgument", "[UT-C-1]") {
     REQUIRE(cliParser.getArgument("format") == "RAW");
     REQUIRE(cliParser.getArgument("xxxxx") == "");
 }
+
+TEST_CASE("Testing CLIParser::getVerb", "[UT-C-2]") {
+    std::vector<std::string> command1 = { "ingest", "--input=data" };
+    CLIParser cliParser = CLIParser(command1);
+
+    REQUIRE(cliParser.getVerb() == "ingest");
+
+    // TODO looks odd, remove the detect ?
+    std::vector<std::string> command2 = { "detect", "sim" };
+    cliParser = CLIParser(command2);
+
+    REQUIRE(cliParser.getVerb() == "sim");
+
+    std::vector<std::string> command3 = { "--input=.", "--bbox=a" };
+    cliParser = CLIParser(command3);
+
+    REQUIRE(cliParser.getVerb() == "");
+
+}
