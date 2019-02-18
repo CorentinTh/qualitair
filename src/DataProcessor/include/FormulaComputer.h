@@ -15,7 +15,7 @@ class FormulaComputer {
 
         FormulaComputer & operator = ( FormulaComputer other );
         FormulaComputer ( const FormulaComputer & other );
-        FormulaComputer ( );
+        FormulaComputer ( std::string formulaExpr );
         virtual ~FormulaComputer ( );
     
     protected:

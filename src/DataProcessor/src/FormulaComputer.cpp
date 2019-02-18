@@ -16,7 +16,8 @@ FormulaComputer::FormulaComputer(const FormulaComputer &other) {
 
 }
 
-FormulaComputer::FormulaComputer() {
+
+FormulaComputer::FormulaComputer(std::string formulaExpr) : formula(formulaExpr) {
 
 }
 
