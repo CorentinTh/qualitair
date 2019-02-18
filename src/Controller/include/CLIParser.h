@@ -16,14 +16,13 @@ class CLIParser {
 
         CLIParser & operator = ( CLIParser other );
         CLIParser ( const CLIParser & other );
-        CLIParser ( );
+        CLIParser ( std::vector<std::string> args);
         virtual ~CLIParser ( );
 
     protected:
         friend void swap(CLIParser & first, CLIParser & second);
 
-        int argc;
-        std::vector<std::string> argv;
+        std::vector<std::string> args;
 };
 
 
