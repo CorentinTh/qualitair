@@ -4,6 +4,6 @@
 
 #include "../include/ConnectionFactory.h"
 
-void ConnectionFactory::createConnection() {
+SQLite::Database * ConnectionFactory::getConnection() {
 
 }
