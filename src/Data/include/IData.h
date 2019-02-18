@@ -5,7 +5,6 @@
 #ifndef QUALITAIR_IDATA_H
 #define QUALITAIR_IDATA_H
 
-
 #include <string>
 
 class IData {
