@@ -77,7 +77,7 @@ TEST_CASE("Testing TimeFilter with start and end equals", "[]") {
 
 
 TEST_CASE("Testing TimeFilter '=' operator", "[]") {
-    TimeFilter timeFilter1, timeFilter2, timeFilter3;
+    TimeFilter timeFilter1, timeFilter2;
 
     time_t start = 1550430257;  // 17/02/2019 à 19:04:17
     time_t end = 1550516657;    // 18/02/2019 à 19:04:17
