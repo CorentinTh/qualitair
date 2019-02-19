@@ -12,9 +12,9 @@
 
 class Aggregation : public IDataProcess {
     public:
-        double computeAverage();
-        double computeExtrems();
-        double computeDeviation();
+        std::unordered_map<std::string, double> computeAverage();
+        std::unordered_map<std::string, std::pair<double, double>> computeExtrems();
+        std::unordered_map<std::string, double> computeDeviation();
 
         json apply() override;
 
