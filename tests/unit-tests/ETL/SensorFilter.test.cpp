@@ -6,9 +6,7 @@
 
 using namespace std;
 
-// TODO: add test id
-
-TEST_CASE("Testing SensorFilter::addSensor", "[]") {
+TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-8]") {
     SensorFilter sensorFilter1;
 
     vector<string> sensorsID;
@@ -23,7 +21,7 @@ TEST_CASE("Testing SensorFilter::addSensor", "[]") {
     CHECK(sensorFilter1.apply() == "sensorID in (" + join(sensorsID) + ")" );
 }
 
-TEST_CASE("Testing SensorFilter::addSensors", "[]") {
+TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-9]") {
     SensorFilter sensorFilter1;
 
     vector<string> sensorsID;
@@ -38,9 +36,7 @@ TEST_CASE("Testing SensorFilter::addSensors", "[]") {
     CHECK(sensorFilter1.apply() == "sensorID in (" + join(sensorsID) + ")" );
 }
 
-
-
-TEST_CASE("Testing TimeFilter '=' operator", "[]") {
+TEST_CASE("Testing TimeFilter '=' operator", "[extra]") {
     SensorFilter sensorFilter1, sensorFilter2;
 
     sensorFilter1.addSensor(randomString(10));
