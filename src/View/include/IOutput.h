@@ -6,14 +6,16 @@
 #define QUALITAIR_IOUTPUT_H
 
 
+#include <string>
+
 class IOutput {
     public:
         virtual ~IOutput() {}
-        virtual void printSpikes() = 0;
-        virtual void printStats() = 0;
-        virtual void printSim() = 0;
-        virtual void printBroken() = 0;
-        virtual void printIngest() = 0;
+        virtual void printSpikes(std::string dataJson) = 0;
+        virtual void printStats(std::string dataJson) = 0;
+        virtual void printSim(std::string dataJson) = 0;
+        virtual void printBroken(std::string dataJson) = 0;
+        virtual void printIngest(std::string dataJson) = 0;
 };
 
 

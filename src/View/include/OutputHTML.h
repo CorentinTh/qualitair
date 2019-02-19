@@ -16,17 +16,17 @@ class OutputHTML : public IOutput {
             return instance;
         }
     
-        virtual void printSpikes();
-        virtual void printStats();
-        virtual void printSim();
-        virtual void printBroken();
-        virtual void printIngest();
+        virtual void printSpikes(std::string dataJson);
+        virtual void printStats(std::string dataJson);
+        virtual void printSim(std::string dataJson);
+        virtual void printBroken(std::string dataJson);
+        virtual void printIngest(std::string dataJson);
     
         OutputHTML(OutputHTML const&)       = delete;
         void operator=(OutputHTML const&)  = delete;
     
     private:
-        OutputHTML() {}
+        OutputHTML();
 };
 
 

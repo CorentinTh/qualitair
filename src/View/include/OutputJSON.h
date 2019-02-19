@@ -16,17 +16,17 @@ class OutputJSON : public IOutput{
             return instance;
         }
     
-        virtual void printSpikes();
-        virtual void printStats();
-        virtual void printSim();
-        virtual void printBroken();
-        virtual void printIngest();
+        virtual void printSpikes(std::string dataJson);
+        virtual void printStats(std::string dataJson);
+        virtual void printSim(std::string dataJson);
+        virtual void printBroken(std::string dataJson);
+        virtual void printIngest(std::string dataJson);
     
         OutputJSON(OutputJSON const&)       = delete;
         void operator=(OutputJSON const&)  = delete;
     
     private:
-        OutputJSON() {}
+        OutputJSON();
 };
 
 
