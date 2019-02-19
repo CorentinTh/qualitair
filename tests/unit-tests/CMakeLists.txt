@@ -1,6 +1,10 @@
 # pluggins
 include(FetchContent)
 
+# config
+set(TARGET_NAME utests)
+
+
 # sources
 file(GLOB UT_SOURCES
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.h
@@ -34,6 +38,8 @@ endif()
 
 
 # targets
-add_executable(utests ${SOURCES})
+add_executable(${TARGET_NAME}  ${SOURCES})
 
-target_link_libraries(utests Catch2::Catch2)
+target_link_libraries(${TARGET_NAME}  Catch2::Catch2 ${REMOTE_DEPS})
+
+target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
