@@ -6,9 +6,7 @@
 
 using namespace std;
 
-// TODO: add test id
-
-TEST_CASE("Testing AttributeFilter::addAttribute", "[]") {
+TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
     AttributeFilter attributeFilter1;
 
     vector<string> attributes;
@@ -23,7 +21,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[]") {
     CHECK(attributeFilter1.apply() == "sensorID in (" + join(attributes) + ")" );
 }
 
-TEST_CASE("Testing AttributeFilter::addAttributes", "[]") {
+TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     AttributeFilter attributeFilter1;
 
     vector<string> attributes;
@@ -38,9 +36,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[]") {
     CHECK(attributeFilter1.apply() == "sensorID in (" + join(attributes) + ")" );
 }
 
-
-
-TEST_CASE("Testing AttributeFilter '=' operator", "[]") {
+TEST_CASE("Testing AttributeFilter '=' operator", "[extra]") {
     AttributeFilter attributeFilter1, attributeFilter2;
 
     attributeFilter1.addAttribute(randomString(10));
