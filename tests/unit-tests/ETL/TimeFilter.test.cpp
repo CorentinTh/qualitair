@@ -4,9 +4,7 @@
 
 using namespace std;
 
-// TODO: add test id
-
-TEST_CASE("Testing TimeFilter with start and end", "[]") {
+TEST_CASE("Testing TimeFilter with start and end", "[UT-E-3, UT-E-4]") {
     TimeFilter timeFilter;
 
     time_t start = 1550430257;  // 17/02/2019 à 19:04:17
@@ -18,7 +16,7 @@ TEST_CASE("Testing TimeFilter with start and end", "[]") {
     REQUIRE_THAT(timeFilter.apply(), "timestamp >= " + to_string(start) + " AND timestamp <= " + to_string(end));
 }
 
-TEST_CASE("Testing TimeFilter with start and end inverted", "[]") {
+TEST_CASE("Testing TimeFilter with start and end inverted", "[UT-E-3, UT-E-4]") {
     TimeFilter timeFilter;
 
     time_t end = 1550430257;    // 17/02/2019 à 19:04:17
@@ -30,7 +28,7 @@ TEST_CASE("Testing TimeFilter with start and end inverted", "[]") {
     REQUIRE_THROWS(timeFilter.apply());
 }
 
-TEST_CASE("Testing TimeFilter with start and end equals", "[]") {
+TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-3, UT-E-4]") {
     TimeFilter timeFilter;
 
     time_t t = 1550430257;  // 17/02/2019 à 19:04:17
@@ -41,7 +39,7 @@ TEST_CASE("Testing TimeFilter with start and end equals", "[]") {
     REQUIRE_THAT(timeFilter.apply(), "timestamp = " + to_string(t));
 }
 
-TEST_CASE("Testing TimeFilter with interval", "[]") {
+TEST_CASE("Testing TimeFilter with interval", "[UT-E-5]") {
     TimeFilter timeFilter;
 
     time_t start = 1550430257;  // 17/02/2019 à 19:04:17
@@ -52,7 +50,7 @@ TEST_CASE("Testing TimeFilter with interval", "[]") {
     REQUIRE_THAT(timeFilter.apply(), "timestamp >= " + to_string(start) + " AND timestamp <= " + to_string(end));
 }
 
-TEST_CASE("Testing TimeFilter with interval inverted", "[]") {
+TEST_CASE("Testing TimeFilter with interval inverted", "[UT-E-5]") {
     TimeFilter timeFilter;
 
     time_t end = 1550430257;    // 17/02/2019 à 19:04:17
@@ -63,7 +61,7 @@ TEST_CASE("Testing TimeFilter with interval inverted", "[]") {
     REQUIRE_THROWS(timeFilter.apply());
 }
 
-TEST_CASE("Testing TimeFilter with start and end equals", "[]") {
+TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-5]") {
     TimeFilter timeFilter;
 
     time_t t = 1550430257;  // 17/02/2019 à 19:04:17
@@ -73,8 +71,7 @@ TEST_CASE("Testing TimeFilter with start and end equals", "[]") {
     REQUIRE_THAT(timeFilter.apply(), "timestamp = " + to_string(t));
 }
 
-
-TEST_CASE("Testing TimeFilter '=' operator", "[]") {
+TEST_CASE("Testing TimeFilter '=' operator", "[extra]") {
     TimeFilter timeFilter1, timeFilter2;
 
     time_t start = 1550430257;  // 17/02/2019 à 19:04:17
