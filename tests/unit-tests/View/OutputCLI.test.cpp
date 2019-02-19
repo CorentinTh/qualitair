@@ -197,6 +197,9 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
     REQUIRE(typeid(myOutputGenerator.getInstance()).name()=="OutputCLI");
+    SECTION("is the method returning something"){
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest)), void>::value);
+    }
     SECTION("is the  method putting something in cout"){
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
