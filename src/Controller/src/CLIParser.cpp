@@ -16,11 +16,13 @@ CLIParser &CLIParser::operator=(CLIParser other) {
     return *this;
 }
 
+
+
 CLIParser::CLIParser(const CLIParser &other) {
 
 }
 
-CLIParser::CLIParser() {
+CLIParser::CLIParser(std::vector<std::string> arguments) : args(arguments) {
 
 }
 
