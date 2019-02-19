@@ -40,7 +40,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[]") {
 
 
 
-TEST_CASE("Testing TimeFilter '=' operator", "[]") {
+TEST_CASE("Testing AttributeFilter '=' operator", "[]") {
     AttributeFilter attributeFilter1, attributeFilter2;
 
     attributeFilter1.addAttribute(randomString(10));
