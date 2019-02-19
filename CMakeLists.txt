@@ -18,12 +18,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 file(GLOB SOURCES
         ${PROJECT_SOURCE_DIR}/src/**/*.h
         ${PROJECT_SOURCE_DIR}/src/**/*.cpp
-        ${PROJECT_SOURCE_DIR}/src/main.cpp
 )
+set(MAIN_FILE ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 set(EASYLOGGIN ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.cc ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.h)
 
 # dependencies
+set(LOCAL_DEPS
+        ${PROJECT_SOURCE_DIR}/deps/argh
+        ${PROJECT_SOURCE_DIR}/deps/csvmonkey
+        ${PROJECT_SOURCE_DIR}/deps/easyloggin
+        ${PROJECT_SOURCE_DIR}/deps/inih
+)
+
 FetchContent_Declare(
         sqlitecpp
         GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git
@@ -48,12 +55,7 @@ if (NOT jsoncpp_POPULATED)
     add_subdirectory(${jsoncpp_SOURCE_DIR} ${jsoncpp_BINARY_DIR})
 endif ()
 
-# targets
-add_executable(${TARGET_NAME} ${SOURCES} ${EASYLOGGIN})
-
-add_subdirectory(tests/unit-tests)
-
-target_link_libraries(${TARGET_NAME}
+set(REMOTE_DEPS
         SQLiteCpp                       # sqlite
         sqlite3                         # sqlite dep
         pthread                         # sqlite dep
@@ -61,9 +63,11 @@ target_link_libraries(${TARGET_NAME}
         nlohmann_json::nlohmann_json    # json
 )
 
-target_include_directories(qualitair PRIVATE
-        ${PROJECT_SOURCE_DIR}/deps/argh
-        ${PROJECT_SOURCE_DIR}/deps/csvmonkey
-        ${PROJECT_SOURCE_DIR}/deps/easyloggin
-        ${PROJECT_SOURCE_DIR}/deps/inih
-)
+# target
+add_executable(${TARGET_NAME} ${SOURCES} ${MAIN_FILE} ${EASYLOGGIN})
+
+add_subdirectory(tests/unit-tests)
+
+target_link_libraries(${TARGET_NAME} ${REMOTE_DEPS})
+
+target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
