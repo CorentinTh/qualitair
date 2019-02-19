@@ -4,20 +4,21 @@
 
 #include "../include/DataProcessor.h"
 
-void DataProcessor::computeStats(std::string formula) {
 
+json DataProcessor::computeStats(pointCollection &data, std::string formula) {
+    return json();
 }
 
-void DataProcessor::detectSimilar(std::vector<Measurement> measures, std::vector<Sensor> sensors, double epsilon,
+json DataProcessor::detectSimilar(std::vector<Measurement> measures, std::vector<Sensor> sensors, double epsilon,
                                   double threshold) {
-
+    return json();
 }
 
-void DataProcessor::detectBroken(std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
+json DataProcessor::detectBroken(std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
                                  std::unordered_map<std::string, std::tuple<int, int>> admissibleRanges) {
-
+    return json();
 }
 
-void DataProcessor::detectSpikes(double valueThreshold, double areaThreshold, int delay) {
-
+json DataProcessor::detectSpikes(pointCollection &data, double valueThreshold, double areaThreshold, int delay) {
+    return json();
 }

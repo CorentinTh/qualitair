@@ -7,15 +7,16 @@
 
 
 #include "IDataProcess.h"
+#include "../../globals.h"
 
 class SpikeDetection : public IDataProcess {
     public:
         SpikeDetection & operator = ( SpikeDetection other );
 
-        void apply() override;
+        json apply() override;
 
         SpikeDetection ( const SpikeDetection & other );
-        SpikeDetection ( );
+        SpikeDetection ( pointCollection & data, std::string formula );
         virtual ~SpikeDetection ( );
     
     protected:
@@ -24,6 +25,8 @@ class SpikeDetection : public IDataProcess {
         double valueThreshold;
         double areaThreshold;
         int delay;
+        pointCollection points;
+        std::string formula;
 };
 
 

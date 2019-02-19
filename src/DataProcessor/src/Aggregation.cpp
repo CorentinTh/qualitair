@@ -24,7 +24,7 @@ Aggregation::Aggregation(const Aggregation &other) {
 
 }
 
-Aggregation::Aggregation() {
+Aggregation::Aggregation(pointCollection & data, std::string formulaExpr) : points(data), formula(formulaExpr) {
 
 }
 
@@ -32,6 +32,6 @@ Aggregation::~Aggregation() {
 
 }
 
-void Aggregation::apply() {
+json Aggregation::apply() {
 
 }

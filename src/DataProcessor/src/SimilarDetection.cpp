@@ -20,6 +20,10 @@ SimilarDetection::~SimilarDetection() {
 
 }
 
-void SimilarDetection::apply() {
+json SimilarDetection::apply() {
+
+}
+
+void swap(SimilarDetection &first, SimilarDetection &second) {
 
 }

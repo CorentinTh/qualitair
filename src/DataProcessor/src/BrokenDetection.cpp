@@ -19,6 +19,10 @@ BrokenDetection::~BrokenDetection() {
 
 }
 
-void BrokenDetection::apply() {
+json BrokenDetection::apply() {
+
+}
+
+void swap(BrokenDetection &first, BrokenDetection &second) {
 
 }

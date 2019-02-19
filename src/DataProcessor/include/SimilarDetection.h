@@ -10,7 +10,7 @@
 
 class SimilarDetection : IDataProcess {
     public:
-        void apply() override;
+        json apply() override;
 
         SimilarDetection & operator = ( SimilarDetection other );
         SimilarDetection ( const SimilarDetection & other );

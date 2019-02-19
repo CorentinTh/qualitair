@@ -6,12 +6,12 @@
 #define QUALITAIR_FORMULACOMPUTER_H
 
 #include <string>
+#include "../../globals.h"
 
 class FormulaComputer {
 
     public:
-        //TODO params
-        double compute();
+        double compute(pointCollection & data);
 
         FormulaComputer & operator = ( FormulaComputer other );
         FormulaComputer ( const FormulaComputer & other );

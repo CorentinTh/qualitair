@@ -12,7 +12,7 @@ SpikeDetection::SpikeDetection(const SpikeDetection &other) {
 
 }
 
-SpikeDetection::SpikeDetection() {
+SpikeDetection::SpikeDetection(pointCollection & data, std::string formulaExpr) : points(data), formula(formulaExpr) {
 
 }
 
@@ -20,6 +20,10 @@ SpikeDetection::~SpikeDetection() {
 
 }
 
-void SpikeDetection::apply() {
+json SpikeDetection::apply() {
+
+}
+
+void swap(SpikeDetection &first, SpikeDetection &second) {
 
 }

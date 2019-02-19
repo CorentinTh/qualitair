@@ -6,7 +6,8 @@
 #define QUALITAIR_GLOBALS_H
 
 #include <vector>
+#include <unordered_map>
 
-typedef std::vector<std::vector<std::vector<int>>> pointCollection;
+typedef std::vector<std::vector<std::vector<std::unordered_map<std::string, int>>>> pointCollection;
 
 #endif //QUALITAIR_GLOBALS_H

@@ -8,25 +8,26 @@
 
 #include <string>
 #include "IDataProcess.h"
+#include "../../globals.h"
 
 class Aggregation : public IDataProcess {
     public:
-        //TODO params
         double computeAverage();
         double computeExtrems();
         double computeDeviation();
 
-        void apply() override;
+        json apply() override;
 
         Aggregation & operator = ( Aggregation other );
         Aggregation ( const Aggregation & other );
-        Aggregation ( );
+        Aggregation ( pointCollection & data, std::string formula);
         virtual ~Aggregation ( );
     
     protected:
         friend void swap(Aggregation & first, Aggregation & second);
 
         std::string formula;
+        pointCollection points;
 };
 
 
