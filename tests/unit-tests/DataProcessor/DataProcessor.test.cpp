@@ -8,5 +8,7 @@
 #include "../../../src/DataProcessor/include/DataProcessor.h"
 
 TEST_CASE("Testing singleton", "[UT-DP-9]") {
+    REQUIRE(&DataProcessor::getInstance() == &DataProcessor::getInstance());
+    
     REQUIRE(typeid(DataProcessor::getInstance()).name() == "DataProcessor");
 }
