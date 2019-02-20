@@ -11,7 +11,12 @@ BrokenDetection::BrokenDetection(const BrokenDetection &other) {
 
 }
 
-BrokenDetection::BrokenDetection() {
+BrokenDetection::BrokenDetection(
+        std::vector<Measurement> m,
+        std::vector<Sensor> s,
+        int tT,
+        std::unordered_map<std::string, std::pair<int, int>> ranges)
+        : measures(m), sensors(s), timeThreshold(tT), admissibleRanges(ranges) {
 
 }
 
