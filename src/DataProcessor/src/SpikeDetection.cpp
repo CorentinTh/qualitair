@@ -12,9 +12,14 @@ SpikeDetection::SpikeDetection(const SpikeDetection &other) {
 
 }
 
-SpikeDetection::SpikeDetection(pointCollection & data, std::string formulaExpr) : points(data), formula(formulaExpr) {
-
-}
+SpikeDetection::SpikeDetection(
+        pointCollection & data,
+        std::string formulaExpr,
+        double valueThresh,
+        double areaThresh,
+        int delayValue) :
+        points(data), formula(formulaExpr), valueThreshold(valueThresh), areaThreshold(areaThresh), delay(delayValue)
+{}
 
 SpikeDetection::~SpikeDetection() {
 
