@@ -24,4 +24,46 @@ TEST_CASE("Testing broken detection", "[UT-DP-8]") {
             Sensor(2, 45.7632485, 4.8335574, "Cordelier - Métro"),
             Sensor(3, 45.762994, 4.833632, "Rue de la république")
     };
+
+    std::unordered_map<std::string, std::pair<int, int>> admissibleRanges = {
+            {
+                    "1",
+                    std::pair<int,int>(1, 10)
+            },
+            {
+                    "2",
+                    std::pair<int,int>(5, 20)
+            },
+            {
+                    "3",
+                    std::pair<int,int>(1, 100)
+            }
+    };
+
+    int timeThreshold = 10000;
+
+    json ot5 = R"({
+   {
+      "id":71,
+      "lat":48.597855,
+      "long":3.401035,
+    "description":"Pétaouchnok"
+   },
+   {
+    "id":147,
+    "lat":28.468412,
+    "long":14.351684,
+    "description":"Paris - Tour Eiffel"
+   }
+}
+)"_json;
+
+
+    BrokenDetection brokenDetection(measures, sensors, timeThreshold, admissibleRanges);
+    CHECK(brokenDetection.apply() == ot5);
+
+    timeThreshold = 10;
+    // TODO refactor this test, useless if we change a parameter but the output doesn't ... what are we testing here ??
+    BrokenDetection brokenDetection2(measures, sensors, timeThreshold, admissibleRanges);
+    CHECK(brokenDetection2.apply() == ot5);
 }
