@@ -7,6 +7,8 @@
 
 
 #include "IDataProcess.h"
+#include "../../Data/include/Sensor.h"
+#include "../../Data/include/Measurement.h"
 
 class SimilarDetection : IDataProcess {
     public:
@@ -14,7 +16,8 @@ class SimilarDetection : IDataProcess {
 
         SimilarDetection & operator = ( SimilarDetection other );
         SimilarDetection ( const SimilarDetection & other );
-        SimilarDetection ( );
+        SimilarDetection ( std::vector<Measurement> measures, std::vector<Sensor> sensors, double epsilon,
+                           double threshold);
         virtual ~SimilarDetection ( );
     
     protected:
@@ -22,6 +25,8 @@ class SimilarDetection : IDataProcess {
 
         double epsilon;
         double threshold;
+        std::vector<Measurement> measures;
+        std::vector<Sensor> sensors;
 };
 
 
