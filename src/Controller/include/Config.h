@@ -19,7 +19,9 @@ class Config {
         int getBrokenTime();
         int getValueThreshold();
         int getTimeThreshold();
-        int getSearchingGranularity();
+        int getSpatialGranularity();
+        int getTemporalGranularity();
+        int getMinimalArea();
         std::unordered_map<std::string, std::pair<int,int>> getAdmissibleRanges();
         std::string getIGQAFormula();
 
@@ -37,7 +39,8 @@ class Config {
         int valueThreshold;
         int timeThreshold;
         int minimalArea;
-        int searchingGranularity;
+        int spatialGranularity;
+        int temporalGranularity;
         std::unordered_map<std::string, std::pair<int,int>> admissibleRanges;
         std::string igqaFormula;
 

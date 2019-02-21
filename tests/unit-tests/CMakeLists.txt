@@ -1,8 +1,19 @@
 # pluggins
 include(FetchContent)
 
+# config
+set(TARGET_NAME utests)
+
+
 # sources
-set(SOURCES_UTESTS Test.test.cpp ../../src/Test.cpp ../../src/Test.h DataProcessor/Aggregation.test.cpp DataProcessor/FormulaComputer.test.cpp DataProcessor/SpikeDetection.test.cpp DataProcessor/SimilarDetection.test.cpp DataProcessor/BrokenDetection.cpp DataProcessor/DataProcessor.test.cpp Controller/CLIParser.test.cpp Controller/Config.test.cpp View/OutputCLI.test.cpp View/OutputHTML.test.cpp View/OutputJSON.test.cpp Data/ConnectionFactory.test.cpp Data/QueryBuilder.test.cpp ETL/ETL.test.cpp ETL/TimeFilter.test.cpp ETL/GeoFilter.test.cpp ETL/AttributeFilter.test.cpp ETL/SensorFilter.test.cpp ETL/Interpolater.test.cpp)
+file(GLOB UT_SOURCES
+        ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.h
+        ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.cpp
+        ${PROJECT_SOURCE_DIR}/tests/*.hpp
+)
+
+
+list(APPEND SOURCES ${UT_SOURCES})
 
 # dependencies
 FetchContent_Declare(
@@ -27,6 +38,8 @@ endif()
 
 
 # targets
-add_executable(utests ${SOURCES_UTESTS})
+add_executable(${TARGET_NAME}  ${SOURCES})
 
-target_link_libraries(utests Catch2::Catch2)
+target_link_libraries(${TARGET_NAME}  Catch2::Catch2 ${REMOTE_DEPS})
+
+target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
