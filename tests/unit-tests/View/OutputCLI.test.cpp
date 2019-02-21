@@ -93,6 +93,7 @@ TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printSpikes(dataJsonSpikes);
         out.close();
 
@@ -118,6 +119,7 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printStats(dataJsonStats);
         out.close();
 
@@ -129,6 +131,44 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
         }
         outToRead.close();
         REQUIRE(nbCharacters>0);
+    }
+    SECTION("is the method putting the expected thing in cout"){
+        std::ofstream out("expected_out.txt"); // mettre dans dossier bin ?
+        std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+        std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
+        myOutputGenerator.printIngest(dataJsonIngest);
+        out.close();
+
+        std::ifstream outToRead("expected_out.txt");
+        std::string line;
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="Résultats des analyses :");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - igqa : 0.55");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - co2 :");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     avg : 6");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     min : 2");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     max : 10");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     deviation : 2.62");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - o2 :");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     avg : 4.88");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     min : 1");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     max : 10");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="     deviation : 2.70");
+        //check if we are at the end of the file
+        REQUIRE(!std::getline(outToRead, line));
+        outToRead.close();
     }
 
 }
@@ -143,6 +183,7 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printSim(dataJsonSim);
         out.close();
 
@@ -154,6 +195,34 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
         }
         outToRead.close();
         REQUIRE(nbCharacters>0);
+    }
+    SECTION("is the method putting the expected thing in cout"){
+        std::ofstream out("expected_out.txt"); // mettre dans dossier bin ?
+        std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+        std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
+        myOutputGenerator.printIngest(dataJsonIngest);
+        out.close();
+
+        std::ifstream outToRead("expected_out.txt");
+        std::string line;
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="------");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="Les capteurs suivants sont similaires :");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - Capteur n°1 : positionné en (45.7574995,4.8313017)");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="   Description : Bellecour - Grande roue");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - Capteur n°3 : positionné en (45.762994,4.833632)");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="   Description : Rue de la république");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="------");
+        //check if we are at the end of the file
+        REQUIRE(!std::getline(outToRead, line));
+        outToRead.close();
     }
 
 }
@@ -168,6 +237,7 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printBroken(dataJsonBroken);
         out.close();
 
@@ -179,6 +249,31 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
         }
         outToRead.close();
         REQUIRE(nbCharacters>0);
+    }
+
+    SECTION("is the method putting the expected thing in cout"){
+        std::ofstream out("expected_out.txt"); // mettre dans dossier bin ?
+        std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+        std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
+        myOutputGenerator.printIngest(dataJsonIngest);
+        out.close();
+
+        std::ifstream outToRead("expected_out.txt");
+        std::string line;
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="Les capteurs suivants sont en panne :");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - Capteur n°71 : positionné en (48.597855,3.401035)");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="   Description : Pétaouchnok");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line==" - Capteur n°147 : positionné en (28.468412,14.351684)");
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="   Description : Paris - Tour Eiffel");
+        //check if we are at the end of the file
+        REQUIRE(!std::getline(outToRead, line));
+        outToRead.close();
     }
 
 }
@@ -193,6 +288,7 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
         std::ofstream out("out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printIngest(dataJsonIngest);
         out.close();
 
@@ -204,5 +300,21 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
         }
         outToRead.close();
         REQUIRE(nbCharacters>0);
+    }
+    SECTION("is the method putting the expected thing in cout"){
+        std::ofstream out("expected_out.txt"); // mettre dans dossier bin ?
+        std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+        std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+        std::cout.rdbuf(coutbuf); // restore cout
+        myOutputGenerator.printIngest(dataJsonIngest);
+        out.close();
+
+        std::ifstream outToRead("expected_out.txt");
+        std::string line;
+        REQUIRE(std::getline(outToRead, line));
+        REQUIRE(line=="4201 lignes ont été insérées avec succès");
+        //check if we are at the end of the file
+        REQUIRE(!std::getline(outToRead, line));
+        outToRead.close();
     }
 }
