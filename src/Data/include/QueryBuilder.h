@@ -17,7 +17,7 @@ class QueryBuilder : public IData {
         void andWhere(std::string condition);
         void orWhere(std::string condition);
         void join(std::string clause);
-        void execute();
+        SQLite::Statement * execute();
 };
 
 

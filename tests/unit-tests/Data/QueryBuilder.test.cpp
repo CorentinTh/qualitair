@@ -3,6 +3,8 @@
 //
 
 #include <catch2/catch.hpp>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Column.h>
 #include "../../../src/Data/include/QueryBuilder.h"
 
 TEST_CASE("Test query attribute selection", "[UT-D-2]") {
@@ -77,4 +79,44 @@ TEST_CASE("Test combined query", "[UT-D-8]") {
     queryBuilder.where("sensorId = 12");
 
     REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = 12;")
+}
+
+TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
+    QueryBuilder queryBuilder = QueryBuilder();
+    SQLite::Statement * query = nullptr;
+
+    queryBuilder.select("sensorId");
+    queryBuilder.from("Sensor");
+    queryBuilder.where("latitude < 48");
+    query = queryBuilder.execute();
+
+    for(int i = 1; i <= 4; i++) {
+        REQUIRE(query->executeStep());
+        REQUIRE((int) query->getColumn("sensorId") == i);
+    }
+
+    queryBuilder = QueryBuilder();
+    queryBuilder.from("Measurement");
+    queryBuilder.where("value < 6");
+    queryBuilder.andWhere("attributeId = 2");
+    queryBuilder.orWhere("sensorId = 5");
+    query = queryBuilder.execute();
+
+    REQUIRE(query->executeStep());
+    REQUIRE((int) query->getColumn("__rowid__") == 1);
+
+    REQUIRE(query->executeStep());
+    REQUIRE((int) query->getColumn("__rowid__") == 6);
+
+    queryBuilder = QueryBuilder();
+    queryBuilder.from("Attribute");
+    queryBuilder.join("Sensor");
+    query = queryBuilder.execute();
+
+    int nbRows = 0;
+    while(query->executeStep()) {
+        nbRows++;
+    }
+
+    REQUIRE(nbRows == 15);
 }
