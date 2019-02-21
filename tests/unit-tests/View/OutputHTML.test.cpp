@@ -11,7 +11,7 @@
 
 #include "../../../src/View/include/OutputHTML.h"
 
-std::string jsonFilename = "mon_rapport_qualitair.html";
+std::string htmlFilename = "mon_rapport_qualitair.html";
 json dataJsonSpikes = {
         {"timestamp",  1550150155},
         {"latitude", 48.8534},
@@ -85,15 +85,17 @@ TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
     SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename)), void>::value);
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename)), void>::value);
     }
     SECTION("is the method creating the file"){
-        std::ifstream file(jsonFilename);
+        myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
+        std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
     }
     SECTION("is the method putting something in the html file"){
-        std::ifstream out(jsonFilename);
+        myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
+        std::ifstream out(htmlFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -109,15 +111,17 @@ TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
     SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printStats(dataJsonStats, jsonFilename)), void>::value);
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printStats(dataJsonStats, htmlFilename)), void>::value);
     }
     SECTION("is the method creating the file"){
-        std::ifstream file(jsonFilename);
+        myOutputGenerator.printStats(dataJsonStats, htmlFilename);
+        std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
     }
     SECTION("is the method putting something in the html file"){
-        std::ifstream out(jsonFilename);
+        myOutputGenerator.printStats(dataJsonStats, htmlFilename);
+        std::ifstream out(htmlFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -132,15 +136,17 @@ TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
     SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSim(dataJsonSim, jsonFilename)), void>::value);
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printSim(dataJsonSim, htmlFilename)), void>::value);
     }
     SECTION("is the method creating the file"){
-        std::ifstream file(jsonFilename);
+        myOutputGenerator.printSim(dataJsonSim, htmlFilename);
+        std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
     }
     SECTION("is the method putting something in the html file"){
-        std::ifstream out(jsonFilename);
+        myOutputGenerator.printSim(dataJsonSim, htmlFilename);
+        std::ifstream out(htmlFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -155,15 +161,17 @@ TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
     SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printBroken(dataJsonBroken, jsonFilename)), void>::value);
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printBroken(dataJsonBroken, htmlFilename)), void>::value);
     }
     SECTION("is the method creating the file"){
-        std::ifstream file(jsonFilename);
+        myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
+        std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
     }
     SECTION("is the method putting something in the html file"){
-        std::ifstream out(jsonFilename);
+        myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
+        std::ifstream out(htmlFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -178,15 +186,17 @@ TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
     SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest, jsonFilename)), void>::value);
+        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest, htmlFilename)), void>::value);
     }
     SECTION("is the method creating the file"){
-        std::ifstream file(jsonFilename);
+        myOutputGenerator.printIngest(dataJsonIngest, htmlFilename);
+        std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
     }
     SECTION("is the method putting something in the html file"){
-        std::ifstream out(jsonFilename);
+        myOutputGenerator.printIngest(dataJsonIngest, htmlFilename);
+        std::ifstream out(htmlFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
