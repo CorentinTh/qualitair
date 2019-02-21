@@ -16,7 +16,7 @@ class ETL : public IETL {
             return instance;
         }
 
-        json ingest(std::string csvData) override {
+        json ingest(json data) override {
             return {};
         }
 

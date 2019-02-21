@@ -13,7 +13,7 @@ using json = nlohmann::json;
 
 class IETL {
     public:
-        virtual json ingest(std::string csvData) = 0;
+        virtual json ingest(json data) = 0;
         // TODO this is not void + add param
         virtual void getData() = 0;
 };
