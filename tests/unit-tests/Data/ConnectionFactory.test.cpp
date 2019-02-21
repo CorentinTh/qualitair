@@ -10,4 +10,5 @@ TEST_CASE("Test ConnectionFactory::getConnection()", "[UT-D-1]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
 
     REQUIRE(database != nullptr);
+    REQUIRE(database == ConnectionFactory::getConnection());
 }
