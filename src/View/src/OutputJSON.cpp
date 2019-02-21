@@ -4,22 +4,22 @@
 
 #include "../include/OutputJSON.h"
 
-void OutputJSON::printSpikes(std::string dataJson, std::string filename) {
+void OutputJSON::printSpikes(json dataJson, std::string filename) {
 
 }
 
-void OutputJSON::printStats(std::string dataJson, std::string filename) {
+void OutputJSON::printStats(json dataJson, std::string filename) {
 
 }
 
-void OutputJSON::printSim(std::string dataJson, std::string filename) {
+void OutputJSON::printSim(json dataJson, std::string filename) {
 
 }
 
-void OutputJSON::printBroken(std::string dataJson, std::string filename) {
+void OutputJSON::printBroken(json dataJson, std::string filename) {
 
 }
 
-void OutputJSON::printIngest(std::string dataJson, std::string filename) {
+void OutputJSON::printIngest(json dataJson, std::string filename) {
 
 }

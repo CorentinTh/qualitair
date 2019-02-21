@@ -16,11 +16,11 @@ class OutputHTML : public IOutput {
             return instance;
         }
     
-        virtual void printSpikes(std::string dataJson, std::string filename);
-        virtual void printStats(std::string dataJson, std::string filename);
-        virtual void printSim(std::string dataJsonn, std::string filename);
-        virtual void printBroken(std::string dataJsonn, std::string filename);
-        virtual void printIngest(std::string dataJsonn, std::string filename);
+        virtual void printSpikes(json dataJson, std::string filename);
+        virtual void printStats(json dataJson, std::string filename);
+        virtual void printSim(json dataJsonn, std::string filename);
+        virtual void printBroken(json dataJsonn, std::string filename);
+        virtual void printIngest(json dataJsonn, std::string filename);
     
         OutputHTML(OutputHTML const&)       = delete;
         void operator=(OutputHTML const&)  = delete;
