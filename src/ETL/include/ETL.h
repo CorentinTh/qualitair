@@ -15,8 +15,8 @@ public:
         return instance;
     }
 
-    json ingest(json data) override {
-        return {};
+    bool ingest(json data) override {
+        return false;
     }
 
     void getData() override {
