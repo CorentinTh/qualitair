@@ -24,7 +24,7 @@ class ETL : public IETL {
 
         }
 
-        ETL(ETL const&)       = delete;
+        ETL(ETL const&)       = default;
         void operator=(ETL const&)  = delete;
 
     private:
