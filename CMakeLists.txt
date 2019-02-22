@@ -23,6 +23,8 @@ set(MAIN_FILE ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 set(EASYLOGGIN ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.cc ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.h)
 
+list(APPEND SOURCES ${EASYLOGGIN})
+
 # dependencies
 set(LOCAL_DEPS
         ${PROJECT_SOURCE_DIR}/deps/argh
