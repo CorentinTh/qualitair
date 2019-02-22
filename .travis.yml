@@ -15,8 +15,10 @@ stages:
 jobs:
   include:
     - stage: "compile"
-      name: "Compile"
-      script: ./build.sh
+      name: "Compile qualitair"
+      script: ./build.sh qualitair
+    - name: "Compile utests"
+      script: ./build.sh utests
     - stage: "test"
       name: "Unit tests"
       script: ./bin/utests
