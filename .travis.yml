@@ -8,12 +8,16 @@ addons:
     packages:
       - lcov
 
+stages:
+  - "compile"
+  - "test"
+
 jobs:
   include:
-    - stage: "build"
-      name: "Build"
+    - stage: "compile"
+      name: "Compile"
       script: ./build.sh
-    - stage: "tests"
+    - stage: "test"
       name: "Unit tests"
       script: ./bin/utests
 
