@@ -8,9 +8,14 @@ addons:
     packages:
       - lcov
 
-script:
-  - ./build.sh
-  - ./bin/utests
+jobs:
+  include:
+    - stage: "build"
+      name: "Build"
+      script: ./build.sh
+    - stage: "tests"
+      name: "Unit tests"
+      script: ./bin/utests
 
 after_success:
   - lcov --directory . --capture --output-file coverage.info
