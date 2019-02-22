@@ -24,7 +24,7 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
     REQUIRE(
             config.getAdmissibleRanges()
             ==
-            (std::unordered_map<std::string, std::pair<int, int>>) {
+            std::unordered_map<std::string, std::pair<int, int>>() {
                 {0, 15}, {10, 100}
             }
     );
