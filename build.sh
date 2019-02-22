@@ -10,10 +10,10 @@ cd cmake-build-debug
 if [ -z "$1" ]
   then
     echo "-> No argument supplied: building all targets."
-    cmake ../
+    cmake ../ -DBUILD_TESTING=OFF -DBUILD_TESTS=OFF
   else
     echo "-> Building target $1"
-    cmake --target $1 ../
+    cmake --target "$1" ../ -DBUILD_TESTING=OFF -DBUILD_TESTS=OFF
 fi
 
 make
