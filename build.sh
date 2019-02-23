@@ -8,14 +8,14 @@ if [[ -z "$1" ]]
   echo "Error, missing argument for build.sh"
   exit 1
 
-elif ["$1" == "init"]; then
+elif [[ "$1" = "init" ]]; then
 
     mkdir -p ${dir}
     cd ${dir}
     cmake ../ -DBUILD_TESTING=OFF
     cd ..
 
-elif ["$1" == "all"]; then
+elif [[ "$1" = "all" ]]; then
 
     echo "--> Building all targets."
     cmake --build ${dir} -- -j 4
