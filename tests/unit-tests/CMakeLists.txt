@@ -10,6 +10,9 @@ file(GLOB UT_SOURCES
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.h
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.cpp
         ${PROJECT_SOURCE_DIR}/tests/*.hpp
+        ${PROJECT_SOURCE_DIR}/tests/*.h
+        ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.h
+        ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.cpp
 )
 
 
@@ -38,7 +41,7 @@ endif()
 
 
 # targets
-add_executable(${TARGET_NAME}  ${SOURCES})
+add_executable(${TARGET_NAME} ${SOURCES})
 
 target_link_libraries(${TARGET_NAME}  Catch2::Catch2 ${REMOTE_DEPS})
 

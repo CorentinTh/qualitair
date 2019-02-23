@@ -6,6 +6,9 @@
 #include <random>
 
 #include "../../../src/Controller/include/Config.h"
+#include <unordered_map>
+#include <string>
+#include <utility>
 
 TEST_CASE("Testing Config::load", "[UT-C-3]") {
     Config config = Config("data/config-sample.ini");
@@ -21,13 +24,13 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
     REQUIRE(config.getTimeThreshold() == 12);
     REQUIRE(config.getValueThreshold() == 500);
     REQUIRE(config.getMinimalArea() == 10000);
-    REQUIRE(
-            config.getAdmissibleRanges()
+
+    REQUIRE(config.getAdmissibleRanges()
             ==
-            std::unordered_map<std::string, std::pair<int, int>>() {
-                {0, 15}, {10, 100}
-            }
-    );
+            (std::unordered_map<std::string, std::pair<int, int>>) {
+                    {"attr1", {0,  15}},
+                    {"attr2", {10, 100}},
+            });
 
 
 
