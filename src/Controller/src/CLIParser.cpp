@@ -4,28 +4,35 @@
 
 #include "../include/CLIParser.h"
 
+#include <cstring>
+
 std::string CLIParser::getArgument(std::string name) {
-    return std::__cxx11::string();
+    std::string arg;
+    parser(name) >> arg;
+    return arg;
 }
 
 std::string CLIParser::getVerb() {
-    return std::__cxx11::string();
+    return parser[0];
 }
 
 CLIParser &CLIParser::operator=(CLIParser other) {
+    swap(*this, other);
     return *this;
 }
 
-
-
 CLIParser::CLIParser(const CLIParser &other) {
-
-}
-
-CLIParser::CLIParser(std::vector<std::string> arguments) : args(arguments) {
-
+    parser = other.parser;
 }
 
 CLIParser::~CLIParser() {
 
+}
+
+CLIParser::CLIParser(char* const argv[]) : parser(argv){
+
+}
+
+void swap(CLIParser & first, CLIParser & second) {
+    std::swap(first.parser, second.parser);
 }

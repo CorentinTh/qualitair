@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include <vector>
+#include "argh.h"
 
 class CLIParser {
     public:
@@ -16,13 +16,12 @@ class CLIParser {
 
         CLIParser & operator = ( CLIParser other );
         CLIParser ( const CLIParser & other );
-        CLIParser ( std::vector<std::string> args);
+        CLIParser ( char* const argv[]);
         virtual ~CLIParser ( );
 
     protected:
         friend void swap(CLIParser & first, CLIParser & second);
-
-        std::vector<std::string> args;
+        argh::parser parser;
 };
 
 
