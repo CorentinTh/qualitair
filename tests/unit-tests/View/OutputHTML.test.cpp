@@ -92,6 +92,7 @@ TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
         std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting something in the html file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
@@ -103,6 +104,7 @@ TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting the right thing in the html file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
@@ -121,6 +123,7 @@ TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
         std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting something in the html file"){
         myOutputGenerator.printStats(dataJsonStats, htmlFilename);
@@ -132,6 +135,7 @@ TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting the right thing in the html file"){
         myOutputGenerator.printStats(dataJsonStats, htmlFilename);
@@ -150,6 +154,7 @@ TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
         std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting something in the html file"){
         myOutputGenerator.printSim(dataJsonSim, htmlFilename);
@@ -161,6 +166,7 @@ TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting the right thing in the html file") {
         myOutputGenerator.printSim(dataJsonSim, htmlFilename);
@@ -179,6 +185,7 @@ TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
         std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting something in the html file"){
         myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
@@ -190,6 +197,7 @@ TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting the right thing in the html file") {
         myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
@@ -209,6 +217,7 @@ TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
         std::ifstream file(htmlFilename);
         REQUIRE(file.good());
         file.close();
+        remove(htmlFilename.c_str());
     }
     SECTION("is the method putting something in the html file"){
         myOutputGenerator.printIngest(dataJsonIngest, htmlFilename);
@@ -220,6 +229,7 @@ TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(htmlFilename.c_str());
     }
 
     SECTION("is the method putting the right thing in the html file") {

@@ -101,6 +101,7 @@ TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
             nbCharacters += line.length();
         }
         outToRead.close();
+        remove("../../data/out.txt");
         REQUIRE(nbCharacters>0);
     }
 
@@ -166,6 +167,7 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
         //check if we are at the end of the file
         REQUIRE(!std::getline(outToRead, line));
         outToRead.close();
+        remove("../../data/out.txt");
     }
 
 }
@@ -220,6 +222,7 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
         //check if we are at the end of the file
         REQUIRE(!std::getline(outToRead, line));
         outToRead.close();
+        remove("../../data/out.txt");
     }
 
 }
@@ -271,6 +274,7 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
         //check if we are at the end of the file
         REQUIRE(!std::getline(outToRead, line));
         outToRead.close();
+        remove("../../data/out.txt");
     }
 
 }
@@ -313,5 +317,6 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
         //check if we are at the end of the file
         REQUIRE(!std::getline(outToRead, line));
         outToRead.close();
+        remove("../../data/out.txt");
     }
 }

@@ -93,10 +93,11 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
-        std::ifstream out("../../data/"+jsonFilename);
+        std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -104,13 +105,15 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printSpikes(dataJsonSpikes, "../../data/"+jsonFilename);
-        std::ifstream outToRead("../../data/"+jsonFilename);
+        myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
+        std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonSpikes);
+        remove(jsonFilename.c_str());
     }
 }
 
@@ -125,6 +128,7 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printStats(dataJsonStats, jsonFilename);
@@ -136,6 +140,7 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
         myOutputGenerator.printStats(dataJsonStats, jsonFilename);
@@ -143,6 +148,7 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonStats);
+        remove(jsonFilename.c_str());
     }
 }
 
@@ -157,6 +163,7 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printSim(dataJsonSim, jsonFilename);
@@ -168,6 +175,7 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
         myOutputGenerator.printSim(dataJsonSim, jsonFilename);
@@ -175,6 +183,7 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonSim);
+        remove(jsonFilename.c_str());
     }
 }
 
@@ -189,6 +198,7 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
@@ -200,6 +210,7 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
         myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
@@ -207,6 +218,7 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonBroken);
+        remove(jsonFilename.c_str());
     }
 }
 
@@ -221,6 +233,7 @@ TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
@@ -232,6 +245,7 @@ TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+        remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
         myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
@@ -239,5 +253,6 @@ TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonIngest);
+        remove(jsonFilename.c_str());
     }
 }
