@@ -5,12 +5,14 @@
 #ifndef QUALITAIR_IDATAPROCESS_H
 #define QUALITAIR_IDATAPROCESS_H
 
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
 
 class IDataProcess {
     public:
         virtual ~IDataProcess() {}
-        //TODO params
-        virtual void apply() = 0;
+
+        virtual json apply() = 0;
 };
 
 

@@ -2,9 +2,13 @@
 // Created by vwallyn on 18/02/19.
 //
 
+#include "easylogging++.h"  //
+INITIALIZE_EASYLOGGINGPP    // Those line must be set only once in *.test.cpp files
+#define CATCH_CONFIG_MAIN   //
+
+
 #include "catch2/catch.hpp"
 #include <random>
-
 #include "../../../src/Controller/include/CLIParser.h"
 
 

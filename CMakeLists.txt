@@ -15,13 +15,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # sources
+
 file(GLOB SOURCES
-        ${PROJECT_SOURCE_DIR}/src/**/*.h
-        ${PROJECT_SOURCE_DIR}/src/**/*.cpp
+        ${PROJECT_SOURCE_DIR}/src/**/*/*.h
+        ${PROJECT_SOURCE_DIR}/src/**/*/*.cpp
 )
 set(MAIN_FILE ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 set(EASYLOGGIN ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.cc ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.h)
+
+list(APPEND SOURCES ${EASYLOGGIN})
 
 # dependencies
 set(LOCAL_DEPS

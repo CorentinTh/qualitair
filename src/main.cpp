@@ -15,6 +15,8 @@ INITIALIZE_EASYLOGGINGPP
  */
 
 
+
+
 /**
  * Main function
  * @param {int} argc - Argument count
