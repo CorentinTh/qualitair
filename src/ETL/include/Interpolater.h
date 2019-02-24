@@ -6,10 +6,14 @@
 #define QUALITAIR_INTERPOLATER_H
 
 
+#include "../../globals.h"
+#include "../../Data/include/Measurement.h" // ugly
+
+using namespace std;
+
 class Interpolater {
     public:
-        // TODO param & return type
-        void interpolate();
+        pointCollection interpolate(const vector<Measurement> &measures);
 
         Interpolater & operator = ( Interpolater other );
         Interpolater ( const Interpolater & other );
