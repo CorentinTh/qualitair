@@ -24,6 +24,7 @@ class Config {
         int getMinimalArea();
         std::unordered_map<std::string, std::pair<int,int>> getAdmissibleRanges();
         std::string getIGQAFormula();
+        std::string getDatabaseFilepath();
 
         Config & operator = ( Config other );
         Config ( const Config & other );
@@ -43,6 +44,7 @@ class Config {
         int temporalGranularity;
         std::unordered_map<std::string, std::pair<int,int>> admissibleRanges;
         std::string igqaFormula;
+        std::string databaseFilepath;
 
         std::string filepath;
 };
