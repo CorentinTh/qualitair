@@ -6,9 +6,11 @@
 #define QUALITAIR_CONNECTIONFACTORY_H
 
 
+#include <SQLiteCpp/Database.h>
+
 class ConnectionFactory {
     public:
-        void createConnection();
+        static SQLite::Database * getConnection();
 };
 
 

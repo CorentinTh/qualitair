@@ -5,8 +5,8 @@
 #ifndef QUALITAIR_IDATA_H
 #define QUALITAIR_IDATA_H
 
-
 #include <string>
+#include <SQLiteCpp/Statement.h>
 
 class IData {
     public:
@@ -17,8 +17,7 @@ class IData {
         virtual void andWhere(std::string condition) = 0;
         virtual void orWhere(std::string condition) = 0;
         virtual void join(std::string clause) = 0;
-        //TODO return type
-        virtual void execute() = 0;
+        virtual SQLite::Statement * execute() = 0;
 };
 
 
