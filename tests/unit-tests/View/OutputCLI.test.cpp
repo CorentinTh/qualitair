@@ -8,10 +8,7 @@
 #include <fstream>
 #include <istream>
 #include <typeinfo>
-#include <nlohmann/json.hpp>
 #include "../../../src/View/include/OutputCLI.h"
-
-using json = nlohmann::json;
 
 
 json dataJsonSpikes = {
