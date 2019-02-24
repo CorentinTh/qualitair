@@ -84,9 +84,6 @@ json dataJsonIngest = {
 TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
         std::ifstream file(htmlFilename);
@@ -115,9 +112,6 @@ TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
 TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printStats(dataJsonStats, htmlFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printStats(dataJsonStats, htmlFilename);
         std::ifstream file(htmlFilename);
@@ -146,9 +140,6 @@ TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
 TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSim(dataJsonSim, htmlFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printSim(dataJsonSim, htmlFilename);
         std::ifstream file(htmlFilename);
@@ -177,9 +168,6 @@ TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
 TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printBroken(dataJsonBroken, htmlFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
         std::ifstream file(htmlFilename);
@@ -209,9 +197,6 @@ TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
 TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
 
     OutputHTML myOutputGenerator = OutputHTML::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest, htmlFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printIngest(dataJsonIngest, htmlFilename);
         std::ifstream file(htmlFilename);

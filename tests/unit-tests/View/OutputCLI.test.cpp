@@ -83,9 +83,6 @@ json dataJsonIngest = {
 TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
-    SECTION("is the method returning something"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSpikes(dataJsonSpikes)), void>::value);
-    }
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
@@ -110,9 +107,6 @@ TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
 TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
-    SECTION("is the method returning something"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printStats(dataJsonStats)), void>::value);
-    }
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
@@ -175,9 +169,6 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSim(dataJsonSim)), void>::value);
-    }
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
@@ -230,9 +221,6 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
 TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printBroken(dataJsonBroken)), void>::value);
-    }
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
@@ -282,9 +270,6 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
 TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
 
     OutputCLI myOutputGenerator = OutputCLI::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest)), void>::value);
-    }
     SECTION("is the  method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf

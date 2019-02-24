@@ -85,9 +85,6 @@ json dataJsonIngest = {
 TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
 
     OutputJSON myOutputGenerator = OutputJSON::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
         std::ifstream file(jsonFilename);
@@ -120,9 +117,6 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
 TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
 
     OutputJSON myOutputGenerator = OutputJSON::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printStats(dataJsonStats, jsonFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printStats(dataJsonStats, jsonFilename);
         std::ifstream file(jsonFilename);
@@ -155,9 +149,6 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
 TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
 
     OutputJSON myOutputGenerator = OutputJSON::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printSim(dataJsonSim, jsonFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printSim(dataJsonSim, jsonFilename);
         std::ifstream file(jsonFilename);
@@ -190,9 +181,6 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
 TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
 
     OutputJSON myOutputGenerator = OutputJSON::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printBroken(dataJsonBroken, jsonFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
         std::ifstream file(jsonFilename);
@@ -225,9 +213,6 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
 TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
 
     OutputJSON myOutputGenerator = OutputJSON::getInstance();
-    SECTION("is the method returning nothing"){
-        REQUIRE(std::is_same<decltype(myOutputGenerator.printIngest(dataJsonIngest, jsonFilename)), void>::value);
-    }
     SECTION("is the method creating the file"){
         myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
         std::ifstream file(jsonFilename);
