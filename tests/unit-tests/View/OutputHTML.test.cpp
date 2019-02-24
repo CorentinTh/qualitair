@@ -11,7 +11,7 @@
 
 #include "../../../src/View/include/OutputHTML.h"
 
-std::string htmlFilename = "mon_rapport_qualitair.html";
+std::string htmlFilename = "../../data/mon_rapport_qualitair.html";
 json dataJsonSpikes = {
         {"timestamp",  1550150155},
         {"latitude", 48.8534},

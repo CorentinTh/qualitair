@@ -12,7 +12,7 @@
 
 #include "../../../src/View/include/OutputJSON.h"
 
-std::string jsonFilename = "mon_dataset.json";
+std::string jsonFilename = "../../data/mon_dataset.json";
 json dataJsonSpikes = {
         {"timestamp",  1550150155},
         {"latitude", 48.8534},
@@ -96,7 +96,7 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
     }
     SECTION("is the method putting something in the json file"){
         myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
-        std::ifstream out(jsonFilename);
+        std::ifstream out("../../data/"+jsonFilename);
         std::string line;
         int nbCharacters = 0;
         while(std::getline(out, line)){
@@ -106,8 +106,8 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
         REQUIRE(nbCharacters>0);
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
-        std::ifstream outToRead(jsonFilename);
+        myOutputGenerator.printSpikes(dataJsonSpikes, "../../data/"+jsonFilename);
+        std::ifstream outToRead("../../data/"+jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
         REQUIRE(j==dataJsonSpikes);
