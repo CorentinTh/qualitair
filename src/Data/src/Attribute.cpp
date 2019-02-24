@@ -5,23 +5,26 @@
 #include "../include/Attribute.h"
 
 std::string Attribute::getUnit() {
-    return std::__cxx11::string();
+    return unit;
 }
 
 int Attribute::getId() {
-    return 0;
+    return attributeId;
 }
 
 std::string Attribute::getDescription() {
-    return std::__cxx11::string();
+    return description;
 }
 
 Attribute &Attribute::operator=(Attribute other) {
+    swap(*this, other);
     return *this;
 }
 
 Attribute::Attribute(const Attribute &other) {
-
+    unit = other.unit;
+    attributeId = other.attributeId;
+    description = other.description;
 }
 
 Attribute::Attribute() {
@@ -30,4 +33,10 @@ Attribute::Attribute() {
 
 Attribute::~Attribute() {
 
+}
+
+void swap(Attribute & first, Attribute & second){
+    std::swap(first.unit, second.unit);
+    std::swap(first.description, second.description);
+    std::swap(first.attributeId, second.attributeId);
 }
