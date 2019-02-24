@@ -104,7 +104,10 @@ TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
         out.close();
         REQUIRE(nbCharacters>0);
     }
-
+    SECTION("is the method putting the right thing in the html file"){
+        myOutputGenerator.printSpikes(dataJsonSpikes, htmlFilename);
+        // TODO determine what is the html output
+    }
 }
 
 TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
@@ -129,6 +132,10 @@ TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+    }
+    SECTION("is the method putting the right thing in the html file"){
+        myOutputGenerator.printStats(dataJsonStats, htmlFilename);
+        // TODO determine what is the html output
     }
 }
 
@@ -155,6 +162,10 @@ TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
         out.close();
         REQUIRE(nbCharacters>0);
     }
+    SECTION("is the method putting the right thing in the html file") {
+        myOutputGenerator.printSim(dataJsonSim, htmlFilename);
+        // TODO determine what is the html output
+    }
 }
 
 TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
@@ -180,6 +191,11 @@ TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
         out.close();
         REQUIRE(nbCharacters>0);
     }
+    SECTION("is the method putting the right thing in the html file") {
+        myOutputGenerator.printBroken(dataJsonBroken, htmlFilename);
+        // TODO determine what is the html output
+    }
+
 }
 
 TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
@@ -204,5 +220,10 @@ TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
         }
         out.close();
         REQUIRE(nbCharacters>0);
+    }
+
+    SECTION("is the method putting the right thing in the html file") {
+        myOutputGenerator.printIngest(dataJsonIngest, htmlFilename);
+        // TODO determine what is the html output
     }
 }
