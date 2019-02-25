@@ -4,22 +4,22 @@
 
 #include "../include/OutputCLI.h"
 
-void OutputCLI::printSpikes() {
+void OutputCLI::printSpikes(json dataJson, std::string filename) {
 
 }
 
-void OutputCLI::printStats() {
+void OutputCLI::printStats(json dataJson, std::string filename) {
 
 }
 
-void OutputCLI::printSim() {
+void OutputCLI::printSim(json dataJson, std::string filename) {
 
 }
 
-void OutputCLI::printBroken() {
+void OutputCLI::printBroken(json dataJson, std::string filename) {
 
 }
 
-void OutputCLI::printIngest() {
+void OutputCLI::printIngest(json dataJson, std::string filename) {
 
 }

@@ -4,22 +4,22 @@
 
 #include "../include/OutputHTML.h"
 
-void OutputHTML::printSpikes() {
+void OutputHTML::printSpikes(json dataJson, std::string filename) {
 
 }
 
-void OutputHTML::printStats() {
+void OutputHTML::printStats(json dataJson, std::string filename) {
 
 }
 
-void OutputHTML::printSim() {
+void OutputHTML::printSim(json dataJson, std::string filename) {
 
 }
 
-void OutputHTML::printBroken() {
+void OutputHTML::printBroken(json dataJson, std::string filename) {
 
 }
 
-void OutputHTML::printIngest() {
+void OutputHTML::printIngest(json dataJson, std::string filename) {
 
 }
