@@ -36,7 +36,7 @@ TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-3, UT-E-4]") {
     timeFilter.setStart(t);
     timeFilter.setEnd(t);
 
-    REQUIRE_THAT(timeFilter.apply(), "timestamp = " + to_string(t));
+    REQUIRE_THAT(timeFilter.apply(), "timestamp >= " + to_string(t) + " AND timestamp <= " + to_string(t));
 }
 
 TEST_CASE("Testing TimeFilter with interval", "[UT-E-5]") {
