@@ -59,7 +59,7 @@ TEST_CASE("Testing TimeFilter with interval inverted", "[UT-E-5]") {
     REQUIRE_THROWS(timeFilter.setInterval(start, end));
 }
 
-TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-5]") {
+TEST_CASE("Testing TimeFilter with start and end equals on interval", "[UT-E-5]") {
     TimeFilter timeFilter;
 
     time_t t = 1550430257;  // 17/02/2019 à 19:04:17
