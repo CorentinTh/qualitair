@@ -21,7 +21,7 @@ TEST_CASE("Testing GeoFilter::setBBox with equal BBox", "[UT-E-6]") {
 
     geoFilter1.setBBox(b);
 
-    CHECK(geoFilter1.apply() == "longitude >= 10 AND longitude <= 10 AND latitude >= 10 AND latitude <= 10");
+    CHECK(geoFilter1.apply() == "longitude >= 10 AND latitude >= 10 AND longitude <= 10 AND latitude <= 10");
 }
 
 TEST_CASE("Testing GeoFilter::setBBox with bad BBox", "[UT-E-6]") {
