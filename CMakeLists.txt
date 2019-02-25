@@ -68,7 +68,7 @@ set(REMOTE_DEPS
 )
 
 # target
-add_executable(${TARGET_NAME} ${SOURCES} ${MAIN_FILE} ${EASYLOGGIN})
+add_executable(${TARGET_NAME} ${SOURCES} ${MAIN_FILE})
 
 add_subdirectory(tests/unit-tests)
 

@@ -23,3 +23,7 @@ void OutputCLI::printBroken(json dataJson, std::string filename) {
 void OutputCLI::printIngest(json dataJson, std::string filename) {
 
 }
+
+OutputCLI::OutputCLI() {
+
+}
