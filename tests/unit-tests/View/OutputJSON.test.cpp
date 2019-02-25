@@ -84,16 +84,15 @@ json dataJsonIngest = {
 
 TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
 
-    OutputJSON myOutputGenerator = OutputJSON::getInstance();
     SECTION("is the method creating the file"){
-        myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
+        OutputJSON::getInstance().printSpikes(dataJsonSpikes, jsonFilename);
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
-        myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
+        OutputJSON::getInstance().printSpikes(dataJsonSpikes, jsonFilename);
         std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
@@ -105,7 +104,7 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printSpikes(dataJsonSpikes, jsonFilename);
+        OutputJSON::getInstance().printSpikes(dataJsonSpikes, jsonFilename);
         std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
@@ -116,16 +115,15 @@ TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
 
 TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
 
-    OutputJSON myOutputGenerator = OutputJSON::getInstance();
     SECTION("is the method creating the file"){
-        myOutputGenerator.printStats(dataJsonStats, jsonFilename);
+        OutputJSON::getInstance().printStats(dataJsonStats, jsonFilename);
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
-        myOutputGenerator.printStats(dataJsonStats, jsonFilename);
+        OutputJSON::getInstance().printStats(dataJsonStats, jsonFilename);
         std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
@@ -137,7 +135,7 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printStats(dataJsonStats, jsonFilename);
+        OutputJSON::getInstance().printStats(dataJsonStats, jsonFilename);
         std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
@@ -148,16 +146,15 @@ TEST_CASE("Test printStats(dataJSON) JSON", "[UT-V-12]") {
 
 TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
 
-    OutputJSON myOutputGenerator = OutputJSON::getInstance();
     SECTION("is the method creating the file"){
-        myOutputGenerator.printSim(dataJsonSim, jsonFilename);
+        OutputJSON::getInstance().printSim(dataJsonSim, jsonFilename);
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
-        myOutputGenerator.printSim(dataJsonSim, jsonFilename);
+        OutputJSON::getInstance().printSim(dataJsonSim, jsonFilename);
         std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
@@ -169,7 +166,7 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printSim(dataJsonSim, jsonFilename);
+        OutputJSON::getInstance().printSim(dataJsonSim, jsonFilename);
         std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
@@ -180,16 +177,15 @@ TEST_CASE("Test printSim(dataJSON) JSON", "[UT-V-13]") {
 
 TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
 
-    OutputJSON myOutputGenerator = OutputJSON::getInstance();
     SECTION("is the method creating the file"){
-        myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
+        OutputJSON::getInstance().printBroken(dataJsonBroken, jsonFilename);
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
-        myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
+        OutputJSON::getInstance().printBroken(dataJsonBroken, jsonFilename);
         std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
@@ -201,7 +197,7 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printBroken(dataJsonBroken, jsonFilename);
+        OutputJSON::getInstance().printBroken(dataJsonBroken, jsonFilename);
         std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json
@@ -212,16 +208,15 @@ TEST_CASE("Test printBroken(dataJSON) JSON", "[UT-V-14]") {
 
 TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
 
-    OutputJSON myOutputGenerator = OutputJSON::getInstance();
     SECTION("is the method creating the file"){
-        myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
+        OutputJSON::getInstance().printIngest(dataJsonIngest, jsonFilename);
         std::ifstream file(jsonFilename);
         REQUIRE(file.good());
         file.close();
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting something in the json file"){
-        myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
+        OutputJSON::getInstance().printIngest(dataJsonIngest, jsonFilename);
         std::ifstream out(jsonFilename);
         std::string line;
         int nbCharacters = 0;
@@ -233,7 +228,7 @@ TEST_CASE("Test printIngest(dataJSON) JSON", "[UT-V-15]") {
         remove(jsonFilename.c_str());
     }
     SECTION("is the method putting the expected thing in the json file"){
-        myOutputGenerator.printIngest(dataJsonIngest, jsonFilename);
+        OutputJSON::getInstance().printIngest(dataJsonIngest, jsonFilename);
         std::ifstream outToRead(jsonFilename);
         json j;
         outToRead >> j; // on convertit le json du fichier en un objet json

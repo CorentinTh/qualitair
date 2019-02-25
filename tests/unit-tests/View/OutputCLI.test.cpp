@@ -82,13 +82,13 @@ json dataJsonIngest = {
 
 TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
 
-    OutputCLI myOutputGenerator = OutputCLI::getInstance();
+
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printSpikes(dataJsonSpikes);
+        OutputCLI::getInstance().printSpikes(dataJsonSpikes);
         out.close();
 
         std::ifstream outToRead("../../data/out.txt");
@@ -106,13 +106,12 @@ TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
 
 TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 
-    OutputCLI myOutputGenerator = OutputCLI::getInstance();
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printStats(dataJsonStats);
+        OutputCLI::getInstance().printStats(dataJsonStats);
         out.close();
 
         std::ifstream outToRead("../../data/out.txt");
@@ -129,7 +128,7 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printIngest(dataJsonIngest);
+        OutputCLI::getInstance().printIngest(dataJsonIngest);
         out.close();
 
         std::ifstream outToRead("expected_../../data/out.txt");
@@ -168,13 +167,12 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 
 TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
 
-    OutputCLI myOutputGenerator = OutputCLI::getInstance();
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printSim(dataJsonSim);
+        OutputCLI::getInstance().printSim(dataJsonSim);
         out.close();
 
         std::ifstream outToRead("../../data/out.txt");
@@ -191,7 +189,7 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printIngest(dataJsonIngest);
+        OutputCLI::getInstance().printIngest(dataJsonIngest);
         out.close();
 
         std::ifstream outToRead("expected_../../data/out.txt");
@@ -220,13 +218,12 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
 
 TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
 
-    OutputCLI myOutputGenerator = OutputCLI::getInstance();
     SECTION("is the method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printBroken(dataJsonBroken);
+        OutputCLI::getInstance().printBroken(dataJsonBroken);
         out.close();
 
         std::ifstream outToRead("../../data/out.txt");
@@ -244,7 +241,7 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printIngest(dataJsonIngest);
+        OutputCLI::getInstance().printIngest(dataJsonIngest);
         out.close();
 
         std::ifstream outToRead("expected_../../data/out.txt");
@@ -269,13 +266,12 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
 
 TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
 
-    OutputCLI myOutputGenerator = OutputCLI::getInstance();
     SECTION("is the  method putting something in cout"){
         std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printIngest(dataJsonIngest);
+        OutputCLI::getInstance().printIngest(dataJsonIngest);
         out.close();
 
         std::ifstream outToRead("../../data/out.txt");
@@ -292,7 +288,7 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
-        myOutputGenerator.printIngest(dataJsonIngest);
+        OutputCLI::getInstance().printIngest(dataJsonIngest);
         out.close();
 
         std::ifstream outToRead("expected_../../data/out.txt");
