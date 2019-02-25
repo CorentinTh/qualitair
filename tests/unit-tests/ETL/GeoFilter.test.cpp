@@ -29,9 +29,7 @@ TEST_CASE("Testing GeoFilter::setBBox with bad BBox", "[UT-E-6]") {
 
     BBox b = {10, 11, -20, 21};
 
-    geoFilter1.setBBox(b);
-
-    REQUIRE_THROWS(geoFilter1.apply());
+    REQUIRE_THROWS(geoFilter1.setBBox(b));
 }
 
 TEST_CASE("Testing GeoFilter::extend with ratio=2", "[UT-E-7]") {
