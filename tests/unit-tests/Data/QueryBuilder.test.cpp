@@ -78,7 +78,7 @@ TEST_CASE("Test combined query", "[UT-D-8]") {
     queryBuilder.join("Attribute");
     queryBuilder.where("sensorId = 12");
 
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = 12;")
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = 12;");
 }
 
 TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
