@@ -36,7 +36,7 @@ TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-3, UT-E-4]") {
     timeFilter.setStart(t);
     timeFilter.setEnd(t);
 
-    CHECK(timeFilter.apply() ==  "timestamp >= " + to_string(t) + " AND timestamp <= " + to_string(t));
+    CHECK(timeFilter.apply() == "timestamp >= " + to_string(t) + " AND timestamp <= " + to_string(t));
 }
 
 TEST_CASE("Testing TimeFilter with interval", "[UT-E-5]") {
@@ -47,7 +47,7 @@ TEST_CASE("Testing TimeFilter with interval", "[UT-E-5]") {
 
     timeFilter.setInterval(start, end);
 
-    CHECK(timeFilter.apply()== "timestamp >= " + to_string(start) + " AND timestamp <= " + to_string(end));
+    CHECK(timeFilter.apply() == "timestamp >= " + to_string(start) + " AND timestamp <= " + to_string(end));
 }
 
 TEST_CASE("Testing TimeFilter with interval inverted", "[UT-E-5]") {
@@ -56,9 +56,7 @@ TEST_CASE("Testing TimeFilter with interval inverted", "[UT-E-5]") {
     time_t end = 1550430257;    // 17/02/2019 à 19:04:17
     time_t start = 1550516657;  // 18/02/2019 à 19:04:17
 
-    timeFilter.setInterval(start, end);
-
-    REQUIRE_THROWS(timeFilter.apply());
+    REQUIRE_THROWS(timeFilter.setInterval(start, end));
 }
 
 TEST_CASE("Testing TimeFilter with start and end equals", "[UT-E-5]") {
