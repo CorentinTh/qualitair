@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "../../../src/ETL/include/SensorFilter.h"
-#include "../../utils.hpp"
 
 using namespace std;
 

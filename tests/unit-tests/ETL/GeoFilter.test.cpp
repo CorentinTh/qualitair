@@ -1,6 +1,5 @@
 #include "catch2/catch.hpp"
 #include "../../../src/ETL/include/GeoFilter.h"
-#include "../../utils.hpp"
 
 using namespace std;
 
