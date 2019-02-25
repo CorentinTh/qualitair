@@ -11,6 +11,11 @@
 class ConnectionFactory {
     public:
         static SQLite::Database * getConnection();
+        static void setDatabase(std::string databasePath);
+
+    private:
+        static std::string databasePath;
+        static SQLite::Database * database;
 };
 
 
