@@ -7,16 +7,19 @@
 
 
 #include "IDataProcess.h"
+#include "../../Data/include/Sensor.h"
+#include "../../Data/include/Measurement.h"
 #include <string>
 #include <unordered_map>
 
 class BrokenDetection : IDataProcess {
     public:
-        void apply() override;
+        json apply() override;
 
         BrokenDetection & operator = ( BrokenDetection other );
         BrokenDetection ( const BrokenDetection & other );
-        BrokenDetection ( );
+        BrokenDetection ( std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
+                          std::unordered_map<std::string, std::pair<int, int>> admissibleRanges);
         virtual ~BrokenDetection ( );
     
     protected:
@@ -24,6 +27,8 @@ class BrokenDetection : IDataProcess {
 
         int timeThreshold;
         std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
+        std::vector<Measurement> measures;
+        std::vector<Sensor> sensors;
 };
 
 

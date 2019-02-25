@@ -12,14 +12,23 @@ SpikeDetection::SpikeDetection(const SpikeDetection &other) {
 
 }
 
-SpikeDetection::SpikeDetection() {
-
-}
+SpikeDetection::SpikeDetection(
+        pointCollection & data,
+        std::string formulaExpr,
+        double valueThresh,
+        double areaThresh,
+        int delayValue) :
+        points(data), formula(formulaExpr), valueThreshold(valueThresh), areaThreshold(areaThresh), delay(delayValue)
+{}
 
 SpikeDetection::~SpikeDetection() {
 
 }
 
-void SpikeDetection::apply() {
+json SpikeDetection::apply() {
+
+}
+
+void swap(SpikeDetection &first, SpikeDetection &second) {
 
 }
