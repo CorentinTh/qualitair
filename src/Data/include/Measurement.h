@@ -10,10 +10,12 @@ class Measurement {
     public:
         int getTimestamp();
         double getValue();
+        int getSensorId();
+        int getAttributeId();
 
         Measurement & operator = ( Measurement other );
         Measurement ( const Measurement & other );
-        Measurement ( );
+        Measurement ( int timestamp, int sensorId, int attributeId, double value );
         virtual ~Measurement ( );
         
     protected:
@@ -21,6 +23,8 @@ class Measurement {
 
         int timestamp;
         double value;
+        int sensorId;
+        int attributeId;
 };
 
 

@@ -13,6 +13,19 @@ double Measurement::getValue() {
     return value;
 }
 
+
+int Measurement::getSensorId() {
+    return sensorId;
+}
+
+int Measurement::getAttributeId() {
+    return attributeId;
+}
+
+Measurement::Measurement(int t, int sId, int aId, double v) : timestamp(t), sensorId(sId), attributeId(aId), value(v) {
+
+}
+
 Measurement &Measurement::operator=(Measurement other) {
     swap(*this, other);
     return *this;
@@ -21,10 +34,8 @@ Measurement &Measurement::operator=(Measurement other) {
 Measurement::Measurement(const Measurement &other) {
     timestamp = other.timestamp;
     value = other.value;
-}
-
-Measurement::Measurement() {
-
+    sensorId = other.sensorId;
+    attributeId = other.attributeId;
 }
 
 Measurement::~Measurement() {
@@ -34,4 +45,6 @@ Measurement::~Measurement() {
 void swap(Measurement & first, Measurement & second) {
     std::swap(first.timestamp, second.timestamp);
     std::swap(first.value, second.value);
+    std::swap(first.attributeId, second.attributeId);
+    std::swap(first.sensorId, second.sensorId);
 }
