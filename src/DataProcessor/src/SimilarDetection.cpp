@@ -12,7 +12,8 @@ SimilarDetection::SimilarDetection(const SimilarDetection &other) {
 
 }
 
-SimilarDetection::SimilarDetection() {
+SimilarDetection::SimilarDetection(std::vector<Measurement> m, std::vector<Sensor> s, double eps,
+                                   double thresh) : measures(m), sensors(s), epsilon(eps), threshold(thresh) {
 
 }
 
@@ -20,6 +21,10 @@ SimilarDetection::~SimilarDetection() {
 
 }
 
-void SimilarDetection::apply() {
+json SimilarDetection::apply() {
+
+}
+
+void swap(SimilarDetection &first, SimilarDetection &second) {
 
 }
