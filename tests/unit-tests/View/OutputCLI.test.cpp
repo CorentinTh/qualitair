@@ -125,14 +125,14 @@ TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
         REQUIRE(nbCharacters>0);
     }
     SECTION("is the method putting the expected thing in cout"){
-        std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+        std::ofstream out("../../data/expected_out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printIngest(dataJsonIngest);
         out.close();
 
-        std::ifstream outToRead("expected_../../data/out.txt");
+        std::ifstream outToRead("../../data/expected_out.txt");
         std::string line;
         REQUIRE(std::getline(outToRead, line));
         REQUIRE(line=="Résultats des analyses :");
@@ -187,14 +187,14 @@ TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
         REQUIRE(nbCharacters>0);
     }
     SECTION("is the method putting the expected thing in cout"){
-        std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+        std::ofstream out("../../data/expected_out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printIngest(dataJsonIngest);
         out.close();
 
-        std::ifstream outToRead("expected_../../data/out.txt");
+        std::ifstream outToRead("../../data/expected_out.txt");
         std::string line;
         REQUIRE(std::getline(outToRead, line));
         REQUIRE(line=="------");
@@ -240,14 +240,14 @@ TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
     }
 
     SECTION("is the method putting the expected thing in cout"){
-        std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+        std::ofstream out("../../data/expected_out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printIngest(dataJsonIngest);
         out.close();
 
-        std::ifstream outToRead("expected_../../data/out.txt");
+        std::ifstream outToRead("../../data/expected_out.txt");
         std::string line;
         REQUIRE(std::getline(outToRead, line));
         REQUIRE(line=="Les capteurs suivants sont en panne :");
@@ -288,14 +288,14 @@ TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
         REQUIRE(nbCharacters>0);
     }
     SECTION("is the method putting the expected thing in cout"){
-        std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+        std::ofstream out("../../data/expected_out.txt"); // mettre dans dossier bin ?
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
         std::cout.rdbuf(coutbuf); // restore cout
         myOutputGenerator.printIngest(dataJsonIngest);
         out.close();
 
-        std::ifstream outToRead("expected_../../data/out.txt");
+        std::ifstream outToRead("../../data/expected_out.txt");
         std::string line;
         REQUIRE(std::getline(outToRead, line));
         REQUIRE(line=="4201 lignes ont été insérées avec succès");
