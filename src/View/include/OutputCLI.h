@@ -16,17 +16,17 @@ class OutputCLI : public IOutput {
             return instance;
         }
 
-        virtual void printSpikes();
-        virtual void printStats();
-        virtual void printSim();
-        virtual void printBroken();
-        virtual void printIngest();
+        virtual void printSpikes(json dataJson, std::string filename="");
+        virtual void printStats(json dataJson, std::string filename="");
+        virtual void printSim(json dataJson, std::string filename="");
+        virtual void printBroken(json dataJson, std::string filename="");
+        virtual void printIngest(json dataJson, std::string filename="");
 
         OutputCLI(OutputCLI const&)       = delete;
         void operator=(OutputCLI const&)  = delete;
 
     private:
-        OutputCLI() {}
+        OutputCLI();
 };
 
 

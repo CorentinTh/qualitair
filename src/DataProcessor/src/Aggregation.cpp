@@ -4,16 +4,16 @@
 
 #include "../include/Aggregation.h"
 
-double Aggregation::computeAverage() {
-    return 0;
+std::unordered_map<std::string, double> Aggregation::computeAverage() {
+    return std::unordered_map<std::string, double>();
 }
 
-double Aggregation::computeExtrems() {
-    return 0;
+std::unordered_map<std::string, std::pair<double, double>> Aggregation::computeExtrems() {
+    return std::unordered_map<std::string, std::pair<double, double>>();
 }
 
-double Aggregation::computeDeviation() {
-    return 0;
+std::unordered_map<std::string, double> Aggregation::computeDeviation() {
+    return std::unordered_map<std::string, double>();
 }
 
 Aggregation &Aggregation::operator=(Aggregation other) {
@@ -24,7 +24,7 @@ Aggregation::Aggregation(const Aggregation &other) {
 
 }
 
-Aggregation::Aggregation() {
+Aggregation::Aggregation(pointCollection & data, std::string formulaExpr) : points(data), formula(formulaExpr) {
 
 }
 
@@ -32,6 +32,10 @@ Aggregation::~Aggregation() {
 
 }
 
-void Aggregation::apply() {
+json Aggregation::apply() {
+
+}
+
+void swap(Aggregation &first, Aggregation &second) {
 
 }

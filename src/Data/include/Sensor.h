@@ -17,7 +17,7 @@ class Sensor {
 
         Sensor & operator = ( Sensor other );
         Sensor ( const Sensor & other );
-        Sensor ( );
+        Sensor ( int sensorId, double latitude, double longitude, std::string description);
         virtual ~Sensor ( );
 
     protected:

@@ -6,11 +6,14 @@
 #define QUALITAIR_IETL_H
 
 
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+
 #include <string>
 
 class IETL {
     public:
-        virtual void ingest(std::string csvData) = 0;
+        virtual bool ingest(json data) = 0;
         // TODO this is not void + add param
         virtual void getData() = 0;
 };
