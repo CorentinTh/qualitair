@@ -33,14 +33,14 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
 TEST_CASE("Testing AttributeFilter '=' operator", "[extra]") {
     AttributeFilter attributeFilter1, attributeFilter2;
 
-    attributeFilter1.addAttribute(randomString(10));
+    attributeFilter1.addAttribute("attr1");
     attributeFilter1 = attributeFilter2;
 
     SECTION("Equality") {
         CHECK(attributeFilter1.apply() == attributeFilter2.apply());
     }
 
-    attributeFilter1.addAttribute(randomString(10));
+    attributeFilter1.addAttribute("attr2");
 
     SECTION("Non-Equality") {
         CHECK(attributeFilter1.apply() != attributeFilter2.apply());
