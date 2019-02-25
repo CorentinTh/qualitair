@@ -69,7 +69,7 @@ json dataJsonBroken = {
       },
       {
             {"id",147},
-            {"lat"},28.468412,
+            {"lat",28.468412},
             {"long",14.351684},
             {"description","Paris - Tour Eiffel"}
       }
