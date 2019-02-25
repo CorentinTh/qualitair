@@ -27,7 +27,7 @@ Attribute::Attribute(const Attribute &other) {
     description = other.description;
 }
 
-Attribute::Attribute() {
+Attribute::Attribute(int aId, std::string u, std::string d) : attributeId(aId), unit(u), description(d) {
 
 }
 
