@@ -22,8 +22,8 @@ class OutputCLI : public IOutput {
         virtual void printBroken(json dataJson, std::string filename="");
         virtual void printIngest(json dataJson, std::string filename="");
 
-        OutputCLI(OutputCLI const&)       = delete;
-        void operator=(OutputCLI const&)  = delete;
+        //OutputCLI(OutputCLI const&)       = delete;
+        //void operator=(OutputCLI const&)  = delete;
 
     private:
         OutputCLI();
