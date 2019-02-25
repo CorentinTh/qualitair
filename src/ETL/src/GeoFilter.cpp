@@ -8,7 +8,7 @@ std::string GeoFilter::apply() {
     return std::__cxx11::string();
 }
 
-void GeoFilter::extend(float ratio) {
+void GeoFilter::extend(double ratio) {
 
 }
 

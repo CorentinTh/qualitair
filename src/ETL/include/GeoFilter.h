@@ -23,7 +23,7 @@ class GeoFilter : public Filter {
 
             //TODO
             void setBBox(const BBox &bbox);
-            void extend(float ratio);
+            void extend(double ratio);
 
             GeoFilter & operator = ( GeoFilter other );
             GeoFilter ( const GeoFilter & other );
