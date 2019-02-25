@@ -32,6 +32,7 @@ set(LOCAL_DEPS
         ${PROJECT_SOURCE_DIR}/deps/csvmonkey
         ${PROJECT_SOURCE_DIR}/deps/easyloggin
         ${PROJECT_SOURCE_DIR}/deps/inih
+        ${PROJECT_SOURCE_DIR}/deps/exprtk
 )
 
 FetchContent_Declare(
