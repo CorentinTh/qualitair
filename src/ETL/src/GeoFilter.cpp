@@ -8,7 +8,7 @@ std::string GeoFilter::apply() {
     return std::__cxx11::string();
 }
 
-void GeoFilter::extend(const int ratio) {
+void GeoFilter::extend(double ratio) {
 
 }
 
@@ -25,5 +25,9 @@ GeoFilter::GeoFilter() {
 }
 
 GeoFilter::~GeoFilter() {
+
+}
+
+void GeoFilter::setBBox(const BBox &bBox) {
 
 }

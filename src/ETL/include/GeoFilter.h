@@ -8,13 +8,22 @@
 
 #include "Filter.h"
 
+// TODO: move BBox, it not belong here
+typedef struct {
+    int left;   // min longitude    [-180, 180[
+    int top;    // min latitude     [ -90,  90[
+    int right;  // max longitude    [-180, 180[
+    int bottom; // max latitude     [ -90,  90[
+} BBox;
+
+
 class GeoFilter : public Filter {
     public:
             virtual std::string apply();
 
             //TODO
-            //void setBBox(bbox);
-            void extend(const int ratio);
+            void setBBox(const BBox &bbox);
+            void extend(double ratio);
 
             GeoFilter & operator = ( GeoFilter other );
             GeoFilter ( const GeoFilter & other );
@@ -24,9 +33,7 @@ class GeoFilter : public Filter {
     protected:
             friend void swap(GeoFilter & first, GeoFilter & second);
     
-            //TODO bbox type
-            //BBox bbox;
+            BBox bbox;
 };
-
 
 #endif //QUALITAIR_GEOFILTER_H
