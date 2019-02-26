@@ -16,7 +16,7 @@ class OutputCLI : public IOutput {
             return instance;
         }
 
-        virtual void printSpikes(json dataJson, std::string filename="");
+        void printSpikes(json dataJson, std::string filename="");
         virtual void printStats(json dataJson, std::string filename="");
         virtual void printSim(json dataJson, std::string filename="");
         virtual void printBroken(json dataJson, std::string filename="");

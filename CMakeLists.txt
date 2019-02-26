@@ -32,6 +32,7 @@ set(LOCAL_DEPS
         ${PROJECT_SOURCE_DIR}/deps/csvmonkey
         ${PROJECT_SOURCE_DIR}/deps/easyloggin
         ${PROJECT_SOURCE_DIR}/deps/inih
+        ${PROJECT_SOURCE_DIR}/deps/exprtk
 )
 
 FetchContent_Declare(
@@ -67,7 +68,7 @@ set(REMOTE_DEPS
 )
 
 # target
-add_executable(${TARGET_NAME} ${SOURCES} ${MAIN_FILE} ${EASYLOGGIN})
+add_executable(${TARGET_NAME} ${SOURCES} ${MAIN_FILE})
 
 add_subdirectory(tests/unit-tests)
 

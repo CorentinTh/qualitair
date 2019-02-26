@@ -80,43 +80,44 @@ TEST_CASE("Test combined query", "[UT-D-8]") {
 
     REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = 12;");
 }
-
-TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
-    QueryBuilder queryBuilder = QueryBuilder();
-    SQLite::Statement * query = nullptr;
-
-    query = queryBuilder.select("sensorId")
-                        .from("Sensor")
-                        .where("latitude < 48")
-                        .execute();
-
-    for(int i = 1; i <= 4; i++) {
-        REQUIRE(query->executeStep());
-        REQUIRE((int) query->getColumn("sensorId") == i);
-    }
-
-    queryBuilder = QueryBuilder();
-    query = queryBuilder.from("Measurement")
-                        .where("value < 6")
-                        .andWhere("attributeId = 2")
-                        .orWhere("sensorId = 5")
-                        .execute();
-
-    REQUIRE(query->executeStep());
-    REQUIRE((int) query->getColumn("__rowid__") == 1);
-
-    REQUIRE(query->executeStep());
-    REQUIRE((int) query->getColumn("__rowid__") == 6);
-
-    queryBuilder = QueryBuilder();
-    query = queryBuilder.from("Attribute")
-                        .join("Sensor")
-                        .execute();
-
-    int nbRows = 0;
-    while(query->executeStep()) {
-        nbRows++;
-    }
-
-    REQUIRE(nbRows == 15);
-}
+//
+//TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
+//    QueryBuilder queryBuilder = QueryBuilder();
+//    SQLite::Statement * query = nullptr;
+//
+//    query = queryBuilder.select("sensorId")
+//                        .from("Sensor")
+//                        .where("latitude < 48")
+//                        .execute();
+//
+//
+//    for(int i = 1; i <= 4; i++) {
+//        REQUIRE(query->executeStep());
+//        REQUIRE((int) query->getColumn("sensorId") == i);
+//    }
+//
+//    queryBuilder = QueryBuilder();
+//    query = queryBuilder.from("Measurement")
+//                        .where("value < 6")
+//                        .andWhere("attributeId = 2")
+//                        .orWhere("sensorId = 5")
+//                        .execute();
+//
+//    REQUIRE(query->executeStep());
+//    REQUIRE((int) query->getColumn("__rowid__") == 1);
+//
+//    REQUIRE(query->executeStep());
+//    REQUIRE((int) query->getColumn("__rowid__") == 6);
+//
+//    queryBuilder = QueryBuilder();
+//    query = queryBuilder.from("Attribute")
+//                        .join("Sensor")
+//                        .execute();
+//
+//    int nbRows = 0;
+//    while(query->executeStep()) {
+//        nbRows++;
+//    }
+//
+//    REQUIRE(nbRows == 15);
+//}

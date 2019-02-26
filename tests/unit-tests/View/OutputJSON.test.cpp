@@ -216,6 +216,7 @@ namespace JSONTest {
             file.close();
             remove(jsonFilename.c_str());
         }
+
         SECTION("is the method putting something in the json file") {
             OutputJSON::getInstance().printIngest(dataJsonIngest, jsonFilename);
             std::ifstream out(jsonFilename);
@@ -228,6 +229,7 @@ namespace JSONTest {
             REQUIRE(nbCharacters > 0);
             remove(jsonFilename.c_str());
         }
+
         SECTION("is the method putting the expected thing in the json file") {
             OutputJSON::getInstance().printIngest(dataJsonIngest, jsonFilename);
             std::ifstream outToRead(jsonFilename);
