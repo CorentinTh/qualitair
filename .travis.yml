@@ -20,8 +20,10 @@ jobs:
     - stage: "compile"
       name: "Compile 'qualitair'"
       script: ./build.sh qualitair
+    - name: "Compile 'utests'"
+      script: ./build.sh utests
     - stage: "test"
-      name: "Compile 'utests'"
+      name: "Unit tests"
       script:
       - ./build.sh utests
       - ./bin/utests
