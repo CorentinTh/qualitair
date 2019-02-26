@@ -27,7 +27,7 @@ TEST_CASE("Testing CLIParser::getArgument", "[UT-C-1]") {
     char* command3[] = { "ingest", "--input=a", "--input=b" , NULL };
     cliParser = CLIParser(command3);
 
-    REQUIRE(cliParser.getArgument("input") == "");
+    REQUIRE(cliParser.getArgument("input") == "a");
 
     char* command4[] = { "ingest", "--input=a", "--format=RAW" , NULL };
     cliParser = CLIParser(command4);

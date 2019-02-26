@@ -9,7 +9,7 @@ const std::string Config::FILEPATH = "~/.qualitair/config.ini";
 void Config::load() {
     INIReader reader(filepath);
     if (reader.ParseError() < 0) {
-        LOG(ERROR) << "Unable to load " << FILEPATH << std::endl;
+        LOG(ERROR) << "Unable to load " << filepath << std::endl;
         return;
     }
 
