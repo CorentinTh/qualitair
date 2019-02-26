@@ -16,7 +16,7 @@ class Aggregation : public IDataProcess {
         std::unordered_map<std::string, std::pair<double, double>> computeExtrems();
         std::unordered_map<std::string, double> computeDeviation();
 
-        json apply() override;
+        json * apply() override;
 
         Aggregation & operator = ( Aggregation other );
         Aggregation ( const Aggregation & other );

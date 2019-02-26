@@ -133,53 +133,57 @@ namespace AggTest {
                 {"o2",  {1, 10}}
         };
         Aggregation agg3(ds3, formula);
-        CHECK(agg.computeExtrems() == out3);
+        CHECK(agg3.computeExtrems() == out3);
     }
 
     TEST_CASE("Testing deviation", "[UT-DP-4]") {
         std::unordered_map<std::string, double> out1 = {
-                {"co2", 4},
-                {"o2",  2}
+                {"co2", 0},
+                {"o2",  0}
         };
         Aggregation agg(ds1, formula);
         CHECK(agg.computeDeviation() == out1);
 
         std::unordered_map<std::string, double> out2 = {
-                {"co2", 4.24},
-                {"o2",  0.71}
+                {"co2", 3},
+                {"o2",  0.5}
         };
         Aggregation agg2(ds2, formula);
         CHECK(agg2.computeDeviation() == out2);
 
 
         std::unordered_map<std::string, double> out3 = {
-                {"co2", 2.62},
-                {"o2",  2.70}
+                {"co2", 2.45},
+                {"o2",  2.52}
         };
         Aggregation agg3(ds3, formula);
         CHECK(agg3.computeDeviation() == out3);
     }
 
     TEST_CASE("Testing aggregation", "[UT-DP-5]") {
+
         Aggregation agg(ds3, formula);
-        // FIXME dependency bug ?
+
         json out = R"({
             "co2" : {
-                "avg":6,
-                        "min":2,
-                        "max":10,
-                        "deviation":2.62,
+                "avg":6.0,
+                "min":2.0,
+                "max":10.0,
+                "deviation":2.45
             },
             "o2":{
                 "avg":4.88,
-                        "min":1,
-                        "max":10,
-                        "deviation":2.70,
+                "min":1.0,
+                "max":10.0,
+                "deviation":2.52
             },
             "igqa": 0.55
     })"_json;
 
-        CHECK(agg.apply() == out);
+        json* ptr = agg.apply();
+        json value = *ptr;
+
+        CHECK(out.dump() == value.dump());
 
     }
 }
