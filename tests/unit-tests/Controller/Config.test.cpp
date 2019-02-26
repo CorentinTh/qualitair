@@ -11,7 +11,7 @@
 #include <utility>
 
 TEST_CASE("Testing Config::load", "[UT-C-3]") {
-    Config config = Config("data/config-sample.ini");
+    Config config = Config("../tests/data/config-sample.ini");
     config.load();
 
     // TODO set actual values from sample file
