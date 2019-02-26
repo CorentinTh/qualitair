@@ -180,10 +180,7 @@ namespace AggTest {
             "igqa": 0.55
     })"_json;
 
-        json* ptr = agg.apply();
-        json value = *ptr;
-
-        CHECK(out.dump() == value.dump());
+        CHECK(out.dump() == agg.apply()->dump());
 
     }
 }
