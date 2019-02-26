@@ -14,7 +14,7 @@
 
 class BrokenDetection : IDataProcess {
     public:
-        json apply() override;
+        json * apply() override;
 
         BrokenDetection & operator = ( BrokenDetection other );
         BrokenDetection ( const BrokenDetection & other );

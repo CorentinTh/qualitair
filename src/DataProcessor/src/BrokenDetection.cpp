@@ -1,6 +1,6 @@
 
 
-#include "../include/BrokenDetection.h"
+#include "../include/BrokenDetection.test.h"
 
 
 BrokenDetection &BrokenDetection::operator=(BrokenDetection other) {
@@ -24,8 +24,8 @@ BrokenDetection::~BrokenDetection() {
 
 }
 
-json BrokenDetection::apply() {
-
+json* BrokenDetection::apply() {
+    return nullptr;
 }
 
 void swap(BrokenDetection &first, BrokenDetection &second) {

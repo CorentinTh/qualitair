@@ -5,7 +5,7 @@
 #include "catch2/catch.hpp"
 
 
-#include "../../../src/DataProcessor/include/BrokenDetection.h"
+#include "../../../src/DataProcessor/include/BrokenDetection.test.h"
 
 TEST_CASE("Testing broken detection", "[UT-DP-8]") {
 
@@ -60,10 +60,10 @@ TEST_CASE("Testing broken detection", "[UT-DP-8]") {
 
 
     BrokenDetection brokenDetection(measures, sensors, timeThreshold, admissibleRanges);
-    CHECK(brokenDetection.apply() == ot5);
+    CHECK(brokenDetection.apply()->dump() == ot5.dump());
 
     timeThreshold = 10;
     // TODO refactor this test, useless if we change a parameter but the output doesn't ... what are we testing here ??
     BrokenDetection brokenDetection2(measures, sensors, timeThreshold, admissibleRanges);
-    CHECK(brokenDetection2.apply() == ot5);
+    CHECK(brokenDetection2.apply()->dump() == ot5.dump());
 }
