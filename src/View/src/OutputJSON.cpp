@@ -23,3 +23,7 @@ void OutputJSON::printBroken(json dataJson, std::string filename) {
 void OutputJSON::printIngest(json dataJson, std::string filename) {
 
 }
+
+OutputJSON::OutputJSON() {
+
+}
