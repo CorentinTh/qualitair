@@ -8,13 +8,28 @@ addons:
     packages:
       - lcov
 
+stages:
+  - "compile"
+  - "test"
+
 before_script:
   - ./build.sh init
 
-script:
-  - ./build.sh qualitair
-  - ./build.sh utests
-  - ./bin/utests
+jobs:
+  include:
+    - stage: "compile"
+      name: "Compile 'qualitair'"
+      script: ./build.sh qualitair
+    - stage: "test"
+      name: "Compile 'utests'"
+      script:
+      - ./build.sh utests
+      - ./bin/utests
+
+#script:
+#  - ./build.sh qualitair
+#  - ./build.sh utests
+#  - ./bin/utests
 
 after_success:
   - lcov --directory . --capture --output-file coverage.info
