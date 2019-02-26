@@ -16,18 +16,20 @@ class OutputJSON : public IOutput{
             return instance;
         }
     
-        virtual void printSpikes(json dataJsonn, std::string filename);
-        virtual void printStats(json dataJsonn, std::string filename);
-        virtual void printSim(json dataJsonn, std::string filename);
-        virtual void printBroken(json dataJsonn, std::string filename);
-        virtual void printIngest(json dataJsonn, std::string filename);
+        virtual void printSpikes(json dataJson, std::string filename);
+        virtual void printStats(json dataJson, std::string filename);
+        virtual void printSim(json dataJson, std::string filename);
+        virtual void printBroken(json dataJson, std::string filename);
+        virtual void printIngest(json dataJson, std::string filename);
     
-        OutputJSON(OutputJSON const&)       = delete;
-        void operator=(OutputJSON const&)  = delete;
+        //OutputJSON(OutputJSON const&)       = delete;
+        //void operator=(OutputJSON const&)  = delete;
     
     private:
         OutputJSON();
-};
+        void copyJsonToFile(json data, std::ofstream * ptrFile);
+
+    };
 
 
 #endif //QUALITAIR_OUTPUTJSON_H
