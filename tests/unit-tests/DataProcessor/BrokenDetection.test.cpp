@@ -9,7 +9,6 @@
 
 TEST_CASE("Testing broken detection", "[UT-DP-8]") {
 
-    // FIXME when measurement class is merged, check order parameter
     std::vector<Measurement> measures = {
             Measurement(1, 1, 4, 1550150155),
             Measurement(2, 1, 5, 1550150156),
@@ -18,7 +17,7 @@ TEST_CASE("Testing broken detection", "[UT-DP-8]") {
             Measurement(4, 3, 15, 1550150048),
             Measurement(5, 3, 11, 1550158049)
     };
-    // FIXME when sensor class is merged, check order parameter
+
     std::vector<Sensor> sensors = {
             Sensor(1, 45.7574995, 4.8313017, "Bellecour - Grande roue"),
             Sensor(2, 45.7632485, 4.8335574, "Cordelier - Métro"),
@@ -63,6 +62,7 @@ TEST_CASE("Testing broken detection", "[UT-DP-8]") {
     CHECK(brokenDetection.apply()->dump() == ot5.dump());
 
     timeThreshold = 10;
+
     // TODO refactor this test, useless if we change a parameter but the output doesn't ... what are we testing here ??
     BrokenDetection brokenDetection2(measures, sensors, timeThreshold, admissibleRanges);
     CHECK(brokenDetection2.apply()->dump() == ot5.dump());
