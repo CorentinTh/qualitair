@@ -96,3 +96,4 @@ void OutputCLI::printIngest(json dataJson, std::string filename) {
         }
     }
 }
+
