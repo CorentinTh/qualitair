@@ -64,13 +64,13 @@ namespace CLITest {
             {
                     {"id", 71},
                     {"lat", 48.597855},
-                             {"long", 3.401035},
+                    {"long", 3.401035},
                     {"description", "Pétaouchnok"}
             },
             {
                     {"id", 147},
-                    {"lat"}, 28.468412,
-                    {"long",        14.351684},
+                    {"lat", 28.468412},
+                    {"long", 14.351684},
                     {"description", "Paris - Tour Eiffel"}
             }
     };
@@ -84,27 +84,22 @@ namespace CLITest {
 
 
         SECTION("is the method putting something in cout") {
-            std::fstream out;
-            out.open("out.txt", std::fstream::out);
-            std::cout << out.is_open() << std::endl;
+            std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
             OutputCLI::getInstance().printSpikes(dataJsonSpikes);
             std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            out.open("out.txt", std::fstream::in);
+            std::ifstream out2("out.txt");
             std::string line;
             int nbCharacters = 0;
-            while (std::getline(out, line)) {
+            while (std::getline(out2, line)) {
                 nbCharacters += line.length();
-                std::cout << nbCharacters << std::endl;
             }
-            out.close();
-            std::cout << nbCharacters << std::endl;
-            remove("out.txt");
-            nbCharacters = 1;
+            out2.close();
             REQUIRE(nbCharacters > 0);
+            remove("out.txt");
         }
 
     }
@@ -112,36 +107,32 @@ namespace CLITest {
     TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 
         SECTION("is the method putting something in cout") {
-            std::ofstream out;
-            out.open("out.txt", std::fstream::out);
-            std::cout << out.is_open() << std::endl;
+            std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
-            OutputCLI::getInstance().printSpikes(dataJsonSpikes);
-            std::cout << "blabla"<< std::endl;
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+            OutputCLI::getInstance().printStats(dataJsonStats);
             std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            std::ifstream out2;
-            out2.open("out.txt", std::fstream::in);
+            std::ifstream out2("out.txt");
             std::string line;
             int nbCharacters = 0;
             while (std::getline(out2, line)) {
                 nbCharacters += line.length();
-                std::cout << nbCharacters << std::endl;
             }
             out2.close();
             REQUIRE(nbCharacters > 0);
+            remove("out.txt");
         }
         SECTION("is the method putting the expected thing in cout") {
-            std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("expected_out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
+            OutputCLI::getInstance().printStats(dataJsonStats);
             std::cout.rdbuf(coutbuf); // restore cout
-            OutputCLI::getInstance().printIngest(dataJsonIngest);
             out.close();
 
-            std::ifstream outToRead("expected_../../data/out.txt");
+            std::ifstream outToRead("expected_out.txt");
             std::string line;
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "Résultats des analyses :");
@@ -166,11 +157,11 @@ namespace CLITest {
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "     max : 10");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == "     deviation : 2.70");
+            REQUIRE(line == "     deviation : 2.7");
             //check if we are at the end of the file
             REQUIRE(!std::getline(outToRead, line));
             outToRead.close();
-            remove("../../data/out.txt");
+            remove("expected_out.txt");
         }
 
     }
@@ -178,31 +169,32 @@ namespace CLITest {
     TEST_CASE("Test printSim(dataJSON) CLI", "[UT-V-3]") {
 
         SECTION("is the method putting something in cout") {
-            std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
-            std::cout.rdbuf(coutbuf); // restore cout
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
             OutputCLI::getInstance().printSim(dataJsonSim);
+            std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            std::ifstream outToRead("../../data/out.txt");
+            std::ifstream out2("out.txt");
             std::string line;
             int nbCharacters = 0;
-            while (std::getline(outToRead, line)) {
+            while (std::getline(out2, line)) {
                 nbCharacters += line.length();
             }
-            outToRead.close();
+            out2.close();
             REQUIRE(nbCharacters > 0);
+            remove("out.txt");
         }
         SECTION("is the method putting the expected thing in cout") {
-            std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("expected_out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
+            OutputCLI::getInstance().printSim(dataJsonSim);
             std::cout.rdbuf(coutbuf); // restore cout
-            OutputCLI::getInstance().printIngest(dataJsonIngest);
             out.close();
 
-            std::ifstream outToRead("expected_../../data/out.txt");
+            std::ifstream outToRead("expected_out.txt");
             std::string line;
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "------");
@@ -221,21 +213,22 @@ namespace CLITest {
             //check if we are at the end of the file
             REQUIRE(!std::getline(outToRead, line));
             outToRead.close();
-            remove("../../data/out.txt");
+            remove("expected_out.txt");
         }
 
     }
 
     TEST_CASE("Test printBroken(dataJSON) CLI", "[UT-V-4]") {
+
         SECTION("is the method putting something in cout") {
-            std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
-            std::cout.rdbuf(coutbuf); // restore cout
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
             OutputCLI::getInstance().printBroken(dataJsonBroken);
+            std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            std::ifstream outToRead("../../data/out.txt");
+            std::ifstream outToRead("out.txt");
             std::string line;
             int nbCharacters = 0;
             while (std::getline(outToRead, line)) {
@@ -243,17 +236,19 @@ namespace CLITest {
             }
             outToRead.close();
             REQUIRE(nbCharacters > 0);
+            remove("out.txt");
         }
 
         SECTION("is the method putting the expected thing in cout") {
-            std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("expected_out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
+            OutputCLI::getInstance().printBroken(dataJsonBroken);
             std::cout.rdbuf(coutbuf); // restore cout
-            OutputCLI::getInstance().printIngest(dataJsonIngest);
+
             out.close();
 
-            std::ifstream outToRead("expected_../../data/out.txt");
+            std::ifstream outToRead("expected_out.txt");
             std::string line;
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "Les capteurs suivants sont en panne :");
@@ -268,7 +263,7 @@ namespace CLITest {
             //check if we are at the end of the file
             REQUIRE(!std::getline(outToRead, line));
             outToRead.close();
-            remove("../../data/out.txt");
+            remove("expected_out.txt");
         }
 
     }
@@ -276,14 +271,14 @@ namespace CLITest {
     TEST_CASE("Test printIngest(dataJSON) CLI", "[UT-V-5]") {
 
         SECTION("is the  method putting something in cout") {
-            std::ofstream out("../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
-            std::cout.rdbuf(coutbuf); // restore cout
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
             OutputCLI::getInstance().printIngest(dataJsonIngest);
+            std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            std::ifstream outToRead("../../data/out.txt");
+            std::ifstream outToRead("out.txt");
             std::string line;
             int nbCharacters = 0;
             while (std::getline(outToRead, line)) {
@@ -291,23 +286,24 @@ namespace CLITest {
             }
             outToRead.close();
             REQUIRE(nbCharacters > 0);
+            remove("out.txt");
         }
         SECTION("is the method putting the expected thing in cout") {
-            std::ofstream out("expected_../../data/out.txt"); // mettre dans dossier bin ?
+            std::ofstream out("expected_out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to ../../data/out.txt!
-            std::cout.rdbuf(coutbuf); // restore cout
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
             OutputCLI::getInstance().printIngest(dataJsonIngest);
+            std::cout.rdbuf(coutbuf); // restore cout
             out.close();
 
-            std::ifstream outToRead("expected_../../data/out.txt");
+            std::ifstream outToRead("expected_out.txt");
             std::string line;
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "4201 lignes ont été insérées avec succès");
             //check if we are at the end of the file
             REQUIRE(!std::getline(outToRead, line));
             outToRead.close();
-            remove("../../data/out.txt");
+            remove("expected_out.txt");
         }
     }
 }
