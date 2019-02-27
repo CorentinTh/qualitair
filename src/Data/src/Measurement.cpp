@@ -3,27 +3,48 @@
 //
 
 #include "../include/Measurement.h"
+#include <utility>
 
 int Measurement::getTimestamp() {
-    return 0;
+    return timestamp;
 }
 
 double Measurement::getValue() {
-    return 0;
+    return value;
+}
+
+
+int Measurement::getSensorId() {
+    return sensorId;
+}
+
+int Measurement::getAttributeId() {
+    return attributeId;
+}
+
+Measurement::Measurement(int t, int sId, int aId, double v) : timestamp(t), sensorId(sId), attributeId(aId), value(v) {
+
 }
 
 Measurement &Measurement::operator=(Measurement other) {
+    swap(*this, other);
     return *this;
 }
 
 Measurement::Measurement(const Measurement &other) {
-
-}
-
-Measurement::Measurement() {
-
+    timestamp = other.timestamp;
+    value = other.value;
+    sensorId = other.sensorId;
+    attributeId = other.attributeId;
 }
 
 Measurement::~Measurement() {
 
+}
+
+void swap(Measurement & first, Measurement & second) {
+    std::swap(first.timestamp, second.timestamp);
+    std::swap(first.value, second.value);
+    std::swap(first.attributeId, second.attributeId);
+    std::swap(first.sensorId, second.sensorId);
 }

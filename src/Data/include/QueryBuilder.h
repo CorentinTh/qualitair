@@ -11,12 +11,12 @@ class QueryBuilder : public IData {
     public:
         QueryBuilder();
         std::string getQuery();
-        void select(std::string field);
-        void from(std::string field);
-        void where(std::string condition);
-        void andWhere(std::string condition);
-        void orWhere(std::string condition);
-        void join(std::string clause);
+        QueryBuilder & select(std::string field);
+        QueryBuilder & from(std::string field);
+        QueryBuilder & where(std::string condition);
+        QueryBuilder & andWhere(std::string condition);
+        QueryBuilder & orWhere(std::string condition);
+        QueryBuilder & join(std::string clause);
         SQLite::Statement * execute();
 };
 

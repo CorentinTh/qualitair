@@ -16,7 +16,7 @@ class Attribute {
 
         Attribute & operator = ( Attribute other );
         Attribute ( const Attribute & other );
-        Attribute ( );
+        Attribute ( int attributeId, std::string unit, std::string description);
         virtual ~Attribute ( );
 
     protected:

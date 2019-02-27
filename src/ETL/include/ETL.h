@@ -9,26 +9,30 @@
 #include "IETL.h"
 
 class ETL : public IETL {
-    public:
-        static ETL& getInstance()
-        {
-            static ETL instance;
-            return instance;
-        }
+public:
+    static ETL &getInstance() {
+        static ETL instance;
+        return instance;
+    }
 
-        void ingest(std::string csvData) override {
+    bool ingest(json data) override {
+        return false;
+    }
 
-        }
+    void getData() override {
 
-        void getData() override {
+    }
 
-        }
+    ETL(ETL const &) = default;
 
-        ETL(ETL const&)       = delete;
-        void operator=(ETL const&)  = delete;
+    void operator=(ETL const &) = delete;
 
-    private:
-        ETL() {}
+    enum {
+        MEASURE, ATTRIBUTE, SENSOR
+    } data_type;
+
+private:
+    ETL() {}
 };
 
 

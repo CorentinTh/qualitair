@@ -66,7 +66,7 @@ void OutputJSON::printIngest(json dataJson, std::string filename) {
     }
 }
 
-void OutputJSON::copyJsonToFile(json data, std::ofstream * ptrFile){
+void OutputJSON::copyJsonToFile(json data, std::ofstream * ptrFile) {
     std::string s = data.dump(4); // indent with four spaces
     (*ptrFile) << s;
 }

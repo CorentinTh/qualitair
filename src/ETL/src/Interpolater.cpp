@@ -4,8 +4,8 @@
 
 #include "../include/Interpolater.h"
 
-void Interpolater::interpolate() {
-
+pointCollection Interpolater::interpolate(const vector<Measurement> &measures){
+    return {{{{{"type", 1}}}}};
 }
 
 Interpolater &Interpolater::operator=(Interpolater other) {
