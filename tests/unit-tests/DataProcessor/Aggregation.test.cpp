@@ -91,14 +91,14 @@ namespace AggTest {
 
         std::unordered_map<std::string, double> out1 = {{"co2", 4},
                                                         {"o2",  2}};
-        Aggregation agg(ds1, formula);
+        Aggregation agg(ds1);
         CHECK(agg.computeAverage() == out1);
 
         std::unordered_map<std::string, double> out2 = {
                 {"co2", 7},
                 {"o2",  1.5}
         };
-        Aggregation agg2(ds2, formula);
+        Aggregation agg2(ds2);
         CHECK(agg2.computeAverage() == out2);
 
 
@@ -106,7 +106,7 @@ namespace AggTest {
                 {"co2", 6},
                 {"o2",  4.88}
         };
-        Aggregation agg3(ds3, formula);
+        Aggregation agg3(ds3);
         CHECK(agg3.computeAverage() == out3);
     }
 
@@ -117,14 +117,14 @@ namespace AggTest {
                 {"o2",  {2, 2}}
         };
 
-        Aggregation agg(ds1, formula);
+        Aggregation agg(ds1);
         CHECK(agg.computeExtrems() == out1);
 
         std::unordered_map<std::string, std::pair<double, double>> out2 = {
                 {"co2", {4, 10}},
                 {"o2",  {1, 2}}
         };
-        Aggregation agg2(ds2, formula);
+        Aggregation agg2(ds2);
         CHECK(agg2.computeExtrems() == out2);
 
 
@@ -132,7 +132,7 @@ namespace AggTest {
                 {"co2", {2, 10}},
                 {"o2",  {1, 10}}
         };
-        Aggregation agg3(ds3, formula);
+        Aggregation agg3(ds3);
         CHECK(agg3.computeExtrems() == out3);
     }
 
@@ -141,14 +141,14 @@ namespace AggTest {
                 {"co2", 0},
                 {"o2",  0}
         };
-        Aggregation agg(ds1, formula);
+        Aggregation agg(ds1);
         CHECK(agg.computeDeviation() == out1);
 
         std::unordered_map<std::string, double> out2 = {
                 {"co2", 3},
                 {"o2",  0.5}
         };
-        Aggregation agg2(ds2, formula);
+        Aggregation agg2(ds2);
         CHECK(agg2.computeDeviation() == out2);
 
 
@@ -156,13 +156,19 @@ namespace AggTest {
                 {"co2", 2.45},
                 {"o2",  2.52}
         };
-        Aggregation agg3(ds3, formula);
+        Aggregation agg3(ds3);
         CHECK(agg3.computeDeviation() == out3);
     }
 
-    TEST_CASE("Testing aggregation", "[UT-DP-5]") {
+    TEST_CASE("Testing ATMO", "[UT-DP-5]") {
 
-        Aggregation agg(ds3, formula);
+        //TODO
+
+    }
+
+    TEST_CASE("Testing aggregation", "[UT-DP-6]") {
+
+        Aggregation agg(ds3);
 
         json out = R"({
             "co2" : {

@@ -5,5 +5,10 @@
 #include "../include/ConnectionFactory.h"
 
 SQLite::Database * ConnectionFactory::getConnection() {
+    if(database == nullptr) database = new SQLite::Database(databasePath);
+    return database;
+}
 
+void ConnectionFactory::setDatabase(std::string databasePath) {
+    ConnectionFactory::databasePath = databasePath;
 }

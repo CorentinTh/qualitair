@@ -12,22 +12,24 @@
 
 class Aggregation : public IDataProcess {
     public:
+        json * apply() override;
+
         std::unordered_map<std::string, double> computeAverage();
         std::unordered_map<std::string, std::pair<double, double>> computeExtrems();
         std::unordered_map<std::string, double> computeDeviation();
-
-        json * apply() override;
+        double computeAtmo();
 
         Aggregation & operator = ( Aggregation other );
         Aggregation ( const Aggregation & other );
-        Aggregation ( pointCollection & data, std::string formula);
+        Aggregation ( pointCollection & data);
         virtual ~Aggregation ( );
     
     protected:
         friend void swap(Aggregation & first, Aggregation & second);
 
-        std::string formula;
         pointCollection points;
+
+
 };
 
 

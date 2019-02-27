@@ -3,7 +3,6 @@
 //
 
 #include "../include/Aggregation.h"
-#include "../include/FormulaComputer.h"
 
 std::unordered_map<std::string, double> Aggregation::computeAverage() {
     std::unordered_map<std::string, double> sums;
@@ -117,17 +116,53 @@ std::unordered_map<std::string, double> Aggregation::computeDeviation() {
     return deviations;
 }
 
+double Aggregation::computeAtmo() {
+
+    //PM10
+    /*std::unordered_map<int, double> sums;
+    std::unordered_map<int, int> count;
+
+    for (auto i = points.begin(); i != points.end() ; ++i)
+    {
+        for (auto j = i->begin(); j != i->end() ; ++j)
+        {
+            for (auto k = j->begin(); k != j->end() ; ++k)
+            {
+                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                     it != k->end(); ++it)
+                {
+                    sums[it->first] += it->second;
+                    count[it->first]++;
+
+                }
+            }
+        }
+    }
+
+    //transform sums to mean
+    for (auto it = sums.begin(); it!= sums.end(); ++it) {
+        //round to 2 digits
+        sums[it->first] = std::floor((sums[it->first] / count[it->first]) * 100.0 + 0.5) / 100.0;
+    }*/
+
+
+    //SO3
+
+    //NO2
+
+    //O3
+}
+
 Aggregation &Aggregation::operator=(Aggregation other) {
     swap(*this, other);
     return *this;
 }
 
 Aggregation::Aggregation(const Aggregation &other) {
-    formula = other.formula;
     points = other.points;
 }
 
-Aggregation::Aggregation(pointCollection & data, std::string formulaExpr) : points(data), formula(formulaExpr) {
+Aggregation::Aggregation(pointCollection & data) : points(data) {
 
 }
 
@@ -149,13 +184,11 @@ json* Aggregation::apply() {
         (*j)[it->first]["deviation"] = deviations[it->first];
     }
 
-    FormulaComputer formulaComputer(formula);
-    (*j)["igqa"] = formulaComputer.compute(points);
+    (*j)["atmo"] = computeAtmo();
 
     return j;
 }
 
 void swap(Aggregation &first, Aggregation &second) {
-    std::swap(first.formula, second.formula);
     std::swap(first.points, second.points);
 }
