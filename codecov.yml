@@ -1,0 +1,6 @@
+
+ignore:
+  - "deps"
+  - "tests"
+  - "lib"
+  - "bin"
