@@ -7,7 +7,11 @@
 
 QueryBuilder::~QueryBuilder() {
     for(Argument argument : this->arguments) {
-        delete argument.value;
+        if(argument.type == INT) delete (int *) argument.value;
+        else if(argument.type == LONG) delete (long long *) argument.value;
+        else if(argument.type == FLOAT) delete (float *) argument.value;
+        else if(argument.type == DOUBLE) delete (double *) argument.value;
+        else if(argument.type == STRING) delete (std::string *) argument.value;
     }
 }
 
