@@ -15,6 +15,7 @@ class Sensor {
         double getLongitude();
         std::string getDescription();
 
+        Sensor() {}
         Sensor & operator = ( Sensor other );
         Sensor ( const Sensor & other );
         Sensor ( int sensorId, double latitude, double longitude, std::string description);
