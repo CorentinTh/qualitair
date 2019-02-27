@@ -4,19 +4,19 @@
 
 #include "../include/Sensor.h"
 
-std::string Sensor::getId() {
+std::string Sensor::getId() const {
     return sensorId;
 }
 
-double Sensor::getLatitude() {
+double Sensor::getLatitude() const{
     return latitude;
 }
 
-double Sensor::getLongitude() {
+double Sensor::getLongitude() const{
     return longitude;
 }
 
-std::string Sensor::getDescription() {
+std::string Sensor::getDescription() const {
     return description;
 }
 
