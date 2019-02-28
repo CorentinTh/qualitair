@@ -7,15 +7,7 @@
 
 
 #include "Filter.h"
-
-// TODO: move BBox, it not belong here
-typedef struct {
-    int left;   // min longitude    [-180, 180[
-    int top;    // min latitude     [ -90,  90[
-    int right;  // max longitude    [-180, 180[
-    int bottom; // max latitude     [ -90,  90[
-} BBox;
-
+#include "../../globals.h"
 
 class GeoFilter : public Filter {
     public:
