@@ -45,7 +45,12 @@ namespace HTMLTest {
                              {"deviation", 2.70},
                      }
             },
-            {"igqa", 0.55}
+            {"atmo", {
+                             {"1543359600", 2},
+                             {"1543446000", 3},
+                             {"1543532400", 2}
+                     }
+            }
     };
     json dataJsonSim = {
             {
