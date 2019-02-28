@@ -31,20 +31,25 @@ namespace CLITest {
     };
     json dataJsonStats = {
             {"co2",  {
-                             {"avg", 6},
-                             {"min", 2},
-                             {"max", 10},
-                             {"deviation", 2.62}
+                         {"avg", 6},
+                         {"min", 2},
+                         {"max", 10},
+                         {"deviation", 2.62}
                      }
             },
             {"o2",   {
-                             {"avg", 4.88},
-                             {"min", 1},
-                             {"max", 10},
-                             {"deviation", 2.70},
+                         {"avg", 4.88},
+                         {"min", 1},
+                         {"max", 10},
+                         {"deviation", 2.70},
                      }
             },
-            {"igqa", 0.55}
+            {"atmo", {
+                         {"1543359600", 2},
+                         {"1543446000", 3},
+                         {"1543532400", 2}
+                     }
+            }
     };
     json dataJsonSim = {
             {
@@ -159,7 +164,13 @@ namespace CLITest {
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "Résultats des analyses :");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - igqa : 0.55");
+            REQUIRE(line == " - ATMO :");
+            REQUIRE(std::getline(outToRead, line));
+            REQUIRE(line == "     28/11/2018 : 2");
+            REQUIRE(std::getline(outToRead, line));
+            REQUIRE(line == "     29/11/2018 : 3");
+            REQUIRE(std::getline(outToRead, line));
+            REQUIRE(line == "     30/11/2018 : 2");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == " - co2 :");
             REQUIRE(std::getline(outToRead, line));
