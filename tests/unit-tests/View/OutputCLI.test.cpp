@@ -104,6 +104,26 @@ namespace CLITest {
             remove("out.txt");
         }
 
+        SECTION("is the method putting the expected thing in cout") {
+            std::ofstream out("expected_out.txt");
+            std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
+            OutputCLI::getInstance().printSpikes(dataJsonSpikes);
+            std::cout.rdbuf(coutbuf); // restore cout
+            out.close();
+
+            std::ifstream outToRead("expected_out.txt");
+            std::string line;
+            REQUIRE(std::getline(outToRead, line));
+            REQUIRE(line == "Des pics ont été détectés :");
+            REQUIRE(std::getline(outToRead, line));
+            REQUIRE(line == " - en position (50.8534,2.3488) entre 14:15:55 le 14/02/2019 et 14:32:35 le 14/02/2019");
+            //check if we are at the end of the file
+            REQUIRE(!std::getline(outToRead, line));
+            outToRead.close();
+            remove("expected_out.txt");
+        }
+
     }
 
     TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
