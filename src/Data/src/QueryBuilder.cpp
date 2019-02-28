@@ -2,6 +2,7 @@
 // Created by Wallyn Valentin on 17/02/2019.
 //
 
+#include <iostream>
 #include "../include/QueryBuilder.h"
 #include "../include/ConnectionFactory.h"
 
@@ -94,6 +95,7 @@ SQLite::Statement * QueryBuilder::execute() {
     SQLite::Statement * statement = new SQLite::Statement(* database, this->getQuery());
 
     for(Argument argument : this->arguments) {
+        std::cout << argument.value << std::endl;
         if(argument.type == INT) statement->bind(argument.position, * (int *) argument.value);
         else if(argument.type == LONG) statement->bind(argument.position, * (long long *) argument.value);
         else if(argument.type == FLOAT) statement->bind(argument.position, * (float *) argument.value);

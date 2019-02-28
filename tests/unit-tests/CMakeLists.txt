@@ -41,13 +41,13 @@ if (NOT sqlitecpp_POPULATED)
     add_subdirectory(${sqlitecpp_SOURCE_DIR} ${sqlitecpp_BINARY_DIR})
 endif ()
 
-if (ENABLE_COVERAGE)
+#[[if (ENABLE_COVERAGE)
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
     find_package(codecov)
     add_coverage(SelfTest)
     list(APPEND LCOV_REMOVE_PATTERNS "/usr/")
     coverage_evaluate()
-endif()
+endif()]]
 
 
 # targets

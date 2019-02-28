@@ -5,7 +5,10 @@
 #include <catch2/catch.hpp>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Column.h>
+#include <iostream>
+#include <zconf.h>
 #include "../../../src/Data/include/QueryBuilder.h"
+#include "../../../src/Data/include/ConnectionFactory.h"
 
 TEST_CASE("Test query attribute selection", "[UT-D-2]") {
     QueryBuilder queryBuilder = QueryBuilder();
@@ -26,41 +29,41 @@ TEST_CASE("Test query table selection", "[UT-D-3]") {
 TEST_CASE("Test query where condition", "[UT-D-4]") {
     QueryBuilder queryBuilder = QueryBuilder();
 
-    queryBuilder.where("id = ?").bind(1, 12);
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12;");
+    queryBuilder.where("id = ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
 }
 
 TEST_CASE("Test query andWhere condition", "[UT-D-5]") {
     QueryBuilder queryBuilder = QueryBuilder();
 
-    queryBuilder.andWhere("id = ?").bind(1, 12);
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12;");
+    queryBuilder.andWhere("id = ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
 
-    queryBuilder.andWhere("label = ?").bind(2, "helloWorld");
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12 AND label = `helloWorld`;");
+    queryBuilder.andWhere("label = ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? AND label = ?;");
 
-    queryBuilder.andWhere("value != ?").bind(3, 16);
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12 AND label = `helloWorld` AND value != 16;");
+    queryBuilder.andWhere("value != ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? AND label = ? AND value != ?;");
 }
 
 TEST_CASE("Test query orWhere condition", "[UT-D-6]") {
     QueryBuilder queryBuilder = QueryBuilder();
 
-    queryBuilder.orWhere("id = ?").bind(1, 12);
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12;");
+    queryBuilder.orWhere("id = ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
 
-    queryBuilder.orWhere("label = ?").bind(2, "helloWorld");
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12 OR label = `helloWorld`;");
+    queryBuilder.orWhere("label = ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? OR label = ?;");
 
-    queryBuilder.orWhere("value != ?").bind(3, 16);
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = 12 OR label = `helloWorld` OR value != 16;");
+    queryBuilder.orWhere("value != ?");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? OR label = ? OR value != ?;");
 }
 
 TEST_CASE("Test query join condition", "[UT-D-7]") {
     QueryBuilder queryBuilder = QueryBuilder();
 
     queryBuilder.join("Sensor");
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable CROSS JOIN Sensor");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable CROSS JOIN Sensor;");
 }
 
 TEST_CASE("Test combined query", "[UT-D-8]") {
@@ -69,29 +72,27 @@ TEST_CASE("Test combined query", "[UT-D-8]") {
     queryBuilder.select("attributeId")
                 .from("Attribute")
                 .where("unit = ?")
-                .orWhere("unit = ?")
-                .bind(1, "mg/l")
-                .bind(2, "mol");
+                .orWhere("unit = ?");
 
-    REQUIRE(queryBuilder.getQuery() == "SELECT attributeId FROM Attribute WHERE unit = `mg/l` OR unit = `mol`;");
+    REQUIRE(queryBuilder.getQuery() == "SELECT attributeId FROM Attribute WHERE unit = ? OR unit = ?;");
 
     queryBuilder = QueryBuilder();
-    queryBuilder.from("Measurment")
+    queryBuilder.from("Measurement")
                 .join("Attribute")
-                .where("sensorId = ?")
-                .bind(1, 12);
+                .where("sensorId = ?");
 
-    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = 12;");
+    REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = ?;");
 }
 
 TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    SQLite::Statement * query = nullptr;
+    SQLite::Statement * query;
 
     query = queryBuilder.select("sensorId")
                         .from("Sensor")
                         .where("latitude < ?")
-                        .bind(1, 48)
+                        .bind(1, 48.0)
                         .execute();
 
     for(int i = 1; i <= 4; i++) {
@@ -100,7 +101,8 @@ TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
     }
 
     queryBuilder = QueryBuilder();
-    query = queryBuilder.from("Measurement")
+    query = queryBuilder.select("rowid, *")
+                        .from("Measurement")
                         .where("value < ?")
                         .andWhere("attributeId = ?")
                         .orWhere("sensorId = ?")
@@ -110,10 +112,10 @@ TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
                         .execute();
 
     REQUIRE(query->executeStep());
-    REQUIRE((int) query->getColumn("__rowid__") == 1);
+    REQUIRE((int) query->getColumn("rowid") == 2);
 
     REQUIRE(query->executeStep());
-    REQUIRE((int) query->getColumn("__rowid__") == 6);
+    REQUIRE((int) query->getColumn("rowid") == 6);
 
     queryBuilder = QueryBuilder();
     query = queryBuilder.from("Attribute")
