@@ -18,16 +18,18 @@ pointCollection Interpolater::interpolate(const vector<Measurement> &measures, c
     int maxT = 1000000;
     // Prepare data
     for (const auto &measure : measures) {
-        auto it = trees->find(measure.getAttributeId());
+        auto it = trees->find(measure.getAttribute().getId());
         if (it == trees->end()) {
             trees->insert(make_pair(
-                    measure.getAttributeId(),
+                    measure.getAttribute().getId(),
                     new OT::Octree(new OT::Boundary(minLon, minLat, minT, maxLon, maxLat, maxT))
             ));
         } else {
             it->second->insert({
-                measure.getSensor
-            })
+                measure.getSensor().getLongitude(),
+                measure.getSensor().getLatitude(),
+                1.
+            });
         }
     }
 
