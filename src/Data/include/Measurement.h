@@ -6,16 +6,19 @@
 #define QUALITAIR_MEASUREMENT_H
 
 
+#include "Sensor.h"
+#include "Attribute.h"
+
 class Measurement {
     public:
         int getTimestamp();
         double getValue();
-        int getSensorId();
-        int getAttributeId();
+        Sensor getSensor();
+        Attribute getAttribute();
 
         Measurement & operator = ( Measurement other );
         Measurement ( const Measurement & other );
-        Measurement ( int timestamp, int sensorId, int attributeId, double value );
+        Measurement ( int timestamp, Sensor sensor, Attribute attribute, double value );
         virtual ~Measurement ( );
         
     protected:
@@ -23,8 +26,8 @@ class Measurement {
 
         int timestamp;
         double value;
-        int sensorId;
-        int attributeId;
+        Sensor sensor;
+        Attribute attribute;
 };
 
 
