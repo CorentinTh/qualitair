@@ -5,3 +5,5 @@ cmake-build-debug
 bin
 
 lib
+
+data-example
