@@ -19,9 +19,9 @@ namespace OT {
      * Define a point structure to store data and coordinates
      */
     typedef struct {
-        int x;
-        int y;
-        int z;
+        double x;
+        double y;
+        double z;
         void *data;
     } point_t;
 
@@ -83,12 +83,12 @@ namespace OT {
         int getZ1() const;
 
     private:
-        int x0;
-        int y0;
-        int x1;
-        int y1;
-        int z0;
-        int z1;
+        double x0;
+        double y0;
+        double x1;
+        double y1;
+        double z0;
+        double z1;
     };
 
 
