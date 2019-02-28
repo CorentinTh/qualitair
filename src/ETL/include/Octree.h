@@ -33,12 +33,12 @@ namespace OT {
 
         /**
          * Boundary constructor
-         * @param {int} x0 - Left bound
-         * @param {int} y0 - Top bound
-         * @param {int} x1 - Right bound
-         * @param {int} y1 - Bottom bound
+         * @param {double} x0 - Left bound
+         * @param {double} y0 - Top bound
+         * @param {double} x1 - Right bound
+         * @param {double} y1 - Bottom bound
          */
-        explicit Boundary(int x0 = 0, int y0 = 0, int z0 = 0, int x1 = 0, int y1 = 0, int z1 = 0);
+        explicit Boundary(double x0 = 0, double y0 = 0, double z0 = 0, double x1 = 0, double y1 = 0, double z1 = 0);
 
         /**
          * Check if a point is within the boundaries
