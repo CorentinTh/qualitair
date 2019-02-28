@@ -9,11 +9,14 @@
 #include "../../globals.h"
 #include "../../Data/include/Measurement.h" // ugly
 
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+
 using namespace std;
 
 class Interpolater {
     public:
-        pointCollection interpolate(const vector<Measurement> &measures);
+        pointCollection interpolate(const vector<Measurement> &measures, const json &config);
 
         Interpolater & operator = ( Interpolater other );
         Interpolater ( const Interpolater & other );
