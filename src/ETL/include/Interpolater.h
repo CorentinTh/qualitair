@@ -16,7 +16,7 @@ using namespace std;
 
 class Interpolater {
     public:
-        pointCollection interpolate(const vector<Measurement> &measures, const json &config);
+        pointCollection* interpolate(const vector<Measurement> &measures, const json &config);
 
         Interpolater & operator = ( Interpolater other );
         Interpolater ( const Interpolater & other );
@@ -27,6 +27,8 @@ class Interpolater {
         friend void swap(Interpolater & first, Interpolater & second);
 
         int step;
+
+     double interpolate(double x, double y, double z, vector<Measurement *> *neigboors);
 };
 
 
