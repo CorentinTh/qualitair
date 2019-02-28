@@ -5,8 +5,6 @@
 #include <catch2/catch.hpp>
 #include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Column.h>
-#include <iostream>
-#include <zconf.h>
 #include "../../../src/Data/include/QueryBuilder.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
 
