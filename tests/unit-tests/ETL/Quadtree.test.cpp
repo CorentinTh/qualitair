@@ -66,9 +66,9 @@ TEST_CASE("Quadtree points in same spot") {
 
     qt.insert({1, 1, new int(0)});
     qt.insert({1, 1, new int(1)});
-    qt.insert({2, 2, new int(2)});
-    qt.insert({2, 2, new int(3)});
-    qt.insert({2, 2, new int(4)});
+    qt.insert({3, 3, new int(2)});
+    qt.insert({3, 3, new int(3)});
+    qt.insert({3, 3, new int(4)});
 
     vector<void *> *res = qt.query(new Boundary(0, 0, 10, 10));
 
