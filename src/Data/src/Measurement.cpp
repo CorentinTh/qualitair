@@ -18,11 +18,11 @@ int Measurement::getSensorId() const {
     return sensorId;
 }
 
-int Measurement::getAttributeId() const {
+string Measurement::getAttributeId() const {
     return attributeId;
 }
 
-Measurement::Measurement(int t, int sId, int aId, double v) : timestamp(t), sensorId(sId), attributeId(aId), value(v) {
+Measurement::Measurement(int t, int sId, string aId, double v) : timestamp(t), sensorId(sId), attributeId(aId), value(v) {
 
 }
 
