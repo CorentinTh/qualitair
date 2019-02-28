@@ -5,20 +5,20 @@
 #include "../include/Measurement.h"
 #include <utility>
 
-int Measurement::getTimestamp() {
+int Measurement::getTimestamp() const {
     return timestamp;
 }
 
-double Measurement::getValue() {
+double Measurement::getValue() const {
     return value;
 }
 
 
-int Measurement::getSensorId() {
+int Measurement::getSensorId() const {
     return sensorId;
 }
 
-int Measurement::getAttributeId() {
+int Measurement::getAttributeId() const {
     return attributeId;
 }
 
@@ -42,7 +42,7 @@ Measurement::~Measurement() {
 
 }
 
-void swap(Measurement & first, Measurement & second) {
+void swap(Measurement &first, Measurement &second) {
     std::swap(first.timestamp, second.timestamp);
     std::swap(first.value, second.value);
     std::swap(first.attributeId, second.attributeId);

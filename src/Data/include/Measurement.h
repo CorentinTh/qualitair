@@ -7,24 +7,30 @@
 
 
 class Measurement {
-    public:
-        int getTimestamp();
-        double getValue();
-        int getSensorId();
-        int getAttributeId();
+public:
+    int getTimestamp() const;
 
-        Measurement & operator = ( Measurement other );
-        Measurement ( const Measurement & other );
-        Measurement ( int timestamp, int sensorId, int attributeId, double value );
-        virtual ~Measurement ( );
-        
-    protected:
-        friend void swap(Measurement & first, Measurement & second);
+    double getValue() const;
 
-        int timestamp;
-        double value;
-        int sensorId;
-        int attributeId;
+    int getSensorId() const;
+
+    int getAttributeId() const;
+
+    Measurement &operator=(Measurement other);
+
+    Measurement(const Measurement &other);
+
+    Measurement(int timestamp, int sensorId, int attributeId, double value);
+
+    virtual ~Measurement();
+
+protected:
+    friend void swap(Measurement &first, Measurement &second);
+
+    int timestamp;
+    double value;
+    int sensorId;
+    int attributeId;
 };
 
 
