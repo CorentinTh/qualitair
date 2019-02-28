@@ -10,20 +10,21 @@
 
 class Attribute {
     public:
+        std::string getId();
         std::string getUnit();
-        int getId();
         std::string getDescription();
 
+        Attribute() {}
         Attribute & operator = ( Attribute other );
         Attribute ( const Attribute & other );
-        Attribute ( int attributeId, std::string unit, std::string description);
+        Attribute ( std::string attributeId, std::string unit, std::string description);
         virtual ~Attribute ( );
 
     protected:
         friend void swap(Attribute & first, Attribute & second);
 
+        std::string attributeId;
         std::string unit;
-        int attributeId;
         std::string description;
 };
 

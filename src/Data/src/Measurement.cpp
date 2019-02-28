@@ -5,24 +5,24 @@
 #include "../include/Measurement.h"
 #include <utility>
 
-int Measurement::getTimestamp() const {
+int Measurement::getTimestamp() {
     return timestamp;
 }
 
-double Measurement::getValue() const {
+double Measurement::getValue() {
     return value;
 }
 
 
-int Measurement::getSensorId() const {
-    return sensorId;
+Sensor Measurement::getSensor() {
+    return sensor;
 }
 
-string Measurement::getAttributeId() const {
-    return attributeId;
+Attribute Measurement::getAttribute() {
+    return attribute;
 }
 
-Measurement::Measurement(int t, int sId, string aId, double v) : timestamp(t), sensorId(sId), attributeId(aId), value(v) {
+Measurement::Measurement(int t, Sensor sensor, Attribute attribute, double v) : timestamp(t), sensor(sensor), attribute(attribute), value(v) {
 
 }
 
@@ -34,17 +34,17 @@ Measurement &Measurement::operator=(Measurement other) {
 Measurement::Measurement(const Measurement &other) {
     timestamp = other.timestamp;
     value = other.value;
-    sensorId = other.sensorId;
-    attributeId = other.attributeId;
+    sensor = other.sensor;
+    attribute = other.attribute;
 }
 
 Measurement::~Measurement() {
 
 }
 
-void swap(Measurement &first, Measurement &second) {
+void swap(Measurement & first, Measurement & second) {
     std::swap(first.timestamp, second.timestamp);
     std::swap(first.value, second.value);
-    std::swap(first.attributeId, second.attributeId);
-    std::swap(first.sensorId, second.sensorId);
+    std::swap(first.attribute, second.attribute);
+    std::swap(first.sensor, second.sensor);
 }

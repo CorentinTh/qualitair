@@ -8,7 +8,7 @@ std::string Attribute::getUnit() {
     return unit;
 }
 
-int Attribute::getId() {
+std::string Attribute::getId() {
     return attributeId;
 }
 
@@ -27,7 +27,7 @@ Attribute::Attribute(const Attribute &other) {
     description = other.description;
 }
 
-Attribute::Attribute(int aId, std::string u, std::string d) : attributeId(aId), unit(u), description(d) {
+Attribute::Attribute(std::string aId, std::string u, std::string d) : attributeId(aId), unit(u), description(d) {
 
 }
 
