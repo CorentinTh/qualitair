@@ -95,14 +95,22 @@ void OutputCLI::printSpikes(json dataJson, std::string filename) {
 
 void OutputCLI::printStats(json dataJson, std::string filename) {
     if (!dataJson.empty()){
-        if(dataJson.find("igqa") != dataJson.end()){
+        if(dataJson.find("atmo") != dataJson.end()){
             std::cout << "Résultats des analyses :" << std::endl;
-            std::cout << " - igqa : ";
-            std::cout << dataJson.at("igqa").get<double>() << std::endl;
+            std::cout << " - ATMO :" << std::endl;
+            for (json::iterator it = dataJson.at("atmo").begin(); it != dataJson.at("atmo").end(); ++it){
+                int date = std::stoi(it.key());
+                int indiceAtmo = it.value();
+                time_t tDate = (time_t) date;
+                struct tm *tmDate = localtime(&tDate);
+                char dateChar[12];
+                strftime(dateChar, sizeof(dateChar), "%d/%m/%Y", tmDate);
+                std::cout << "     " << dateChar << " : " << indiceAtmo << std::endl;
+            }
             std::string attribute;
             double min, max, avg, deviation;
             for (json::iterator it = dataJson.begin(); it != dataJson.end(); ++it) {
-                if (it.key() != "igqa"){
+                if (it.key() != "atmo"){
                     attribute = it.key();
                     min = it.value().at("min");
                     max = it.value().at("max");
