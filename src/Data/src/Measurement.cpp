@@ -5,20 +5,20 @@
 #include "../include/Measurement.h"
 #include <utility>
 
-int Measurement::getTimestamp() {
+int Measurement::getTimestamp() const {
     return timestamp;
 }
 
-double Measurement::getValue() {
+double Measurement::getValue() const{
     return value;
 }
 
 
-Sensor Measurement::getSensor() {
+Sensor Measurement::getSensor() const{
     return sensor;
 }
 
-Attribute Measurement::getAttribute() {
+Attribute Measurement::getAttribute() const {
     return attribute;
 }
 

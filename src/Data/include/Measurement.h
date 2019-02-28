@@ -11,10 +11,10 @@
 
 class Measurement {
     public:
-        int getTimestamp();
-        double getValue();
-        Sensor getSensor();
-        Attribute getAttribute();
+        int getTimestamp() const;
+        double getValue() const;
+        Sensor getSensor() const;
+        Attribute getAttribute() const;
 
         Measurement & operator = ( Measurement other );
         Measurement ( const Measurement & other );
