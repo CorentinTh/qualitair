@@ -51,7 +51,7 @@ json * SimilarDetection::apply() {
         }
     }
 
-    json j = new json(similars);
+    json *j = new json(similars);
     return j;
 }
 
