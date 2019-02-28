@@ -118,6 +118,12 @@ std::unordered_map<std::string, double> Aggregation::computeDeviation() {
 
 double Aggregation::computeAtmo() {
 
+    double pm10 = 0.0;
+    double so2 = 0.0;
+    double no2 = 0.0;
+    double o3 = 0.0;
+
+    /* moyenne de la journée */
     //PM10
     /*std::unordered_map<int, double> sums;
     std::unordered_map<int, int> count;
@@ -146,11 +152,84 @@ double Aggregation::computeAtmo() {
     }*/
 
 
+    /* moyenne des maxima par heure */
     //SO3
+
+
 
     //NO2
 
     //O3
+
+    std::unordered_map<std::string, std::unordered_map<double,int>> atmoTable = {
+            { "O3",{
+                     {29, 1}, {54, 2}, {79, 3}, {104, 4}, {129, 5}, {149, 6}, {179, 7}, {209, 8}, {239, 9}
+                }
+            },
+            { "SO2",{
+                       {39, 1}, {79, 2}, {119, 3}, {159, 4}, {199, 5}, {249, 6}, {299, 7}, {399, 8}, {499, 9}
+                   }
+            },
+            { "NO2",{
+                       {29, 1}, {54, 2}, {84, 3}, {109, 4}, {134, 5}, {164, 6}, {199, 7}, {274, 8}, {399, 9}
+                   }
+            },
+            { "PM10",{
+                       {6, 1}, {13, 2}, {20, 3}, {27, 4}, {34, 5}, {41, 6}, {49, 7}, {64, 8}, {79, 9}
+                   }
+            }
+    };
+
+    int ind_pm10 = 0;
+    int ind_so2 = 0;
+    int ind_no2 = 0;
+    int ind_o3 = 0;
+
+    for(auto it = atmoTable["O3"].begin(); it !=  atmoTable["O3"].end() && ind_o3==0; ++it)
+    {
+        if (o3 < it->first) {
+            ind_o3 = it->second;
+        }
+    }
+
+    for(auto it = atmoTable["SO2"].begin(); it !=  atmoTable["SO2"].end() && ind_so2==0; ++it)
+    {
+        if (so2 < it->first) {
+            ind_so2 = it->second;
+        }
+    }
+
+    for(auto it = atmoTable["NO2"].begin(); it !=  atmoTable["NO2"].end() && ind_o3==0; ++it)
+    {
+        if (no2 < it->first) {
+            ind_no2 = it->second;
+        }
+    }
+
+    for(auto it = atmoTable["PM10"].begin(); it !=  atmoTable["PM10"].end() && ind_o3==0; ++it)
+    {
+        if (pm10 < it->first) {
+            ind_pm10 = it->second;
+        }
+    }
+
+    if (ind_pm10 == 0) {
+        ind_pm10 = 10;
+    }
+    if (ind_so2 == 0) {
+        ind_so2 = 10;
+    }
+    if (ind_o3 == 0) {
+        ind_o3 = 10;
+    }
+    if (ind_no2 == 0) {
+        ind_no2 = 10;
+    }
+
+    int indArr[] = { ind_no2, ind_o3, ind_so2, ind_pm10 };
+    auto it = std::max_element(std::begin(indArr), std::end(indArr));
+
+    return *it;
 }
 
 Aggregation &Aggregation::operator=(Aggregation other) {
