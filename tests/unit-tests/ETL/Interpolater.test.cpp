@@ -5,13 +5,13 @@
 
 // TODO: add input and output
 
-TEST_CASE("", "[]"){
+TEST_CASE("", "[]") {
     Interpolater interpolater;
 
     vector<Measurement> input = {};
 
     pointCollection output = {{{{{"type", 1}}}}};
 
-    REQUIRE(interpolater.interpolate(input) == output);
+//    REQUIRE(interpolater.interpolate(input, 10, 10) == output);
 
 }
