@@ -9,9 +9,11 @@
 #include <iostream>
 #include <algorithm>
 
+#define NODE_COUNT 8
+
 using namespace std;
 
-namespace QT {
+namespace OT {
 
     /**
      * Define a point structure to store data and coordinates
@@ -19,6 +21,7 @@ namespace QT {
     typedef struct {
         int x;
         int y;
+        int z;
         void *data;
     } point_t;
 
@@ -35,7 +38,7 @@ namespace QT {
          * @param {int} x1 - Right bound
          * @param {int} y1 - Bottom bound
          */
-        explicit Boundary(int x0 = 0, int y0 = 0, int x1 = 0, int y1 = 0);
+        explicit Boundary(int x0 = 0, int y0 = 0, int z0 = 0, int x1 = 0, int y1 = 0, int z1 = 0);
 
         /**
          * Check if a point is within the boundaries
@@ -75,17 +78,24 @@ namespace QT {
          */
         int getY1() const;
 
+        int getZ0() const;
+
+        int getZ1() const;
+
     private:
         int x0;
         int y0;
         int x1;
         int y1;
+        int z0;
+        int z1;
     };
+
 
     /**
      * Class Quadtree
      */
-    class Quadtree {
+    class Octree {
     public:
 
         /**
@@ -94,12 +104,12 @@ namespace QT {
          * @param {int} maxCapacity - Max capacity of points in a tree node
          * @param {vector<node_t>*} initNodes - Pointer to vector of default node to insert in the quadtree
          */
-        explicit Quadtree(Boundary *boundary, int maxCapacity = 4, vector<point_t> *initNodes = nullptr);
+        explicit Octree(Boundary *boundary, int maxCapacity = 16, vector<point_t> *initNodes = nullptr);
 
         /**
          * Quadtree destructor
          */
-        virtual ~Quadtree();
+        virtual ~Octree();
 
         /**
          * Insert a new node in the quadtree
@@ -107,7 +117,7 @@ namespace QT {
          * @param {node_t} node - Node to insert
          * @return {bool} - Return true if the element as been inserted
          */
-        bool insert(const point_t &node);
+        bool insert(const point_t &point);
 
         /**
          * Query data in the quadtree
@@ -129,11 +139,20 @@ namespace QT {
          */
         void query(Boundary *range, vector<void *> *pointsRet);
 
+
+        enum {
+            NWT, // North west top
+            NET, // North east top
+            SWT, // South west top
+            SET, // South east top
+            NWB, // North west bottom
+            NEB, // North east bottom
+            SWB, // South west bottom
+            SEB, // South east bottom
+        };
+
+        Octree *nodes[NODE_COUNT];
         vector<point_t> points;
-        Quadtree *nw = nullptr;
-        Quadtree *ne = nullptr;
-        Quadtree *sw = nullptr;
-        Quadtree *se = nullptr;
         Boundary *container;
         int maxCapacity;
         int capacity = 0;
