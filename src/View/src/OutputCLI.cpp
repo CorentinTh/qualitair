@@ -16,21 +16,21 @@ typedef struct {
     int tEnd;
 } Spike;
 
-void OutputCLI::printSpikes(json dataJson, std::string filename) {
+void OutputCLI::printSpikes(json data, std::string filename) {
     std::vector<Spike*> vectSpikes;
-    if (!dataJson.empty() && dataJson.find("pics") != dataJson.end()) {
+    if (!data.empty() && data.find("pics") != data.end()) {
         std::cout << "Des pics ont été détectés :" << std::endl;
         double t0, x0, y0;
         int deltaS, deltaT;
-        t0 = dataJson.at("t0");
-        x0 = dataJson.at("x0");
-        y0 = dataJson.at("y0");
-        deltaS = dataJson.at("deltaSpatial");
-        deltaT = dataJson.at("deltaTemp");
+        t0 = data.at("t0");
+        x0 = data.at("x0");
+        y0 = data.at("y0");
+        deltaS = data.at("deltaSpatial");
+        deltaT = data.at("deltaTemp");
 
         int indiceT = 0; // time index
-        for (json::iterator itTimeList = dataJson.at("pics").begin();
-                itTimeList != dataJson.at("pics").end(); ++itTimeList) {
+        for (json::iterator itTimeList = data.at("pics").begin();
+                itTimeList != data.at("pics").end(); ++itTimeList) {
 
             int indiceY = 0; // longitude index
             for (json::iterator itY = (*itTimeList).begin(); itY != (*itTimeList).end(); ++itY) {
@@ -93,12 +93,12 @@ void OutputCLI::printSpikes(json dataJson, std::string filename) {
     }
 }
 
-void OutputCLI::printStats(json dataJson, std::string filename) {
-    if (!dataJson.empty()){
-        if(dataJson.find("atmo") != dataJson.end()){
+void OutputCLI::printStats(json data, std::string filename) {
+    if (!data.empty()){
+        if(data.find("atmo") != data.end()){
             std::cout << "Résultats des analyses :" << std::endl;
             std::cout << " - ATMO :" << std::endl;
-            for (json::iterator it = dataJson.at("atmo").begin(); it != dataJson.at("atmo").end(); ++it){
+            for (json::iterator it = data.at("atmo").begin(); it != data.at("atmo").end(); ++it){
                 int date = std::stoi(it.key());
                 int indiceAtmo = it.value();
                 time_t tDate = (time_t) date;
@@ -109,7 +109,7 @@ void OutputCLI::printStats(json dataJson, std::string filename) {
             }
             std::string attribute;
             double min, max, avg, deviation;
-            for (json::iterator it = dataJson.begin(); it != dataJson.end(); ++it) {
+            for (json::iterator it = data.begin(); it != data.end(); ++it) {
                 if (it.key() != "atmo"){
                     attribute = it.key();
                     min = it.value().at("min");
@@ -128,9 +128,9 @@ void OutputCLI::printStats(json dataJson, std::string filename) {
     }
 }
 
-void OutputCLI::printSim(json dataJson, std::string filename) {
-    if (!dataJson.empty()){
-        for (json::iterator it = dataJson.begin(); it != dataJson.end(); ++it) {
+void OutputCLI::printSim(json data, std::string filename) {
+    if (!data.empty()){
+        for (json::iterator it = data.begin(); it != data.end(); ++it) {
             std::cout << "------" << std::endl;
             std::cout << "Les capteurs suivants sont similaires :" << std::endl;
             int id;
@@ -151,10 +151,10 @@ void OutputCLI::printSim(json dataJson, std::string filename) {
     }
 }
 
-void OutputCLI::printBroken(json dataJson, std::string filename) {
-    if (!dataJson.empty()){
+void OutputCLI::printBroken(json data, std::string filename) {
+    if (!data.empty()){
         std::cout << "Les capteurs suivants sont en panne :" << std::endl;
-        for (json::iterator it = dataJson.begin(); it != dataJson.end(); ++it) {
+        for (json::iterator it = data.begin(); it != data.end(); ++it) {
             int id;
             double latitude, longitude;
             std::string description;
@@ -170,17 +170,17 @@ void OutputCLI::printBroken(json dataJson, std::string filename) {
     }
 }
 
-void OutputCLI::printIngest(json dataJson, std::string filename) {
-    if (!dataJson.empty()){
-        if (dataJson.find("error") != dataJson.end()
-                && dataJson.find("lines_inserted") != dataJson.end()){
-            if (!dataJson.at("error").empty()){
-                int nbLinesInserted = dataJson.at("lines_inserted");
+void OutputCLI::printIngest(json data, std::string filename) {
+    if (!data.empty()){
+        if (data.find("error") != data.end()
+                && data.find("lines_inserted") != data.end()){
+            if (!data.at("error").empty()){
+                int nbLinesInserted = data.at("lines_inserted");
                 std::cout << std::to_string(nbLinesInserted) << " lignes ont été insérées avec succès" << std::endl;
             }
             else{
                 std::cout << "Erreur :" << std::endl;
-                std::cout << dataJson.at("error") << std::endl;
+                std::cout << data.at("error") << std::endl;
             }
         }
     }

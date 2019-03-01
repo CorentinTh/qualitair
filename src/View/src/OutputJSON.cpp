@@ -9,11 +9,11 @@
 
 OutputJSON::OutputJSON(){}
 
-void OutputJSON::printSpikes(json dataJson, std::string filename) {
+void OutputJSON::printSpikes(json data, std::string filename) {
     // if the file existed, we overwrite it
     std::ofstream file(filename);
     if (file.is_open()){
-        copyJsonToFile(dataJson, &file);
+        copyJsonToFile(data, &file);
         file.close();
     }
     else{
@@ -21,11 +21,11 @@ void OutputJSON::printSpikes(json dataJson, std::string filename) {
     }
 }
 
-void OutputJSON::printStats(json dataJson, std::string filename) {
+void OutputJSON::printStats(json data, std::string filename) {
     // if the file existed, we overwrite it
     std::ofstream file(filename);
     if (file.is_open()){
-        copyJsonToFile(dataJson, &file);
+        copyJsonToFile(data, &file);
         file.close();
     }
     else{
@@ -33,11 +33,11 @@ void OutputJSON::printStats(json dataJson, std::string filename) {
     }
 }
 
-void OutputJSON::printSim(json dataJson, std::string filename) {
+void OutputJSON::printSim(json data, std::string filename) {
     // if the file existed, we overwrite it
     std::ofstream file(filename);
     if (file.is_open()){
-        copyJsonToFile(dataJson, &file);
+        copyJsonToFile(data, &file);
         file.close();
     }
     else{
@@ -45,20 +45,20 @@ void OutputJSON::printSim(json dataJson, std::string filename) {
     }
 }
 
-void OutputJSON::printBroken(json dataJson, std::string filename) {
+void OutputJSON::printBroken(json data, std::string filename) {
     // if the file existed, we overwrite it
     std::ofstream file(filename);
     if (file.is_open()){
-        copyJsonToFile(dataJson, &file);
+        copyJsonToFile(data, &file);
     }
     file.close();
 }
 
-void OutputJSON::printIngest(json dataJson, std::string filename) {
+void OutputJSON::printIngest(json data, std::string filename) {
     // if the file existed, we overwrite it
     std::ofstream file(filename);
     if (file.is_open()){
-        copyJsonToFile(dataJson, &file);
+        copyJsonToFile(data, &file);
         file.close();
     }
     else{
