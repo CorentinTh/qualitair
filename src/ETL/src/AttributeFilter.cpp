@@ -3,17 +3,27 @@
 //
 
 #include "../include/AttributeFilter.h"
+#include <algorithm>
 
-std::string AttributeFilter::apply() {
-    return std::__cxx11::string();
+void AttributeFilter::applyTo(QueryBuilder &qb){
+    int compteur = 1;
+    for (std::string attr : this->attributes){
+        qb.orWhere("AttributeId = ?").bind(compteur, attr);
+        compteur ++;
+    }
 }
 
 void AttributeFilter::addAttribute(std::string attribute) {
-
+    if (std::find(this->attributes.begin(), this->attributes.end(), attribute) != this->attributes.end()){
+        // if the attribute is not already in the vector
+        this->attributes.push_back(attribute);
+    }
 }
 
-void AttributeFilter::addAttributes(std::vector<std::string> attributes) {
-
+void AttributeFilter::addAttributes(std::vector<std::string> vectAttributes) {
+    for (std::string attr : vectAttributes){
+        this->addAttribute(attr);
+    }
 }
 
 AttributeFilter &AttributeFilter::operator=(AttributeFilter other) {

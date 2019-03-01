@@ -11,14 +11,14 @@
 
 class AttributeFilter : public Filter {
     public:
-        virtual std::string apply();
+        virtual void applyTo(QueryBuilder &qb);
 
         void addAttribute(std::string attribute);
-        void addAttributes(std::vector<std::string> attributes);
+        void addAttributes(std::vector<std::string> vectAttributes);
         
         AttributeFilter & operator = ( AttributeFilter other );
         AttributeFilter ( const AttributeFilter & other );
-        AttributeFilter ( );
+        AttributeFilter ();
         virtual ~AttributeFilter ( );
         
     protected:
