@@ -21,8 +21,8 @@ SimilarDetection::~SimilarDetection() {
 
 }
 
-json SimilarDetection::apply() {
-
+json * SimilarDetection::apply() {
+    return nullptr;
 }
 
 void swap(SimilarDetection &first, SimilarDetection &second) {

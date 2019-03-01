@@ -40,6 +40,7 @@ class QueryBuilder : public IData {
 
 
     private:
+        static std::string joinStringVector(std::vector<std::string> vector, std::string separator, std::string replaceValue = "");
         std::vector<std::string> attributes;
         std::vector<std::string> tables;
         std::vector<std::string> joinedTables;

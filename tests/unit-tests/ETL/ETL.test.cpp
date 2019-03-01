@@ -1,6 +1,5 @@
 #include "catch2/catch.hpp"
 #include "../../../src/ETL/include/ETL.h"
-#include "../../utils.hpp"
 
 #include "nlohmann/json.hpp"
 

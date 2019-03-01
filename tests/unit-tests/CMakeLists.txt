@@ -9,8 +9,6 @@ set(TARGET_NAME utests)
 file(GLOB UT_SOURCES
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.h
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/**/*.cpp
-        ${PROJECT_SOURCE_DIR}/tests/*.hpp
-        ${PROJECT_SOURCE_DIR}/tests/*.h
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.h
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.cpp
 )
@@ -43,27 +41,19 @@ if (NOT sqlitecpp_POPULATED)
     add_subdirectory(${sqlitecpp_SOURCE_DIR} ${sqlitecpp_BINARY_DIR})
 endif ()
 
-if (ENABLE_COVERAGE)
+#[[if (ENABLE_COVERAGE)
     list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
     find_package(codecov)
     add_coverage(SelfTest)
     list(APPEND LCOV_REMOVE_PATTERNS "/usr/")
     coverage_evaluate()
-endif()
+endif()]]
 
 
 # targets
 add_executable(${TARGET_NAME} ${SOURCES})
 
-target_link_libraries(${TARGET_NAME}  Catch2::Catch2 ${REMOTE_DEPS})
-
-target_link_libraries(${TARGET_NAME}
-        SQLiteCpp                       # sqlite
-        sqlite3                         # sqlite dep
-        pthread                         # sqlite dep
-        dl                              # sqlite dep
-        nlohmann_json::nlohmann_json    # json
-)
+target_link_libraries(${TARGET_NAME} Catch2::Catch2 ${REMOTE_DEPS})
 
 target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
 

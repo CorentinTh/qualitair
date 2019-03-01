@@ -45,38 +45,19 @@ QueryBuilder & QueryBuilder::join(std::string clause) {
     return * this;
 }
 
-//TODO: user Corentin's join method when merged
 std::string QueryBuilder::getQuery() {
     std::string query = "SELECT ";
 
-    if(this->attributes.size() > 0) {
-        for(std::string attribute : this->attributes) {
-            query += attribute + ", ";
-        }
-        query.erase(query.size() - 2);
-    } else {
-        query += "*";
-    }
-
+    query += joinStringVector(this->attributes, ", ", "*");
     query += " FROM ";
-    if(this->tables.size() > 0) {
-        for(std::string table : this->tables) {
-            query += table + ", ";
-            query.erase(query.size() - 2);
-        }
-    } else {
-        query += "unknowTable";
-    }
+    query += joinStringVector(this->tables, ", ", "unknowTable");
 
-    if(this->joinedTables.size() > 0) {
+    if(!this->joinedTables.empty()) {
         query += " CROSS JOIN ";
-        for(std::string table : this->joinedTables) {
-            query += table + ", ";
-            query.erase(query.size() - 2);
-        }
+        query += joinStringVector(this->joinedTables, ", ");
     }
 
-    if(this->conditions.size() > 0) {
+    if(!this->conditions.empty()) {
         query += " WHERE ";
         for(std::pair<ConditionOperator, std::string> condition : this->conditions) {
             if(this->conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
@@ -131,4 +112,19 @@ QueryBuilder & QueryBuilder::bind(int position, double arg) {
 QueryBuilder & QueryBuilder::bind(int position, std::string arg) {
     this->arguments.push_back(Argument(position, STRING, new std::string(arg)));
     return * this;
+}
+
+std::string QueryBuilder::joinStringVector(std::vector<std::string> vector, std::string separator, std::string replaceValue) {
+    std::string result = "";
+
+    if(!vector.empty()) {
+        for(std::string string : vector) {
+            result += string + separator;
+        }
+        result.erase(result.size() - separator.size());
+    } else {
+        result = replaceValue;
+    }
+
+    return result;
 }

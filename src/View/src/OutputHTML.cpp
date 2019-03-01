@@ -23,3 +23,7 @@ void OutputHTML::printBroken(json dataJson, std::string filename) {
 void OutputHTML::printIngest(json dataJson, std::string filename) {
 
 }
+
+OutputHTML::OutputHTML() {
+
+}

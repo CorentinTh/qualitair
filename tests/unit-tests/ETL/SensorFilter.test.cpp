@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "../../../src/ETL/include/SensorFilter.h"
-#include "../../utils.hpp"
 
 using namespace std;
 
@@ -30,7 +29,7 @@ TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-9]") {
     CHECK(sensorFilter.apply() == "sensorID in (sensor1, sensor2, sensor3)" );
 }
 
-TEST_CASE("Testing TimeFilter '=' operator", "[extra]") {
+TEST_CASE("Testing SensorFilter '=' operator", "[extra]") {
     SensorFilter sensorFilter1, sensorFilter2;
 
     sensorFilter1.addSensor("sensor1");
