@@ -22,8 +22,8 @@ class OutputJSON : public IOutput{
         virtual void printBroken(json dataJson, std::string filename);
         virtual void printIngest(json dataJson, std::string filename);
     
-        //OutputJSON(OutputJSON const&)       = delete;
-        //void operator=(OutputJSON const&)  = delete;
+        OutputJSON(OutputJSON const&)       = delete;
+        void operator=(OutputJSON const&)  = delete;
     
     private:
         OutputJSON();
