@@ -6,7 +6,7 @@
 #include "../include/ConnectionFactory.h"
 
 QueryBuilder::~QueryBuilder() {
-    for(Argument argument : this->arguments) {
+    for(Argument argument : arguments) {
         if(argument.type == INT) delete (int *) argument.value;
         else if(argument.type == LONG) delete (long long *) argument.value;
         else if(argument.type == FLOAT) delete (float *) argument.value;
@@ -16,51 +16,51 @@ QueryBuilder::~QueryBuilder() {
 }
 
 QueryBuilder & QueryBuilder::select(std::string field) {
-    this->attributes.push_back(field);
+    attributes.push_back(field);
     return * this;
 }
 
 QueryBuilder & QueryBuilder::from(std::string table) {
-    this->tables.push_back(table);
+    tables.push_back(table);
     return * this;
 }
 
 QueryBuilder & QueryBuilder::where(std::string condition) {
-    this->andWhere(condition);
+    andWhere(condition);
     return * this;
 }
 
 QueryBuilder & QueryBuilder::andWhere(std::string condition) {
-    this->conditions.push_back(make_pair(AND, condition));
+    conditions.push_back(make_pair(AND, condition));
     return * this;
 }
 
 QueryBuilder & QueryBuilder::orWhere(std::string condition) {
-    this->conditions.push_back(make_pair(OR, condition));
+    conditions.push_back(make_pair(OR, condition));
     return * this;
 }
 
 QueryBuilder & QueryBuilder::join(std::string clause) {
-    this->joinedTables.push_back(clause);
+    joinedTables.push_back(clause);
     return * this;
 }
 
 std::string QueryBuilder::getQuery() {
     std::string query = "SELECT ";
 
-    query += joinStringVector(this->attributes, ", ", "*");
+    query += joinStringVector(attributes, ", ", "*");
     query += " FROM ";
-    query += joinStringVector(this->tables, ", ", "unknowTable");
+    query += joinStringVector(tables, ", ", "unknowTable");
 
-    if(!this->joinedTables.empty()) {
+    if(!joinedTables.empty()) {
         query += " CROSS JOIN ";
-        query += joinStringVector(this->joinedTables, ", ");
+        query += joinStringVector(joinedTables, ", ");
     }
 
-    if(!this->conditions.empty()) {
+    if(!conditions.empty()) {
         query += " WHERE ";
-        for(std::pair<ConditionOperator, std::string> condition : this->conditions) {
-            if(this->conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
+        for(std::pair<ConditionOperator, std::string> condition : conditions) {
+            if(conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
             query += condition.second;
         }
     }
@@ -72,9 +72,9 @@ std::string QueryBuilder::getQuery() {
 
 SQLite::Statement * QueryBuilder::execute() {
     SQLite::Database * database = ConnectionFactory::getConnection();
-    SQLite::Statement * statement = new SQLite::Statement(* database, this->getQuery());
+    SQLite::Statement * statement = new SQLite::Statement(* database, getQuery());
 
-    for(Argument argument : this->arguments) {
+    for(Argument argument : arguments) {
         if(argument.type == INT) statement->bind(argument.position, * (int *) argument.value);
         else if(argument.type == LONG) statement->bind(argument.position, * (long long *) argument.value);
         else if(argument.type == FLOAT) statement->bind(argument.position, * (float *) argument.value);
@@ -85,32 +85,32 @@ SQLite::Statement * QueryBuilder::execute() {
     return statement;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, int arg) {
-    this->arguments.push_back(Argument(position, INT, new int(arg)));
+QueryBuilder & QueryBuilder::bind(int arg) {
+    arguments.push_back(Argument(++argumentIndex, INT, new int(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, long arg) {
-    return this->bind(position, (long long) arg);
+QueryBuilder & QueryBuilder::bind(long arg) {
+    return bind((long long) arg);
 }
 
-QueryBuilder & QueryBuilder::bind(int position, long long arg) {
-    this->arguments.push_back(Argument(position, LONG, new long(arg)));
+QueryBuilder & QueryBuilder::bind(long long arg) {
+    arguments.push_back(Argument(++argumentIndex, LONG, new long(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, float arg) {
-    this->arguments.push_back(Argument(position, FLOAT, new float(arg)));
+QueryBuilder & QueryBuilder::bind(float arg) {
+    arguments.push_back(Argument(++argumentIndex, FLOAT, new float(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, double arg) {
-    this->arguments.push_back(Argument(position, DOUBLE, new double(arg)));
+QueryBuilder & QueryBuilder::bind(double arg) {
+    arguments.push_back(Argument(++argumentIndex, DOUBLE, new double(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, std::string arg) {
-    this->arguments.push_back(Argument(position, STRING, new std::string(arg)));
+QueryBuilder & QueryBuilder::bind(std::string arg) {
+    arguments.push_back(Argument(++argumentIndex, STRING, new std::string(arg)));
     return * this;
 }
 

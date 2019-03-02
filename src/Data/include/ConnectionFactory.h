@@ -14,7 +14,6 @@ class ConnectionFactory {
         static void setDatabase(std::string databasePath);
 
     private:
-        static void instantiateDatabase();
         static std::string databasePath;
         static SQLite::Database * database;
 };

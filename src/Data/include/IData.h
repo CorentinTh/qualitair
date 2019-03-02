@@ -16,12 +16,12 @@ class IData {
         virtual IData & where(std::string condition) = 0;
         virtual IData & andWhere(std::string condition) = 0;
         virtual IData & orWhere(std::string condition) = 0;
-        virtual IData & bind(int position, int arg) = 0;
-        virtual IData & bind(int position, double arg) = 0;
-        virtual IData & bind(int position, float arg) = 0;
-        virtual IData & bind(int position, long arg) = 0;
-        virtual IData & bind(int position, long long arg) = 0;
-        virtual IData & bind(int position, std::string arg) = 0;
+        virtual IData & bind(int arg) = 0;
+        virtual IData & bind(double arg) = 0;
+        virtual IData & bind(float arg) = 0;
+        virtual IData & bind(long arg) = 0;
+        virtual IData & bind(long long arg) = 0;
+        virtual IData & bind(std::string arg) = 0;
         virtual IData & join(std::string clause) = 0;
         virtual SQLite::Statement * execute() = 0;
 };
