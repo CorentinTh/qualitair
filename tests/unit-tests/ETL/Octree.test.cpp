@@ -8,30 +8,30 @@
 using namespace OT;
 
 struct isValue {
-    int v;
+    double v;
 
-    isValue(int v) : v(v) {}
+    isValue(double v) : v(v) {}
 
-    bool operator()(void *i) const { return (*(int *) i == v); }
+    bool operator()(const OT::point_t *i) const { return abs( *(double*)i->data - v) < 0.00001; }
 };
 
-bool valueInVector(const vector<void *> *vec, int val) {
+bool valueInVector(const vector<const OT::point_t *> *vec, int val) {
     return find_if(vec->begin(), vec->end(), isValue(val)) != vec->end();
 }
 
 TEST_CASE("Quadtree border points in range") {
     Octree octree(new Boundary(0, 0, 0, 10, 10, 10));
 
-    octree.insert({5, 5, 5, new int(0)});
+    octree.insert({5, 5, 5, new double(0)});
 
-    octree.insert({0, 0, 0, new int(1)});
-    octree.insert({10, 0, 0, new int(2)});
-    octree.insert({10, 10, 0, new int(3)});
-    octree.insert({10, 10, 10, new int(4)});
-    octree.insert({0, 10, 10, new int(5)});
-    octree.insert({0, 0, 10, new int(6)});
+    octree.insert({0, 0, 0, new double(1)});
+    octree.insert({10, 0, 0, new double(2)});
+    octree.insert({10, 10, 0, new double(3)});
+    octree.insert({10, 10, 10, new double(4)});
+    octree.insert({0, 10, 10, new double(5)});
+    octree.insert({0, 0, 10, new double(6)});
 
-    vector<void *> *res = octree.query(new Boundary(0, 0, 0, 10, 10, 10));
+    vector<const OT::point_t *> *res = octree.query(new Boundary(0, 0, 0, 10, 10, 10));
 
     SECTION("Result as proper size") {
         CHECK(res->size() == 7);
@@ -50,14 +50,14 @@ TEST_CASE("Quadtree border points in range") {
 TEST_CASE("Quadtree points out of range") {
     Octree octree(new Boundary(0, 0, 0, 10, 10, 10));
 
-    octree.insert({11, 10, 0, new int(0)});
-    octree.insert({-1, 10, -5, new int(1)});
-    octree.insert({10, 11, 3, new int(2)});
-    octree.insert({10, -1, 50, new int(3)});
-    octree.insert({11, 11, 1, new int(4)});
-    octree.insert({-1, -1, -1, new int(5)});
+    octree.insert({11, 10, 0, new double(0)});
+    octree.insert({-1, 10, -5, new double(1)});
+    octree.insert({10, 11, 3, new double(2)});
+    octree.insert({10, -1, 50, new double(3)});
+    octree.insert({11, 11, 1, new double(4)});
+    octree.insert({-1, -1, -1, new double(5)});
 
-    vector<void *> *res = octree.query(new Boundary(0, 0, 0, 10, 10));
+    vector<const OT::point_t *> *res = octree.query(new Boundary(0, 0, 0, 10, 10, 10));
 
     CHECK(res->empty());
 }
@@ -65,13 +65,13 @@ TEST_CASE("Quadtree points out of range") {
 TEST_CASE("Quadtree points in same spot") {
     Octree octree(new Boundary(0, 0, 0, 10, 10, 10));
 
-    octree.insert({1, 1, 1, new int(0)});
-    octree.insert({1, 1, 1, new int(1)});
-    octree.insert({3, 3, 3, new int(2)});
-    octree.insert({3, 3, 3, new int(3)});
-    octree.insert({3, 3, 3, new int(4)});
+    octree.insert({1, 1, 1, new double(0)});
+    octree.insert({1, 1, 1, new double(1)});
+    octree.insert({3, 3, 3, new double(2)});
+    octree.insert({3, 3, 3, new double(3)});
+    octree.insert({3, 3, 3, new double(4)});
 
-    vector<void *> *res = octree.query(new Boundary(0, 0, 0, 10, 10, 10));
+    vector<const OT::point_t *> *res = octree.query(new Boundary(0, 0, 0, 10, 10, 10));
 
     SECTION("Result as proper size") {
         CHECK(res->size() == 5);
@@ -91,17 +91,17 @@ TEST_CASE("Quadtree points in same spot") {
 TEST_CASE("Quadtree points in sub-range") {
     Octree octree(new Boundary(0, 0, 0, 10, 10, 10));
 
-    octree.insert({1, 1, 3, new int(0)});
-    octree.insert({1, 2, 4, new int(1)});
-    octree.insert({2, 3, 0, new int(2)});
-    octree.insert({5, 5, 5, new int(3)});
-    octree.insert({0, 0, 0, new int(4)});
+    octree.insert({1, 1, 3, new double(0)});
+    octree.insert({1, 2, 4, new double(1)});
+    octree.insert({2, 3, 0, new double(2)});
+    octree.insert({5, 5, 5, new double(3)});
+    octree.insert({0, 0, 0, new double(4)});
 
-    octree.insert({7, 7, 7, new int(5)});
-    octree.insert({8, 7, 9, new int(6)});
-    octree.insert({-1, 0, 100, new int(0)});
+    octree.insert({7, 7, 7, new double(5)});
+    octree.insert({8, 7, 9, new double(6)});
+    octree.insert({-1, 0, 100, new double(0)});
 
-    vector<void *> *res = octree.query(new Boundary(0, 0, 0, 5, 5, 5));
+    vector<const OT::point_t *> *res = octree.query(new Boundary(0, 0, 0, 5, 5, 5));
 
     SECTION("Result as proper size") {
         CHECK(res->size() == 5);

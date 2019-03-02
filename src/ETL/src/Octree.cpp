@@ -6,7 +6,7 @@
 
 namespace OT {
 
-    Boundary::Boundary(int x0, int y0, int z0, int x1, int y1, int z1)
+    Boundary::Boundary(double x0, double y0, double z0, double x1, double y1, double z1)
             : x0(x0), x1(x1), y0(y0), y1(y1), z0(z0), z1(z1) {
 
     }
@@ -29,27 +29,27 @@ namespace OT {
                z1 >= b->z0;
     }
 
-    int Boundary::getX0() const {
+    double Boundary::getX0() const {
         return x0;
     }
 
-    int Boundary::getY0() const {
+    double Boundary::getY0() const {
         return y0;
     }
 
-    int Boundary::getX1() const {
+    double Boundary::getX1() const {
         return x1;
     }
 
-    int Boundary::getY1() const {
+    double Boundary::getY1() const {
         return y1;
     }
 
-    int Boundary::getZ0() const {
+    double Boundary::getZ0() const {
         return z0;
     }
 
-    int Boundary::getZ1() const {
+    double Boundary::getZ1() const {
         return z1;
     }
 
@@ -110,15 +110,15 @@ namespace OT {
         //    bottom └────────┴────────┘
 
 
-        int x0 = container->getX0();
-        int x1 = container->getX1();
-        int y0 = container->getY0();
-        int y1 = container->getY1();
-        int z0 = container->getZ0();
-        int z1 = container->getZ1();
-        int dX = x0 + ((x1 - x0) / 2);
-        int dY = y0 + ((y1 - y0) / 2);
-        int dZ = z0 + ((z1 - z0) / 2);
+        double x0 = container->getX0();
+        double x1 = container->getX1();
+        double y0 = container->getY0();
+        double y1 = container->getY1();
+        double z0 = container->getZ0();
+        double z1 = container->getZ1();
+        double dX = x0 + ((x1 - x0) / 2);
+        double dY = y0 + ((y1 - y0) / 2);
+        double dZ = z0 + ((z1 - z0) / 2);
 
         nodes[NWT] = new Octree(new Boundary(x0, y0, z0, dX, dY, dZ), maxCapacity, &points);
         nodes[NET] = new Octree(new Boundary(dX, y0, z0, x1, dY, dZ), maxCapacity, &points);
@@ -140,8 +140,8 @@ namespace OT {
         capacity = 0;
     }
 
-    vector<void *> *Octree::query(Boundary *range) {
-        auto points = new vector<void *>();
+    vector<const point_t *> *Octree::query(Boundary *range) {
+        auto points = new vector<const point_t *>();
 
         query(range, points);
 
@@ -149,7 +149,7 @@ namespace OT {
         return points;
     }
 
-    void Octree::query(Boundary *range, vector<void *> *pointsRet) {
+    void Octree::query(Boundary *range, vector<const point_t *> *pointsRet) {
         if (!range->intersects(container)) {
             return;
         }
@@ -163,13 +163,12 @@ namespace OT {
         } else {
             for (auto const &point : points) {
                 if (range->contains(point) &&
-                    find(pointsRet->begin(), pointsRet->end(), point.data) == pointsRet->end()) {
-                    pointsRet->emplace_back(point.data);
+                    find(pointsRet->begin(), pointsRet->end(), &point) == pointsRet->end()) {
+                    pointsRet->emplace_back(&point);
                 }
             }
         }
     }
-
 }
 
 

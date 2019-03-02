@@ -56,31 +56,31 @@ namespace OT {
 
         /**
          * Left bound getter
-         * @return {int} - Left bound value
+         * @return {double} - Left bound value
          */
-        int getX0() const;
+        double getX0() const;
 
         /**
          * Top bound getter
-         * @return {int} - Top bound value
+         * @return {double} - Top bound value
          */
-        int getY0() const;
+        double getY0() const;
 
         /**
          * Right bound getter
-         * @return {int} - Right bound value
+         * @return {double} - Right bound value
          */
-        int getX1() const;
+        double getX1() const;
 
         /**
          * Bottom bound getter
-         * @return {int} - Bottom bound value
+         * @return {double} - Bottom bound value
          */
-        int getY1() const;
+        double getY1() const;
 
-        int getZ0() const;
+        double getZ0() const;
 
-        int getZ1() const;
+        double getZ1() const;
 
     private:
         double x0;
@@ -122,9 +122,9 @@ namespace OT {
         /**
          * Query data in the quadtree
          * @param {Boundary *} range - Range to retrieve points from
-         * @return {vector<void *>*} - Collection of data in the given range
+         * @return {vector<point_t *>*} - Collection of data in the given range
          */
-        vector<void *> *query(Boundary *range);
+        vector<const point_t *> *query(Boundary *range);
 
     private:
         /**
@@ -135,9 +135,9 @@ namespace OT {
         /**
          * Query method for internal recursive search
          * @param {Boundary *} range - Range to retrieve points from
-         * @param {vector<void *>*} pointsRet - Collection of data in the given range
+         * @param {vector<point_t *>*} pointsRet - Collection of data in the given range
          */
-        void query(Boundary *range, vector<void *> *pointsRet);
+        void query(Boundary *range, vector<const point_t *> *pointsRet);
 
 
         enum {
