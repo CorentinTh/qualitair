@@ -4,7 +4,6 @@
 
 #include "../include/SimilarDetection.h"
 #include "../include/BrokenDetection.h"
-#include <iostream>
 
 SimilarDetection &SimilarDetection::operator=(SimilarDetection other) {
     swap(*this, other);
