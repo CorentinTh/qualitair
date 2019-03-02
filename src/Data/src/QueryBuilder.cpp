@@ -6,7 +6,7 @@
 #include "../include/ConnectionFactory.h"
 
 QueryBuilder::~QueryBuilder() {
-    for(Argument argument : this->arguments) {
+    for(Argument argument : arguments) {
         if(argument.type == INT) delete (int *) argument.value;
         else if(argument.type == LONG) delete (long long *) argument.value;
         else if(argument.type == FLOAT) delete (float *) argument.value;
@@ -41,26 +41,26 @@ QueryBuilder & QueryBuilder::orWhere(std::string condition) {
 }
 
 QueryBuilder & QueryBuilder::join(std::string clause) {
-    this->joinedTables.push_back(clause);
+    joinedTables.push_back(clause);
     return * this;
 }
 
 std::string QueryBuilder::getQuery() {
     std::string query = "SELECT ";
 
-    query += joinStringVector(this->attributes, ", ", "*");
+    query += joinStringVector(attributes, ", ", "*");
     query += " FROM ";
-    query += joinStringVector(this->tables, ", ", "unknowTable");
+    query += joinStringVector(tables, ", ", "unknowTable");
 
-    if(!this->joinedTables.empty()) {
+    if(!joinedTables.empty()) {
         query += " CROSS JOIN ";
-        query += joinStringVector(this->joinedTables, ", ");
+        query += joinStringVector(joinedTables, ", ");
     }
 
-    if(!this->conditions.empty()) {
+    if(!conditions.empty()) {
         query += " WHERE ";
-        for(std::pair<ConditionOperator, std::string> condition : this->conditions) {
-            if(this->conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
+        for(std::pair<ConditionOperator, std::string> condition : conditions) {
+            if(conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
             query += condition.second;
         }
     }
@@ -72,7 +72,7 @@ std::string QueryBuilder::getQuery() {
 
 SQLite::Statement * QueryBuilder::execute() {
     SQLite::Database * database = ConnectionFactory::getConnection();
-    SQLite::Statement * statement = new SQLite::Statement(* database, this->getQuery());
+    SQLite::Statement * statement = new SQLite::Statement(* database, getQuery());
 
     for(Argument argument : arguments) {
         if(argument.type == INT) statement->bind(argument.position, * (int *) argument.value);
