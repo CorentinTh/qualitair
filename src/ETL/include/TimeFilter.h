@@ -11,7 +11,7 @@
 
 class TimeFilter : public Filter {
     public:
-            virtual std::string apply();
+            virtual void applyTo(QueryBuilder &qb);
     
             void setStart(std::time_t start);
             void setEnd(std::time_t end);
@@ -19,7 +19,7 @@ class TimeFilter : public Filter {
     
             TimeFilter & operator = ( TimeFilter other );
             TimeFilter ( const TimeFilter & other );
-            TimeFilter ( );
+            TimeFilter ();
             virtual ~TimeFilter ( );
     
     protected:
@@ -27,6 +27,8 @@ class TimeFilter : public Filter {
     
             std::time_t start;
             std::time_t end;
+            bool startDefined;
+            bool endDefined;
 };
 
 
