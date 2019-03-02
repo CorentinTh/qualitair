@@ -85,32 +85,32 @@ SQLite::Statement * QueryBuilder::execute() {
     return statement;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, int arg) {
-    arguments.push_back(Argument(position, INT, new int(arg)));
+QueryBuilder & QueryBuilder::bind(int arg) {
+    arguments.push_back(Argument(++argumentIndex, INT, new int(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, long arg) {
-    return bind(position, (long long) arg);
+QueryBuilder & QueryBuilder::bind(long arg) {
+    return bind((long long) arg);
 }
 
-QueryBuilder & QueryBuilder::bind(int position, long long arg) {
-    arguments.push_back(Argument(position, LONG, new long(arg)));
+QueryBuilder & QueryBuilder::bind(long long arg) {
+    arguments.push_back(Argument(++argumentIndex, LONG, new long(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, float arg) {
-    arguments.push_back(Argument(position, FLOAT, new float(arg)));
+QueryBuilder & QueryBuilder::bind(float arg) {
+    arguments.push_back(Argument(++argumentIndex, FLOAT, new float(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, double arg) {
-    arguments.push_back(Argument(position, DOUBLE, new double(arg)));
+QueryBuilder & QueryBuilder::bind(double arg) {
+    arguments.push_back(Argument(++argumentIndex, DOUBLE, new double(arg)));
     return * this;
 }
 
-QueryBuilder & QueryBuilder::bind(int position, std::string arg) {
-    arguments.push_back(Argument(position, STRING, new std::string(arg)));
+QueryBuilder & QueryBuilder::bind(std::string arg) {
+    arguments.push_back(Argument(++argumentIndex, STRING, new std::string(arg)));
     return * this;
 }
 

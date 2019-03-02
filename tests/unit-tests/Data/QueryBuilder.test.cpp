@@ -96,7 +96,7 @@ namespace nsquerybuilder {
         query = queryBuilder.select("sensorId")
                             .from("Sensor")
                             .where("latitude < ?")
-                            .bind(1, 48.0)
+                            .bind(48.0)
                             .execute();
 
         for(int i = 1; i <= 4; i++) {
@@ -110,9 +110,9 @@ namespace nsquerybuilder {
                             .where("value < ?")
                             .andWhere("attributeId = ?")
                             .orWhere("sensorId = ?")
-                            .bind(1, 6)
-                            .bind(2, 2)
-                            .bind(3, 5)
+                            .bind(6)
+                            .bind(2)
+                            .bind(5)
                             .execute();
 
         REQUIRE(query->executeStep());
