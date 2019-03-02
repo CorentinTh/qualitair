@@ -8,6 +8,12 @@
 #include "../../../src/Data/include/QueryBuilder.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
 
+struct test_init {
+    test_init() {
+        ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    }
+} test_init_instance;
+
 TEST_CASE("Test query attribute selection", "[UT-D-2]") {
     QueryBuilder queryBuilder = QueryBuilder();
 
@@ -83,7 +89,6 @@ TEST_CASE("Test combined query", "[UT-D-8]") {
 }
 
 TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
-    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
     SQLite::Statement * query;
 
