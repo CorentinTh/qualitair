@@ -42,18 +42,29 @@ json * SimilarDetection::apply() {
         for (auto s : sums) {
             //compare only same attributes
             if (m.first.second == s.first.second && !(m.first.first == s.first.first)) {
-                double diff = std::abs((((m.second - s.second) / (s.second)) * 100));
+                double diff = std::abs((((std::max(m.second, s.second) - std::min(m.second, s.second)) / (std::max(m.second, s.second) )) * 100));
 
                 if (diff < threshold) {
                     bool existing = false;
-                    for (std::vector<Sensor> vec : results[m.first.second]) {
+                    for (int i = 0; i < results[m.first.second].size(); i++) {
+                        std::vector<Sensor> vec = results[m.first.second][i];
                         //if m is in that list
                         if (std::find(vec.begin(), vec.end(), m.first.first) != vec.end()) {
                             existing = true;
                             // and not s
                             if (std::find(vec.begin(), vec.end(), s.first.first) == vec.end()) {
                                 //then add s as well
-                                vec.push_back(s.first.first);
+                                results[m.first.second][i].push_back(s.first.first);
+
+                            }
+                        }
+                        //if s is in that list
+                        else if (std::find(vec.begin(), vec.end(), s.first.first) != vec.end()) {
+                            existing = true;
+                            // and not m
+                            if (std::find(vec.begin(), vec.end(), m.first.first) == vec.end()) {
+                                //then add m as well
+                                results[m.first.second][i].push_back(m.first.first);
                             }
                         }
                     }
@@ -65,7 +76,6 @@ json * SimilarDetection::apply() {
             }
         }
     }
-
 
     json* j = new json(results);
 
