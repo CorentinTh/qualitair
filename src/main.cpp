@@ -17,6 +17,7 @@ INITIALIZE_EASYLOGGINGPP
 
 #include "globals.h"
 #include "ETL/include/Interpolater.h"
+#include <iomanip>
 
 /**
  * Main function
@@ -24,23 +25,56 @@ INITIALIZE_EASYLOGGINGPP
  * @param {char**} argv - Argument string array
  * @return {int}
  */
-int main(int argc, char ** argv){
+int main(int argc, char **argv) {
     cout << "Hello world!" << endl;
 
     Interpolater interpolater;
 
-    std::vector<Measurement> measures = {
-            Measurement(1550150156, Sensor("2", 45.7632485, 4.8335574, "Cordelier - Métro"), Attribute("1", "", ""), 5),
-            Measurement(1550151014, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 10),
-            Measurement(1550158000, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 28),
-            Measurement(1550151014, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("3", "", ""), 1763),// superieur au range
-            Measurement(1550151014, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("1", "", ""), 5),
-            Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("1", "", "") , 5),
-            Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("3", "", "") , 1765),
-            Measurement(1650158000, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 28)
+    std::vector<Measurement *> measures = {
+            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
+            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
+            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 5),
+            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 10),
+            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 10),
+            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 5),
+            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 10),
+            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 5),
     };
 
-    interpolater.interpolate(measures, {});
+    auto data = interpolater.interpolate(measures, {
+            {"spatialGranularity",   10},
+            {"temporalGranularity",  10},
+            {"area",                 {0, 0, 20, 20}},
+            {"timeRange",            {0, 20}},
+            {"minimalInterDistance", {
+                                      {"longitude", 5000},
+                                         {"latitude", 5000},
+                                            {"time", 50}
+                                     }}
+    });
+
+    cout << "{";
+    for (auto &c : *data) {
+        cout << "{";
+        for (auto &r : c) {
+            cout << "{";
+            for (auto &d : r) {
+                cout << "{";
+                for (auto &v : d) {
+                    cout << "{\"";
+                    cout << v.first << "\", ";
+                    cout << fixed << setprecision(3) << d.find("1")->second << " ";
+                    cout << "}, ";
+                }
+                cout << "}, ";
+
+            }
+            cout << "}, " << endl;
+        }
+        cout << "}, " << endl;
+    }
+    cout << "}" << endl;
+
 
     return 0;
 }
