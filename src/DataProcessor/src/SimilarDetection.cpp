@@ -4,6 +4,7 @@
 
 #include "../include/SimilarDetection.h"
 #include "../include/BrokenDetection.h"
+#include <iostream>
 
 SimilarDetection &SimilarDetection::operator=(SimilarDetection other) {
     swap(*this, other);
@@ -12,12 +13,10 @@ SimilarDetection &SimilarDetection::operator=(SimilarDetection other) {
 
 SimilarDetection::SimilarDetection(const SimilarDetection &other) {
     measures = other.measures;
-    epsilon = other.epsilon;
     threshold = other.threshold;
 }
 
-SimilarDetection::SimilarDetection(std::vector<Measurement> m, double eps,
-                                   int thresh) : measures(m), epsilon(eps), threshold(thresh) {
+SimilarDetection::SimilarDetection(std::vector<Measurement> m, double thresh) : measures(m), threshold(thresh) {
 
 }
 
@@ -26,9 +25,7 @@ SimilarDetection::~SimilarDetection() {
 }
 
 json * SimilarDetection::apply() {
-
-
-    std::vector<std::pair<Sensor, Sensor>> similars;
+    std::unordered_map<std::string, std::vector<std::vector<Sensor>>> results;
 
     std::unordered_map<std::pair<Sensor, std::string>, double, pair_hash> sums;
     std::unordered_map<std::pair<Sensor, std::string>, int, pair_hash> counts;
@@ -45,18 +42,38 @@ json * SimilarDetection::apply() {
     for (auto m : sums) {
         for (auto s : sums) {
             //compare only same attributes
-            if (m.first.second == s.first.second && (((m.second - s.second) / (s.second)) * 100) > threshold) {
-                similars.push_back(std::make_pair(m.first.first, s.first.first));
+            if (m.first.second == s.first.second && !(m.first.first == s.first.first)) {
+                double diff = std::abs((((m.second - s.second) / (s.second)) * 100));
+
+                if (diff < threshold) {
+                    bool existing = false;
+                    for (std::vector<Sensor> vec : results[m.first.second]) {
+                        //if m is in that list
+                        if (std::find(vec.begin(), vec.end(), m.first.first) != vec.end()) {
+                            existing = true;
+                            // and not s
+                            if (std::find(vec.begin(), vec.end(), s.first.first) == vec.end()) {
+                                //then add s as well
+                                vec.push_back(s.first.first);
+                            }
+                        }
+                    }
+                    if (!existing) {
+                        //if not in existing list, create a new similarity list
+                        results[m.first.second].push_back(std::vector<Sensor>{m.first.first, s.first.first});
+                    }
+                }
             }
         }
     }
 
-    json j = new json(similars);
+
+    json* j = new json(results);
+
     return j;
 }
 
 void swap(SimilarDetection &first, SimilarDetection &second) {
     std::swap(first.measures, second.measures);
-    std::swap(first.epsilon, second.epsilon);
     std::swap(first.threshold, second.threshold);
 }
