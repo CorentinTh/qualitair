@@ -12,7 +12,7 @@ DetectSimCommand::DetectSimCommand(const DetectSimCommand &other) {
 
 }
 
-DetectSimCommand::DetectSimCommand() {
+DetectSimCommand::DetectSimCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors, double epsilon, double threshold) {
 
 }
 

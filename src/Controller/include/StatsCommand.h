@@ -6,14 +6,16 @@
 #define QUALITAIR_STATSCOMMAND_H
 
 
+#include <vector>
 #include "Command.h"
+#include "../../ETL/include/GeoFilter.h"
 
 class StatsCommand : public Command {
     public:
 
         StatsCommand & operator = ( StatsCommand other );
         StatsCommand ( const StatsCommand & other );
-        StatsCommand ( );
+        StatsCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors );
         virtual ~StatsCommand ( );
 
         void execute() override;
@@ -22,6 +24,13 @@ class StatsCommand : public Command {
 
 protected:
         friend void swap(StatsCommand & first, StatsCommand & second);
+
+private:
+    BBox bbox;
+    time_t start;
+    time_t end;
+    std::vector<std::string> attributes;
+    std::vector<int> sensors;
 };
 
 

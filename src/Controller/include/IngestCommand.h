@@ -13,15 +13,18 @@ class IngestCommand : public Command{
 
         IngestCommand & operator = ( IngestCommand other );
         IngestCommand ( const IngestCommand & other );
-        IngestCommand ( );
+        IngestCommand ( std::string );
         virtual ~IngestCommand ( );
 
         void execute() override;
 
         void output() override;
 
-protected:
-        friend void swap(IngestCommand & first, IngestCommand & second);
+    protected:
+            friend void swap(IngestCommand & first, IngestCommand & second);
+
+    private:
+        std::string input;
 };
 
 

@@ -9,7 +9,7 @@ IngestCommand::IngestCommand(const IngestCommand &other) {
 
 }
 
-IngestCommand::IngestCommand() {
+IngestCommand::IngestCommand(std::string) {
 
 }
 

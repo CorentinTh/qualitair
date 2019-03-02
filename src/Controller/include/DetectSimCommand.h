@@ -6,14 +6,16 @@
 #define QUALITAIR_DETECTSIMCOMMAND_H
 
 
+#include <vector>
 #include "Command.h"
+#include "../../ETL/include/GeoFilter.h"
 
 class DetectSimCommand : public Command {
     public:
 
         DetectSimCommand & operator = ( DetectSimCommand other );
         DetectSimCommand ( const DetectSimCommand & other );
-        DetectSimCommand ( );
+        DetectSimCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors, double epsilon = -1, double threshold = -1 );
         virtual ~DetectSimCommand ( );
 
         void execute() override;
@@ -22,6 +24,15 @@ class DetectSimCommand : public Command {
 
 protected:
         friend void swap(DetectSimCommand & first, DetectSimCommand & second);
+
+private:
+    double epsilon;
+    double threshold;
+    BBox bbox;
+    time_t start;
+    time_t end;
+    std::vector<std::string> attributes;
+    std::vector<int> sensors;
 };
 
 

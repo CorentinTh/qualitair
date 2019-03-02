@@ -12,7 +12,7 @@ SpikesCommand::SpikesCommand(const SpikesCommand &other) {
 
 }
 
-SpikesCommand::SpikesCommand() {
+SpikesCommand::SpikesCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors) {
 
 }
 

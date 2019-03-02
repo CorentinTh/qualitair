@@ -9,7 +9,7 @@ StatsCommand::StatsCommand(const StatsCommand &other) {
 
 }
 
-StatsCommand::StatsCommand() {
+StatsCommand::StatsCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors) {
 
 }
 
