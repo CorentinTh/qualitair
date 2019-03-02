@@ -6,10 +6,8 @@
 #include <algorithm>
 
 void AttributeFilter::applyTo(QueryBuilder &qb){
-    int compteur = 1;
     for (std::string attr : this->attributes){
-        qb.orWhere("AttributeId = ?").bind(compteur, attr);
-        compteur ++;
+        qb.orWhere("AttributeId = ?").bind(attr);
     }
 }
 

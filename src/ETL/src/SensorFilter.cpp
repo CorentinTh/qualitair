@@ -6,10 +6,8 @@
 #include <algorithm>
 
 void SensorFilter::applyTo(QueryBuilder &qb) {
-    int compteur = 1;
     for (std::string sensor : this->sensors){
-        qb.orWhere("SensorId = ?").bind(compteur, sensor);
-        compteur ++;
+        qb.orWhere("SensorId = ?").bind(sensor);
     }
 }
 
