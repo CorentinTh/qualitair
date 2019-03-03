@@ -3,3 +3,7 @@
 //
 
 #include "../include/ETL.h"
+
+void *ETL::getData() {
+    return nullptr;
+}
