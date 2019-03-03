@@ -8,7 +8,7 @@ project(qualitair)
 set(TARGET_NAME qualitair)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -s -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -47,6 +47,8 @@ FetchContent_Declare(
         GIT_TAG v3.5.0
 )
 
+SET(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build.")
+
 FetchContent_GetProperties(sqlitecpp)
 if (NOT sqlitecpp_POPULATED)
     FetchContent_Populate(sqlitecpp)
@@ -75,3 +77,4 @@ add_subdirectory(tests/unit-tests)
 target_link_libraries(${TARGET_NAME} ${REMOTE_DEPS})
 
 target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
+
