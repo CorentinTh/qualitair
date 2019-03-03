@@ -6,10 +6,10 @@
 #include <stdexcept>
 
 void GeoFilter::applyTo(QueryBuilder &qb){
-    qb.andWhere("longitude >= ?").bind(this->bbox.left);
-    qb.andWhere("latitude >= ?").bind(this->bbox.bottom);
-    qb.andWhere("longitude <= ?").bind(this->bbox.right);
+    qb.where("longitude >= ?").bind(this->bbox.left);
     qb.andWhere("latitude <= ?").bind(this->bbox.top);
+    qb.andWhere("longitude <= ?").bind(this->bbox.right);
+    qb.andWhere("latitude >= ?").bind(this->bbox.bottom);
 }
 
 void GeoFilter::extend(double valElargissement) {
@@ -56,7 +56,7 @@ void GeoFilter::setBBox(const BBox &bBox) {
         || bBox.left <= -180
         || bBox.right >= 180
         || bBox.top <= bBox.bottom
-        || bBox.left <= bBox.right){
+        || bBox.left >= bBox.right){
         // bbox incorrecte
         // ou bbox à cheval sur le 180eme Meridien (non géré)
         throw std::invalid_argument("La bbox en entrée n'est pas définie correctement ou cas non géré (bbox sur 180ème méridien)");
