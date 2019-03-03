@@ -14,22 +14,19 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
     Config config = Config("../tests/data/config-sample.ini");
     config.load();
 
-    // TODO set actual values from sample file
     REQUIRE(config.getBrokenTime() == 3600);
-    REQUIRE(config.getEpsilon() == 5);
-    REQUIRE(config.getThreshold() == 10);
-    REQUIRE(config.getIGQAFormula() == "1/({attr1}+{attr2})+3*{attr3}");
+    REQUIRE(config.getSimilarityThreshold() == 10.0);
     REQUIRE(config.getTemporalGranularity() == 1000);
     REQUIRE(config.getSpatialGranularity() == 1000);
-    REQUIRE(config.getTimeThreshold() == 12);
-    REQUIRE(config.getValueThreshold() == 500);
-    REQUIRE(config.getMinimalArea() == 10000);
+    REQUIRE(config.getSpikesTimeThreshold() == 12);
+    REQUIRE(config.getSpikesValueThreshold() == 500.0);
+    REQUIRE(config.getSpikesMinimalArea() == 10000.0);
 
     REQUIRE(config.getAdmissibleRanges()
             ==
-            (std::unordered_map<std::string, std::pair<int, int>>) {
-                    {"attr1", {0,  15}},
-                    {"attr2", {10, 100}},
+            (std::unordered_map<std::string, std::pair<double, double>>) {
+                    {"CO2", {0,  15}},
+                    {"O2", {10, 100}},
             });
 
 

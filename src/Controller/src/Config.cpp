@@ -13,69 +13,67 @@ void Config::load() {
         return;
     }
 
-    // TODO check which should be real instead of integer
     databaseFilepath = reader.Get("general", "database", "");
 
-    threshold = reader.GetInteger("similarity", "threshold", 0);
-    epsilon = reader.GetInteger("similarity", "epsilon", 0);
+    similarityThreshold = reader.GetReal("similarity", "threshold", 0);
 
-    brokenTime = reader.GetInteger("breakdown", "brokenTime", 0);
+    brokenTime = (int)reader.GetInteger("breakdown", "brokenTime", 0);
 
-    valueThreshold = reader.GetInteger("pics", "valueThreshold", 0);
-    timeThreshold = reader.GetInteger("pics", "timeThreshold", 0);
-    minimalArea = reader.GetInteger("pics", "minimalArea", 0);
-    spatialGranularity = reader.GetInteger("pics", "spatialGranularity", 0);
-    temporalGranularity = reader.GetInteger("pics", "temporalGranularity", 0);
+    spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0);
+    spikesTimeThreshold = (int)reader.GetInteger("spikes", "timeThreshold", 0);
+    spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0);
 
-    // TODO need to use this fork https://github.com/Blandinium/inih if we want the GetFields() method required by
-    // admissibleRanges (we don't know the fields beforehand)
-    //std::string admissibleRanges =
+    spatialGranularity = (int)reader.GetInteger("interpolation", "spatialGranularity", 0);
+    temporalGranularity = (int)reader.GetInteger("interpolation", "temporalGranularity", 0);
 
-    igqaFormula = reader.Get("stats", "igqa", "");
+    /* TODO admissibleRanges parsing
+    std::set<std::string> fields = reader.GetFields("admissibleRanges");
+    for(std::set<std::string>::iterator fieldsIt = fields.begin();
+        fieldsIt!=fields.end();
+        fieldsIt++)
+    {
+        if(fieldsIt!=fields.begin())
+            std::cout << ", ";
+        std::cout << *fieldsIt;
+    }
+    std::string ranges =
+     */
 }
 
-int Config::getThreshold() {
-    return threshold;
-}
-
-int Config::getEpsilon() {
-    return epsilon;
+double Config::getSimilarityThreshold() {
+    return similarityThreshold;
 }
 
 int Config::getBrokenTime() {
     return brokenTime;
 }
 
-int Config::getValueThreshold() {
-    return valueThreshold;
+double Config::getSpikesValueThreshold() {
+    return spikesValueThreshold;
 }
 
-int Config::getTimeThreshold() {
-    return timeThreshold;
+int Config::getSpikesTimeThreshold() {
+    return spikesTimeThreshold;
 }
 
-int Config::getSpatialGranularity(){
+int Config::getSpatialGranularity() {
     return spatialGranularity;
 }
 
-int Config::getTemporalGranularity(){
+int Config::getTemporalGranularity() {
     return temporalGranularity;
 }
 
-int Config::getMinimalArea(){
-    return minimalArea;
+double Config::getSpikesMinimalArea() {
+    return spikesMinimalArea;
+}
+
+std::unordered_map<std::string, std::pair<double, double>> Config::getAdmissibleRanges() {
+    return std::unordered_map<std::string, std::pair<double, double>>();
 }
 
 std::string Config::getDatabaseFilepath() {
     return databaseFilepath;
-}
-
-std::unordered_map<std::string, std::pair<int, int>> Config::getAdmissibleRanges() {
-    return admissibleRanges;
-}
-
-std::string Config::getIGQAFormula() {
-    return igqaFormula;
 }
 
 Config &Config::operator=(Config other) {
@@ -85,15 +83,13 @@ Config &Config::operator=(Config other) {
 
 Config::Config(const Config &other) {
     databaseFilepath = other.databaseFilepath;
-    igqaFormula = other.igqaFormula;
     temporalGranularity= other.temporalGranularity;
     spatialGranularity= other.spatialGranularity;
-    minimalArea= other.minimalArea;
-    timeThreshold= other.timeThreshold;
-    valueThreshold= other.valueThreshold;
+    spikesMinimalArea = other.spikesMinimalArea;
+    spikesTimeThreshold = other.spikesTimeThreshold;
+    spikesValueThreshold = other.spikesValueThreshold;
     brokenTime= other.brokenTime;
-    threshold= other.threshold;
-    epsilon= other.epsilon;
+    similarityThreshold = other.similarityThreshold;
     admissibleRanges= other.admissibleRanges;
 }
 
@@ -107,15 +103,13 @@ Config::~Config() {
 
 void swap(Config &first, Config &second) {
     std::swap(first.databaseFilepath, second.databaseFilepath);
-    std::swap(first.igqaFormula, second.igqaFormula);
     std::swap(first.temporalGranularity, second.temporalGranularity);
     std::swap(first.spatialGranularity, second.spatialGranularity);
-    std::swap(first.minimalArea, second.minimalArea);
-    std::swap(first.timeThreshold, second.timeThreshold);
-    std::swap(first.valueThreshold, second.valueThreshold);
+    std::swap(first.spikesMinimalArea, second.spikesMinimalArea);
+    std::swap(first.spikesTimeThreshold, second.spikesTimeThreshold);
+    std::swap(first.spikesValueThreshold, second.spikesValueThreshold);
     std::swap(first.brokenTime, second.brokenTime);
-    std::swap(first.threshold, second.threshold);
-    std::swap(first.epsilon, second.epsilon);
+    std::swap(first.similarityThreshold, second.similarityThreshold);
     std::swap(first.admissibleRanges, second.admissibleRanges);
 }
 
