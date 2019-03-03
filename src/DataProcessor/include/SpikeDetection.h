@@ -16,8 +16,8 @@ class SpikeDetection : public IDataProcess {
         json* apply() override;
 
         SpikeDetection ( const SpikeDetection & other );
-        SpikeDetection ( pointCollection & data, std::string formula, double valueThreshold, double areaThreshold,
-                int delay);
+        SpikeDetection ( pointCollection & data, double valueThreshold, double areaThreshold,
+                int timeThreshold);
         virtual ~SpikeDetection ( );
     
     protected:
@@ -25,9 +25,8 @@ class SpikeDetection : public IDataProcess {
 
         double valueThreshold;
         double areaThreshold;
-        int delay;
+        int timeThreshold;
         pointCollection points;
-        std::string formula;
 };
 
 

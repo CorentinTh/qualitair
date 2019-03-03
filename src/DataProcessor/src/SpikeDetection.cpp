@@ -5,20 +5,23 @@
 #include "../include/SpikeDetection.h"
 
 SpikeDetection &SpikeDetection::operator=(SpikeDetection other) {
+    swap(*this, other);
     return *this;
 }
 
 SpikeDetection::SpikeDetection(const SpikeDetection &other) {
-
+    points = other.points;
+    valueThreshold = other.valueThreshold;
+    areaThreshold = other.areaThreshold;
+    timeThreshold = other.timeThreshold;
 }
 
 SpikeDetection::SpikeDetection(
         pointCollection & data,
-        std::string formulaExpr,
         double valueThresh,
         double areaThresh,
-        int delayValue) :
-        points(data), formula(formulaExpr), valueThreshold(valueThresh), areaThreshold(areaThresh), delay(delayValue)
+        int timeThresh) :
+        points(data), valueThreshold(valueThresh), areaThreshold(areaThresh), timeThreshold(timeThresh)
 {}
 
 SpikeDetection::~SpikeDetection() {
@@ -26,9 +29,15 @@ SpikeDetection::~SpikeDetection() {
 }
 
 json * SpikeDetection::apply() {
-    return nullptr;
+    json* j = new json;
+    //TODO
+    return j;
 }
 
 void swap(SpikeDetection &first, SpikeDetection &second) {
+    std::swap(first.points, second.points);
+    std::swap(first.valueThreshold, second.valueThreshold);
+    std::swap(first.areaThreshold, second.areaThreshold);
+    std::swap(first.timeThreshold, second.timeThreshold);
 
 }

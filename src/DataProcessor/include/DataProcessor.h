@@ -18,15 +18,20 @@ class DataProcessor : public IDataProcessor {
 
         DataProcessor(DataProcessor const&)       = delete;
 
-        json * computeStats(pointCollection &data, std::string formula) override;
+        json *computeAverage(pointCollection &data) override;
 
-        json * detectSimilar(std::vector<Measurement> measures, std::vector<Sensor> sensors, double epsilon,
-                           double threshold) override;
+        json *computeDeviation(pointCollection &data) override;
 
-        json * detectBroken(std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
-                          std::unordered_map<std::string, std::tuple<int, int>> admissibleRanges) override;
+        json *computeAtmo(pointCollection &data) override;
 
-        json * detectSpikes(pointCollection &data, double valueThreshold, double areaThreshold, int delay) override;
+        json *computeExtrems(pointCollection &data) override;
+
+        json *detectSimilar(std::vector<Measurement> measures, double threshold) override;
+
+        json *detectBroken(std::vector<Measurement> measures, int timeThreshold,
+                           std::unordered_map<std::string, std::tuple<int, int>> admissibleRanges) override;
+
+        json * detectSpikes(pointCollection &data, double valueThreshold, double areaThreshold, int timeThreshold) override;
 
 
     private:
