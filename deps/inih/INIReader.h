@@ -20,6 +20,7 @@ public:
     // Construct INIReader and parse given filename. See ini.h for more info
     // about the parsing.
     explicit INIReader(const std::string& filename);
+    ~INIReader();
 
     // Return the result of ini_parse(), i.e., 0 on success, line number of
     // first error on parse error, or -1 on file open error.
@@ -60,6 +61,10 @@ public:
 private:
     int _error;
     std::map<std::string, std::string> _values;
+    // Because we want to retain the original casing in _fields, but
+    // want lookups to be case-insensitive, we need both _fields and _values
+    std::set<std::string> _sections;
+    std::map<std::string, std::set<std::string>*> _fields;
     static std::string MakeKey(const std::string& section, const std::string& name);
     static int ValueHandler(void* user, const char* section, const char* name,
                             const char* value);

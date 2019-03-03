@@ -18,6 +18,14 @@ INIReader::INIReader(const string& filename)
     _error = ini_parse(filename.c_str(), ValueHandler, this);
 }
 
+INIReader::~INIReader()
+{
+    // Clean up the field sets
+    std::map<std::string, std::set<std::string>*>::iterator fieldSetsIt;
+    for (fieldSetsIt = _fields.begin(); fieldSetsIt != _fields.end(); ++fieldSetsIt)
+        delete fieldSetsIt->second;
+}
+
 int INIReader::ParseError() const
 {
     return _error;
@@ -94,6 +102,8 @@ string INIReader::MakeKey(const string& section, const string& name)
     string key = section + "=" + name;
     // Convert to lower case to make section/name lookups case-insensitive
     std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+
+
     return key;
 }
 
@@ -105,5 +115,23 @@ int INIReader::ValueHandler(void* user, const char* section, const char* name,
     if (reader->_values[key].size() > 0)
         reader->_values[key] += "\n";
     reader->_values[key] += value;
+
+    // Insert the section in the sections set
+    reader->_sections.insert(section);
+
+    // Add the value to the values set
+    string sectionKey = section;
+    std::transform(sectionKey.begin(), sectionKey.end(), sectionKey.begin(), ::tolower);
+
+    std::set<std::string>* fieldsSet;
+    std::map<std::string, std::set<std::string>*>::iterator fieldSetIt = reader->_fields.find(sectionKey);
+    if(fieldSetIt==reader->_fields.end())
+    {
+        fieldsSet = new std::set<std::string>();
+        reader->_fields.insert ( std::pair<std::string, std::set<std::string>*>(sectionKey,fieldsSet) );
+    } else {
+        fieldsSet=fieldSetIt->second;
+    }
+    fieldsSet->insert(name);
     return 1;
 }
