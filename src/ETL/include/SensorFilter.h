@@ -11,7 +11,8 @@
 
 class SensorFilter : public Filter {
     public:
-        virtual void applyTo(QueryBuilder &qb);
+        void applyTo(QueryBuilder &qb) override;
+
 
         void addSensor(std::string sensor);
         void addSensors(std::vector<std::string> vectSensors);

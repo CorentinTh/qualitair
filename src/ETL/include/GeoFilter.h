@@ -11,7 +11,7 @@
 
 class GeoFilter : public Filter {
     public:
-            virtual void applyTo(QueryBuilder &qb);
+            void applyTo(QueryBuilder &qb) override;
 
             //TODO
             void setBBox(const BBox &bbox);

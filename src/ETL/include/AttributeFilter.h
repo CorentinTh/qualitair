@@ -11,7 +11,7 @@
 
 class AttributeFilter : public Filter {
     public:
-        virtual void applyTo(QueryBuilder &qb);
+        void applyTo(QueryBuilder &qb) override;
 
         void addAttribute(std::string attribute);
         void addAttributes(std::vector<std::string> vectAttributes);
