@@ -15,7 +15,7 @@ json* Cache::get(json request) {
 
 void Cache::put(json request, json result) {
     cache[request] = result;
-    //save();
+    save();
 }
 
 Cache &Cache::operator=(Cache other) {
@@ -28,20 +28,34 @@ Cache::Cache(const Cache &other) {
 }
 
 Cache::Cache() {
-    //load();
+    load();
 }
 
 Cache::~Cache() {
 
 }
 
+//TODO move that to utils ?
+std::string replaceAll(std::string str, const std::string& from, const std::string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    return str;
+}
+
 inline std::string to_string(const json &j)
 {
+    std::string result;
     if (j.type() == json::value_t::string) {
-        return j.get<std::string>();
+        result = j.get<std::string>();
+    }
+    else {
+        result = j.dump();
     }
 
-    return j.dump();
+    return replaceAll(result, "\\\"", "\"");
 }
 
 void Cache::save() {
@@ -51,19 +65,14 @@ void Cache::save() {
         for (auto& [key, value] : cache) {
             s_cache[to_string(key)] = to_string(value);
         }
-        /*for (auto& [key, value] : s_cache) {
-            std::cout << key << std::endl;
-            std::cout << value << std::endl;
-        }*/
         json j(s_cache);
 
-        /*std::vector<std::uint8_t> v_bson = json::to_ubjson(j);
+        std::vector<std::uint8_t> v_bson = json::to_ubjson(j);
         for (auto d : v_bson)
         {
             stream.write((char*)&d, sizeof(std::uint8_t));
-        }*/
+        }
 
-        j >> stream;
     } catch (const std::exception& e) { // caught by reference to base
         std::cout << " a standard exception was caught, with message '"
                   << e.what() << "'\n";
@@ -74,40 +83,15 @@ void Cache::save() {
 }
 
 void Cache::load() {
-
-    std::ifstream stream(FILENAME); //, std::ios::in | std::ios::binary);
-
-    if (stream.good())
-    {
-        json j;
-        stream >> j;
-
-        for (auto& [key, value] : j.items()) {
-            std::cout << key << std::endl;
-            std::cout << value << std::endl;
-
-            //cache[key] = value;
+    std::ifstream stream(FILENAME, std::ios::in | std::ios::binary);
+    std::vector<uint8_t> contents((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+    if (contents.size() > 0) {
+        json j_from_bson = json::from_ubjson(contents);
+        for (auto& [key, value] : j_from_bson.items()) {
+            cache[json::parse(to_string(key))] = json::parse(to_string(value));
         }
     }
-
-
-    /*std::vector<uint8_t> contents((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
-    std::cout << "file size: " << contents.size() << std::endl;
-    if (contents.size() > 0) {
-
-        json j_from_bson = json::from_ubjson(contents);
-        std::cout <<  j_from_bson << std::endl;
-        for (auto& [key, value] : j_from_bson.items()) {
-            std::cout << key << std::endl;
-            std::cout << value.dump() << std::endl;
-
-            cache[key] = json::parse("{}");
-        }
-    }*/
-
     stream.close();
-
-
 }
 
 void swap(Cache &first, Cache &second) {

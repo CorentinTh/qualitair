@@ -10,7 +10,7 @@ TEST_CASE("Testing Cache", "") {
 
     auto j1 = R"(
   {
-    "test": "x"
+    "test": 10
   }
 )"_json;
 
@@ -29,4 +29,6 @@ TEST_CASE("Testing Cache", "") {
     CHECK(*cache2.get(j1) == j2);
 
     remove("/tmp/.qualitair_cache");
+
+    //TODO add test for partial match request
 }
