@@ -14,7 +14,7 @@ typedef struct {
     double top;    // max latitude     [ -90,  90[
     double right;  // max longitude    [-180, 180[
     double bottom; // min latitude     [ -90,  90[
-    // is top > bottom
+    // + top > bottom, left < right
 } BBox;
 
 
@@ -22,7 +22,6 @@ class GeoFilter : public Filter {
     public:
             virtual void applyTo(QueryBuilder &qb);
 
-            //TODO
             void setBBox(const BBox &bbox);
             void extend(double valElargissement);
 
