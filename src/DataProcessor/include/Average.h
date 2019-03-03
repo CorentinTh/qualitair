@@ -19,7 +19,7 @@ class Average : public IDataProcess {
     
     protected:
         friend void swap(Average & first, Average & second);
-        std::unordered_map<std::string, double> computeAverage();
+        std::unordered_map<std::string, double> computeAverage() const;
     
         pointCollection points;
 };

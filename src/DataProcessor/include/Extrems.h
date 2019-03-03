@@ -20,7 +20,7 @@ class Extrems : public IDataProcess {
     
     protected:
         friend void swap(Extrems & first, Extrems & second);
-        std::unordered_map<std::string, std::pair<double, double>> computeExtrems();
+        std::unordered_map<std::string, std::pair<double, double>> computeExtrems() const;
     
         pointCollection points;
 };

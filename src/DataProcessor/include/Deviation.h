@@ -19,7 +19,7 @@ class Deviation : public IDataProcess {
     
     protected:
         friend void swap(Deviation & first, Deviation & second);
-        std::unordered_map<std::string, double>  computeDeviation();
+        std::unordered_map<std::string, double>  computeDeviation() const;
     
         pointCollection points;
 };

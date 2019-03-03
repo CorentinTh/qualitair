@@ -19,7 +19,7 @@ class ATMOComputer : public IDataProcess {
     
     protected:
         friend void swap(ATMOComputer & first, ATMOComputer & second);
-        int computeAtmo();
+        int computeAtmo() const;
         
         pointCollection points;
 };

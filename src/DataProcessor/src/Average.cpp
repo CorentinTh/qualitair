@@ -27,7 +27,7 @@ Average::~Average() {
 
 }
 
-std::unordered_map<std::string, double> Average::computeAverage() {
+std::unordered_map<std::string, double> Average::computeAverage() const {
     std::unordered_map<std::string, double> sums;
     std::unordered_map<std::string, int> count;
 

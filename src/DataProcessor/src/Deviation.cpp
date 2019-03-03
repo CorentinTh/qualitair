@@ -27,7 +27,7 @@ Deviation::~Deviation() {
 
 }
 
-std::unordered_map<std::string, double>  Deviation::computeDeviation() {
+std::unordered_map<std::string, double>  Deviation::computeDeviation() const {
     std::unordered_map<std::string, double> sums;
     std::unordered_map<std::string, double> deviations;
     std::unordered_map<std::string, int> count;

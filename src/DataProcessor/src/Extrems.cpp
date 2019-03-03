@@ -31,7 +31,7 @@ Extrems::~Extrems() {
 
 }
 
-std::unordered_map<std::string, std::pair<double, double>> Extrems::computeExtrems() {
+std::unordered_map<std::string, std::pair<double, double>> Extrems::computeExtrems() const {
     std::unordered_map<std::string, std::pair<double, double>> results;
 
     for (auto i = points.begin(); i != points.end() ; ++i)

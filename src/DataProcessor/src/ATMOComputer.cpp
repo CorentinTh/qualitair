@@ -46,7 +46,7 @@ ATMOComputer::~ATMOComputer() {
 
 }
 
-int ATMOComputer::computeAtmo() {
+int ATMOComputer::computeAtmo() const {
     //contract : we always get data representing one day
 
     double pm10 = 0.0;
