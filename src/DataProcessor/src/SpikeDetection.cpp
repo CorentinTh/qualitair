@@ -17,7 +17,7 @@ SpikeDetection::SpikeDetection(const SpikeDetection &other) {
 }
 
 SpikeDetection::SpikeDetection(
-        pointCollection & data,
+        pointCollection * data,
         double valueThresh,
         double areaThresh,
         int timeThresh) :

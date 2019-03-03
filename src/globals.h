@@ -8,6 +8,6 @@
 #include <vector>
 #include <unordered_map>
 
-typedef std::vector<std::vector<std::vector<std::unordered_map<std::string, int>>>> pointCollection;
+typedef std::vector<std::vector<std::vector<std::unordered_map<std::string, double>>>> pointCollection;
 
 #endif //QUALITAIR_GLOBALS_H

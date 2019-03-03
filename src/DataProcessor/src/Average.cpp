@@ -37,7 +37,7 @@ std::unordered_map<std::string, double> Average::computeAverage() const {
         {
             for (auto k = j->begin(); k != j->end() ; ++k)
             {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it)
                 {
                     sums[it->first] += it->second;

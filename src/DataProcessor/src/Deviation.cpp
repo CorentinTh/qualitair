@@ -38,7 +38,7 @@ std::unordered_map<std::string, double>  Deviation::computeDeviation() const {
         {
             for (auto k = j->begin(); k != j->end() ; ++k)
             {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it)
                 {
                     sums[it->first] += it->second;
@@ -60,7 +60,7 @@ std::unordered_map<std::string, double>  Deviation::computeDeviation() const {
         {
             for (auto k = j->begin(); k != j->end() ; ++k)
             {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it)
                 {
                     deviations[it->first] += std::pow(it->second - sums[it->first], 2);
