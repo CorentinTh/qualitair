@@ -15,29 +15,35 @@ void Config::load() {
 
     databaseFilepath = reader.Get("general", "database", "");
 
-    similarityThreshold = reader.GetReal("similarity", "threshold", 0);
+    similarityThreshold = reader.GetReal("similarity", "threshold", 0.0);
 
     brokenTime = (int)reader.GetInteger("breakdown", "brokenTime", 0);
 
-    spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0);
+    spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0.0);
     spikesTimeThreshold = (int)reader.GetInteger("spikes", "timeThreshold", 0);
-    spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0);
+    spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0.0);
 
     spatialGranularity = (int)reader.GetInteger("interpolation", "spatialGranularity", 0);
     temporalGranularity = (int)reader.GetInteger("interpolation", "temporalGranularity", 0);
 
-    /* TODO admissibleRanges parsing
-    std::set<std::string> fields = reader.GetFields("admissibleRanges");
-    for(std::set<std::string>::iterator fieldsIt = fields.begin();
-        fieldsIt!=fields.end();
-        fieldsIt++)
-    {
-        if(fieldsIt!=fields.begin())
-            std::cout << ", ";
-        std::cout << *fieldsIt;
+    try {
+        std::set<std::string> fields = reader.GetFields("admissibleRanges");
+        for (std::set<std::string>::iterator fieldsIt = fields.begin();
+             fieldsIt != fields.end();
+             fieldsIt++) {
+            std::string line = reader.Get("admissibleRanges", *fieldsIt, "");
+            std::string min_s = line.substr(0, line.find(":"));
+            std::string max_s = line.substr(line.find(":") + 1, line.size() - line.find(":"));
+
+            double min = std::stod(min_s);
+            double max = std::stod(max_s);
+
+            admissibleRanges[*fieldsIt] = std::make_pair(min, max);
+        }
     }
-    std::string ranges =
-     */
+    catch(std::exception const& e) {
+        std::cerr << "ERREUR : " << e.what() << std::endl;
+    }
 }
 
 double Config::getSimilarityThreshold() {
@@ -69,7 +75,7 @@ double Config::getSpikesMinimalArea() {
 }
 
 std::unordered_map<std::string, std::pair<double, double>> Config::getAdmissibleRanges() {
-    return std::unordered_map<std::string, std::pair<double, double>>();
+    return admissibleRanges;
 }
 
 std::string Config::getDatabaseFilepath() {

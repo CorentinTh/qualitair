@@ -22,5 +22,5 @@ Controller::~Controller() {
 }
 
 Command* Controller::parseCommand() {
-    return new StatsCommand();
+    return nullptr;
 }
