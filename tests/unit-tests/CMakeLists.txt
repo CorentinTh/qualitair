@@ -4,6 +4,8 @@ include(FetchContent)
 # config
 set(TARGET_NAME utests)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+
 
 # sources
 file(GLOB UT_SOURCES
@@ -12,7 +14,6 @@ file(GLOB UT_SOURCES
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.h
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.cpp
 )
-
 
 list(APPEND SOURCES ${UT_SOURCES})
 
@@ -40,15 +41,6 @@ if (NOT sqlitecpp_POPULATED)
     FetchContent_Populate(sqlitecpp)
     add_subdirectory(${sqlitecpp_SOURCE_DIR} ${sqlitecpp_BINARY_DIR})
 endif ()
-
-if (ENABLE_COVERAGE)
-    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
-    find_package(codecov)
-    add_coverage(SelfTest)
-    list(APPEND LCOV_REMOVE_PATTERNS "/usr/")
-    coverage_evaluate()
-endif()
-
 
 # targets
 add_executable(${TARGET_NAME} ${SOURCES})
