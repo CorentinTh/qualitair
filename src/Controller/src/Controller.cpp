@@ -4,6 +4,9 @@
 
 #include "../include/Controller.h"
 #include "../include/StatsCommand.h"
+#include "../include/CLIParser.h"
+#include "../include/IngestCommand.h"
+#include "../include/Config.h"
 
 Controller &Controller::operator=(Controller other) {
     return *this;
@@ -13,8 +16,8 @@ Controller::Controller(const Controller &other) {
 
 }
 
-Controller::Controller() {
-
+Controller::Controller(char ** argv) {
+    this->argv = argv;
 }
 
 Controller::~Controller() {
@@ -22,5 +25,29 @@ Controller::~Controller() {
 }
 
 Command* Controller::parseCommand() {
-    return nullptr;
+    CLIParser cliParser(argv);
+
+    Command * command = nullptr;
+    std::string verb = cliParser.getVerb();
+
+    if(verb == "ingest") {
+        std::string input = cliParser.getArgument("input", ".");
+        command = new IngestCommand(input);
+    } else if(verb == "stats") {
+
+    } else if(verb == "spikes") {
+
+    } else if(verb == "detect-broken") {
+
+    } else if(verb == "detect-sim") {
+
+    }
+
+    return command;
+}
+
+void Controller::execute() {
+    Command * command = parseCommand();
+    command->execute();
+    command->output();
 }

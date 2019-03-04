@@ -10,15 +10,18 @@
 
 class Controller {
     public:
-
         Controller & operator = ( Controller other );
         Controller ( const Controller & other );
-        Controller ( );
+        Controller ( char ** argv );
         virtual ~Controller ( );
+        void execute();
 
     protected:
         Command* parseCommand();
         friend void swap(Controller & first, Controller & second);
+
+    private:
+        char ** argv;
 };
 
 
