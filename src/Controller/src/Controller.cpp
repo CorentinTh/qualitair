@@ -8,6 +8,9 @@
 #include "../include/CLIParser.h"
 #include "../include/IngestCommand.h"
 #include "../include/Config.h"
+#include "../include/SpikesCommand.h"
+#include "../include/DetectBrokenCommand.h"
+#include "../include/DetectSimCommand.h"
 
 static time_t parseRFC3339Date(std::string stringDate);
 
@@ -46,11 +49,19 @@ Command* Controller::parseCommand() {
         if(verb == "stats") {
             command = new StatsCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "spikes") {
-
+            command = new SpikesCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "detect-broken") {
-
+            command = new DetectBrokenCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "detect-sim") {
+            Config config;
+            config.load();
 
+            std::string epsilonStr = cliParser.getArgument("epsilon");
+            std::string thresholdStr = cliParser.getArgument("threshold");
+            double epsilon = epsilonStr.empty() ? 0.5 : std::stod(epsilonStr);
+            double threshold = epsilonStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
+
+            command = new DetectSimCommand(bbox, start, end, attributes, sensors, epsilon, threshold);
         }
 
     }
