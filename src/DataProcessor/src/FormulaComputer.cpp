@@ -3,7 +3,7 @@
 //
 
 #include "../include/FormulaComputer.h"
-#include "exprtk.hpp"
+#include "../../../deps/exprtk/exprtk.hpp"
 
 FormulaComputer &FormulaComputer::operator=(FormulaComputer other) {
     swap(*this, other);
