@@ -4,7 +4,7 @@
 
 #include "../include/Sensor.h"
 
-int Sensor::getId() {
+std::string Sensor::getId() {
     return sensorId;
 }
 
@@ -32,7 +32,7 @@ Sensor::Sensor(const Sensor &other) {
     longitude = other.longitude;
 }
 
-Sensor::Sensor(int sId, double lat, double lon, std::string d) : sensorId(sId), latitude(lat), longitude(lon), description(d) {
+Sensor::Sensor(std::string sId, double lat, double lon, std::string d) : sensorId(sId), latitude(lat), longitude(lon), description(d) {
 
 }
 
