@@ -35,8 +35,8 @@ TEST_CASE("Testing TimeFilter with start", "[UT-E-3]") {
 
     while (query->executeStep()){
         resultNotEmpty = true;
-        int sensorId = query->getColumn("rowid");
-        REQUIRE(std::find(vectLineNumberResult.begin(), vectLineNumberResult.end(), sensorId) != vectLineNumberResult.end());
+        int rowId = query->getColumn("rowid");
+        REQUIRE(std::find(vectLineNumberResult.begin(), vectLineNumberResult.end(), rowId) != vectLineNumberResult.end());
         REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }
 

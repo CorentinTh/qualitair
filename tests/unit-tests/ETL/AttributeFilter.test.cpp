@@ -23,7 +23,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
     attributeFilter1.addAttribute("");
     attributeFilter1.applyTo(queryBuilder);
 
-    query = queryBuilder.execute();
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
 
     vector<int> vectSensorId;
     vectSensorId.push_back(2);
@@ -46,6 +46,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
+    queryBuilder.select("sensorId").from("Measurement");
 
     SQLite::Statement * query;
 
@@ -59,7 +60,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     attributeFilter2.addAttributes(attributes);
     attributeFilter2.applyTo(queryBuilder);
 
-    query = queryBuilder.select("sensorId").from("Measurement").execute();
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
 
     vector<int> vectResults;
     vectResults.push_back(1);
