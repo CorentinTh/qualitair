@@ -8,7 +8,7 @@ project(qualitair)
 set(TARGET_NAME qualitair)
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -20,11 +20,13 @@ file(GLOB SOURCES
         ${PROJECT_SOURCE_DIR}/src/**/*/*.h
         ${PROJECT_SOURCE_DIR}/src/**/*/*.cpp
 )
+
 set(MAIN_FILE ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 set(EASYLOGGIN ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.cc ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.h)
+set(INIREADER ${PROJECT_SOURCE_DIR}/deps/inih/INIReader.cpp ${PROJECT_SOURCE_DIR}/deps/inih/INIReader.h ${PROJECT_SOURCE_DIR}/deps/inih/ini.c ${PROJECT_SOURCE_DIR}/deps/inih/ini.h)
 
-list(APPEND SOURCES ${EASYLOGGIN})
+list(APPEND SOURCES ${EASYLOGGIN} ${INIREADER})
 
 # dependencies
 set(LOCAL_DEPS
@@ -32,7 +34,6 @@ set(LOCAL_DEPS
         ${PROJECT_SOURCE_DIR}/deps/csvmonkey
         ${PROJECT_SOURCE_DIR}/deps/easyloggin
         ${PROJECT_SOURCE_DIR}/deps/inih
-        ${PROJECT_SOURCE_DIR}/deps/exprtk
 )
 
 FetchContent_Declare(
