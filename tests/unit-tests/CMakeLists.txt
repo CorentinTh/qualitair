@@ -15,6 +15,7 @@ file(GLOB UT_SOURCES
         ${PROJECT_SOURCE_DIR}/tests/unit-tests/*.cpp
 )
 
+
 list(APPEND SOURCES ${UT_SOURCES})
 
 # dependencies
@@ -41,6 +42,15 @@ if (NOT sqlitecpp_POPULATED)
     FetchContent_Populate(sqlitecpp)
     add_subdirectory(${sqlitecpp_SOURCE_DIR} ${sqlitecpp_BINARY_DIR})
 endif ()
+#
+#if (ENABLE_COVERAGE)
+#    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
+#    find_package(codecov)
+#    add_coverage(SelfTest)
+#    list(APPEND LCOV_REMOVE_PATTERNS "/usr/")
+#    coverage_evaluate()
+#endif()
+
 
 # targets
 add_executable(${TARGET_NAME} ${SOURCES})
@@ -49,3 +59,4 @@ target_link_libraries(${TARGET_NAME} Catch2::Catch2 ${REMOTE_DEPS})
 
 target_include_directories(${TARGET_NAME} PRIVATE ${LOCAL_DEPS})
 
+#add_coverage(${TARGET_NAME})

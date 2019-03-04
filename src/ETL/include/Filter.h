@@ -5,7 +5,7 @@
 #ifndef QUALITAIR_FILTER_H
 #define QUALITAIR_FILTER_H
 
-
+#include "../../Data/include/QueryBuilder.h"
 #include <string>
 #include "../../Data/include/QueryBuilder.h"
 

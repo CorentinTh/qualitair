@@ -11,8 +11,8 @@
 
 class TimeFilter : public Filter {
     public:
-            virtual void applyTo(QueryBuilder &qb);
-    
+            void applyTo(QueryBuilder &qb) override;
+
             void setStart(std::time_t start);
             void setEnd(std::time_t end);
             void setInterval(std::time_t start, std::time_t end);
