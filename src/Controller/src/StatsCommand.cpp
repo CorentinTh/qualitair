@@ -10,7 +10,10 @@ StatsCommand::StatsCommand(const StatsCommand &other) {
 }
 
 StatsCommand::StatsCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors) {
-
+    this->bbox = bbox;
+    this->start = start;
+    this->attributes = attributes;
+    this->sensors = sensors;
 }
 
 StatsCommand::~StatsCommand() {

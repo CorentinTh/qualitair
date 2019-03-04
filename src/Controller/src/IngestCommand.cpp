@@ -9,8 +9,8 @@ IngestCommand::IngestCommand(const IngestCommand &other) {
 
 }
 
-IngestCommand::IngestCommand(std::string) {
-
+IngestCommand::IngestCommand(std::string input) {
+    this->input = input;
 }
 
 IngestCommand::~IngestCommand() {
