@@ -8,7 +8,7 @@
 
 #include <vector>
 #include "Command.h"
-#include "../../ETL/include/GeoFilter.h"
+#include "../../Data/include/BBox.h"
 
 class DetectBrokenCommand : public Command {
     public:
