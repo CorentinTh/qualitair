@@ -6,13 +6,28 @@
 #include <algorithm>
 
 void SensorFilter::applyTo(QueryBuilder &qb) {
+    int compteur = 1;
     for (std::string sensor : this->sensors){
-        qb.orWhere("SensorId = ?").bind(sensor);
+        if (compteur == 1){
+            if (this->sensors.size()>1){
+                qb.andWhere("(sensorId = ?").bind(sensor);
+            }
+            else{
+                qb.andWhere("sensorId = ?").bind(sensor);
+            }
+        }
+        else if(compteur == this->sensors.size()){
+            qb.orWhere("sensorId = ?)").bind(sensor);
+        }
+        else{
+            qb.orWhere("sensorId = ?").bind(sensor);
+        }
+        compteur++;
     }
 }
 
 void SensorFilter::addSensor(std::string sensor) {
-    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) != this->sensors.end()){
+    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) == this->sensors.end()){
         // if the sensor is not already in the vector
         this->sensors.push_back(sensor);
     }
