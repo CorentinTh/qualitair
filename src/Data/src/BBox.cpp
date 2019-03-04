@@ -27,3 +27,7 @@ BBox::BBox(std::string stringValue) {
     right = values[2];
     bottom = values[3];
 }
+
+bool BBox::isNull() {
+    return left == -1 && top == -1 && right == -1 && bottom == -1;
+}
