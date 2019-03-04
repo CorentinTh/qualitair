@@ -36,13 +36,22 @@ Command* Controller::parseCommand() {
     if(verb == "ingest") {
         std::string input = cliParser.getArgument("input", ".");
         command = new IngestCommand(input);
-    } else if(verb == "stats") {
+    } else {
+        BBox bbox(cliParser.getArgument("bbox"));
+        time_t start = parseRFC3339Date(cliParser.getArgument("start"));
+        time_t end = parseRFC3339Date(cliParser.getArgument("start"));
+        std::vector<std::string> attributes = unjoinString(cliParser.getArgument("attributes"));
+        std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
-    } else if(verb == "spikes") {
+        if(verb == "stats") {
 
-    } else if(verb == "detect-broken") {
+        } else if(verb == "spikes") {
 
-    } else if(verb == "detect-sim") {
+        } else if(verb == "detect-broken") {
+
+        } else if(verb == "detect-sim") {
+
+        }
 
     }
 
@@ -51,6 +60,11 @@ Command* Controller::parseCommand() {
 
 void Controller::execute() {
     Command * command = parseCommand();
+    if(command == nullptr) {
+        //TODO: log something
+        exit(1);
+    }
+
     command->execute();
     command->output();
 }
@@ -65,4 +79,18 @@ time_t Controller::parseRFC3339Date(std::string stringDate) {
     }
 
     return mktime(&date);
+}
+
+std::vector<std::string> Controller::unjoinString(std::string string) {
+    std::vector<std::string> values;
+    size_t position = 0;
+    std::string value;
+
+    while((position = string.find(',')) != std::string::npos) {
+        value = string.substr(0, position);
+        values.push_back(value);
+        string.erase(0, position + 1);
+    }
+
+    return values;
 }

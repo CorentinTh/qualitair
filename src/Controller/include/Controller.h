@@ -6,6 +6,7 @@
 #define QUALITAIR_CONTROLLER_H
 
 
+#include <vector>
 #include "Command.h"
 
 class Controller {
@@ -22,6 +23,7 @@ class Controller {
 
     private:
         static time_t parseRFC3339Date(std::string stringDate);
+        static std::vector<std::string> unjoinString(std::string string);
         char ** argv;
 };
 
