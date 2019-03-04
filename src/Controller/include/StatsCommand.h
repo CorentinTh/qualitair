@@ -15,7 +15,7 @@ class StatsCommand : public Command {
 
         StatsCommand & operator = ( StatsCommand other );
         StatsCommand ( const StatsCommand & other );
-        StatsCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors );
+        StatsCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors );
         virtual ~StatsCommand ( );
 
         void execute() override;
@@ -30,7 +30,7 @@ private:
     time_t start;
     time_t end;
     std::vector<std::string> attributes;
-    std::vector<int> sensors;
+    std::vector<std::string> sensors;
 };
 
 

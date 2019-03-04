@@ -20,7 +20,7 @@ DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
 
 }
 
-DetectBrokenCommand::DetectBrokenCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<int> sensors) {
+DetectBrokenCommand::DetectBrokenCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors) {
     this->bbox = bbox;
     this->start = start;
     this->attributes = attributes;

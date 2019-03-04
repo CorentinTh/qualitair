@@ -44,7 +44,7 @@ Command* Controller::parseCommand() {
         std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
         if(verb == "stats") {
-
+            command = new StatsCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "spikes") {
 
         } else if(verb == "detect-broken") {
