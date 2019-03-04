@@ -14,7 +14,8 @@ class Config {
 
         void load();
 
-        double getSimilarityThreshold();
+        int getSimilarityThreshold();
+        double getSimilarityTolerance();
         int getBrokenTime();
         double getSpikesValueThreshold();
         int getSpikesTimeThreshold();
@@ -32,7 +33,8 @@ class Config {
     protected:
         friend void swap(Config & first, Config & second);
 
-        double similarityThreshold;
+        int similarityThreshold;
+        double similarityTolerance;
         int brokenTime;
         double spikesValueThreshold;
         int spikesTimeThreshold;

@@ -58,8 +58,8 @@ Command* Controller::parseCommand() {
 
             std::string epsilonStr = cliParser.getArgument("epsilon");
             std::string thresholdStr = cliParser.getArgument("threshold");
-            double epsilon = epsilonStr.empty() ? 0.5 : std::stod(epsilonStr);
-            double threshold = epsilonStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
+            double epsilon = epsilonStr.empty() ? config.getSimilarityTolerance() : std::stod(epsilonStr);
+            int threshold = epsilonStr.empty() ? config.getSimilarityThreshold() : std::stoi(thresholdStr);
 
             command = new DetectSimCommand(bbox, start, end, attributes, sensors, epsilon, threshold);
         }
