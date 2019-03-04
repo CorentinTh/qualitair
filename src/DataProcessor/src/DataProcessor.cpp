@@ -13,7 +13,7 @@
 
 
 json *DataProcessor::detectSpikes(pointCollection *data, double valueThreshold, double areaThreshold, int timeThreshold) {
-    return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold).apply();
+//    return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold).apply();
 }
 
 json *DataProcessor::computeAverage(pointCollection &data) {
