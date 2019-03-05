@@ -13,7 +13,7 @@
 #include "../../../src/View/include/OutputJSON.h"
 
 namespace JSONTest {
-    std::string jsonFilename = "../../data/mon_dataset.json";
+    std::string jsonFilename = "mon_dataset.json";
     json dataJsonSpikes = {
             {"timestamp", 1550150155},
             {"latitude",  48.8534},
@@ -70,16 +70,27 @@ namespace JSONTest {
     };
     json dataJsonBroken = {
             {
-                    {"id", 71},
-                    {"lat", 48.597855},
-                             {"long", 3.401035},
-                    {"description", "Pétaouchnok"}
+                    {"start", 1550150014},
+                    {"end", 1550151032},
+                    {"sensor" ,{
+                                       {"id", 71},
+                                       {"lat", 48.597855},
+                                       {"long", 3.401035},
+                                       {"description", "Pétaouchnok"}
+                               }
+                    }
             },
             {
-                    {"id", 147},
-                    {"lat"}, 28.468412,
-                    {"long",        14.351684},
-                    {"description", "Paris - Tour Eiffel"}
+                    {"start", 1550150156},
+                    {"end", 1650158000},
+                    {"sensor" ,{
+                                       {"id", 147},
+                                       {"lat", 28.468412},
+                                       {"long", 14.351684},
+                                       {"description", "Paris - Tour Eiffel"}
+                               }
+
+                    }
             }
     };
     json dataJsonIngest = {

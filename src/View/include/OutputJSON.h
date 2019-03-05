@@ -28,6 +28,8 @@ class OutputJSON : public IOutput{
     private:
         OutputJSON();
         void copyJsonToFile(json data, std::ofstream * ptrFile);
+        void putJsonInStdout(json data);
+        void printAnyData(json data, std::string filename);
 
     };
 
