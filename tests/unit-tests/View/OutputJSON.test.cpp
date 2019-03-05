@@ -13,21 +13,23 @@
 #include "../../../src/View/include/OutputJSON.h"
 
 namespace JSONTest {
-    std::string jsonFilename = "../../data/mon_dataset.json";
+    std::string jsonFilename = "mon_dataset.json";
     json dataJsonSpikes = {
-            {"timestamp", 1550150155},
-            {"latitude",  48.8534},
-            {"longitude", 2.3488},
+            {"spatialStep", 2},
+            {"temporalStep", 1000},
+            {"t0", 1550150155},
+            {"x0",  48.8534},
+            {"y0", 2.3488},
             {"pics",      {
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  },
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  }
-                          }
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    },
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    }
+                            }
             }
     };
     json dataJsonStats = {
@@ -45,7 +47,12 @@ namespace JSONTest {
                              {"deviation", 2.70},
                      }
             },
-            {"igqa", 0.55}
+            {"atmo", {
+                             {"1543359600", 2},
+                             {"1543446000", 3},
+                             {"1543532400", 2}
+                     }
+            }
     };
     json dataJsonSim = {
             {
@@ -65,16 +72,27 @@ namespace JSONTest {
     };
     json dataJsonBroken = {
             {
-                    {"id", 71},
-                    {"lat", 48.597855},
-                             {"long", 3.401035},
-                    {"description", "Pétaouchnok"}
+                    {"start", 1550150014},
+                    {"end", 1550151032},
+                    {"sensor" ,{
+                                       {"id", 71},
+                                       {"lat", 48.597855},
+                                       {"long", 3.401035},
+                                       {"description", "Pétaouchnok"}
+                               }
+                    }
             },
             {
-                    {"id", 147},
-                    {"lat"}, 28.468412,
-                    {"long",        14.351684},
-                    {"description", "Paris - Tour Eiffel"}
+                    {"start", 1550150156},
+                    {"end", 1650158000},
+                    {"sensor" ,{
+                                       {"id", 147},
+                                       {"lat", 28.468412},
+                                       {"long", 14.351684},
+                                       {"description", "Paris - Tour Eiffel"}
+                               }
+
+                    }
             }
     };
     json dataJsonIngest = {

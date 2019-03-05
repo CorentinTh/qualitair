@@ -10,6 +10,7 @@
 
 enum ConditionOperator {AND, OR};
 enum ArgumentType {INT, FLOAT, DOUBLE, LONG, STRING};
+enum RequestType {SELECT, INSERT};
 
 struct Argument {
     Argument(int position, ArgumentType type, void * value): position(position), type(type), value(value) {};
@@ -21,10 +22,12 @@ struct Argument {
 class QueryBuilder : public IData {
 
     public:
-        QueryBuilder() = default;
+        QueryBuilder() : argumentIndex(0) {};
         ~ QueryBuilder();
         std::string getQuery();
         QueryBuilder & select(std::string field);
+        QueryBuilder & insert(std::string table);
+        QueryBuilder & values(std::vector<std::string> attributes);
         QueryBuilder & from(std::string table);
         QueryBuilder & where(std::string condition);
         QueryBuilder & andWhere(std::string condition);
@@ -37,11 +40,12 @@ class QueryBuilder : public IData {
         QueryBuilder & bind(long long arg);
         QueryBuilder & bind(std::string arg);
         SQLite::Statement * execute();
-
+        int executeUpdate();
 
     private:
         static std::string joinStringVector(std::vector<std::string> vector, std::string separator, std::string replaceValue = "");
         int argumentIndex;
+        RequestType requestType;
         std::vector<std::string> attributes;
         std::vector<std::string> tables;
         std::vector<std::string> joinedTables;

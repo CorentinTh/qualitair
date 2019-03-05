@@ -8,7 +8,7 @@ SQLite::Database * ConnectionFactory::database = nullptr;
 std::string ConnectionFactory::databasePath = "";
 
 SQLite::Database * ConnectionFactory::getConnection() {
-    if(database == nullptr) database = new SQLite::Database(databasePath);
+    if(database == nullptr) database = new SQLite::Database(databasePath, SQLite::OPEN_READWRITE);
     return database;
 }
 
