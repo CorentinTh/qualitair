@@ -66,7 +66,7 @@ int ATMOComputer::computeAtmo() const {
         {
             for (auto k = j->begin(); k != j->end() ; ++k)
             {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it)
                 {
                     if (it->first == "PM10") {
@@ -90,7 +90,7 @@ int ATMOComputer::computeAtmo() const {
     for (auto i = points.begin(); i != points.end() ; ++i) {
         for (auto j = i->begin(); j != i->end() ; ++j) {
             for (auto k = j->begin(); k != j->end() ; ++k) {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it) {
                     //initial values
                     if (!maxima[currentHour].count(it->first))

@@ -15,7 +15,7 @@ class IETL {
     public:
         virtual bool ingest(json data) = 0;
         // TODO this is not void + add param
-        virtual void getData() = 0;
+        virtual void* getData() = 0;
 };
 
 

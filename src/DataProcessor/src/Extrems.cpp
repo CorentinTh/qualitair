@@ -40,7 +40,7 @@ std::unordered_map<std::string, std::pair<double, double>> Extrems::computeExtre
         {
             for (auto k = j->begin(); k != j->end() ; ++k)
             {
-                for (std::unordered_map<std::string, int>::const_iterator it = k->begin();
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
                      it != k->end(); ++it)
                 {
                     //initial values
