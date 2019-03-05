@@ -90,144 +90,144 @@ namespace HTMLTest {
     };
 
 
-    TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
-
-        SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
-            }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
-            // TODO determine what is the html output
-        }
-    }
-
-    TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
-
-
-        SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
-            }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            // TODO determine what is the html output
-        }
-    }
-
-    TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
-
-
-        SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
-            }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
-            // TODO determine what is the html output
-        }
-    }
-
-    TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
-
-
-        SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
-            }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
-            // TODO determine what is the html output
-        }
-
-    }
-
-    TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
-
-
-        SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
-        }
-        SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
-            }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
-        }
-
-        SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
-            // TODO determine what is the html output
-        }
-    }
+//    TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
+//
+//        SECTION("is the method creating the file") {
+//            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
+//            std::ifstream file(htmlFilename);
+//            REQUIRE(file.good());
+//            file.close();
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting something in the html file") {
+//            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
+//            std::ifstream out(htmlFilename);
+//            std::string line;
+//            int nbCharacters = 0;
+//            while (std::getline(out, line)) {
+//                nbCharacters += line.length();
+//            }
+//            out.close();
+//            REQUIRE(nbCharacters > 0);
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting the right thing in the html file") {
+//            OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
+//            // TODO determine what is the html output
+//        }
+//    }
+//
+//    TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
+//
+//
+//        SECTION("is the method creating the file") {
+//            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
+//            std::ifstream file(htmlFilename);
+//            REQUIRE(file.good());
+//            file.close();
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting something in the html file") {
+//            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
+//            std::ifstream out(htmlFilename);
+//            std::string line;
+//            int nbCharacters = 0;
+//            while (std::getline(out, line)) {
+//                nbCharacters += line.length();
+//            }
+//            out.close();
+//            REQUIRE(nbCharacters > 0);
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting the right thing in the html file") {
+//            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
+//            // TODO determine what is the html output
+//        }
+//    }
+//
+//    TEST_CASE("Test printSim(dataJSON) HTML", "[UT-V-8]") {
+//
+//
+//        SECTION("is the method creating the file") {
+//            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
+//            std::ifstream file(htmlFilename);
+//            REQUIRE(file.good());
+//            file.close();
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting something in the html file") {
+//            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
+//            std::ifstream out(htmlFilename);
+//            std::string line;
+//            int nbCharacters = 0;
+//            while (std::getline(out, line)) {
+//                nbCharacters += line.length();
+//            }
+//            out.close();
+//            REQUIRE(nbCharacters > 0);
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting the right thing in the html file") {
+//            OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
+//            // TODO determine what is the html output
+//        }
+//    }
+//
+//    TEST_CASE("Test printBroken(dataJSON) HTML", "[UT-V-9]") {
+//
+//
+//        SECTION("is the method creating the file") {
+//            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
+//            std::ifstream file(htmlFilename);
+//            REQUIRE(file.good());
+//            file.close();
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting something in the html file") {
+//            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
+//            std::ifstream out(htmlFilename);
+//            std::string line;
+//            int nbCharacters = 0;
+//            while (std::getline(out, line)) {
+//                nbCharacters += line.length();
+//            }
+//            out.close();
+//            REQUIRE(nbCharacters > 0);
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting the right thing in the html file") {
+//            OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
+//            // TODO determine what is the html output
+//        }
+//
+//    }
+//
+//    TEST_CASE("Test printIngest(dataJSON) HTML", "[UT-V-10]") {
+//
+//
+//        SECTION("is the method creating the file") {
+//            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
+//            std::ifstream file(htmlFilename);
+//            REQUIRE(file.good());
+//            file.close();
+//            remove(htmlFilename.c_str());
+//        }
+//        SECTION("is the method putting something in the html file") {
+//            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
+//            std::ifstream out(htmlFilename);
+//            std::string line;
+//            int nbCharacters = 0;
+//            while (std::getline(out, line)) {
+//                nbCharacters += line.length();
+//            }
+//            out.close();
+//            REQUIRE(nbCharacters > 0);
+//            remove(htmlFilename.c_str());
+//        }
+//
+//        SECTION("is the method putting the right thing in the html file") {
+//            OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
+//            // TODO determine what is the html output
+//        }
+//    }
 }
