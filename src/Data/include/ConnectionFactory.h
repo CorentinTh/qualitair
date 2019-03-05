@@ -19,4 +19,5 @@ class ConnectionFactory {
 };
 
 
+
 #endif //QUALITAIR_CONNECTIONFACTORY_H
