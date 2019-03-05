@@ -128,17 +128,17 @@ void OutputCLI::printStats(json data, std::string filename) {
 
 void OutputCLI::printSim(json data, std::string filename) {
     if (!data.empty()){
-        for (json::iterator it = data.begin(); it != data.end(); ++it) {
+        for (const auto & listSimilarSensors : data){
             std::cout << "------" << std::endl;
             std::cout << "Les capteurs suivants sont similaires :" << std::endl;
             int id;
             double latitude, longitude;
             std::string description;
-            for (json::iterator itSubList = (*it).begin(); itSubList != (*it).end(); ++itSubList){
-                id = (*itSubList).at("id");
-                latitude = (*itSubList).at("lat");
-                longitude = (*itSubList).at("long");
-                description = (*itSubList).at("description");
+            for (const auto & sensor : listSimilarSensors){
+                id = sensor.at("id");
+                latitude = sensor.at("lat");
+                longitude = sensor.at("long");
+                description = sensor.at("description");
 
                 std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
                 std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
