@@ -13,7 +13,7 @@ class SpikeDetection : public IDataProcess {
     public:
         SpikeDetection & operator = ( SpikeDetection other );
 
-        json apply() override;
+        json* apply() override;
 
         SpikeDetection ( const SpikeDetection & other );
         SpikeDetection ( pointCollection & data, std::string formula, double valueThreshold, double areaThreshold,
