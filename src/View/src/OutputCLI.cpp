@@ -25,18 +25,16 @@ void OutputCLI::printSpikes(json data, std::string filename) {
         t0 = data.at("t0");
         x0 = data.at("x0");
         y0 = data.at("y0");
-        deltaS = data.at("deltaSpatial");
-        deltaT = data.at("deltaTemp");
+        deltaS = data.at("spatialStep");
+        deltaT = data.at("temporalStep");
 
         int indiceT = 0; // time index
-        for (json::iterator itTimeList = data.at("pics").begin();
-                itTimeList != data.at("pics").end(); ++itTimeList) {
-
+        for (const auto & timeList : data.at("pics")){
             int indiceY = 0; // longitude index
-            for (json::iterator itY = (*itTimeList).begin(); itY != (*itTimeList).end(); ++itY) {
+            for (const auto & y : timeList){
                 int indiceX = 0; // latitude index
-                for (json::iterator itX = (*itY).begin(); itX != (*itY).end(); ++itX) {
-                    if (*itX == 1) {
+                for (const auto & x : y){
+                    if (x == 1) {
                         bool spikeInVector = false;
                         for (Spike* s : vectSpikes) {
                             if (s->x == x0 + indiceX * deltaS
