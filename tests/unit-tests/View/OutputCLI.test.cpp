@@ -7,13 +7,12 @@
 #include <iostream>
 #include <fstream>
 #include <istream>
-#include <typeinfo>
 #include "../../../src/View/include/OutputCLI.h"
 
 namespace CLITest {
     json dataJsonSpikes = {
-            {"deltaSpatial", 2},
-            {"deltaTemp", 1000},
+            {"spatialStep", 2},
+            {"temporalStep", 1000},
             {"t0", 1550150155},
             {"x0",  48.8534},
             {"y0", 2.3488},
