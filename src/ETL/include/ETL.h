@@ -15,21 +15,12 @@ public:
         return instance;
     }
 
-    bool ingest(json data) override {
-        return false;
-    }
-
-    void getData() override {
-
-    }
+    bool ingest(std::vector<std::string> string, DataType dataType);
+    void getData();
 
     ETL(ETL const &) = default;
 
     void operator=(ETL const &) = delete;
-
-    enum {
-        MEASURE, ATTRIBUTE, SENSOR
-    } data_type;
 
 private:
     ETL() {}
