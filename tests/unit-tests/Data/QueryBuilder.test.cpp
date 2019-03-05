@@ -16,7 +16,7 @@ namespace nsquerybuilder {
     } testInitInstance;
 
     TEST_CASE("Test query attribute selection", "[UT-D-2]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable;");
 
@@ -25,21 +25,21 @@ namespace nsquerybuilder {
     }
 
     TEST_CASE("Test query table selection", "[UT-D-3]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.from("Measurement");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement;");
     }
 
     TEST_CASE("Test query where condition", "[UT-D-4]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.where("id = ?");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
     }
 
     TEST_CASE("Test query andWhere condition", "[UT-D-5]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.andWhere("id = ?");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
@@ -52,7 +52,7 @@ namespace nsquerybuilder {
     }
 
     TEST_CASE("Test query orWhere condition", "[UT-D-6]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.orWhere("id = ?");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ?;");
@@ -65,14 +65,14 @@ namespace nsquerybuilder {
     }
 
     TEST_CASE("Test query join condition", "[UT-D-7]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.join("Sensor");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable CROSS JOIN Sensor;");
     }
 
     TEST_CASE("Test combined query", "[UT-D-8]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+        QueryBuilder queryBuilder;
 
         queryBuilder.select("attributeId")
                     .from("Attribute")
@@ -89,8 +89,27 @@ namespace nsquerybuilder {
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = ?;");
     }
 
-    TEST_CASE("Test QueryBuilder::execute", "[UT-D-9]") {
-        QueryBuilder queryBuilder = QueryBuilder();
+    TEST_CASE("Test insert", "[UT-D-9]") {
+        QueryBuilder queryBuilder;
+
+        queryBuilder.insert("Attribute")
+                    .values({"attributeId", "unit", "description"})
+                    .bind("dummy").bind("dummy").bind("dummy");
+
+        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Attribute(attributeId, unit, description) VALUES (?, ?, ?);");
+
+        queryBuilder = QueryBuilder();
+        queryBuilder = queryBuilder.insert("Sensor")
+                .values({"sensorId", "latitude", "longitude", "description"})
+                .bind("dummy").bind("dummy").bind("dummy").bind("dummy")
+                .bind("dummy").bind("dummy").bind("dummy").bind("dummy")
+                .bind("dummy").bind("dummy").bind("dummy").bind("dummy");
+
+        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Sensor(sensorId, latitude, longitude, description) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?);");
+    }
+
+    TEST_CASE("Test QueryBuilder::execute", "[UT-D-10]") {
+        QueryBuilder queryBuilder;
         SQLite::Statement * query;
 
         query = queryBuilder.select("sensorId")

@@ -2,6 +2,7 @@
 // Created by Wallyn Valentin on 17/02/2019.
 //
 
+#include <SQLiteCpp/Transaction.h>
 #include "../include/QueryBuilder.h"
 #include "../include/ConnectionFactory.h"
 
@@ -16,7 +17,19 @@ QueryBuilder::~QueryBuilder() {
 }
 
 QueryBuilder & QueryBuilder::select(std::string field) {
+    requestType = SELECT;
     attributes.push_back(field);
+    return * this;
+}
+
+QueryBuilder & QueryBuilder::insert(std::string table) {
+    requestType = INSERT;
+    tables.push_back(table);
+    return * this;
+}
+
+QueryBuilder & QueryBuilder::values(std::vector<std::string> attributes) {
+    this->attributes = attributes;
     return * this;
 }
 
@@ -46,23 +59,42 @@ QueryBuilder & QueryBuilder::join(std::string clause) {
 }
 
 std::string QueryBuilder::getQuery() {
-    std::string query = "SELECT ";
+    std::string query;
 
-    query += joinStringVector(attributes, ", ", "*");
-    query += " FROM ";
-    query += joinStringVector(tables, ", ", "unknowTable");
+    if(requestType == SELECT) {
+        query += "SELECT ";
+        query += joinStringVector(attributes, ", ", "*");
+        query += " FROM ";
+        query += joinStringVector(tables, ", ", "unknowTable");
 
-    if(!joinedTables.empty()) {
-        query += " CROSS JOIN ";
-        query += joinStringVector(joinedTables, ", ");
-    }
-
-    if(!conditions.empty()) {
-        query += " WHERE ";
-        for(std::pair<ConditionOperator, std::string> condition : conditions) {
-            if(conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
-            query += condition.second;
+        if(!joinedTables.empty()) {
+            query += " CROSS JOIN ";
+            query += joinStringVector(joinedTables, ", ");
         }
+
+        if(!conditions.empty()) {
+            query += " WHERE ";
+            for(std::pair<ConditionOperator, std::string> condition : conditions) {
+                if(conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
+                query += condition.second;
+            }
+        }
+    } else {
+        query += "INSERT INTO ";
+        query += tables[0];
+        query += "(" + joinStringVector(attributes, ", ") + ")";
+        query += " VALUES ";
+
+        for(int i = 0; i < arguments.size() / attributes.size(); i ++) {
+            query += "(";
+
+            for(int j = 0; j < attributes.size(); j++) query += "?, ";
+            query = query.substr(0, query.size() - 2);
+
+            query += "), ";
+        }
+
+        query = query.substr(0, query.size() - 2);
     }
 
     query += ";";
@@ -83,6 +115,10 @@ SQLite::Statement * QueryBuilder::execute() {
     }
 
     return statement;
+}
+
+int QueryBuilder::executeUpdate() {
+    return execute()->exec();
 }
 
 QueryBuilder & QueryBuilder::bind(int arg) {
