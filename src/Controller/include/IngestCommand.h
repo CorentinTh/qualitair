@@ -17,10 +17,12 @@ class IngestCommand : public Command{
         virtual ~IngestCommand ( );
 
         void execute() override;
+
         void output() override;
 
     protected:
         friend void swap(IngestCommand & first, IngestCommand & second);
+
         std::string input;
 };
 
