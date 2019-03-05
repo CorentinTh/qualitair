@@ -23,9 +23,8 @@ class DetectBrokenCommand : public Command {
         void output() override;
 
     protected:
-            friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
+        friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
 
-    private:
         BBox bbox;
         time_t start;
         time_t end;

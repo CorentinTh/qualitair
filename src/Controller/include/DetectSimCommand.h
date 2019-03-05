@@ -15,24 +15,22 @@ class DetectSimCommand : public Command {
 
         DetectSimCommand & operator = ( DetectSimCommand other );
         DetectSimCommand ( const DetectSimCommand & other );
-        DetectSimCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors, double epsilon, int threshold );
+        DetectSimCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors, double threshold );
         virtual ~DetectSimCommand ( );
 
         void execute() override;
 
         void output() override;
 
-protected:
+    protected:
         friend void swap(DetectSimCommand & first, DetectSimCommand & second);
 
-private:
-    double epsilon;
-    int threshold;
-    BBox bbox;
-    time_t start;
-    time_t end;
-    std::vector<std::string> attributes;
-    std::vector<std::string> sensors;
+        double threshold;
+        BBox bbox;
+        time_t start;
+        time_t end;
+        std::vector<std::string> attributes;
+        std::vector<std::string> sensors;
 };
 
 

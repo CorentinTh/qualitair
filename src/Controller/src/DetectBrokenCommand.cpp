@@ -5,6 +5,7 @@
 #include "../include/DetectBrokenCommand.h"
 
 DetectBrokenCommand &DetectBrokenCommand::operator=(DetectBrokenCommand other) {
+    swap(*this, other);
     return *this;
 }
 
@@ -17,16 +18,27 @@ void DetectBrokenCommand::output() {
 }
 
 DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
-
+    bbox = other.bbox;
+    start = other.start;
+    end = other.end;
+    attributes = other.attributes;
+    sensors = other.sensors;
 }
 
-DetectBrokenCommand::DetectBrokenCommand(BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors) {
-    this->bbox = bbox;
-    this->start = start;
-    this->attributes = attributes;
-    this->sensors = sensors;
+DetectBrokenCommand::DetectBrokenCommand(BBox box, time_t st, time_t e, std::vector<std::string> attr,
+        std::vector<std::string> sens) : bbox(box), start(st), end(e), attributes(attr), sensors(sens)
+{
+
 }
 
 DetectBrokenCommand::~DetectBrokenCommand() {
 
+}
+
+void swap(DetectBrokenCommand &first, DetectBrokenCommand &second) {
+    std::swap(first.bbox, second.bbox);
+    std::swap(first.start, second.start);
+    std::swap(first.end, second.end);
+    std::swap(first.attributes, second.attributes);
+    std::swap(first.sensors, second.sensors);
 }

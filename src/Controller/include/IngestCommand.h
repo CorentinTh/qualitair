@@ -21,9 +21,8 @@ class IngestCommand : public Command{
         void output() override;
 
     protected:
-            friend void swap(IngestCommand & first, IngestCommand & second);
+        friend void swap(IngestCommand & first, IngestCommand & second);
 
-    private:
         std::string input;
 };
 

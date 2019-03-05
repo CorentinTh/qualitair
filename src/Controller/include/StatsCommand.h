@@ -12,25 +12,27 @@
 
 class StatsCommand : public Command {
     public:
+        enum StatEnum { AVG, EXTREMS, DEVIATION, ATMO };
 
         StatsCommand & operator = ( StatsCommand other );
         StatsCommand ( const StatsCommand & other );
-        StatsCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors );
+        StatsCommand ( StatEnum type, BBox bbox, time_t start, time_t end, std::vector<std::string> attributes,
+                std::vector<std::string> sensors );
         virtual ~StatsCommand ( );
 
         void execute() override;
 
         void output() override;
 
-protected:
+    protected:
         friend void swap(StatsCommand & first, StatsCommand & second);
 
-private:
-    BBox bbox;
-    time_t start;
-    time_t end;
-    std::vector<std::string> attributes;
-    std::vector<std::string> sensors;
+        StatEnum type;
+        BBox bbox;
+        time_t start;
+        time_t end;
+        std::vector<std::string> attributes;
+        std::vector<std::string> sensors;
 };
 
 

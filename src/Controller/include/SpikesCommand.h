@@ -15,7 +15,7 @@ class SpikesCommand : public Command {
 
         SpikesCommand & operator = ( SpikesCommand other );
         SpikesCommand ( const SpikesCommand & other );
-        SpikesCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors );
+        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors );
         virtual ~SpikesCommand ( );
 
         void execute() override;
@@ -25,12 +25,11 @@ class SpikesCommand : public Command {
     protected:
         friend void swap(SpikesCommand & first, SpikesCommand & second);
 
-    private:
         std::string outputPath;
         BBox bbox;
         time_t start;
         time_t end;
-        std::vector<std::string> attributes;
+        std::string attribute;
         std::vector<std::string> sensors;
 
 };
