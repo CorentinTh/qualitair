@@ -10,6 +10,11 @@
 
 class ETL : public IETL {
 public:
+
+    enum {
+        MEASURE, ATTRIBUTE, SENSOR
+    } data_type;
+
     static ETL &getInstance() {
         static ETL instance;
         return instance;
@@ -19,17 +24,11 @@ public:
         return false;
     }
 
-    void getData() override {
-
-    }
+    void* getData(json config) override;
 
     ETL(ETL const &) = default;
 
     void operator=(ETL const &) = delete;
-
-    enum {
-        MEASURE, ATTRIBUTE, SENSOR
-    } data_type;
 
 private:
     ETL() {}

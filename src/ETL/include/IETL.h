@@ -7,15 +7,16 @@
 
 
 #include "nlohmann/json.hpp"
+
 using json = nlohmann::json;
 
 #include <string>
 
 class IETL {
-    public:
-        virtual bool ingest(json data) = 0;
-        // TODO this is not void + add param
-        virtual void getData() = 0;
+public:
+    virtual bool ingest(json data) = 0;
+
+    virtual void *getData(json config) = 0;
 };
 
 
