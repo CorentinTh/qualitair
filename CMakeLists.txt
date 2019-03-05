@@ -23,9 +23,9 @@ file(GLOB SOURCES
 set(MAIN_FILE ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 set(EASYLOGGIN ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.cc ${PROJECT_SOURCE_DIR}/deps/easyloggin/easylogging++.h)
+set(INIREADER ${PROJECT_SOURCE_DIR}/deps/inih/INIReader.cpp ${PROJECT_SOURCE_DIR}/deps/inih/INIReader.h ${PROJECT_SOURCE_DIR}/deps/inih/ini.c ${PROJECT_SOURCE_DIR}/deps/inih/ini.h)
 
-list(APPEND SOURCES ${EASYLOGGIN})
-
+list(APPEND SOURCES ${EASYLOGGIN} ${INIREADER})
 # dependencies
 set(LOCAL_DEPS
         ${PROJECT_SOURCE_DIR}/deps/argh
