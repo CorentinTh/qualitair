@@ -79,7 +79,7 @@ int main(int argc, char ** argv){
         {{{"co2", 10}},{{"co2", 10}},{{"co2", 10}}}}
     };
 
-    SpikeDetection spikeDetection(&in, 5, 1, 1);
+    SpikeDetection spikeDetection(&in, 5, 1, 1, "co2");
 
 
     auto res = spikeDetection.apply();
