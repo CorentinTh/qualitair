@@ -24,12 +24,16 @@ class DetectBrokenCommand : public Command {
 
     protected:
         friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
+        friend void to_json(json& j, const DetectBrokenCommand& command);
+        friend void from_json(const json& j, DetectBrokenCommand& command);
 
         BBox bbox;
         time_t start;
         time_t end;
         std::vector<std::string> attributes;
         std::vector<std::string> sensors;
+
+
 };
 
 

@@ -22,6 +22,8 @@ class SensorsCommand : public Command{
     
     protected:
         friend void swap(SensorsCommand & first, SensorsCommand & second);
+        friend void to_json(json& j, const SensorsCommand& command);
+        friend void from_json(const json& j, SensorsCommand& command);
 
         BBox bbox;
 };

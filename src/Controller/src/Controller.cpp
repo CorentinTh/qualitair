@@ -47,21 +47,21 @@ Command* Controller::parseCommand() {
         std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
         if(verb == "stats") {
-            command = new StatsCommand(bbox, start, end, attributes, sensors);
+            //TODO getOption ? std::string type = cliParser.getOption("type");
+            command = new StatsCommand(StatsCommand::AVG, bbox, start, end, attributes, sensors);
         } else if(verb == "spikes") {
-            command = new SpikesCommand(bbox, start, end, attributes, sensors);
-        } else if(verb == "detect-broken") {
+            std::string attribute = "";
+            command = new SpikesCommand(attribute, bbox, start, end, sensors);
+        } else if(verb == "broken") {
             command = new DetectBrokenCommand(bbox, start, end, attributes, sensors);
-        } else if(verb == "detect-sim") {
+        } else if(verb == "similarities") {
             Config config;
             config.load();
 
-            std::string epsilonStr = cliParser.getArgument("epsilon");
             std::string thresholdStr = cliParser.getArgument("threshold");
-            double epsilon = epsilonStr.empty() ? config.getSimilarityTolerance() : std::stod(epsilonStr);
-            int threshold = epsilonStr.empty() ? config.getSimilarityThreshold() : std::stoi(thresholdStr);
+            double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
 
-            command = new DetectSimCommand(bbox, start, end, attributes, sensors, epsilon, threshold);
+            command = new DetectSimCommand(bbox, start, end, attributes, sensors, threshold);
         }
 
     }

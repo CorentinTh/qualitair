@@ -26,6 +26,8 @@ class StatsCommand : public Command {
 
     protected:
         friend void swap(StatsCommand & first, StatsCommand & second);
+        friend void to_json(json& j, const StatsCommand& command);
+        friend void from_json(const json& j, StatsCommand& command);
 
         StatEnum type;
         BBox bbox;

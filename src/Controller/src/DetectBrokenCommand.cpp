@@ -42,3 +42,22 @@ void swap(DetectBrokenCommand &first, DetectBrokenCommand &second) {
     std::swap(first.attributes, second.attributes);
     std::swap(first.sensors, second.sensors);
 }
+
+void to_json(json& j, const DetectBrokenCommand& command) {
+    j = json{
+        {"command", "broken"},
+        {"bbox", command.bbox},
+        {"start", command.start},
+        {"end", command.end},
+        {"attributes", command.attributes},
+        {"sensors", command.sensors}
+    };
+}
+
+void from_json(const json& j, DetectBrokenCommand& command) {
+    j.at("bbox").get_to(command.bbox);
+    j.at("start").get_to(command.start);
+    j.at("end").get_to(command.end);
+    j.at("attributes").get_to(command.attributes);
+    j.at("sensors").get_to(command.sensors);
+}

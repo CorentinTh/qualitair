@@ -40,3 +40,22 @@ void swap(StatsCommand &first, StatsCommand &second) {
     std::swap(first.attributes, second.attributes);
     std::swap(first.sensors, second.sensors);
 }
+
+void to_json(json& j, const StatsCommand& command) {
+    j = json{
+            {"command", "broken"},
+            {"bbox", command.bbox},
+            {"start", command.start},
+            {"end", command.end},
+            {"attribute", command.attributes},
+            {"sensors", command.sensors}
+    };
+}
+
+void from_json(const json& j, StatsCommand& command) {
+    j.at("bbox").get_to(command.bbox);
+    j.at("start").get_to(command.start);
+    j.at("end").get_to(command.end);
+    j.at("attribute").get_to(command.attributes);
+    j.at("sensors").get_to(command.sensors);
+}

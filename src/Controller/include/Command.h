@@ -7,6 +7,8 @@
 
 
 #include <string>
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
 
 enum OutputFormat { HUMAN, JSON, HTML };
 

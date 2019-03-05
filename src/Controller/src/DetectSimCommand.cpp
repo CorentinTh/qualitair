@@ -43,3 +43,24 @@ void swap(DetectSimCommand &first, DetectSimCommand &second) {
     std::swap(first.sensors, second.sensors);
     std::swap(first.threshold, second.threshold);
 }
+
+void to_json(json& j, const DetectSimCommand& command) {
+    j = json{
+            {"command", "similarities"},
+            {"bbox", command.bbox},
+            {"start", command.start},
+            {"end", command.end},
+            {"attributes", command.attributes},
+            {"sensors", command.sensors},
+            {"threshold", command.threshold}
+    };
+}
+
+void from_json(const json& j, DetectSimCommand& command) {
+    j.at("bbox").get_to(command.bbox);
+    j.at("start").get_to(command.start);
+    j.at("end").get_to(command.end);
+    j.at("attributes").get_to(command.attributes);
+    j.at("sensors").get_to(command.sensors);
+    j.at("threshold").get_to(command.threshold);
+}
