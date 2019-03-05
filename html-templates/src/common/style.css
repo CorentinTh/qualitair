@@ -1,0 +1,42 @@
+h1{
+    font-size: 50px;
+    margin: 0;
+}
+
+.sub-title{
+    margin-top: 10px;
+    color: #888888;
+    font-size: 25px;
+}
+
+
+#grid{
+    width: 100%;
+    height: 100%;
+}
+
+#grid .time {
+
+}
+
+
+#grid .time {
+    width: 90%;
+}
+#grid .time td {
+    width: 33.33%;
+    position: relative;
+}
+#grid .time td:after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+}
+#grid .time td .content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: gold;
+}
