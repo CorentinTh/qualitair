@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include <vector>
 #include "../include/OutputCLI.h"
 
@@ -19,74 +20,82 @@ typedef struct {
 void OutputCLI::printSpikes(json data, std::string filename) {
     std::vector<Spike*> vectSpikes;
     if (!data.empty() && data.find("pics") != data.end()) {
-        std::cout << "Des pics ont été détectés :" << std::endl;
-        double t0, x0, y0;
-        int deltaS, deltaT;
-        t0 = data.at("t0");
-        x0 = data.at("x0");
-        y0 = data.at("y0");
-        deltaS = data.at("spatialStep");
-        deltaT = data.at("temporalStep");
+        for (json::iterator it = data.at("pics")[0][0][0].begin(); it != data.at("pics")[0][0][0].end(); ++it){
+            std::string actualType = it.key();
+            std::cout << "Des pics de "<< actualType <<" ont été détectés :" << std::endl;
 
-        int indiceT = 0; // time index
-        for (const auto & timeList : data.at("pics")){
-            int indiceY = 0; // longitude index
-            for (const auto & y : timeList){
-                int indiceX = 0; // latitude index
-                for (const auto & x : y){
-                    if (x == 1) {
-                        bool spikeInVector = false;
-                        for (Spike* s : vectSpikes) {
-                            if (s->x == x0 + indiceX * deltaS
-                                    && s->y == y0 + indiceY * deltaS) {
-                                if (s->tStart < (int) t0 + indiceT * deltaT
-                                        && s->tEnd == (int) t0 + (indiceT - 1) * deltaT) {
-                                    // if the spike is already in the spikes vector
-                                    // we extend its duration
-                                    s->tEnd = (int) t0 + (indiceT) * deltaT;
-                                    spikeInVector = true;
+            double t0, x0, y0;
+            int deltaS, deltaT;
+            t0 = data.at("t0");
+            x0 = data.at("x0");
+            y0 = data.at("y0");
+            deltaS = data.at("spatialStep");
+            deltaT = data.at("temporalStep");
+
+            int indiceT = 0; // time index
+            for (const auto & timeList : data.at("pics")){
+                int indiceY = 0; // longitude index
+                for (const auto & y : timeList){
+                    int indiceX = 0; // latitude index
+                    for (const auto & x : y){
+                        for (json::const_iterator itType = x.begin(); itType != x.end(); itType++){
+                            std::string type = itType.key();
+                            int value = itType.value();
+                            if (actualType == type && value == 1) {
+                                bool spikeInVector = false;
+                                for (Spike* s : vectSpikes) {
+                                    if (s->x == x0 + indiceX * deltaS
+                                        && s->y == y0 + indiceY * deltaS) {
+                                        if (s->tStart < (int) t0 + indiceT * deltaT
+                                            && s->tEnd == (int) t0 + (indiceT - 1) * deltaT) {
+                                            // if the spike is already in the spikes vector
+                                            // we extend its duration
+                                            s->tEnd = (int) t0 + (indiceT) * deltaT;
+                                            spikeInVector = true;
+                                        }
+                                        else {
+                                            spikeInVector = false;
+                                        }
+                                    }
                                 }
-                                else {
-                                    spikeInVector = false;
+                                if (!spikeInVector) {
+                                    // if the spike is not in the spikes vector
+                                    // we create it and add it
+                                    Spike * newSpike = new Spike;
+                                    newSpike->tEnd = (int) t0 + (indiceT) * deltaT;
+                                    newSpike->tStart = (int) t0 + (indiceT) * deltaT;
+                                    newSpike->x = x0 + indiceX * deltaS;
+                                    newSpike->y = y0 + indiceY * deltaS;
+                                    vectSpikes.push_back(newSpike);
                                 }
                             }
                         }
-                        if (!spikeInVector) {
-                            // if the spike is not in the spikes vector
-                            // we create it and add it
-                            Spike * newSpike = new Spike;
-                            newSpike->tEnd = (int) t0 + (indiceT) * deltaT;
-                            newSpike->tStart = (int) t0 + (indiceT) * deltaT;
-                            newSpike->x = x0 + indiceX * deltaS;
-                            newSpike->y = y0 + indiceY * deltaS;
-                            vectSpikes.push_back(newSpike);
-                        }
+                        indiceX++;
                     }
-                    indiceX++;
+                    indiceY++;
                 }
-                indiceY++;
+                indiceT++;
             }
-            indiceT++;
-        }
 
-        for (Spike * s : vectSpikes) {
+            for (Spike * s : vectSpikes) {
 
-            time_t tEnd = (time_t) s->tEnd;
-            struct tm *tmEnd = localtime(&tEnd);
-            char dateEnd[25];
-            strftime(dateEnd, sizeof(dateEnd), "%H:%M:%S le %d/%m/%Y", tmEnd);
+                time_t tEnd = (time_t) s->tEnd;
+                struct tm *tmEnd = localtime(&tEnd);
+                char dateEnd[25];
+                strftime(dateEnd, sizeof(dateEnd), "%H:%M:%S le %d/%m/%Y", tmEnd);
 
-            time_t tStart = (time_t) s->tStart;
-            struct tm *tmStart = localtime(&tStart);
-            char dateStart[25];
-            strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
+                time_t tStart = (time_t) s->tStart;
+                struct tm *tmStart = localtime(&tStart);
+                char dateStart[25];
+                strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
-            std::cout << std::setprecision(8);
-            std::cout << " - en position (" << s->x << "," << s->y << ")";
-            std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
+                std::cout << std::setprecision(8);
+                std::cout << " - en position (" << s->x << "," << s->y << ")";
+                std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
 
-            // delete the pointers
-            delete(s);
+                // delete the pointers
+                delete(s);
+            }
         }
     }
 }

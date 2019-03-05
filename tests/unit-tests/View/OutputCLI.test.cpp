@@ -17,15 +17,15 @@ namespace CLITest {
             {"x0",  48.8534},
             {"y0", 2.3488},
             {"pics",      {
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  },
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  }
-                          }
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    },
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    }
+                            }
             }
     };
     json dataJsonStats = {
@@ -130,7 +130,7 @@ namespace CLITest {
             std::ifstream outToRead("expected_out.txt");
             std::string line;
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == "Des pics ont été détectés :");
+            REQUIRE(line == "Des pics de co2 ont été détectés :");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == " - en position (50.8534,2.3488) entre 14:15:55 le 14/02/2019 et 14:32:35 le 14/02/2019");
             //check if we are at the end of the file

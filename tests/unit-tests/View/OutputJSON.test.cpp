@@ -15,19 +15,21 @@
 namespace JSONTest {
     std::string jsonFilename = "mon_dataset.json";
     json dataJsonSpikes = {
-            {"timestamp", 1550150155},
-            {"latitude",  48.8534},
-            {"longitude", 2.3488},
+            {"spatialStep", 2},
+            {"temporalStep", 1000},
+            {"t0", 1550150155},
+            {"x0",  48.8534},
+            {"y0", 2.3488},
             {"pics",      {
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  },
-                                  {
-                                          {0, 1},
-                                          {0, 0}
-                                  }
-                          }
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    },
+                                    {
+                                            {{{"co2",0}}, {{"co2",1}}},
+                                            {{{"co2",0}}, {{"co2",0}}}
+                                    }
+                            }
             }
     };
     json dataJsonStats = {
