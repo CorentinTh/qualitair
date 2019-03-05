@@ -152,17 +152,28 @@ void OutputCLI::printSim(json data, std::string filename) {
 void OutputCLI::printBroken(json data, std::string filename) {
     if (!data.empty()){
         std::cout << "Les capteurs suivants sont en panne :" << std::endl;
-        for (json::iterator it = data.begin(); it != data.end(); ++it) {
+        for (json::iterator itSensor = data.begin(); itSensor != data.end(); ++itSensor) {
             int id;
             double latitude, longitude;
             std::string description;
-            id = (*it).at("id");
-            latitude = (*it).at("lat");
-            longitude = (*it).at("long");
-            description = (*it).at("description");
+            id = (*itSensor).at("sensor").at("id");
+            latitude = (*itSensor).at("sensor").at("lat");
+            longitude = (*itSensor).at("sensor").at("long");
+            description = (*itSensor).at("sensor").at("description");
+
+            time_t tEnd = (time_t) (*itSensor).at("end");
+            struct tm *tmEnd = localtime(&tEnd);
+            char dateEnd[25];
+            strftime(dateEnd, sizeof(dateEnd), "%H:%M:%S le %d/%m/%Y", tmEnd);
+
+            time_t tStart = (time_t) (*itSensor).at("start");
+            struct tm *tmStart = localtime(&tStart);
+            char dateStart[25];
+            strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
             std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-            std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
+            std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")";
+            std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
             std::cout << "   Description : " << description << std::endl;
         }
     }
