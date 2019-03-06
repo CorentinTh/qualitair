@@ -42,6 +42,17 @@ Measurement::~Measurement() {
 
 }
 
+bool Measurement::operator==(const Measurement &rhs) const {
+    return timestamp == rhs.timestamp &&
+           value == rhs.value &&
+           sensor == rhs.sensor &&
+           attribute == rhs.attribute;
+}
+
+bool Measurement::operator!=(const Measurement &rhs) const {
+    return !(rhs == *this);
+}
+
 void swap(Measurement & first, Measurement & second) {
     std::swap(first.timestamp, second.timestamp);
     std::swap(first.value, second.value);

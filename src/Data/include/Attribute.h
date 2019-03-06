@@ -20,7 +20,11 @@ class Attribute {
         Attribute ( std::string attributeId, std::string unit, std::string description);
         virtual ~Attribute ( );
 
-    protected:
+    bool operator==(const Attribute &rhs) const;
+
+    bool operator!=(const Attribute &rhs) const;
+
+protected:
         friend void swap(Attribute & first, Attribute & second);
 
         std::string attributeId;

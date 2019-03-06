@@ -100,3 +100,12 @@ TEST_CASE("Testing ETL singleton", "[extra]") {
 
     REQUIRE(typeid(ETL::getInstance()).name() == "ETL");
 }
+
+
+TEST_CASE("Testing ETL::getData with measures"){
+    ETL etl = ETL::getInstance();
+
+    auto result = (vector<Measurement *> *) etl.getData({{"type", ETL::MEASURE}});
+
+    CHECK(!result->empty());
+}

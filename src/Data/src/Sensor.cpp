@@ -27,8 +27,8 @@ Sensor &Sensor::operator=(Sensor other) {
 
 bool Sensor::operator==(const Sensor &rhs) const {
     return rhs.sensorId == sensorId &&
-           rhs.latitude == latitude &&
-           rhs.longitude == longitude &&
+           std::abs(rhs.latitude - latitude) > 0.00001 &&
+            std::abs(rhs.longitude - longitude) > 0.00001 &&
            rhs.description == description;
 }
 

@@ -16,8 +16,9 @@ INITIALIZE_EASYLOGGINGPP
 
 
 #include "globals.h"
-#include "ETL/include/Interpolater.h"
-#include <iomanip>
+#include "ETL/include/ETL.h"
+#include "Data/include/ConnectionFactory.h"
+#include "Data/include/Measurement.h"
 
 /**
  * Main function
@@ -26,55 +27,20 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char **argv) {
-    cout << "Hello world!" << endl;
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
 
-    Interpolater interpolater;
+    ETL etl = ETL::getInstance();
 
-    std::vector<Measurement *> measures = {
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 10),
-            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 10),
-            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 5),
-            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 10),
-            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 5),
-    };
+    auto result = (vector<Measurement *> *) etl.getData({
+                                                                {"type", ETL::MEASURE}
+                                                        });
 
-    auto data = interpolater.interpolate(measures, {
-            {"spatialGranularity",   10},
-            {"temporalGranularity",  10},
-            {"area",                 {0, 0, 20, 20}},
-            {"timeRange",            {0, 20}},
-            {"minimalInterDistance", {
-                                      {"longitude", 5000},
-                                         {"latitude", 5000},
-                                            {"time", 50}
-                                     }}
-    });
-
-    cout << "{";
-    for (auto &c : *data) {
-        cout << "{";
-        for (auto &r : c) {
-            cout << "{";
-            for (auto &d : r) {
-                cout << "{";
-                for (auto &v : d) {
-                    cout << "{\"";
-                    cout << v.first << "\", ";
-                    cout << fixed << setprecision(3) << d.find("1")->second << " ";
-                    cout << "}, ";
-                }
-                cout << "}, ";
-
-            }
-            cout << "}, " << endl;
-        }
-        cout << "}, " << endl;
+    auto resultb = (vector<Measurement *> *) etl.getData({
+                                                                {"type", ETL::MEASURE}
+                                                        });
+    for (auto &m   : *result ) {
+        cout << m->getValue() << endl;
     }
-    cout << "}" << endl;
-
 
     return 0;
 }
