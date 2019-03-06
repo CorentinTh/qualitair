@@ -18,18 +18,55 @@ long ETL::ingest(std::string path) {
         csvmonkey::CsvCursor &row = reader.row();
         reader.read_row();
 
-        QueryBuilder queryBuilder;
-        if(row.cells[0].as_str() == "AttributeId") {
-            while(reader.read_row()) {
-
-            }
-        } else if(row.cells[0].as_str() == "SensorId") {
-
-        } else if(row.cells[0].as_str() == "Timestamp") {
-
-        } else {
-            //TODO: not a interpratable csv file, error handling ?
+        int dataType = -1;
+        if(row.cells[0].as_str() == "AttributeId") dataType = ATTRIBUTE;
+        else if(row.cells[0].as_str() == "SensorId") dataType = SENSOR;
+        else if(row.cells[0].as_str() == "Timestamp") dataType = MEASURE;
+        else {
+            //TODO: not a interpretable csv file, error handling ?
         }
+
+        int nbRows = 0;
+        QueryBuilder queryBuilder;
+
+        while(reader.read_row()) {
+            if(nbRows == NB_ROW_PER_BATCH) {
+                queryBuilder.execute();
+
+                queryBuilder = QueryBuilder();
+                nbRows = 0;
+            }
+
+            if(nbRows == 0) {
+                if(dataType == ATTRIBUTE) {
+                    queryBuilder.insert("Attribute").values({"AttributeID", "Unit", "Description"});
+                } else if(dataType == SENSOR) {
+                    queryBuilder.insert("Sensor").values({"SensorID", "Longitude", "Latitude", "Description"});
+                } else {
+                    queryBuilder.insert("Measurement").values({"Timestamp", "SensorID", "AttributeID", "Value"});
+                }
+            }
+
+            if(dataType == ATTRIBUTE) {
+                queryBuilder.bind(row.cells[0].as_str());
+                queryBuilder.bind(row.cells[1].as_str());
+                queryBuilder.bind(row.cells[2].as_str());
+            } else if(dataType == SENSOR) {
+                queryBuilder.bind(row.cells[0].as_str());
+                queryBuilder.bind(row.cells[1].as_double());
+                queryBuilder.bind(row.cells[2].as_double());
+                queryBuilder.bind(row.cells[3].as_str());
+            } else {
+                queryBuilder.bind(row.cells[0].as_str());
+                queryBuilder.bind(row.cells[1].as_str());
+                queryBuilder.bind(row.cells[2].as_str());
+                queryBuilder.bind(row.cells[3].as_double());
+            }
+
+            nbRows++;
+        }
+
+        queryBuilder.execute();
     }
 }
 

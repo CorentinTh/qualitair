@@ -25,6 +25,7 @@ public:
     enum { MEASURE, ATTRIBUTE, SENSOR } DataType;
 
 protected:
+    static const int NB_ROW_PER_BATCH = 1000;
     std::vector<std::string> listCSVFiles(std::string path);
 
 private:
