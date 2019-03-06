@@ -29,9 +29,10 @@ class DataProcessor : public IDataProcessor {
         json *detectSimilar(std::vector<Measurement> measures, double threshold) override;
 
         json *detectBroken(std::vector<Measurement> measures, int timeThreshold,
-                           std::unordered_map<std::string, std::tuple<int, int>> admissibleRanges) override;
+                           std::unordered_map<std::string, std::pair<int, int>> admissibleRanges) override;
 
-        json * detectSpikes(pointCollection *data, double valueThreshold, double areaThreshold, int timeThreshold) override;
+        json * detectSpikes(pointCollection *data, std::string attribute, double valueThreshold,
+                unsigned int areaThreshold, unsigned int timeThreshold) override;
 
 
     private:

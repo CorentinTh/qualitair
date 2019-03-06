@@ -27,8 +27,9 @@ class IDataProcessor {
         virtual json* computeExtrems(pointCollection& data) = 0;
         virtual json* detectSimilar(std::vector<Measurement> measures, double threshold) = 0;
         virtual json* detectBroken(std::vector<Measurement> measures, int timeThreshold,
-                std::unordered_map<std::string, std::tuple<int,int>> admissibleRanges) = 0;
-        virtual json* detectSpikes(pointCollection* data, double valueThreshold, double areaThreshold, int delay) = 0;
+                std::unordered_map<std::string, std::pair<int,int>> admissibleRanges) = 0;
+        virtual json* detectSpikes(pointCollection* data, std::string attribute, double valueThreshold,
+                unsigned int areaThreshold, unsigned int timeThreshold) = 0;
 };
 
 

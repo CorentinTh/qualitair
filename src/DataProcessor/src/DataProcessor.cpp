@@ -12,8 +12,9 @@
 #include "../include/SpikeDetection.h"
 
 
-json *DataProcessor::detectSpikes(pointCollection *data, double valueThreshold, double areaThreshold, int timeThreshold) {
-//    return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold).apply();
+json *DataProcessor::detectSpikes(pointCollection *data, std::string attribute, double valueThreshold,
+        unsigned int areaThreshold, unsigned int timeThreshold) {
+     return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold, attribute).apply();
 }
 
 json *DataProcessor::computeAverage(pointCollection &data) {
@@ -37,6 +38,6 @@ json *DataProcessor::detectSimilar(std::vector<Measurement> measures, double thr
 }
 
 json *DataProcessor::detectBroken(std::vector<Measurement> measures, int timeThreshold,
-                                  std::unordered_map<std::string, std::tuple<int, int>> admissibleRanges) {
-//    return BrokenDetection(measures, timeThreshold, admissibleRanges).apply();
+                                  std::unordered_map<std::string, std::pair<int, int>> admissibleRanges) {
+    return BrokenDetection(measures, timeThreshold, admissibleRanges).apply();
 }
