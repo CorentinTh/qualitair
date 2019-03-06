@@ -6,19 +6,25 @@
 #define QUALITAIR_CONTROLLER_H
 
 
+#include <vector>
 #include "Command.h"
 
 class Controller {
     public:
-
         Controller & operator = ( Controller other );
         Controller ( const Controller & other );
-        Controller ( );
+        Controller ( char ** argv );
         virtual ~Controller ( );
+        void execute();
 
     protected:
         Command* parseCommand();
         friend void swap(Controller & first, Controller & second);
+
+    private:
+        static time_t parseRFC3339Date(std::string stringDate);
+        static std::vector<std::string> unjoinString(std::string string);
+        char ** argv;
 };
 
 

@@ -7,15 +7,14 @@
 
 
 #include "Filter.h"
-#include "../../globals.h"
-
+#include "../../Data/include/BBox.h"
 
 class GeoFilter : public Filter {
     public:
             virtual void applyTo(QueryBuilder &qb);
 
             //TODO
-            void setBBox(const BBox &bbox);
+            void setBBox(BBox &bbox);
             void extend(double valElargissement);
 
             GeoFilter & operator = ( GeoFilter other );

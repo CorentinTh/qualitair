@@ -2,14 +2,15 @@
 
 
 IngestCommand &IngestCommand::operator=(IngestCommand other) {
+    swap(*this, other);
     return *this;
 }
 
 IngestCommand::IngestCommand(const IngestCommand &other) {
-
+    input = other.input;
 }
 
-IngestCommand::IngestCommand() {
+IngestCommand::IngestCommand(std::string in) : input(in) {
 
 }
 
@@ -24,3 +25,8 @@ void IngestCommand::execute() {
 void IngestCommand::output() {
 
 }
+
+void swap(IngestCommand &first, IngestCommand &second) {
+    std::swap(first.input, second.input);
+}
+

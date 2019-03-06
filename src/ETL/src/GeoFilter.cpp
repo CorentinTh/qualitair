@@ -6,27 +6,27 @@
 #include <stdexcept>
 
 void GeoFilter::applyTo(QueryBuilder &qb){
-    qb.where("longitude >= ?").bind(this->bbox.left);
-    qb.andWhere("latitude <= ?").bind(this->bbox.top);
-    qb.andWhere("longitude <= ?").bind(this->bbox.right);
-    qb.andWhere("latitude >= ?").bind(this->bbox.bottom);
+    qb.where("longitude >= ?").bind(this->bbox.getLeft());
+    qb.andWhere("latitude <= ?").bind(this->bbox.getTop());
+    qb.andWhere("longitude <= ?").bind(this->bbox.getRight());
+    qb.andWhere("latitude >= ?").bind(this->bbox.getBottom());
 }
 
 void GeoFilter::extend(double valElargissement) {
     if (valElargissement > 0){
-        if (this->bbox.top + valElargissement >= 90
-            || this->bbox.bottom - valElargissement <= -90
-            || this->bbox.left - valElargissement <= -180
-            || this->bbox.right + valElargissement >= 180){
+        if (this->bbox.getTop() + valElargissement >= 90
+            || this->bbox.getBottom() - valElargissement <= -90
+            || this->bbox.getLeft() - valElargissement <= -180
+            || this->bbox.getRight() + valElargissement >= 180){
             // on sort des coordonnées acceptables
             // normalement on se retrouve "de l'autre coté" mais non géré
             throw std::range_error("Une des coordonnées de la BBox est sortie de son domaine de définiton lors de l'élargissement");
         }
         else{
-            this->bbox.top = this->bbox.top + valElargissement;
-            this->bbox.bottom = this->bbox.bottom - valElargissement;
-            this->bbox.left = this->bbox.left - valElargissement;
-            this->bbox.right = this->bbox.right + valElargissement;
+            this->bbox.setTop(this->bbox.getTop() + valElargissement);
+            this->bbox.setBottom(this->bbox.getBottom() - valElargissement);
+            this->bbox.setLeft(this->bbox.getLeft() - valElargissement);
+            this->bbox.setRight(this->bbox.getRight() + valElargissement);
         }
     }
     else{
@@ -50,22 +50,22 @@ GeoFilter::~GeoFilter() {
 
 }
 
-void GeoFilter::setBBox(const BBox &bBox) {
-    if (bBox.top >= 90
-        || bBox.bottom <= -90
-        || bBox.left <= -180
-        || bBox.right >= 180
-        || bBox.top <= bBox.bottom
-        || bBox.left >= bBox.right){
+void GeoFilter::setBBox(BBox &bBox) {
+    if (bBox.getTop() >= 90
+        || bBox.getBottom() <= -90
+        || bBox.getLeft() <= -180
+        || bBox.getRight() >= 180
+        || bBox.getTop() <= bBox.getBottom()
+        || bBox.getLeft() >= bBox.getRight()){
         // bbox incorrecte
         // ou bbox à cheval sur le 180eme Meridien (non géré)
         throw std::invalid_argument("La bbox en entrée n'est pas définie correctement ou cas non géré (bbox sur 180ème méridien)");
     }
     else{
-        this->bbox.top = bBox.top;
-        this->bbox.bottom = bBox.bottom;
-        this->bbox.left = bBox.left;
-        this->bbox.right = bBox.right;
+        this->bbox.setTop(bBox.getTop());
+        this->bbox.setBottom(bBox.getBottom());
+        this->bbox.setLeft(bBox.getLeft());
+        this->bbox.setRight(bBox.getRight());
     }
 
 }
