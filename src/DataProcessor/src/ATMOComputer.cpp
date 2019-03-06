@@ -49,82 +49,12 @@ ATMOComputer::~ATMOComputer() {
 int ATMOComputer::computeAtmo() const {
     //contract : we always get data representing one day
 
-    double pm10 = 0.0;
-    double so2 = 0.0;
-    double no2 = 0.0;
-    double o3 = 0.0;
+    auto averageMaxima = getAverageMaxima();
+    double so2 = averageMaxima["SO2"];
+    double no2 = averageMaxima["NO2"];
+    double o3 = averageMaxima["O3"];
+    double pm10 = getAveragePM10();
 
-
-    ///////// PM10 /////////
-    /* moyenne de la journée */
-    double pm_sum = 0.0;
-    int pm_count = 0;
-
-    for (auto i = points.begin(); i != points.end() ; ++i)
-    {
-        for (auto j = i->begin(); j != i->end() ; ++j)
-        {
-            for (auto k = j->begin(); k != j->end() ; ++k)
-            {
-                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it)
-                {
-                    if (it->first == "PM10") {
-                        pm_sum += it->second;
-                        pm_count++;
-                    }
-                }
-            }
-        }
-    }
-    pm10 = pm_sum / pm_count;
-    ///////// END PM10 /////////
-
-    /////// SO3 - O3 - NO2 ////////
-    /* moyenne des maxima par heure */
-    int iterPerHour = points.size() / 24;
-    std::unordered_map<int, std::unordered_map<std::string, double>> maxima;
-    std::unordered_map<std::string, double> means;
-    int currentIter = 0;
-    int currentHour = 0;
-    for (auto i = points.begin(); i != points.end() ; ++i) {
-        for (auto j = i->begin(); j != i->end() ; ++j) {
-            for (auto k = j->begin(); k != j->end() ; ++k) {
-                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it) {
-                    //initial values
-                    if (!maxima[currentHour].count(it->first))
-                    {
-                        maxima[currentHour][it->first] = it->second;
-                    }
-                    //max
-                    if (it->second > maxima[currentHour][it->first]) {
-                        maxima[currentHour][it->first] = it->second;
-                    }
-                }
-            }
-        }
-        currentIter++;
-        if (currentIter == iterPerHour) {
-            currentIter = 0;
-            currentHour++;
-        }
-    }
-    //sum maximas by attribute
-    for (auto i = maxima.begin(); i != maxima.end(); ++i) {
-        for (auto j = i->second.begin(); j != i->second.end() ; ++j) {
-            means[j->first] += j->second;
-        }
-    }
-    //transform to means
-    for (auto i = means.begin(); i != means.end(); ++i) {
-        means[i->first] /= 24.0;
-    }
-
-    so2 = means["SO2"];
-    no2 = means["NO2"];
-    o3 = means["O3"];
-    /////// END SO3 - O3 - NO2 ////////
     int ind_pm10 = 0;
     int ind_so2 = 0;
     int ind_no2 = 0;
@@ -175,6 +105,77 @@ int ATMOComputer::computeAtmo() const {
     auto it = std::max_element(std::begin(indArr), std::end(indArr));
 
     return *it;
+}
+
+double ATMOComputer::getAveragePM10() const
+{
+    /* moyenne de la journée */
+    double pm_sum = 0.0;
+    int pm_count = 0;
+
+    for (auto i = points.begin(); i != points.end() ; ++i)
+    {
+        for (auto j = i->begin(); j != i->end() ; ++j)
+        {
+            for (auto k = j->begin(); k != j->end() ; ++k)
+            {
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
+                     it != k->end(); ++it)
+                {
+                    if (it->first == "PM10") {
+                        pm_sum += it->second;
+                        pm_count++;
+                    }
+                }
+            }
+        }
+    }
+    return (pm_sum / pm_count);
+}
+
+std::unordered_map<std::string, double> ATMOComputer::getAverageMaxima() const
+{
+    /* moyenne des maxima par heure */
+    int iterPerHour = points.size() / 24;
+    std::unordered_map<int, std::unordered_map<std::string, double>> maxima;
+    std::unordered_map<std::string, double> means;
+    int currentIter = 0;
+    int currentHour = 0;
+    for (auto i = points.begin(); i != points.end() ; ++i) {
+        for (auto j = i->begin(); j != i->end() ; ++j) {
+            for (auto k = j->begin(); k != j->end() ; ++k) {
+                for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
+                     it != k->end(); ++it) {
+                    //initial values
+                    if (!maxima[currentHour].count(it->first))
+                    {
+                        maxima[currentHour][it->first] = it->second;
+                    }
+                    //max
+                    if (it->second > maxima[currentHour][it->first]) {
+                        maxima[currentHour][it->first] = it->second;
+                    }
+                }
+            }
+        }
+        currentIter++;
+        if (currentIter == iterPerHour) {
+            currentIter = 0;
+            currentHour++;
+        }
+    }
+    //sum maximas by attribute
+    for (auto i = maxima.begin(); i != maxima.end(); ++i) {
+        for (auto j = i->second.begin(); j != i->second.end() ; ++j) {
+            means[j->first] += j->second;
+        }
+    }
+    //transform to means
+    for (auto i = means.begin(); i != means.end(); ++i) {
+        means[i->first] /= 24.0;
+    }
+
+    return means;
 }
 
 void swap(ATMOComputer &first, ATMOComputer &second) {

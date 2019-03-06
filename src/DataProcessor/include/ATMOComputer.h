@@ -20,7 +20,9 @@ class ATMOComputer : public IDataProcess {
     protected:
         friend void swap(ATMOComputer & first, ATMOComputer & second);
         int computeAtmo() const;
-        
+        double getAveragePM10() const;
+        std::unordered_map<std::string, double> getAverageMaxima() const;
+
         pointCollection points;
 };
 
