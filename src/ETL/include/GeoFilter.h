@@ -14,7 +14,7 @@ class GeoFilter : public Filter {
             virtual void applyTo(QueryBuilder &qb);
 
             //TODO
-            void setBBox(const BBox &bbox);
+            void setBBox(BBox &bbox);
             void extend(double valElargissement);
 
             GeoFilter & operator = ( GeoFilter other );

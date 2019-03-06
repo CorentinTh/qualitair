@@ -12,10 +12,6 @@ using json = nlohmann::json;
 
 class Sensor {
     public:
-        std::string getId();
-        double getLatitude();
-        double getLongitude();
-        std::string getDescription();
         std::string getId() const;
         double getLatitude() const;
         double getLongitude() const;
