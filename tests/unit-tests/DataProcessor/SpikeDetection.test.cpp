@@ -66,17 +66,17 @@ namespace SpikeTest {
         // one spike
         json out1 = R"([[[[0,1],[0,0]],[[0,1],[0,0]]]])"_json;
         SpikeDetection spikeDetection(ds3, formula, 0.63, 1, 2);
-        CHECK(spikeDetection.apply() == out1);
+        CHECK(spikeDetection.apply()->dump() == out1.dump());
 
         // multiple spikes
         json out2 = R"([[[1,1],[0,0]],[[1,1],[0,0]]])"_json;
         SpikeDetection spikeDetection2(ds3, formula, 0.5, 1, 2);
-        CHECK(spikeDetection2.apply() == out2);
+        CHECK(spikeDetection2.apply()->dump() == out2.dump());
 
         // no spike
         json out3 = R"([[[0,0],[0,0]],[[0,0],[0,0]]])"_json;
         SpikeDetection spikeDetection3(ds3, formula, 0.8, 1, 2);
-        CHECK(spikeDetection3.apply() == out3);
+        CHECK(spikeDetection3.apply()->dump() == out3.dump());
     }
 
 }

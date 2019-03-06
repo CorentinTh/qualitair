@@ -21,12 +21,12 @@ class IDataProcessor {
     public:
         virtual ~IDataProcessor() {}
 
-        virtual json computeStats(pointCollection& data, std::string formula) = 0;
-        virtual json detectSimilar(std::vector<Measurement> measures, std::vector<Sensor> sensors,
+        virtual json* computeStats(pointCollection& data, std::string formula) = 0;
+        virtual json* detectSimilar(std::vector<Measurement> measures, std::vector<Sensor> sensors,
                 double epsilon, double threshold) = 0;
-        virtual json detectBroken(std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
+        virtual json* detectBroken(std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
                 std::unordered_map<std::string, std::tuple<int,int>> admissibleRanges) = 0;
-        virtual json detectSpikes(pointCollection& data, double valueThreshold, double areaThreshold, int delay) = 0;
+        virtual json* detectSpikes(pointCollection& data, double valueThreshold, double areaThreshold, int delay) = 0;
 };
 
 

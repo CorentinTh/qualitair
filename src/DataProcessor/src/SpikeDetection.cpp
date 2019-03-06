@@ -25,8 +25,8 @@ SpikeDetection::~SpikeDetection() {
 
 }
 
-json SpikeDetection::apply() {
-
+json * SpikeDetection::apply() {
+    return nullptr;
 }
 
 void swap(SpikeDetection &first, SpikeDetection &second) {
