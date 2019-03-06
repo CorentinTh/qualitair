@@ -15,9 +15,7 @@ INITIALIZE_EASYLOGGINGPP
  */
 
 
-#include "globals.h"
-#include "ETL/include/Interpolater.h"
-#include <iomanip>
+
 
 /**
  * Main function
