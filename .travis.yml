@@ -22,6 +22,7 @@ jobs:
       script: ./build.sh qualitair
     - name: "Compile 'utests'"
       script: ./build.sh utests
+
     - stage: "test"
       name: "Unit tests"
       script:

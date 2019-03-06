@@ -5,12 +5,14 @@
 #ifndef QUALITAIR_FILTER_H
 #define QUALITAIR_FILTER_H
 
-
+#include "../../Data/include/QueryBuilder.h"
 #include <string>
+#include "../../Data/include/QueryBuilder.h"
+
 
 class Filter {
     public:
-        virtual std::string apply() = 0;
+        virtual void applyTo(QueryBuilder &qb) = 0;
 };
 
 

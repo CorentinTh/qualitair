@@ -12,19 +12,28 @@ using json = nlohmann::json;
 class BBox {
     public:
         BBox() : left(-1), top(-1), right(-1), bottom(-1) {};
-        BBox(int left, int top, int right, int bottom);
+        BBox(double left, double top, double right, double bottom);
         BBox(std::string stringValue);
         bool isNull();
+        double getLeft() const;
+        double getTop() const;
+        double getRight() const;
+        double getBottom() const;
+        void setLeft(double d);
+        void setTop(double d);
+        void setRight(double d);
+        void setBottom(double d);
+
 
         friend void to_json(json& j, const BBox& box);
 
         friend void from_json(const json& j, BBox& box);
 
     private:
-        int left;   // min longitude    [-180, 180[
-        int top;    // min latitude     [ -90,  90[
-        int right;  // max longitude    [-180, 180[
-        int bottom; // max latitude     [ -90,  90[
+        double left;   // min longitude    [-180, 180[
+        double top;    // min latitude     [ -90,  90[
+        double right;  // max longitude    [-180, 180[
+        double bottom; // max latitude     [ -90,  90[
 
 
 };

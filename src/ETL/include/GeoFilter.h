@@ -11,11 +11,11 @@
 
 class GeoFilter : public Filter {
     public:
-            virtual std::string apply();
+            virtual void applyTo(QueryBuilder &qb);
 
             //TODO
-            void setBBox(const BBox &bbox);
-            void extend(double ratio);
+            void setBBox(BBox &bbox);
+            void extend(double valElargissement);
 
             GeoFilter & operator = ( GeoFilter other );
             GeoFilter ( const GeoFilter & other );

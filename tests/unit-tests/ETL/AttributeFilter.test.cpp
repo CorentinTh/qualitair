@@ -1,49 +1,82 @@
 #include "catch2/catch.hpp"
 #include <string>
 #include <vector>
+#include <SQLiteCpp/Database.h>
+#include "../../../src/Data/include/ConnectionFactory.h"
 #include "../../../src/ETL/include/AttributeFilter.h"
 
 
 using namespace std;
 
 TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+
+    SQLite::Statement * query;
+
+    queryBuilder.select("sensorId").from("Measurement");
+
     AttributeFilter attributeFilter1;
+    attributeFilter1.addAttribute("3");
+    attributeFilter1.addAttribute("3");
+    attributeFilter1.addAttribute("");
+    attributeFilter1.applyTo(queryBuilder);
 
-    attributeFilter1.addAttribute("attr1");
-    attributeFilter1.addAttribute("attr2");
-    attributeFilter1.addAttribute("attr3");
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
 
-    CHECK(attributeFilter1.apply() == "sensorID in (attr1, attr2, attr3)" );
+    vector<int> vectSensorId;
+    vectSensorId.push_back(2);
+    vectSensorId.push_back(4);
+    vectSensorId.push_back(5);
+
+    bool resultNotEmpty = false;
+
+    while (query->executeStep()){
+        resultNotEmpty = true;
+        int sensorId = query->getColumn("sensorId");
+        REQUIRE(std::find(vectSensorId.begin(), vectSensorId.end(), sensorId) != vectSensorId.end());
+        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+    }
+
+    REQUIRE(resultNotEmpty);
 }
 
 TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
-    AttributeFilter attributeFilter1;
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+    queryBuilder.select("sensorId").from("Measurement");
+
+    SQLite::Statement * query;
 
     vector<string> attributes;
+    attributes.emplace_back("1");
+    attributes.emplace_back("2");
+    attributes.emplace_back("3");
+    attributes.emplace_back("");
 
-    attributes.emplace_back("attr1");
-    attributes.emplace_back("attr2");
-    attributes.emplace_back("attr3");
+    AttributeFilter attributeFilter2;
+    attributeFilter2.addAttributes(attributes);
+    attributeFilter2.applyTo(queryBuilder);
 
-    attributeFilter1.addAttributes(attributes);
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
 
-    CHECK(attributeFilter1.apply() == "sensorID in (attr1, attr2, attr3)" );
-}
+    vector<int> vectResults;
+    vectResults.push_back(1);
+    vectResults.push_back(2);
+    vectResults.push_back(4);
+    vectResults.push_back(5);
 
-TEST_CASE("Testing AttributeFilter '=' operator", "[extra]") {
-    AttributeFilter attributeFilter1, attributeFilter2;
+    bool resultNotEmpty = false;
 
-    attributeFilter1.addAttribute("attr1");
-    attributeFilter1 = attributeFilter2;
-
-    SECTION("Equality") {
-        CHECK(attributeFilter1.apply() == attributeFilter2.apply());
+    while (query->executeStep()){
+        resultNotEmpty = true;
+        int sensorId = query->getColumn("sensorId");
+        REQUIRE(std::find(vectResults.begin(), vectResults.end(), sensorId) != vectResults.end());
+        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    attributeFilter1.addAttribute("attr2");
-
-    SECTION("Non-Equality") {
-        CHECK(attributeFilter1.apply() != attributeFilter2.apply());
-    }
+    REQUIRE(resultNotEmpty);
 }
 
