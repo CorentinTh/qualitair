@@ -1,5 +1,6 @@
 #include <iostream>
 #include "easylogging++.h"
+#include "ETL/include/ETL.h"
 
 using namespace std;
 
@@ -26,6 +27,11 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char **argv) {
+    cout << argv[0] << endl;
+
+    ETL etl = ETL::getInstance();
+    etl.ingest("../tests/data/");
+
     cout << "Hello world!" << endl;
 
     return 0;

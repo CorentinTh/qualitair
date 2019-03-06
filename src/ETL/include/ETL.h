@@ -15,24 +15,20 @@ public:
         return instance;
     }
 
-    bool ingest(json data) override {
-        return false;
-    }
-
-    void getData() override {
-
-    }
+    long ingest(std::string path) override;
+    void getData() override;
 
     ETL(ETL const &) = default;
 
     void operator=(ETL const &) = delete;
 
-    enum {
-        MEASURE, ATTRIBUTE, SENSOR
-    } data_type;
+    enum { MEASURE, ATTRIBUTE, SENSOR } DataType;
+
+protected:
+    std::vector<std::string> listCSVFiles(std::string path);
 
 private:
-    ETL() {}
+    ETL() = default;
 };
 
 
