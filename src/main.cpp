@@ -23,9 +23,8 @@ INITIALIZE_EASYLOGGINGPP
  * @param {char**} argv - Argument string array
  * @return {int}
  */
-int main(int argc, char **argv) {
+int main(int argc, char ** argv){
     cout << "Hello world!" << endl;
-
     return 0;
 }
 
