@@ -10,15 +10,15 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
 
     auto trees = new unordered_map<string, OT::Octree *>;
 
-    int x0 = config["area"].at(0);
-    int x1 = config["area"].at(2);
-    int y0 = config["area"].at(1);
-    int y1 = config["area"].at(3);
-    int z0 = config["timeRange"].at(0);
-    int z1 = config["timeRange"].at(1);
-    int xFactor = config["spatialGranularity"];
-    int yFactor = config["spatialGranularity"];
-    int zFactor = config["temporalGranularity"];
+    double x0 = config["BBox"]["left"];
+    double x1 = config["BBox"]["right"];
+    double y0 = config["BBox"]["bottom"];
+    double y1 = config["BBox"]["top"];
+    double z0 = config["start"];
+    double z1 = config["end"];
+    double xFactor = config["spatialGranularity"];
+    double yFactor = config["spatialGranularity"];
+    double zFactor = config["temporalGranularity"];
 
     double interRadiusX = config["minimalInterDistance"]["longitude"];
     double interRadiusY = config["minimalInterDistance"]["latitude"];
@@ -47,9 +47,9 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
 
     }
 
-    unsigned long xCount = 1 + (unsigned long) (x1 - x0) / xFactor;
-    unsigned long yCount = 1 + (unsigned long) (y1 - y0) / yFactor;
-    unsigned long zCount = 1 + (unsigned long) (z1 - z0) / zFactor;
+    unsigned long xCount =(unsigned long) 1 + (unsigned long) ((x1 - x0) / xFactor);
+    unsigned long yCount =(unsigned long) 1 + (unsigned long) ((y1 - y0) / yFactor);
+    unsigned long zCount =(unsigned long) 1 + (unsigned long) ((z1 - z0) / zFactor);
 
     auto *collection = new pointCollection(zCount);
 
