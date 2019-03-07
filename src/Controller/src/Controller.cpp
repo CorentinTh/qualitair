@@ -9,12 +9,12 @@
 #include "../include/StatsCommand.h"
 #include "../include/CLIParser.h"
 #include "../include/IngestCommand.h"
-#include "../include/Config.h"
 #include "../include/SpikesCommand.h"
 #include "../include/DetectBrokenCommand.h"
 #include "../include/DetectSimCommand.h"
 #include "../include/SensorsCommand.h"
 #include "../include/Cache.h"
+#include "../../Data/include/ConnectionFactory.h"
 
 static time_t parseRFC3339Date(std::string stringDate);
 
@@ -29,6 +29,7 @@ Controller::Controller(const Controller &other) {
 
 Controller::Controller(char** argv) {
     this->argv = argv;
+    config.load();
 }
 
 Controller::~Controller() {
@@ -76,9 +77,6 @@ Command* Controller::parseCommand() {
         } else if(verb == "broken") {
             command = new DetectBrokenCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "similarities") {
-            Config config;
-            config.load();
-
             std::string thresholdStr = cliParser.getArgument("threshold");
             double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
 
@@ -97,6 +95,8 @@ Command* Controller::parseCommand() {
 }
 
 void Controller::execute() {
+    ConnectionFactory::setDatabase(config.getDatabaseFilepath());
+
     Command * command = parseCommand();
     if(command == nullptr) {
         std::cout << userManual << std::endl;
@@ -160,7 +160,7 @@ std::string Controller::userManual = "qualitair [OPTIONS] <verb> [VERB OPTIONS]\
                                      "            stats <TYPE> [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
                                      "                Affiche les informations agrégées selon le type spécifié (minimum/maximum, moyenne, écart-type et ATMO.) \n"
                                      "\n"
-                                     "            similarities  [--epsilon] [--threshold] [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
+                                     "            similarities  [--threshold] [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
                                      "                Affiche les capteurs ayant des comportements similaires.\n"
                                      "\n"
                                      "            broken [--bbox] [--start] [--end] [--attributes] [--sensors]\n"

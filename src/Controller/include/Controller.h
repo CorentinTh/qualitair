@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "Command.h"
+#include "../include/Config.h"
 
 class Controller {
     public:
@@ -26,6 +27,7 @@ class Controller {
         static std::vector<std::string> unjoinString(std::string string);
         static std::string userManual;
         char ** argv;
+        Config config;
 };
 
 
