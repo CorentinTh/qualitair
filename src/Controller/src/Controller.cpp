@@ -27,7 +27,7 @@ Controller::Controller(const Controller &other) {
 
 }
 
-Controller::Controller(char ** argv) {
+Controller::Controller(char** argv) {
     this->argv = argv;
 }
 
@@ -47,7 +47,7 @@ Command* Controller::parseCommand() {
     } else {
         BBox bbox(cliParser.getArgument("bbox"));
         time_t start = parseRFC3339Date(cliParser.getArgument("start"));
-        time_t end = parseRFC3339Date(cliParser.getArgument("start"));
+        time_t end = parseRFC3339Date(cliParser.getArgument("end"));
         std::vector<std::string> attributes = unjoinString(cliParser.getArgument("attributes"));
         std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
