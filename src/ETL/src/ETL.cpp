@@ -98,55 +98,68 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
     auto result = new vector<void *>;
 
+    SQLite::Statement * statement;
+    cout << qb->getQuery();
     try {
-        auto statement = qb->execute();
+        statement = qb->execute();
 
-        if (config["type"] == ETL::MEASURE) {
 
-            while (statement->executeStep()) {
-                result->emplace_back(new Measurement(
-                        statement->getColumn("timestamp"),
-                        {
-                                statement->getColumn("sensorId"),
-                                statement->getColumn("latitude"),
-                                statement->getColumn("longitude"),
-                                statement->getColumn("sensorDescription")
-                        }, {
-                                statement->getColumn("attributeId"),
-                                statement->getColumn("unit"),
-                                statement->getColumn("attributeDescription")
-                        },
-                        statement->getColumn("value")
-                ));
+        try {
+
+            if (config["type"] == ETL::MEASURE) {
+
+                while (statement->executeStep()) {
+                    result->emplace_back(new Measurement(
+                            statement->getColumn("timestamp"),
+                            {
+                                    statement->getColumn("sensorId"),
+                                    statement->getColumn("latitude"),
+                                    statement->getColumn("longitude"),
+                                    statement->getColumn("sensorDescription")
+                            }, {
+                                    statement->getColumn("attributeId"),
+                                    statement->getColumn("unit"),
+                                    statement->getColumn("attributeDescription")
+                            },
+                            statement->getColumn("value")
+                    ));
+                }
+
+            } else if (config["type"] == ETL::SENSOR) {
+
+                while (statement->executeStep()) {
+                    result->emplace_back(new Sensor(
+                            statement->getColumn("sensorId"),
+                            statement->getColumn("latitude"),
+                            statement->getColumn("longitude"),
+                            statement->getColumn("description")
+                    ));
+                }
+
+            } else if (config["type"] == ETL::ATTRIBUTE) {
+
+                while (statement->executeStep()) {
+                    result->emplace_back(new Attribute(
+                            statement->getColumn("attributeId"),
+                            statement->getColumn("unit"),
+                            statement->getColumn("description")
+                    ));
+                }
+
             }
 
-        } else if (config["type"] == ETL::SENSOR) {
-
-            while (statement->executeStep()) {
-                result->emplace_back(new Sensor(
-                        statement->getColumn("sensorId"),
-                        statement->getColumn("latitude"),
-                        statement->getColumn("longitude"),
-                        statement->getColumn("description")
-                ));
-            }
-
-        } else if (config["type"] == ETL::ATTRIBUTE) {
-
-            while (statement->executeStep()) {
-                result->emplace_back(new Attribute(
-                        statement->getColumn("attributeId"),
-                        statement->getColumn("unit"),
-                        statement->getColumn("description")
-                ));
-            }
-
+        } catch (SQLite::Exception &e) {
+            cerr << "An unexpected error occurred while fetching from the database. Please retry." << endl;
+            cerr << e.what() << endl;
         }
-
-    } catch (SQLite::Exception &e) {
-        cerr << "An unexpected error occurred while fetching from the database. Please retry." << endl;
+    }catch (SQLite::Exception &e){
+        cerr << "Error while executing the SQL request." << endl;
         cerr << e.what() << endl;
     }
+
+
+
+
 
 
     return result;
