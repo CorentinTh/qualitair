@@ -24,6 +24,8 @@ TEST_CASE("Testing Cache", "") {
 
     CHECK(*cache.get(j1) == j2);
 
+    CHECK(cache.get(j2) == nullptr);
+
     Cache cache2;
 
     CHECK(*cache2.get(j1) == j2);
