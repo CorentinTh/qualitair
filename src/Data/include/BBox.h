@@ -34,6 +34,7 @@ class BBox {
         double top;    // min latitude     [ -90,  90[
         double right;  // max longitude    [-180, 180[
         double bottom; // max latitude     [ -90,  90[
+        // + top > bottom, left < right
 
 
 };
