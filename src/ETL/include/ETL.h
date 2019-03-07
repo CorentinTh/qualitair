@@ -26,7 +26,7 @@ public:
         return instance;
     }
 
-    bool ingest(json data) override {
+    long ingest(std::string path) override {
         return false;
     }
 
