@@ -3,6 +3,7 @@
 //
 
 #include <iomanip>
+#include <iostream>
 #include "../include/Controller.h"
 #include "../include/StatsCommand.h"
 #include "../include/CLIParser.h"
@@ -72,7 +73,7 @@ Command* Controller::parseCommand() {
 void Controller::execute() {
     Command * command = parseCommand();
     if(command == nullptr) {
-        //TODO: log something
+        std::cout << userManual << std::endl;
         exit(1);
     }
 
@@ -105,3 +106,34 @@ std::vector<std::string> Controller::unjoinString(std::string string) {
 
     return values;
 }
+
+std::string Controller::userManual = "qualitair [OPTIONS] <verb> [VERB OPTIONS]\n"
+                                     "\n"
+                                     "\n"
+                                     "    [OPTIONS]   --database=FILE\n"
+                                     "                    Spécifie le fichier de base de données à utiliser pour les différentes opérations. Si FILE n’est pas défini, utilise le fichier par défaut spécifié dans la configuration.\n"
+                                     "\n"
+                                     "                --format=TYPE\n"
+                                     "                    Spécifie le type de sortie parmi HUMAN (facilement lisible par l’humain), JSON et HTML. Si TYPE n’est pas défini, HUMAN est choisi par défaut.\n"
+                                     "\n"
+                                     "                --file=FILE\n"
+                                     "                    Spécifie le fichier de sortie dans le cas d’une sortie HTML. Si le format de sortie n’est pas HTML, cette option est ignorée.\n"
+                                     "\n"
+                                     "\n"
+                                     "    <verb>  spikes <ATTRIBUTE> [--bbox] [--start] [--end] [--sensors]\n"
+                                     "                Détecte les pics de pollution pour un attribut.\n"
+                                     "\n"
+                                     "            stats <TYPE> [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
+                                     "                Affiche les informations agrégées selon le type spécifié (minimum/maximum, moyenne, écart-type et ATMO.) \n"
+                                     "\n"
+                                     "            similarities  [--epsilon] [--threshold] [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
+                                     "                Affiche les capteurs ayant des comportements similaires.\n"
+                                     "\n"
+                                     "            broken [--bbox] [--start] [--end] [--attributes] [--sensors]\n"
+                                     "                Affiche les périodes où chaque capteur a été en panne.\n"
+                                     "\n"
+                                     "            ingest [--input=.] \n"
+                                     "                Charge tous les fichiers CSV du dossier spécifié  dans le système.\n"
+                                     "\n"
+                                     "            sensors [--bbox]\n"
+                                     "                Affiche la liste des capteurs dans la zone précisée.";

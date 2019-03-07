@@ -26,6 +26,8 @@ INITIALIZE_EASYLOGGINGPP
  */
 int main(int argc, char ** argv){
     Controller controller(argv);
+    controller.execute();
+    
     return 0;
 }
 
