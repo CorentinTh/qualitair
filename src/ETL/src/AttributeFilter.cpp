@@ -7,7 +7,7 @@
 
 void AttributeFilter::applyTo(QueryBuilder &qb){
     for (std::string attr : this->attributes){
-        qb.orWhere("AttributeId = ?").bind(attr);
+        qb.orWhere("attributeId = ?").bind(attr);
     }
 }
 
