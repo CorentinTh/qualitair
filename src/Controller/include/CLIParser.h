@@ -11,8 +11,9 @@
 
 class CLIParser {
     public:
-        std::string getArgument(std::string name, std::string defaultValue = "");
-        std::string getVerb();
+        std::string getArgument(std::string name, std::string defaultValue = "") const;
+        std::string getVerb() const;
+        std::string getMandatoryArgument(int index = 0) const;
 
         CLIParser & operator = ( CLIParser other );
         CLIParser ( const CLIParser & other );

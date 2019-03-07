@@ -6,7 +6,7 @@
 
 #include <cstring>
 
-std::string CLIParser::getArgument(std::string name, std::string defaultValue) {
+std::string CLIParser::getArgument(std::string name, std::string defaultValue) const {
     std::string arg;
     parser(name) >> arg;
 
@@ -14,8 +14,16 @@ std::string CLIParser::getArgument(std::string name, std::string defaultValue) {
     return arg;
 }
 
-std::string CLIParser::getVerb() {
-    return parser[0];
+std::string CLIParser::getVerb() const {
+    return parser[1];
+}
+
+std::string CLIParser::getMandatoryArgument(int index) const {
+    std::string result = parser[2 + index];
+    if (result == "") {
+        throw std::runtime_error ("missing mandatory argument at index " + std::to_string(index) );
+    }
+    return result;
 }
 
 CLIParser &CLIParser::operator=(CLIParser other) {
