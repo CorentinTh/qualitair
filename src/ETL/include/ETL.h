@@ -7,9 +7,20 @@
 
 
 #include "IETL.h"
+#include "../../Data/include/QueryBuilder.h"
+#include "../include/GeoFilter.h"
+#include "../include/TimeFilter.h"
+#include "../include/AttributeFilter.h"
+#include "../include/SensorFilter.h"
+#include "../../Data/include/Measurement.h"
 
 class ETL : public IETL {
 public:
+
+    enum {
+        MEASURE, ATTRIBUTE, SENSOR
+    } data_type;
+
     static ETL &getInstance() {
         static ETL instance;
         return instance;
@@ -19,20 +30,22 @@ public:
         return false;
     }
 
-    void getData() override {
-
-    }
+    void* getData(json config) override;
 
     ETL(ETL const &) = default;
 
     void operator=(ETL const &) = delete;
 
-    enum {
-        MEASURE, ATTRIBUTE, SENSOR
-    } data_type;
-
 private:
+    void setFilters(QueryBuilder *qb, json config);
+
+    void *extractData(QueryBuilder *pBuilder, json config);
+
     ETL() {}
+
+    void setMeasurementConfig(QueryBuilder *qb);
+    void setSensorConfig(QueryBuilder *qb);
+    void setAttributeConfig(QueryBuilder *qb);
 };
 
 

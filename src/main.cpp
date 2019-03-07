@@ -1,9 +1,7 @@
 #include <iostream>
 #include "easylogging++.h"
-#include "../src/Controller/include/SensorsCommand.h"
 
 using namespace std;
-
 
 INITIALIZE_EASYLOGGINGPP
 
