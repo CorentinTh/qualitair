@@ -12,7 +12,7 @@ void AttributeFilter::applyTo(QueryBuilder &qb){
 }
 
 void AttributeFilter::addAttribute(std::string attribute) {
-    if (std::find(this->attributes.begin(), this->attributes.end(), attribute) != this->attributes.end()){
+    if (std::find(this->attributes.begin(), this->attributes.end(), attribute) == this->attributes.end()){
         // if the attribute is not already in the vector
         this->attributes.push_back(attribute);
     }
