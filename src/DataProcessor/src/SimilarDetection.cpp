@@ -26,8 +26,8 @@ SimilarDetection::~SimilarDetection() {
 json * SimilarDetection::apply() {
     std::unordered_map<std::string, std::vector<std::vector<Sensor>>> results;
 
-    std::unordered_map<std::pair<Sensor, std::string>, double, pair_hash> sums;
-    std::unordered_map<std::pair<Sensor, std::string>, int, pair_hash> counts;
+    std::unordered_map<std::pair<Sensor, std::string>, double, utils::pair_hash> sums;
+    std::unordered_map<std::pair<Sensor, std::string>, int, utils::pair_hash> counts;
     for (auto m : measures) {
         sums[std::make_pair(m.getSensor(), m.getAttribute().getId())] += m.getValue();
         counts[std::make_pair(m.getSensor(), m.getAttribute().getId())]++;
