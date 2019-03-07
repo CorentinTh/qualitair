@@ -57,17 +57,24 @@ void ETL::setFilters(QueryBuilder *qb, json config) {
     } catch (json::out_of_range &e) {}
 
     try {
-
-        if (config.at("hasTimeRange")) {
+        if (config.at("hasStart")) {
             TimeFilter filter;
 
-            filter.setInterval(config["timeRange"]["start"], config["timeRange"]["end"]);
+            filter.setStart(config["start"]);
             filter.applyTo(*qb);
         }
     } catch (json::out_of_range &e) {}
 
     try {
+        if (config.at("hasEnd")) {
+            TimeFilter filter;
 
+            filter.setEnd(config["end"]);
+            filter.applyTo(*qb);
+        }
+    } catch (json::out_of_range &e) {}
+
+    try {
         if (config.at("hasAttributes")) {
             AttributeFilter filter;
 
@@ -120,7 +127,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                         statement->getColumn("sensorId"),
                         statement->getColumn("latitude"),
                         statement->getColumn("longitude"),
-                        statement->getColumn("sensorDescription")
+                        statement->getColumn("description")
                 ));
             }
 
@@ -130,7 +137,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                 result->emplace_back(new Attribute(
                         statement->getColumn("attributeId"),
                         statement->getColumn("unit"),
-                        statement->getColumn("attributeDescription")
+                        statement->getColumn("description")
                 ));
             }
 
