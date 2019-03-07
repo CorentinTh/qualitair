@@ -1,5 +1,8 @@
 #include "../include/StatsCommand.h"
 
+const std::unordered_map<std::string, StatsCommand::StatEnum> StatsCommand::StatDictionary {
+    {"AVG", StatsCommand::AVG}, {"EXTREMS", StatsCommand::EXTREMS}, {"DEVIATION", StatsCommand::DEVIATION}, {"ATMO", StatsCommand::ATMO}
+};
 
 StatsCommand &StatsCommand::operator=(StatsCommand other) {
     swap(*this, other);
@@ -41,21 +44,21 @@ void swap(StatsCommand &first, StatsCommand &second) {
     std::swap(first.sensors, second.sensors);
 }
 
-void to_json(json& j, const StatsCommand& command) {
+void StatsCommand::to_json(json& j) const {
     j = json{
             {"command", "broken"},
-            {"bbox", command.bbox},
-            {"start", command.start},
-            {"end", command.end},
-            {"attribute", command.attributes},
-            {"sensors", command.sensors}
+            {"bbox", bbox},
+            {"start", start},
+            {"end", end},
+            {"attribute", attributes},
+            {"sensors", sensors}
     };
 }
 
-void from_json(const json& j, StatsCommand& command) {
-    j.at("bbox").get_to(command.bbox);
-    j.at("start").get_to(command.start);
-    j.at("end").get_to(command.end);
-    j.at("attribute").get_to(command.attributes);
-    j.at("sensors").get_to(command.sensors);
+void StatsCommand::from_json(const json& j) {
+    j.at("bbox").get_to(bbox);
+    j.at("start").get_to(start);
+    j.at("end").get_to(end);
+    j.at("attribute").get_to(attributes);
+    j.at("sensors").get_to(sensors);
 }

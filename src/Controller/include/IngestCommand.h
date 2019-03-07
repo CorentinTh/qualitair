@@ -22,6 +22,8 @@ class IngestCommand : public Command{
 
     protected:
         friend void swap(IngestCommand & first, IngestCommand & second);
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         std::string input;
 };

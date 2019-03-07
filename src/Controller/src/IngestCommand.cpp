@@ -30,3 +30,10 @@ void swap(IngestCommand &first, IngestCommand &second) {
     std::swap(first.input, second.input);
 }
 
+void IngestCommand::to_json(json &j) const {
+
+}
+
+void IngestCommand::from_json(const json &j) {
+
+}

@@ -13,6 +13,7 @@
 class StatsCommand : public Command {
     public:
         enum StatEnum { AVG, EXTREMS, DEVIATION, ATMO };
+        static const std::unordered_map<std::string, StatEnum> StatDictionary;
 
         StatsCommand & operator = ( StatsCommand other );
         StatsCommand ( const StatsCommand & other );
@@ -26,8 +27,8 @@ class StatsCommand : public Command {
 
     protected:
         friend void swap(StatsCommand & first, StatsCommand & second);
-        friend void to_json(json& j, const StatsCommand& command);
-        friend void from_json(const json& j, StatsCommand& command);
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         StatEnum type;
         BBox bbox;

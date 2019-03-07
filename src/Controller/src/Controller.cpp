@@ -4,6 +4,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include "easylogging++.h"
 #include "../include/Controller.h"
 #include "../include/StatsCommand.h"
 #include "../include/CLIParser.h"
@@ -12,10 +13,13 @@
 #include "../include/SpikesCommand.h"
 #include "../include/DetectBrokenCommand.h"
 #include "../include/DetectSimCommand.h"
+#include "../include/SensorsCommand.h"
+#include "../include/Cache.h"
 
 static time_t parseRFC3339Date(std::string stringDate);
 
 Controller &Controller::operator=(Controller other) {
+    swap(*this, other);
     return *this;
 }
 
@@ -48,11 +52,27 @@ Command* Controller::parseCommand() {
         std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
         if(verb == "stats") {
-            //TODO getOption ? std::string type = cliParser.getOption("type");
-            command = new StatsCommand(StatsCommand::AVG, bbox, start, end, attributes, sensors);
+            try {
+                std::string statType = cliParser.getMandatoryArgument();
+                for (auto & c: statType) c = toupper(c);
+                StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
+
+                command = new StatsCommand(stat, bbox, start, end, attributes, sensors);
+            }
+            catch (std::out_of_range) {
+                LOG(ERROR) << "Unknown stat type";
+            }
+            catch (std::exception) {
+                LOG(ERROR) << "Missing mandatory argument \"stat type\".";
+            }
         } else if(verb == "spikes") {
-            std::string attribute = "";
-            command = new SpikesCommand(attribute, bbox, start, end, sensors);
+            try {
+                std::string attribute = cliParser.getMandatoryArgument();
+                command = new SpikesCommand(attribute, bbox, start, end, sensors);
+            }
+            catch (std::exception) {
+                LOG(ERROR) << "Missing mandatory argument \"attribute\".";
+            }
         } else if(verb == "broken") {
             command = new DetectBrokenCommand(bbox, start, end, attributes, sensors);
         } else if(verb == "similarities") {
@@ -63,7 +83,13 @@ Command* Controller::parseCommand() {
             double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
 
             command = new DetectSimCommand(bbox, start, end, attributes, sensors, threshold);
+        } else if(verb == "sensors") {
+            command = new SensorsCommand(bbox);
         }
+        else {
+            LOG(ERROR) << "Unknown verb \"" << verb << "\".";
+        }
+
 
     }
 
@@ -77,8 +103,14 @@ void Controller::execute() {
         exit(1);
     }
 
-    command->execute();
-    command->output();
+    Cache cache;
+    json * cached = cache.get(*command);
+    if (cached == nullptr) {
+        command->execute();
+        command->output();
+    } else {
+        //TODO output cached command
+    }
 }
 
 time_t Controller::parseRFC3339Date(std::string stringDate) {
@@ -137,3 +169,7 @@ std::string Controller::userManual = "qualitair [OPTIONS] <verb> [VERB OPTIONS]\
                                      "\n"
                                      "            sensors [--bbox]\n"
                                      "                Affiche la liste des capteurs dans la zone précisée.";
+
+void swap(Controller &first, Controller &second) {
+
+}
