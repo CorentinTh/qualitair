@@ -1,7 +1,9 @@
 #include <iostream>
 #include "easylogging++.h"
+#include "../src/Controller/include/SensorsCommand.h"
 
 using namespace std;
+
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -25,6 +27,9 @@ INITIALIZE_EASYLOGGINGPP
  */
 int main(int argc, char **argv) {
     cout << "Hello world!" << endl;
+    BBox b = BBox(12,89,45,65);
+    SensorsCommand sensorsCommand = SensorsCommand(b);
+    sensorsCommand.execute();
 
     return 0;
 }

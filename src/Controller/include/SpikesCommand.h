@@ -20,8 +20,6 @@ class SpikesCommand : public Command {
 
         void execute() override;
 
-        void output() override;
-
     protected:
         friend void swap(SpikesCommand & first, SpikesCommand & second);
         friend void to_json(json& j, const SpikesCommand& command);

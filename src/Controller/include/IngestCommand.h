@@ -18,8 +18,6 @@ class IngestCommand : public Command{
 
         void execute() override;
 
-        void output() override;
-
     protected:
         friend void swap(IngestCommand & first, IngestCommand & second);
 

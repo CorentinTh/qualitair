@@ -18,8 +18,6 @@ class SensorsCommand : public Command{
     
         void execute() override;
     
-        void output() override;
-    
     protected:
         friend void swap(SensorsCommand & first, SensorsCommand & second);
         friend void to_json(json& j, const SensorsCommand& command);

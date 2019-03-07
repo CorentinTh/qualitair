@@ -22,10 +22,6 @@ void IngestCommand::execute() {
 
 }
 
-void IngestCommand::output() {
-
-}
-
 void swap(IngestCommand &first, IngestCommand &second) {
     std::swap(first.input, second.input);
 }

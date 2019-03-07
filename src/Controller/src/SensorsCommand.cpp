@@ -3,7 +3,11 @@
 //
 
 #include "../include/SensorsCommand.h"
-#include "../include/IngestCommand.h"
+#include "../../ETL/include/GeoFilter.h"
+#include "../../Data/include/QueryBuilder.h"
+#include "../../Data/include/ConnectionFactory.h"
+#include <iostream>
+#include "../../Controller/include/Config.h"
 
 SensorsCommand &SensorsCommand::operator=(SensorsCommand other) {
     swap(*this, other);
@@ -14,8 +18,10 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
     bbox = other.bbox;
 }
 
-SensorsCommand::SensorsCommand(BBox b) : bbox(b) {
-
+SensorsCommand::SensorsCommand(BBox b) {
+    if (!b.isNull()){
+        this->bbox = b;
+    }
 }
 
 SensorsCommand::~SensorsCommand() {
@@ -23,11 +29,12 @@ SensorsCommand::~SensorsCommand() {
 }
 
 void SensorsCommand::execute() {
+    if(!this->bbox.isNull()){
 
-}
+    }
+    else{
 
-void SensorsCommand::output() {
-
+    }
 }
 
 void swap(SensorsCommand &first, SensorsCommand &second) {

@@ -13,10 +13,6 @@ void DetectBrokenCommand::execute() {
 
 }
 
-void DetectBrokenCommand::output() {
-
-}
-
 DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
     bbox = other.bbox;
     start = other.start;

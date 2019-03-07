@@ -77,7 +77,6 @@ void Controller::execute() {
     }
 
     command->execute();
-    command->output();
 }
 
 time_t Controller::parseRFC3339Date(std::string stringDate) {

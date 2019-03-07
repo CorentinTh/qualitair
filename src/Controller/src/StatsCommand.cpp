@@ -28,10 +28,6 @@ void StatsCommand::execute() {
 
 }
 
-void StatsCommand::output() {
-
-}
-
 void swap(StatsCommand &first, StatsCommand &second) {
     std::swap(first.type, second.type);
     std::swap(first.bbox, second.bbox);

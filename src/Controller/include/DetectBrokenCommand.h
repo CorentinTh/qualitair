@@ -20,8 +20,6 @@ class DetectBrokenCommand : public Command {
 
         void execute() override;
 
-        void output() override;
-
     protected:
         friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
         friend void to_json(json& j, const DetectBrokenCommand& command);
