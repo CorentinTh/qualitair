@@ -1,5 +1,6 @@
 #include <iostream>
 #include "easylogging++.h"
+#include "DataProcessor/include/SpikeDetection.h"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char ** argv){
-    cout << "Hello world!" << endl;
+    cout << "Salut monde" << endl;
     return 0;
 }
 

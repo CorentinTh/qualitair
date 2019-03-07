@@ -19,9 +19,7 @@ public:
         return false;
     }
 
-    void getData() override {
-
-    }
+    void* getData() override;
 
     ETL(ETL const &) = default;
 

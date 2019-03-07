@@ -10,6 +10,7 @@
 #include "../../Data/include/Sensor.h"
 #include "../../Data/include/Measurement.h"
 #include "../../Data/include/Attribute.h"
+#include "../../utils.h"
 #include <string>
 #include <unordered_map>
 
@@ -29,17 +30,6 @@ class BrokenDetection : IDataProcess {
         int brokenTime;
         std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
         std::vector<Measurement> measures;
-};
-
-//TODO move in utils file
-struct pair_hash {
-    template <class T>
-    std::size_t operator () (const std::pair<Sensor,T> &p) const {
-        auto h1 = std::hash<std::string>{}(p.first.getId());
-        auto h2 = std::hash<T>{}(p.second);
-        //simple
-        return h1 ^ h2;
-    }
 };
 
 #endif //QUALITAIR_BROKENDETECTION_H
