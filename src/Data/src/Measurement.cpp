@@ -44,7 +44,7 @@ Measurement::~Measurement() {
 
 bool Measurement::operator==(const Measurement &rhs) const {
     return timestamp == rhs.timestamp &&
-           value == rhs.value &&
+           std::abs(value - rhs.value) < 0.00001 &&
            sensor == rhs.sensor &&
            attribute == rhs.attribute;
 }
