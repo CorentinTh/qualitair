@@ -12,7 +12,7 @@ class IDataProcess {
     public:
         virtual ~IDataProcess() {}
 
-        virtual json apply() = 0;
+        virtual json* apply() = 0;
 };
 
 

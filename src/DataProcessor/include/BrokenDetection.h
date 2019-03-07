@@ -9,27 +9,27 @@
 #include "IDataProcess.h"
 #include "../../Data/include/Sensor.h"
 #include "../../Data/include/Measurement.h"
+#include "../../Data/include/Attribute.h"
+#include "../../utils.h"
 #include <string>
 #include <unordered_map>
 
 class BrokenDetection : IDataProcess {
     public:
-        json apply() override;
+        json * apply() override;
 
         BrokenDetection & operator = ( BrokenDetection other );
         BrokenDetection ( const BrokenDetection & other );
-        BrokenDetection ( std::vector<Measurement> measures, std::vector<Sensor> sensors, int timeThreshold,
-                          std::unordered_map<std::string, std::pair<int, int>> admissibleRanges);
+        BrokenDetection ( std::vector<Measurement> measures, int brokenTime,
+                std::unordered_map<std::string, std::pair<int, int>> admissibleRanges);
         virtual ~BrokenDetection ( );
     
     protected:
         friend void swap(BrokenDetection & first, BrokenDetection & second);
 
-        int timeThreshold;
+        int brokenTime;
         std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
         std::vector<Measurement> measures;
-        std::vector<Sensor> sensors;
 };
-
 
 #endif //QUALITAIR_BROKENDETECTION_H
