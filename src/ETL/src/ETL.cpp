@@ -49,9 +49,8 @@ void ETL::setFilters(QueryBuilder *qb, json config) {
     try {
         if (config.at("hasBBox")) {
             GeoFilter filter;
-
-            filter.setBBox(
-                    {config["BBox"]["left"], config["BBox"]["top"], config["BBox"]["right"], config["BBox"]["bottom"]});
+            BBox b = BBox(config["BBox"]["left"], config["BBox"]["top"], config["BBox"]["right"], config["BBox"]["bottom"]);
+            filter.setBBox(b);
             filter.applyTo(*qb);
         }
     } catch (json::out_of_range &e) {}
