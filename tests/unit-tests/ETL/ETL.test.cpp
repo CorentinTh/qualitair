@@ -3,6 +3,7 @@
 #include "../../../src/ETL/include/ETL.h"
 
 #include "nlohmann/json.hpp"
+#include "../../../src/Data/include/ConnectionFactory.h"
 
 using json = nlohmann::json;
 using namespace std;
@@ -114,6 +115,8 @@ bool areVectorEquals(vector<T> *a, vector<T> *b) {
 
 
 TEST_CASE("Testing ETL::getData for all measures") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+
     ETL etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
@@ -133,6 +136,7 @@ TEST_CASE("Testing ETL::getData for all measures") {
 
     auto result = (vector<Measurement *> *) etl.getData({{"type", ETL::MEASURE}});
 
+    CHECK(result != nullptr);
     CHECK(!result->empty());
     CHECK(result->size() == expected.size());
 
@@ -141,6 +145,7 @@ TEST_CASE("Testing ETL::getData for all measures") {
 
 
 TEST_CASE("Testing ETL::getData for measures by bbox") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
@@ -176,6 +181,7 @@ TEST_CASE("Testing ETL::getData for measures by bbox") {
 
 
 TEST_CASE("Testing ETL::getData for measures by start time") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
@@ -199,6 +205,7 @@ TEST_CASE("Testing ETL::getData for measures by start time") {
 }
 
 TEST_CASE("Testing ETL::getData for measures by end time") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
@@ -226,6 +233,7 @@ TEST_CASE("Testing ETL::getData for measures by end time") {
 }
 
 TEST_CASE("Testing ETL::getData for measures by interval") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     auto result = (pointCollection *) etl.getData(
@@ -257,6 +265,7 @@ TEST_CASE("Testing ETL::getData for measures by interval") {
 
 
 TEST_CASE("Testing ETL::getData for sensors") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Sensor *> expected = {
@@ -276,6 +285,7 @@ TEST_CASE("Testing ETL::getData for sensors") {
 }
 
 TEST_CASE("Testing ETL::getData for sensors by sensorId") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Sensor *> expected = {
@@ -296,6 +306,7 @@ TEST_CASE("Testing ETL::getData for sensors by sensorId") {
 
 
 TEST_CASE("Testing ETL::getData for attributes") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     ETL etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
@@ -311,6 +322,8 @@ TEST_CASE("Testing ETL::getData for attributes") {
 }
 
 TEST_CASE("Testing ETL::getData for attributes by attributeId") {
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+
     ETL etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
