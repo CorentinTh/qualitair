@@ -46,7 +46,6 @@ bool areVectorEquals(vector<T> *a, vector<T> *b) {
 int main(int argc, char **argv) {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
 
-
     ETL etl = ETL::getInstance();
 
     auto result = (pointCollection *) etl.getData(
@@ -55,23 +54,48 @@ int main(int argc, char **argv) {
                     {"hasStart",             true},
                     {"hasEnd",               true},
                     {"hasBBox",              true},
+                    {"hasAttributes",        true},
                     {"doInterpolation",      true},
+                    {"attributes",           {"3"}},
                     {"start",                1550150000},
                     {"end",                  1550159000},
                     {"BBox",                 {
-                                                     {"left",      4},
+                                              {"left",      4},
                                                      {"right",    5},
-                                                     {"top",  46},
-                                                     {"bottom", 45}
+                                                     {"top",  45.8},
+                                                     {"bottom", 45.5}
                                              }},
-                    {"spatialGranularity",   0.05},
+                    {"spatialGranularity",   0.5},
                     {"temporalGranularity",  1000},
                     {"minimalInterDistance", {
-                                                     {"longitude", 5},
-                                                     {"latitude", 5},
+                                              {"longitude", 50},
+                                                     {"latitude", 50},
                                                      {"time", 10000}
                                              }}
             });
+
+
+    cout << "{" << endl;
+    for (auto &c : *result) {
+        cout << "\t{" << endl;
+        for (auto &r : c) {
+            cout << "\t\t{";
+            for (auto &d : r) {
+                cout << "{";
+                for (auto &v : d) {
+                    cout << "{\"";
+                    cout << v.first << "\", ";
+                    cout << fixed << setprecision(3) << v.second << " ";
+                    cout << "}, ";
+                }
+                cout << "}, ";
+
+            }
+            cout << "}, " << endl;
+        }
+        cout << "\t}, " << endl;
+    }
+    cout << "}" << endl;
 
 
 
