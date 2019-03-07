@@ -275,18 +275,53 @@ TEST_CASE("Testing ETL::getData for sensors") {
     CHECK(areVectorEquals<Sensor *>(&expected, result));
 }
 
+TEST_CASE("Testing ETL::getData for sensors by sensorId") {
+    ETL etl = ETL::getInstance();
+
+    vector<Sensor *> expected = {
+            new Sensor("1", 45.7574995, 4.8313017, "Bellecour - Grande roue"),
+    };
+
+    auto result = (vector<Sensor *> *) etl.getData({
+                                                           {"type",       ETL::SENSOR},
+                                                           {"hasSensors", true},
+                                                           {"sensors",    {"1"}},
+                                                   });
+
+    CHECK(!result->empty());
+    CHECK(result->size() == expected.size());
+
+    CHECK(areVectorEquals<Sensor *>(&expected, result));
+}
+
 
 TEST_CASE("Testing ETL::getData for attributes") {
     ETL etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
-            new Attribute("1", "mg/l", "Capteur en mg/l"),
-            new Attribute("2", "%", "Capteur en pourcent"),
-            new Attribute("3", "mol", "Capteur en mol")
+            new Attribute("1", "mg/l", "Capteur en mg/l")
     };
 
     auto result = (vector<Attribute *> *) etl.getData({{"type", ETL::ATTRIBUTE}});
 
+    CHECK(!result->empty());
+    CHECK(result->size() == expected.size());
+
+    CHECK(areVectorEquals<Attribute *>(&expected, result));
+}
+
+TEST_CASE("Testing ETL::getData for attributes by attributeId") {
+    ETL etl = ETL::getInstance();
+
+    vector<Attribute *> expected = {
+            new Attribute("1", "mg/l", "Capteur en mg/l"),
+    };
+
+    auto result = (vector<Attribute *> *) etl.getData({
+                                                              {"type",          ETL::ATTRIBUTE},
+                                                              {"hasAttributes", true},
+                                                              {"attributes",    {"1"}}
+                                                      });
     CHECK(!result->empty());
     CHECK(result->size() == expected.size());
 
