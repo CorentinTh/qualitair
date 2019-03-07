@@ -55,8 +55,8 @@ void GeoFilter::setBBox(const BBox &bBox) {
         || bBox.bottom <= -90
         || bBox.left <= -180
         || bBox.right >= 180
-        || bBox.top <= bBox.bottom
-        || bBox.left <= bBox.right){
+        || bBox.top < bBox.bottom
+        || bBox.left > bBox.right){
         // bbox incorrecte
         // ou bbox à cheval sur le 180eme Meridien (non géré)
         throw std::invalid_argument("La bbox en entrée n'est pas définie correctement ou cas non géré (bbox sur 180ème méridien)");
