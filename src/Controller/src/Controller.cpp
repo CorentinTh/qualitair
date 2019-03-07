@@ -109,7 +109,9 @@ void Controller::execute() {
         command->execute();
         command->output();
     } else {
-        //TODO output cached command
+        // TODO store & pass to correct view instead of printing json ?
+        LOG(WARNING) << "Cached command, showing previous data : ";
+        LOG(INFO) << *cached;
     }
 }
 
