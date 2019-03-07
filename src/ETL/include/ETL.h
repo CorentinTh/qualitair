@@ -17,6 +17,7 @@ public:
 
     long ingest(std::string path) override;
     void getData() override;
+    int extractDataTypeFromFile(std::string path);
 
     ETL(ETL const &) = default;
 

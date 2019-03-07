@@ -1,6 +1,7 @@
 #include <iostream>
 #include "easylogging++.h"
 #include "ETL/include/ETL.h"
+#include "Data/include/ConnectionFactory.h"
 
 using namespace std;
 
@@ -15,9 +16,6 @@ INITIALIZE_EASYLOGGINGPP
  * On le mettra qqlque part dans le controler pour avoir un main vide et propre.
  */
 
-
-
-
 /**
  * Main function
  * @param {int} argc - Argument count
@@ -26,10 +24,6 @@ INITIALIZE_EASYLOGGINGPP
  */
 int main(int argc, char **argv) {
     cout << argv[0] << endl;
-
-    ETL etl = ETL::getInstance();
-    etl.ingest("../tests/data/");
-
     cout << "Hello world!" << endl;
 
     return 0;

@@ -9,7 +9,7 @@
 #include "../../../src/Data/include/ConnectionFactory.h"
 
 namespace nsquerybuilder {
-    struct testInit {
+/*    struct testInit {
         testInit() {
             ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         }
@@ -151,5 +151,5 @@ namespace nsquerybuilder {
         }
 
         REQUIRE(nbRows == 15);
-    }
+    }*/
 }
