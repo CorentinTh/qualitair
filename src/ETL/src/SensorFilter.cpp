@@ -12,7 +12,7 @@ void SensorFilter::applyTo(QueryBuilder &qb) {
 }
 
 void SensorFilter::addSensor(std::string sensor) {
-    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) != this->sensors.end()){
+    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) == this->sensors.end()){
         // if the sensor is not already in the vector
         this->sensors.push_back(sensor);
     }
