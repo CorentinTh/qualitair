@@ -1,7 +1,7 @@
 #include <iostream>
+#include <iomanip>
 #include "easylogging++.h"
 
-using namespace std;
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -20,6 +20,23 @@ INITIALIZE_EASYLOGGINGPP
 #include "Data/include/ConnectionFactory.h"
 #include "Data/include/Measurement.h"
 
+using namespace std;
+
+
+template<typename T>
+bool areVectorEquals(vector<T> *a, vector<T> *b) {
+    if (a->size() != b->size()) return false;
+
+    for (unsigned int i = 0; i < a->size(); ++i) {
+        auto va = *a->at(i);
+        auto vb = *b->at(i);
+
+        if (va != vb) return false;
+    }
+
+    return true;
+}
+
 /**
  * Main function
  * @param {int} argc - Argument count
@@ -29,18 +46,48 @@ INITIALIZE_EASYLOGGINGPP
 int main(int argc, char **argv) {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
 
+
     ETL etl = ETL::getInstance();
 
-    auto result = (vector<Measurement *> *) etl.getData({
-                                                                {"type", ETL::MEASURE}
-                                                        });
+    auto result = (pointCollection *) etl.getData(
+            {
+                    {"type",                 ETL::MEASURE},
+                    {"hasStart",             true},
+                    {"hasEnd",               true},
+                    {"hasBBox",              true},
+                    {"doInterpolation",      true},
+                    {"start",                1550150000},
+                    {"end",                  1550159000},
+                    {"BBox",                 {
+                                                     {"left",      4},
+                                                     {"right",    5},
+                                                     {"top",  46},
+                                                     {"bottom", 45}
+                                             }},
+                    {"spatialGranularity",   0.05},
+                    {"temporalGranularity",  1000},
+                    {"minimalInterDistance", {
+                                                     {"longitude", 5},
+                                                     {"latitude", 5},
+                                                     {"time", 10000}
+                                             }}
+            });
 
-    auto resultb = (vector<Measurement *> *) etl.getData({
-                                                                {"type", ETL::MEASURE}
-                                                        });
-    for (auto &m   : *result ) {
-        cout << m->getValue() << endl;
-    }
+
+
+//    for (auto &m   : *result) {
+//        cout << "new Measurement(";
+//        cout << m->getTimestamp() << ", { \"";
+//        cout << m->getSensor().getId() << "\", ";
+//        cout << setprecision(9) << m->getSensor().getLatitude() << ", ";
+//        cout << setprecision(9) << m->getSensor().getLongitude() << ",\" ";
+//        cout << m->getSensor().getDescription() << "\"}, {\"";
+//        cout << m->getAttribute().getId() << "\", \"";
+//        cout << m->getAttribute().getUnit() << "\", \"";
+//        cout << m->getAttribute().getDescription() << "\"}, ";
+//        cout << setprecision(9) << m->getValue() << "), ";
+//        cout << endl;
+//    }
 
     return 0;
 }
