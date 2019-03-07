@@ -38,7 +38,7 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
 
         OT::point_t p = {
                 measure->getSensor().getLongitude(),
-                measure->getSensor().getLongitude(),
+                measure->getSensor().getLatitude(),
                 (double) measure->getTimestamp(),
                 new double(measure->getValue())
         };
