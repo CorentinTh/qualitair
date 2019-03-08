@@ -9,7 +9,7 @@
         <img src="https://travis-ci.com/CorentinTh/qualitair.svg?token=9AFtbFzoBgurrPixVEqi&branch=etl" alt="travis-badge">
     </a>
     <a href="https://codecov.io/gh/CorentinTh/qualitair">
-        <img src="https://codecov.io/gh/CorentinTh/qualitair/branch/etl/graph/badge.svg?token=b9f6pNeqj9" />
+        <img src="https://codecov.io/gh/CorentinTh/qualitair/branch/dev/graph/badge.svg?token=b9f6pNeqj9" />
     </a>
 </p>
 
