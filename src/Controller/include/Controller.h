@@ -20,6 +20,7 @@ class Controller {
 
     protected:
         Command* parseCommand();
+        void printHelp() const;
         friend void swap(Controller & first, Controller & second);
 
     private:

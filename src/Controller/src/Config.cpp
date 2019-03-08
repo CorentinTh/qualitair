@@ -1,15 +1,25 @@
 #include "../include/Config.h"
 #include "INIReader.h"
 #include "easylogging++.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
+
 
 #include <iostream>
 
-const std::string Config::FILEPATH = "~/.qualitair/config.ini";
+const std::string Config::FILEPATH = "/.qualitair/config.ini";
 
 void Config::load() {
-    INIReader reader(filepath);
+    char* homeDir;
+    if ((homeDir = getenv("HOME")) == NULL) {
+        homeDir = getpwuid(getuid())->pw_dir;
+    }
+    std::string path = homeDir + filepath;
+    INIReader reader(path);
     if (reader.ParseError() < 0) {
-        LOG(ERROR) << "Unable to load " << filepath << std::endl;
+        LOG(ERROR) << "Unable to load " << path << std::endl;
         return;
     }
 

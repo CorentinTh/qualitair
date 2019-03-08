@@ -108,10 +108,11 @@ Command* Controller::parseCommand() {
 }
 
 void Controller::execute() {
+    TIMED_FUNC(objTimer);
     Command * command = parseCommand();
     if(command == nullptr) {
-        std::cout << userManual << std::endl;
-        exit(1);
+        printHelp();
+        return;
     }
 
     Cache cache;
@@ -149,6 +150,17 @@ std::vector<std::string> Controller::unjoinString(std::string string) {
     }
 
     return values;
+}
+
+void Controller::printHelp() const {
+    std::cout << "    ______      __    __       ___       __       __  .___________.__     ___       __  .______      \n"
+                 "   /  __  \\    |  |  |  |     /   \\     |  |     |  | |           (_ )   /   \\     |  | |   _  \\     \n"
+                 "  |  |  |  |   |  |  |  |    /  ^  \\    |  |     |  | `---|  |----`|/   /  ^  \\    |  | |  |_)  |    \n"
+                 "  |  |  |  |   |  |  |  |   /  /_\\  \\   |  |     |  |     |  |         /  /_\\  \\   |  | |      /     \n"
+                 "  |  `--'  '--.|  `--'  |  /  _____  \\  |  `----.|  |     |  |        /  _____  \\  |  | |  |\\  \\----.\n"
+                 "   \\_____\\_____\\\\______/  /__/     \\__\\ |_______||__|     |__|       /__/     \\__\\ |__| | _| `._____|\n"
+                 "                                                                                                     \n" << std::endl;
+    std::cout << userManual << std::endl;
 }
 
 std::string Controller::userManual = "qualitair [OPTIONS] <verb> [VERB OPTIONS]\n"
