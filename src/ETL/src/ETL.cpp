@@ -15,7 +15,6 @@
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
     for(std::string file : listCSVFiles(path)) {
-        std::cout << file << std::endl;
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
 
@@ -200,7 +199,6 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
     auto result = new vector<void *>;
 
     SQLite::Statement * statement;
-    cout << qb->getQuery();
     try {
         statement = qb->execute();
 
