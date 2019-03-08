@@ -3,6 +3,11 @@
 //
 
 #include "../include/DetectSimCommand.h"
+#include "../../ETL/include/ETL.h"
+#include "../../DataProcessor/include/DataProcessor.h"
+#include "../../View/include/OutputCLI.h"
+#include "../../View/include/OutputJSON.h"
+#include "../../View/include/OutputHTML.h"
 
 DetectSimCommand &DetectSimCommand::operator=(DetectSimCommand other) {
     swap(*this, other);
@@ -28,7 +33,61 @@ DetectSimCommand::~DetectSimCommand() {
 }
 
 void DetectSimCommand::execute() {
+    json config;
+    config["type"] = ETL::MEASURE;
 
+    if(!bbox.isNull()){
+        config["hasBBox"] = true;
+
+        json bbox = this->bbox;
+        config["BBox"] = bbox;
+    }
+    else{
+        config["hasBBox"] = false;
+    }
+
+    if (start != 0){
+        config["hasStart"] = true;
+        config["start"] = start;
+    }
+    else{
+        config["hasStart"] = false;
+    }
+
+    if (end != 0){
+        config["hasEnd"] = true;
+        config["end"] = end;
+    }
+    else{
+        config["hasEnd"] = false;
+    }
+
+    if (!attributes.empty()){
+        config["hasSensors"] = true;
+        config["sensors"] = sensors;
+    }
+    else{
+        config["hasSensors"] = false;
+    }
+
+    ETL etl = ETL::getInstance();
+    DataProcessor dataProcessor = DataProcessor::getInstance();
+
+    auto result = *((std::vector<Measurement*> *) etl.getData(config));
+
+    json res = *dataProcessor.detectSimilar(result, threshold);
+
+    // TODO: cache, only if "end" set
+
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+        OutputCLI::getInstance().printSim(res);
+    }
+    else if(outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printSim(res, outputArguments.outputFile);
+    }
+    else{ // OutputFormat::HTML
+        OutputHTML::getInstance().printSim(res, outputArguments.outputFile);
+    }
 }
 
 
