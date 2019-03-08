@@ -20,7 +20,7 @@ class BrokenDetection : IDataProcess {
 
         BrokenDetection & operator = ( BrokenDetection other );
         BrokenDetection ( const BrokenDetection & other );
-        BrokenDetection ( std::vector<Measurement> measures, int brokenTime,
+        BrokenDetection ( std::vector<Measurement*> measures, int brokenTime,
                 std::unordered_map<std::string, std::pair<int, int>> admissibleRanges);
         virtual ~BrokenDetection ( );
     
@@ -29,7 +29,7 @@ class BrokenDetection : IDataProcess {
 
         int brokenTime;
         std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
-        std::vector<Measurement> measures;
+        std::vector<Measurement*> measures;
 };
 
 #endif //QUALITAIR_BROKENDETECTION_H

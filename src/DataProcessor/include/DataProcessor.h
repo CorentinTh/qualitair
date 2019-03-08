@@ -10,13 +10,11 @@
 
 class DataProcessor : public IDataProcessor {
     public:
-        static DataProcessor& getInstance()
+        static IDataProcessor& getInstance()
         {
             static DataProcessor instance;
             return instance;
         }
-
-        DataProcessor(DataProcessor const&)       = delete;
 
         json *computeAverage(pointCollection &data) override;
 
@@ -36,7 +34,7 @@ class DataProcessor : public IDataProcessor {
 
 
     private:
-        DataProcessor() {}
+        DataProcessor() = default;
 };
 
 
