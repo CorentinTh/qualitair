@@ -15,7 +15,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
 
     SQLite::Statement * query;
 
-    queryBuilder.select("sensorId").from("Measurement");
+    queryBuilder.select("SensorID").from("Measurement");
 
     AttributeFilter attributeFilter1;
     attributeFilter1.addAttribute("3");
@@ -34,7 +34,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
 
     while (query->executeStep()){
         resultNotEmpty = true;
-        int sensorId = query->getColumn("sensorId");
+        int sensorId = query->getColumn("SensorID");
         REQUIRE(std::find(vectSensorId.begin(), vectSensorId.end(), sensorId) != vectSensorId.end());
         REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }
@@ -46,7 +46,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    queryBuilder.select("sensorId").from("Measurement");
+    queryBuilder.select("SensorID").from("Measurement");
 
     SQLite::Statement * query;
 
@@ -72,7 +72,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
 
     while (query->executeStep()){
         resultNotEmpty = true;
-        int sensorId = query->getColumn("sensorId");
+        int sensorId = query->getColumn("SensorID");
         REQUIRE(std::find(vectResults.begin(), vectResults.end(), sensorId) != vectResults.end());
         REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }

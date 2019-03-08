@@ -35,14 +35,12 @@ namespace etlTestNamespace {
     }
 
     TEST_CASE("Testing ETL::ingest not well formed csv", "[UT-E-1]") {
-//        initializeDatabase();
         ETL etl = ETL::getInstance();
 
         REQUIRE(etl.ingest("../tests/data/csv/dirty") == -1);
     }
 
     TEST_CASE("Testing ETL::ingest with no data", "[UT-E-1]") {
-//        initializeDatabase();
         ETL etl = ETL::getInstance();
 
         REQUIRE(etl.ingest("../data/csv") == 0);
@@ -51,8 +49,6 @@ namespace etlTestNamespace {
 
     TEST_CASE("Testing ETL singleton", "[extra]") {
         REQUIRE(&ETL::getInstance() == &ETL::getInstance());
-
-        REQUIRE(typeid(ETL::getInstance()).name() == "ETL");
     }
 }
 
@@ -265,7 +261,9 @@ TEST_CASE("Testing ETL::getData for attributes") {
     ETL etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
-            new Attribute("1", "mg/l", "Capteur en mg/l")
+            new Attribute("1", "mg/l", "Capteur en mg/l"),
+            new Attribute("2", "%", "Capteur en pourcent"),
+            new Attribute("3", "mol", "Capteur en mol")
     };
 
     auto result = (vector<Attribute *> *) etl.getData({{"type", ETL::ATTRIBUTE}});
@@ -282,7 +280,7 @@ TEST_CASE("Testing ETL::getData for attributes by attributeId") {
     ETL etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
-            new Attribute("1", "mg/l", "Capteur en mg/l"),
+            new Attribute("1", "mg/l", "Capteur en mg/l")
     };
 
     auto result = (vector<Attribute *> *) etl.getData({

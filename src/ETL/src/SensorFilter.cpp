@@ -10,17 +10,17 @@ void SensorFilter::applyTo(QueryBuilder &qb) {
     for (std::string sensor : this->sensors){
         if (compteur == 1){
             if (this->sensors.size()>1){
-                qb.andWhere("(sensorId = ?").bind(sensor);
+                qb.andWhere("(SensorID = ?").bind(sensor);
             }
             else{
-                qb.andWhere("sensorId = ?").bind(sensor);
+                qb.andWhere("SensorID = ?").bind(sensor);
             }
         }
         else if(compteur == this->sensors.size()){
-            qb.orWhere("sensorId = ?)").bind(sensor);
+            qb.orWhere("SensorID = ?)").bind(sensor);
         }
         else{
-            qb.orWhere("sensorId = ?").bind(sensor);
+            qb.orWhere("SensorID = ?").bind(sensor);
         }
         compteur++;
     }

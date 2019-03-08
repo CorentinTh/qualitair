@@ -44,7 +44,7 @@ TEST_CASE("Testing CLIParser::getVerb", "[UT-C-2]") {
     REQUIRE(cliParser.getVerb() == "ingest");
 
     // TODO looks odd, remove the detect ?
-    char* command2[] = { "detect", "sim" , NULL };
+    char* command2[] = { "sim" , NULL };
     cliParser = CLIParser(command2);
 
     REQUIRE(cliParser.getVerb() == "sim");

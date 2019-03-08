@@ -211,18 +211,18 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
                 while (statement->executeStep()) {
                     result->emplace_back(new Measurement(
-                            statement->getColumn("timestamp"),
+                            statement->getColumn("Timestamp"),
                             {
-                                    statement->getColumn("sensorId"),
-                                    statement->getColumn("latitude"),
-                                    statement->getColumn("longitude"),
-                                    statement->getColumn("sensorDescription")
+                                    statement->getColumn("SensorID"),
+                                    statement->getColumn("Latitude"),
+                                    statement->getColumn("Longitude"),
+                                    statement->getColumn("SensorDescription")
                             }, {
-                                    statement->getColumn("attributeId"),
-                                    statement->getColumn("unit"),
-                                    statement->getColumn("attributeDescription")
+                                    statement->getColumn("AttributeID"),
+                                    statement->getColumn("Unit"),
+                                    statement->getColumn("AttributeDescription")
                             },
-                            statement->getColumn("value")
+                            statement->getColumn("Value")
                     ));
                 }
 
@@ -230,10 +230,10 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
                 while (statement->executeStep()) {
                     result->emplace_back(new Sensor(
-                            statement->getColumn("sensorId"),
-                            statement->getColumn("latitude"),
-                            statement->getColumn("longitude"),
-                            statement->getColumn("description")
+                            statement->getColumn("SensorID"),
+                            statement->getColumn("Latitude"),
+                            statement->getColumn("Longitude"),
+                            statement->getColumn("Description")
                     ));
                 }
 
@@ -241,9 +241,9 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
                 while (statement->executeStep()) {
                     result->emplace_back(new Attribute(
-                            statement->getColumn("attributeId"),
-                            statement->getColumn("unit"),
-                            statement->getColumn("description")
+                            statement->getColumn("AttributeID"),
+                            statement->getColumn("Unit"),
+                            statement->getColumn("Description")
                     ));
                 }
 
@@ -267,20 +267,20 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 }
 
 void ETL::setMeasurementConfig(QueryBuilder *qb) {
-    qb->select("Sensor.sensorId as sensorId");
-    qb->select("Attribute.attributeId as attributeId");
-    qb->select("timestamp");
-    qb->select("value");
-    qb->select("longitude");
-    qb->select("latitude");
-    qb->select("unit");
-    qb->select("Sensor.description as sensorDescription");
-    qb->select("Attribute.description as attributeDescription");
+    qb->select("Sensor.SensorID as SensorID");
+    qb->select("Attribute.AttributeID as AttributeID");
+    qb->select("Timestamp");
+    qb->select("Value");
+    qb->select("Longitude");
+    qb->select("Latitude");
+    qb->select("Unit");
+    qb->select("Sensor.Description as SensorDescription");
+    qb->select("Attribute.Description as AttributeDescription");
     qb->from("Measurement");
     qb->join("Sensor");
     qb->join("Attribute");
-    qb->where("Measurement.attributeId = Attribute.attributeId");
-    qb->where("Measurement.sensorId = Sensor.sensorId");
+    qb->where("Measurement.AttributeID = Attribute.AttributeID");
+    qb->where("Measurement.SensorID = Sensor.SensorID");
 }
 
 
