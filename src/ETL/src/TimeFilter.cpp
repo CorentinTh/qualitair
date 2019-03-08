@@ -43,7 +43,7 @@ void TimeFilter::setInterval(std::time_t start, std::time_t end) {
         this->endDefined = true;
     }
     else{
-        throw std::logic_error("L'intervalle passé en paramètre de setInterval n'est pas correct");
+        throw std::logic_error("Starting date must be before ending date");
     }
 }
 
