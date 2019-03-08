@@ -65,7 +65,7 @@ void GeoFilter::setBBox(const BBox &bBox) {
         this->bbox.setTop(bBox.getTop());
         this->bbox.setBottom(bBox.getBottom());
         this->bbox.setLeft(bBox.getLeft());
-        this->bbox.setRight(bBox.getRight());
+        bbox.setRight(bBox.getRight());
     }
 
 }
