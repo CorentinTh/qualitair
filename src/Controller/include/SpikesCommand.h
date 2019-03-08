@@ -20,7 +20,6 @@ class SpikesCommand : public Command {
 
         void execute() override;
 
-        void output() override;
 
     protected:
         friend void swap(SpikesCommand & first, SpikesCommand & second);

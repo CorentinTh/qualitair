@@ -23,8 +23,6 @@ class StatsCommand : public Command {
 
         void execute() override;
 
-        void output() override;
-
     protected:
         friend void swap(StatsCommand & first, StatsCommand & second);
         virtual void to_json(json& j) const override;

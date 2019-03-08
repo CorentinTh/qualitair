@@ -11,10 +11,11 @@
 
 class SensorFilter : public Filter {
     public:
-        virtual std::string apply();
+        void applyTo(QueryBuilder &qb) override;
+
 
         void addSensor(std::string sensor);
-        void addSensors(std::vector<std::string> sensors);
+        void addSensors(std::vector<std::string> vectSensors);
 
         SensorFilter & operator = ( SensorFilter other );
         SensorFilter ( const SensorFilter & other );

@@ -5,3 +5,8 @@ cmake-build-debug
 bin
 
 lib
+
+data-example
+
+#Tests
+dbmockcopy.sqlite

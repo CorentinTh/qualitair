@@ -25,7 +25,6 @@ class Command {
         Command() = default;
         Command(OutputArguments outputArguments);
         virtual void execute() = 0;
-        virtual void output() = 0;
 
     protected:
         OutputArguments outputArguments;

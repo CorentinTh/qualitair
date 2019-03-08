@@ -5,20 +5,20 @@
 #include "../include/Measurement.h"
 #include <utility>
 
-int Measurement::getTimestamp() {
+int Measurement::getTimestamp() const {
     return timestamp;
 }
 
-double Measurement::getValue() {
+double Measurement::getValue() const{
     return value;
 }
 
 
-Sensor Measurement::getSensor() {
+Sensor Measurement::getSensor() const{
     return sensor;
 }
 
-Attribute Measurement::getAttribute() {
+Attribute Measurement::getAttribute() const {
     return attribute;
 }
 
@@ -40,6 +40,17 @@ Measurement::Measurement(const Measurement &other) {
 
 Measurement::~Measurement() {
 
+}
+
+bool Measurement::operator==(const Measurement &rhs) const {
+    return timestamp == rhs.timestamp &&
+           std::abs(value - rhs.value) < 0.00001 &&
+           sensor == rhs.sensor &&
+           attribute == rhs.attribute;
+}
+
+bool Measurement::operator!=(const Measurement &rhs) const {
+    return !(rhs == *this);
 }
 
 void swap(Measurement & first, Measurement & second) {

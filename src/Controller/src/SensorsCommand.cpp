@@ -3,7 +3,11 @@
 //
 
 #include "../include/SensorsCommand.h"
-#include "../include/IngestCommand.h"
+#include "../../ETL/include/ETL.h"
+#include "../../View/include/OutputJSON.h"
+#include "../../View/include/OutputCLI.h"
+#include "../../View/include/OutputHTML.h"
+
 
 SensorsCommand &SensorsCommand::operator=(SensorsCommand other) {
     swap(*this, other);
@@ -14,8 +18,10 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
     bbox = other.bbox;
 }
 
-SensorsCommand::SensorsCommand(BBox b, OutputArguments outputArguments) : Command(outputArguments), bbox(b) {
-
+SensorsCommand::SensorsCommand(BBox b, OutputArguments outputArguments) {
+    if (!b.isNull()){
+        this->bbox = b;
+    }
 }
 
 SensorsCommand::~SensorsCommand() {
@@ -23,10 +29,45 @@ SensorsCommand::~SensorsCommand() {
 }
 
 void SensorsCommand::execute() {
+    json config;
+    config["type"] = ETL::SENSOR;
 
-}
+    if(!this->bbox.isNull()){
+        config["hasBBox"] = true;
 
-void SensorsCommand::output() {
+        json bbox = this->bbox;
+        config["BBox"] = bbox;
+    }
+    else{
+        config["hasBBox"] = false;
+    }
+
+    config["hasStart"] = false;
+    config["hasEnd"] = false;
+
+    config["hasAttributes"] = false;
+    config["hasSensors"] = false;
+
+    ETL etl = ETL::getInstance();
+    std::vector<Sensor*> result = * (std::vector<Sensor*>*) etl.getData(config);
+
+    // no dataprocesor treatment
+
+    // transform result in json here (because no data processor treatment)
+    json res = json::array();
+    for (const Sensor* ptrSensor : result){
+        res.push_back(*ptrSensor);
+    }
+
+    if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
+        OutputCLI::getInstance().printStats(res);
+    }
+    else if(this->outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printStats(res, this->outputArguments.outputFile);
+    }
+    else{ // OutputFormat::HTML
+        OutputHTML::getInstance().printStats(res, this->outputArguments.outputFile);
+    }
 
 }
 

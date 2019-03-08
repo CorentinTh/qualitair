@@ -31,9 +31,6 @@ void DetectSimCommand::execute() {
 
 }
 
-void DetectSimCommand::output() {
-
-}
 
 void swap(DetectSimCommand &first, DetectSimCommand &second) {
     std::swap(first.bbox, second.bbox);

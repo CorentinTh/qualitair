@@ -17,9 +17,7 @@ class SensorsCommand : public Command{
         virtual ~SensorsCommand ( );
     
         void execute() override;
-    
-        void output() override;
-    
+
     protected:
         friend void swap(SensorsCommand & first, SensorsCommand & second);
         virtual void to_json(json& j) const override;

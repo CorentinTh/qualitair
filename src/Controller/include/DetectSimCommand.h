@@ -20,7 +20,6 @@ class DetectSimCommand : public Command {
 
         void execute() override;
 
-        void output() override;
 
     protected:
         friend void swap(DetectSimCommand & first, DetectSimCommand & second);

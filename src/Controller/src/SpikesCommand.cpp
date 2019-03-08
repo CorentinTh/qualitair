@@ -31,9 +31,6 @@ void SpikesCommand::execute() {
 
 }
 
-void SpikesCommand::output() {
-
-}
 
 void swap(SpikesCommand &first, SpikesCommand &second) {
     std::swap(first.bbox, second.bbox);

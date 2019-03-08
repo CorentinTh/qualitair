@@ -4,7 +4,7 @@
 
 #include "../include/BBox.h"
 
-BBox::BBox(int l, int t, int r, int b) : left(l), top(t), right(r), bottom(b) {
+BBox::BBox(double l, double t, double r, double b) : left(l), top(t), right(r), bottom(b) {
 
 }
 
@@ -27,6 +27,31 @@ BBox::BBox(std::string stringValue) {
 
 bool BBox::isNull() {
     return left == -1 && top == -1 && right == -1 && bottom == -1;
+}
+
+double BBox::getLeft() const{
+    return this->left;
+}
+double BBox::getTop() const{
+    return this->top;
+}
+double BBox::getRight() const{
+    return this->right;
+}
+double BBox::getBottom() const{
+    return this->bottom;
+}
+void BBox::setLeft(double d){
+    this->left = d;
+}
+void BBox::setTop(double d){
+    this->top = d;
+}
+void BBox::setRight(double d){
+    this->right = d;
+}
+void BBox::setBottom(double d){
+    this->bottom = d;
 }
 
 void to_json(json& j, const BBox& box) {
