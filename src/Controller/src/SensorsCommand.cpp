@@ -18,6 +18,7 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
     bbox = other.bbox;
 }
 
+
 SensorsCommand::SensorsCommand(BBox b) {
     if (!b.isNull()){
         this->bbox = b;
