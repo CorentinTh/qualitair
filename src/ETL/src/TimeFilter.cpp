@@ -31,7 +31,7 @@ void TimeFilter::setEnd(std::time_t end) {
         this->endDefined = true;
     }
     else{
-        throw std::logic_error("La date de fin est inférieure ou égale à la date de début déjà renseignée");
+        throw std::logic_error("Ending date must be after starting date");
     }
 }
 
