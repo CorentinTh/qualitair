@@ -28,7 +28,7 @@ void AttributeFilter::applyTo(QueryBuilder &qb){
 
 void AttributeFilter::addAttribute(std::string attribute) {
     if (!attribute.empty()){
-        if (std::find(this->attributes.begin(), this->attributes.end(), attribute) == this->attributes.end()){
+        if (std::find(attributes.begin(), attributes.end(), attribute) == attributes.end()){
             // if the attribute is not already in the vector
             attributes.push_back(attribute);
         }
