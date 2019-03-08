@@ -20,7 +20,7 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
 
 SensorsCommand::SensorsCommand(BBox b, OutputArguments outputArguments) {
     if (!b.isNull()){
-        this->bbox = b;
+        bbox = b;
     }
 }
 
@@ -32,7 +32,7 @@ void SensorsCommand::execute() {
     json config;
     config["type"] = ETL::SENSOR;
 
-    if(!this->bbox.isNull()){
+    if(!bbox.isNull()){
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
@@ -59,14 +59,14 @@ void SensorsCommand::execute() {
         res.push_back(*ptrSensor);
     }
 
-    if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printStats(res);
     }
-    else if(this->outputArguments.outputFormat == OutputFormat::JSON){
-        OutputJSON::getInstance().printStats(res, this->outputArguments.outputFile);
+    else if(outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
-        OutputHTML::getInstance().printStats(res, this->outputArguments.outputFile);
+        OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
     }
 
 }

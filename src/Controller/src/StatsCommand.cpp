@@ -37,7 +37,7 @@ void StatsCommand::execute() {
     json config;
     config["type"] = ETL::MEASURE;
 
-    if(!this->bbox.isNull()){
+    if(!bbox.isNull()){
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
@@ -47,33 +47,33 @@ void StatsCommand::execute() {
         config["hasBBox"] = false;
     }
 
-    if (this->start != 0){
+    if (start != 0){
         config["hasStart"] = true;
-        config["start"] = this->start;
+        config["start"] = start;
     }
     else{
         config["hasStart"] = false;
     }
 
-    if (this->end != 0){
+    if (end != 0){
         config["hasEnd"] = true;
-        config["end"] = this->end;
+        config["end"] = end;
     }
     else{
         config["hasEnd"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!attributes.empty()){
         config["hasAttributes"] = true;
-        config["attributes"] = this->attributes;
+        config["attributes"] = attributes;
     }
     else{
         config["hasAttributes"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!attributes.empty()){
         config["hasSensors"] = true;
-        config["sensors"] = this->sensors;
+        config["sensors"] = sensors;
     }
     else{
         config["hasSensors"] = false;
@@ -101,14 +101,14 @@ void StatsCommand::execute() {
     // if end start settled
 
 
-    if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printStats(res);
     }
-    else if(this->outputArguments.outputFormat == OutputFormat::JSON){
-        OutputJSON::getInstance().printStats(res, this->outputArguments.outputFile);
+    else if(outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
-        OutputHTML::getInstance().printStats(res, this->outputArguments.outputFile);
+        OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
     }
 }
 
