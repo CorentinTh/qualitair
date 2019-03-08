@@ -9,4 +9,3 @@ lib
 html-templates/node_modules
 html-templates/.cache
 html-templates/test
-html-templates/dist

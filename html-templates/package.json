@@ -6,13 +6,19 @@
   "private": true,
   "scripts": {
     "test": "parcel src/spikes/spikes-template.html --out-dir test",
-    "build": "parcel build src/spikes/spikes-template.html --public-url . --out-dir dist"
+    "build": "gulp"
   },
   "devDependencies": {
+    "css-mqpacker": "^7.0.0",
+    "del": "^4.0.0",
+    "gulp": "^4.0.0",
+    "gulp-htmlnano": "^0.1.0",
+    "gulp-parcel": "^0.3.5",
+    "gulp-postcss": "^8.0.0",
     "parcel-bundler": "^1.11.0",
-    "parcel-plugin-inliner": "^1.0.6"
+    "parcel-plugin-inliner": "^1.0.6",
+    "postcss-uncss": "^0.16.1",
+    "uncss": "^0.16.1"
   },
-  "dependencies": {
-    "gulp": "^4.0.0"
-  }
+  "dependencies": {}
 }
