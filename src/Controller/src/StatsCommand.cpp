@@ -1,13 +1,10 @@
 #include "../include/StatsCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "../../globals.h"
-#include "../../DataProcessor/include/ATMOComputer.h"
-#include "../../DataProcessor/include/Average.h"
-#include "../../DataProcessor/include/Deviation.h"
-#include "../../DataProcessor/include/Extrems.h"
 #include "../../View/include/OutputCLI.h"
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputHTML.h"
+#include "../../DataProcessor/include/DataProcessor.h"
 
 const std::unordered_map<std::string, StatsCommand::StatEnum> StatsCommand::StatDictionary {
     {"AVG", StatsCommand::AVG}, {"EXTREMS", StatsCommand::EXTREMS}, {"DEVIATION", StatsCommand::DEVIATION}, {"ATMO", StatsCommand::ATMO}
@@ -88,20 +85,16 @@ void StatsCommand::execute() {
     json res;
 
     if (this->type == StatEnum::ATMO){
-        ATMOComputer atmoComputer(* result);
-        res = *atmoComputer.apply();
+        res = *DataProcessor::getInstance().computeAtmo(*result);
     }
     else if(this->type == StatEnum::AVG){
-        Average averageComputer(*result);
-        res = *averageComputer.apply();
+        res = *DataProcessor::getInstance().computeAverage(*result);
     }
     else if(this->type == StatEnum::DEVIATION){
-        Deviation deviationComputer(*result);
-        res = *deviationComputer.apply();
+        res =  *DataProcessor::getInstance().computeDeviation(*result);
     }
     else{ // StatEnum::EXTREMS
-        Extrems extremsComputer(*result);
-        res = *extremsComputer.apply();
+        res = *DataProcessor::getInstance().computeExtrems(*result);
     }
     // todo cache res
     // if end start settled
