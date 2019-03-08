@@ -16,8 +16,6 @@ class DataProcessor : public IDataProcessor {
             return instance;
         }
 
-        DataProcessor(DataProcessor const&)       = delete;
-
         json *computeAverage(pointCollection &data) override;
 
         json *computeDeviation(pointCollection &data) override;
@@ -36,7 +34,7 @@ class DataProcessor : public IDataProcessor {
 
 
     private:
-        DataProcessor() {}
+        DataProcessor() = default;
 };
 
 

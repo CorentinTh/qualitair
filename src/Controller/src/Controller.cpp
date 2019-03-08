@@ -76,7 +76,12 @@ Command* Controller::parseCommand() {
         } else if(verb == "spikes") {
             try {
                 std::string attribute = cliParser.getMandatoryArgument();
-                command = new SpikesCommand(attribute, bbox, start, end, sensors, outputArguments);
+                SpikesCommand::SpikeDetectionConfiguration detectionConfig = {
+                        config.getSpikesValueThreshold(),
+                        (unsigned int) config.getSpikesTimeThreshold(),
+                        (unsigned int) config.getSpikesMinimalArea()
+                };
+                command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments);
             }
             catch (std::exception) {
                 LOG(ERROR) << "Missing mandatory argument \"attribute\".";
