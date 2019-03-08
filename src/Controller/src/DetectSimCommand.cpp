@@ -19,7 +19,7 @@ DetectSimCommand::DetectSimCommand(const DetectSimCommand &other) {
 }
 
 DetectSimCommand::DetectSimCommand(BBox b, time_t st, time_t e, std::vector<std::string> attr,
-        std::vector<std::string> sen, double thresh) : bbox(b), start(st), end(e), attributes(attr), sensors(sen),
+        std::vector<std::string> sen, double thresh, OutputArguments outputArguments) : Command(outputArguments), bbox(b), start(st), end(e), attributes(attr), sensors(sen),
         threshold(thresh) {
 }
 

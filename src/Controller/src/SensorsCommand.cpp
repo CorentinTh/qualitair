@@ -14,7 +14,7 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
     bbox = other.bbox;
 }
 
-SensorsCommand::SensorsCommand(BBox b) : bbox(b) {
+SensorsCommand::SensorsCommand(BBox b, OutputArguments outputArguments) : Command(outputArguments), bbox(b) {
 
 }
 

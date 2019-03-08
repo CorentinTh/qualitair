@@ -17,7 +17,7 @@ SpikesCommand::SpikesCommand(const SpikesCommand &other) {
     sensors = other.sensors;
 }
 
-SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen) : attribute(attr),
+SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, OutputArguments outputArguments) : Command(outputArguments), attribute(attr),
         bbox(b), start(s), end(s), sensors(sen)
 {
 

@@ -18,7 +18,7 @@ class StatsCommand : public Command {
         StatsCommand & operator = ( StatsCommand other );
         StatsCommand ( const StatsCommand & other );
         StatsCommand ( StatEnum type, BBox bbox, time_t start, time_t end, std::vector<std::string> attributes,
-                std::vector<std::string> sensors );
+                std::vector<std::string> sensors, OutputArguments outputArguments );
         virtual ~StatsCommand ( );
 
         void execute() override;

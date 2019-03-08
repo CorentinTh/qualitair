@@ -1,6 +1,7 @@
-#include <iostream>
 #include "../include/IngestCommand.h"
 #include "../../ETL/include/ETL.h"
+#include "easylogging++.h"
+
 
 
 IngestCommand &IngestCommand::operator=(IngestCommand other) {
@@ -12,7 +13,7 @@ IngestCommand::IngestCommand(const IngestCommand &other) {
     input = other.input;
 }
 
-IngestCommand::IngestCommand(std::string in) : input(in) {
+IngestCommand::IngestCommand(std::string in, OutputArguments outputArguments) : Command(outputArguments), input(in) {
 
 }
 
@@ -25,11 +26,11 @@ void IngestCommand::execute() {
 
     long output = etl.ingest(input);
     if(output == 0) {
-        std::cout << "Aucun élément n'a été ingéré." << std::endl;
+        LOG(WARNING) << "No element could not be inserted" << std::endl;
     } else if(output == -1) {
-        std::cerr << "Un fichier que vous tentez d'ingérer n'est pas au bon format !" << std::endl;
+        LOG(ERROR) << "File is not properly formatted" << std::endl;
     } else {
-        std::cout << output << " éléments ont été ingéré" << (output > 1 ? "s" : "") << " avec succes !";
+        LOG(INFO) << output << " elements inserted successfully !";
     }
 }
 

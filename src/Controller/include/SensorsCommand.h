@@ -13,7 +13,7 @@ class SensorsCommand : public Command{
     
         SensorsCommand & operator = ( SensorsCommand other );
         SensorsCommand ( const SensorsCommand & other );
-        SensorsCommand ( BBox bbox );
+        SensorsCommand ( BBox bbox, OutputArguments outputArguments );
         virtual ~SensorsCommand ( );
     
         void execute() override;
