@@ -20,8 +20,8 @@ namespace nsquerybuilder {
 
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable;");
 
-        queryBuilder.select("attributeId");
-        REQUIRE(queryBuilder.getQuery() == "SELECT attributeId FROM unknowTable;");
+        queryBuilder.select("AttributeID");
+        REQUIRE(queryBuilder.getQuery() == "SELECT AttributeID FROM unknowTable;");
     }
 
     TEST_CASE("Test query table selection", "[UT-D-3]") {
@@ -47,8 +47,8 @@ namespace nsquerybuilder {
         queryBuilder.andWhere("label = ?");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? AND label = ?;");
 
-        queryBuilder.andWhere("value != ?");
-        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? AND label = ? AND value != ?;");
+        queryBuilder.andWhere("Value != ?");
+        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? AND label = ? AND Value != ?;");
     }
 
     TEST_CASE("Test query orWhere condition", "[UT-D-6]") {
@@ -60,8 +60,8 @@ namespace nsquerybuilder {
         queryBuilder.orWhere("label = ?");
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? OR label = ?;");
 
-        queryBuilder.orWhere("value != ?");
-        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? OR label = ? OR value != ?;");
+        queryBuilder.orWhere("Value != ?");
+        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM unknowTable WHERE id = ? OR label = ? OR Value != ?;");
     }
 
     TEST_CASE("Test query join condition", "[UT-D-7]") {
@@ -74,61 +74,61 @@ namespace nsquerybuilder {
     TEST_CASE("Test combined query", "[UT-D-8]") {
         QueryBuilder queryBuilder;
 
-        queryBuilder.select("attributeId")
+        queryBuilder.select("AttributeID")
                     .from("Attribute")
-                    .where("unit = ?")
-                    .orWhere("unit = ?");
+                    .where("Unit = ?")
+                    .orWhere("Unit = ?");
 
-        REQUIRE(queryBuilder.getQuery() == "SELECT attributeId FROM Attribute WHERE unit = ? OR unit = ?;");
+        REQUIRE(queryBuilder.getQuery() == "SELECT AttributeID FROM Attribute WHERE Unit = ? OR Unit = ?;");
 
         queryBuilder = QueryBuilder();
         queryBuilder.from("Measurement")
                     .join("Attribute")
-                    .where("sensorId = ?");
+                    .where("SensorID = ?");
 
-        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE sensorId = ?;");
+        REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE SensorID = ?;");
     }
 
     TEST_CASE("Test insert", "[UT-D-9]") {
         QueryBuilder queryBuilder;
 
         queryBuilder.insert("Attribute")
-                    .values({"attributeId", "unit", "description"})
+                    .values({"AttributeID", "Unit", "Description"})
                     .bind("dummy").bind("dummy").bind("dummy");
 
-        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Attribute(attributeId, unit, description) VALUES (?, ?, ?);");
+        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Attribute(AttributeID, Unit, Description) VALUES (?, ?, ?);");
 
         queryBuilder = QueryBuilder();
         queryBuilder = queryBuilder.insert("Sensor")
-                .values({"sensorId", "latitude", "longitude", "description"})
+                .values({"SensorID", "Latitude", "Longitude", "Description"})
                 .bind("dummy").bind("dummy").bind("dummy").bind("dummy")
                 .bind("dummy").bind("dummy").bind("dummy").bind("dummy")
                 .bind("dummy").bind("dummy").bind("dummy").bind("dummy");
 
-        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Sensor(sensorId, latitude, longitude, description) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?);");
+        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Sensor(SensorID, Latitude, Longitude, Description) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?);");
     }
 
     TEST_CASE("Test QueryBuilder::execute", "[UT-D-10]") {
         QueryBuilder queryBuilder;
         SQLite::Statement * query;
 
-        query = queryBuilder.select("sensorId")
+        query = queryBuilder.select("SensorID")
                             .from("Sensor")
-                            .where("latitude < ?")
+                            .where("Latitude < ?")
                             .bind(48.0)
                             .execute();
 
         for(int i = 1; i <= 4; i++) {
             REQUIRE(query->executeStep());
-            REQUIRE((int) query->getColumn("sensorId") == i);
+            REQUIRE((int) query->getColumn("SensorID") == i);
         }
 
         queryBuilder = QueryBuilder();
         query = queryBuilder.select("rowid, *")
                             .from("Measurement")
-                            .where("value < ?")
-                            .andWhere("attributeId = ?")
-                            .orWhere("sensorId = ?")
+                            .where("Value < ?")
+                            .andWhere("AttributeID = ?")
+                            .orWhere("SensorID = ?")
                             .bind(6)
                             .bind(2)
                             .bind(5)

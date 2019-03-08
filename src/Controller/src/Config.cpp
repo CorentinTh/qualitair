@@ -16,7 +16,6 @@ void Config::load() {
     databaseFilepath = reader.Get("general", "database", "");
 
     similarityThreshold = reader.GetInteger("similarity", "threshold", 0);
-    similarityTolerance = reader.GetReal("similarity", "tolerance", 0);
 
     brokenTime = (int)reader.GetInteger("breakdown", "brokenTime", 0);
 
@@ -47,12 +46,8 @@ void Config::load() {
     }
 }
 
-int Config::getSimilarityThreshold() {
+double Config::getSimilarityThreshold() {
     return similarityThreshold;
-}
-
-double Config::getSimilarityTolerance() {
-    return similarityTolerance;
 }
 
 int Config::getBrokenTime() {

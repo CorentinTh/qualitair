@@ -16,7 +16,6 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
 
     CHECK(config.getBrokenTime() == 3600);
     CHECK(config.getSimilarityThreshold() == 10);
-    CHECK(config.getSimilarityTolerance() == 0.05);
     CHECK(config.getTemporalGranularity() == 1000);
     CHECK(config.getSpatialGranularity() == 1000);
     CHECK(config.getSpikesTimeThreshold() == 12);

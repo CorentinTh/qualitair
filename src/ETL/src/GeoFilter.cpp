@@ -6,10 +6,10 @@
 #include <stdexcept>
 
 void GeoFilter::applyTo(QueryBuilder &qb){
-    qb.where("longitude >= ?").bind(this->bbox.getLeft());
-    qb.andWhere("latitude <= ?").bind(this->bbox.getTop());
-    qb.andWhere("longitude <= ?").bind(this->bbox.getRight());
-    qb.andWhere("latitude >= ?").bind(this->bbox.getBottom());
+    qb.where("Longitude >= ?").bind(this->bbox.getLeft());
+    qb.andWhere("Latitude <= ?").bind(this->bbox.getTop());
+    qb.andWhere("Longitude <= ?").bind(this->bbox.getRight());
+    qb.andWhere("Latitude >= ?").bind(this->bbox.getBottom());
 }
 
 void GeoFilter::extend(double valElargissement) {

@@ -8,10 +8,10 @@
 
 void TimeFilter::applyTo(QueryBuilder &qb) {
     if (this->startDefined){
-        qb.andWhere("timestamp > ?").bind(this->start);
+        qb.andWhere("Timestamp > ?").bind(this->start);
     }
     if (this->endDefined){
-        qb.andWhere("timestamp < ?").bind(this->end);
+        qb.andWhere("Timestamp < ?").bind(this->end);
     }
 }
 

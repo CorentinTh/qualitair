@@ -11,7 +11,7 @@ TEST_CASE("Testing GeoFilter::setBBox with normal BBox", "[UT-E-6]") {
 
     SQLite::Statement * query;
 
-    queryBuilder.select("sensorId").from("Sensor");
+    queryBuilder.select("SensorID").from("Sensor");
 
     BBox b = {4.83, 50.54412, 4.84, 40.13849};
 
@@ -30,7 +30,7 @@ TEST_CASE("Testing GeoFilter::setBBox with normal BBox", "[UT-E-6]") {
 
     while (query->executeStep()){
         resultNotEmpty = true;
-        int sensorId = query->getColumn("sensorId");
+        int sensorId = query->getColumn("SensorID");
         REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
         REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }
@@ -52,7 +52,7 @@ TEST_CASE("Testing GeoFilter::extend with ratio=0.05", "[UT-E-7]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    queryBuilder.select("sensorId").from("Sensor");
+    queryBuilder.select("SensorID").from("Sensor");
 
     SQLite::Statement * query;
 
@@ -87,7 +87,7 @@ TEST_CASE("Testing GeoFilter::extend with ratio=0.05", "[UT-E-7]") {
 
         while (query->executeStep()){
             resultNotEmpty = true;
-            int sensorId = query->getColumn("sensorId");
+            int sensorId = query->getColumn("SensorID");
             REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
             REQUIRE_THROWS(query->getColumn("inexistantColumn"));
         }
