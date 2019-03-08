@@ -21,7 +21,7 @@ public:
         MEASURE, ATTRIBUTE, SENSOR
     } DataType;
 
-    static ETL &getInstance() {
+    static IETL &getInstance() {
         static ETL instance;
         return instance;
     }

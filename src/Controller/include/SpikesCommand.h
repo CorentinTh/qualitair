@@ -12,10 +12,15 @@
 
 class SpikesCommand : public Command {
     public:
+        struct SpikeDetectionConfiguration {
+            double valueThreshold;
+            unsigned int timeThreshold;
+            unsigned int areaThreshold;
+        };
 
         SpikesCommand & operator = ( SpikesCommand other );
         SpikesCommand ( const SpikesCommand & other );
-        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors, OutputArguments outputArguments );
+        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors, SpikeDetectionConfiguration config, OutputArguments outputArguments );
         virtual ~SpikesCommand ( );
 
         void execute() override;
@@ -32,6 +37,7 @@ class SpikesCommand : public Command {
         time_t end;
         std::string attribute;
         std::vector<std::string> sensors;
+        SpikeDetectionConfiguration detectionConfig;
 
 };
 

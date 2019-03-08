@@ -37,7 +37,7 @@ void StatsCommand::execute() {
     json config;
     config["type"] = ETL::MEASURE;
 
-    if(!this->bbox.isNull()){
+    if(!bbox.isNull()){
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
@@ -47,67 +47,68 @@ void StatsCommand::execute() {
         config["hasBBox"] = false;
     }
 
-    if (this->start != 0){
+    if (start != 0){
         config["hasStart"] = true;
-        config["start"] = this->start;
+        config["start"] = start;
     }
     else{
         config["hasStart"] = false;
     }
 
-    if (this->end != 0){
+    if (end != 0){
         config["hasEnd"] = true;
-        config["end"] = this->end;
+        config["end"] = end;
     }
     else{
         config["hasEnd"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!attributes.empty()){
         config["hasAttributes"] = true;
-        config["attributes"] = this->attributes;
+        config["attributes"] = attributes;
     }
     else{
         config["hasAttributes"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!attributes.empty()){
         config["hasSensors"] = true;
-        config["sensors"] = this->sensors;
+        config["sensors"] = sensors;
     }
     else{
         config["hasSensors"] = false;
     }
 
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
+    IDataProcessor& dataProcessor = DataProcessor::getInstance();
+
     pointCollection* result = (pointCollection*) etl.getData(config);
 
     json res;
-
-    if (this->type == StatEnum::ATMO){
-        res = *DataProcessor::getInstance().computeAtmo(*result);
+    if (type == StatEnum::ATMO){
+        res = * dataProcessor.computeAtmo(* result);
     }
-    else if(this->type == StatEnum::AVG){
-        res = *DataProcessor::getInstance().computeAverage(*result);
+    else if(type == StatEnum::AVG) {
+        res = * dataProcessor.computeAverage(* result);
     }
-    else if(this->type == StatEnum::DEVIATION){
-        res =  *DataProcessor::getInstance().computeDeviation(*result);
+    else if(type == StatEnum::DEVIATION){
+        res = * dataProcessor.computeDeviation(* result);
     }
     else{ // StatEnum::EXTREMS
-        res = *DataProcessor::getInstance().computeExtrems(*result);
+        res = * dataProcessor.computeExtrems(* result);
     }
     // todo cache res
     // if end start settled
 
 
-    if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printStats(res);
     }
-    else if(this->outputArguments.outputFormat == OutputFormat::JSON){
-        OutputJSON::getInstance().printStats(res, this->outputArguments.outputFile);
+    else if(outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
-        OutputHTML::getInstance().printStats(res, this->outputArguments.outputFile);
+        OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
     }
 }
 
