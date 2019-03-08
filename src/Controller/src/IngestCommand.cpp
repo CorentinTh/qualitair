@@ -22,7 +22,7 @@ IngestCommand::~IngestCommand() {
 }
 
 void IngestCommand::execute() {
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     long output = etl.ingest(input);
     if(output == 0) {

@@ -29,21 +29,21 @@ namespace etlTestNamespace {
 
     TEST_CASE("Testing ETL::ingest clean data", "[UT-E-1]") {
         initializeDatabase();
-        ETL etl = ETL::getInstance();
+        IETL& etl = ETL::getInstance();
 
         REQUIRE(etl.ingest("../tests/data/csv/clean") == 19);
     }
 
     TEST_CASE("Testing ETL::ingest not well formed csv", "[UT-E-1]") {
 //        initializeDatabase();
-        ETL etl = ETL::getInstance();
+        IETL& etl = ETL::getInstance();
 
         REQUIRE(etl.ingest("../tests/data/csv/dirty") == -1);
     }
 
     TEST_CASE("Testing ETL::ingest with no data", "[UT-E-1]") {
 //        initializeDatabase();
-        ETL etl = ETL::getInstance();
+        IETL& etl = ETL::getInstance();
 
         REQUIRE(etl.ingest("../data/csv") == 0);
     }
@@ -72,7 +72,7 @@ bool areVectorEquals(vector<T> *a, vector<T> *b) {
 TEST_CASE("Testing ETL::getData for all measures") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
 
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
@@ -101,7 +101,7 @@ TEST_CASE("Testing ETL::getData for all measures") {
 
 TEST_CASE("Testing ETL::getData for measures by bbox") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
@@ -137,7 +137,7 @@ TEST_CASE("Testing ETL::getData for measures by bbox") {
 
 TEST_CASE("Testing ETL::getData for measures by start time") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
             new Measurement(1550158000, {"2", 45.7632485, 4.8335574, "Cordelier - Métro"},
@@ -161,7 +161,7 @@ TEST_CASE("Testing ETL::getData for measures by start time") {
 
 TEST_CASE("Testing ETL::getData for measures by end time") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
@@ -189,7 +189,7 @@ TEST_CASE("Testing ETL::getData for measures by end time") {
 
 TEST_CASE("Testing ETL::getData for measures by interval") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     auto result = (pointCollection *) etl.getData(
             {
@@ -221,7 +221,7 @@ TEST_CASE("Testing ETL::getData for measures by interval") {
 
 TEST_CASE("Testing ETL::getData for sensors") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Sensor *> expected = {
             new Sensor("1", 45.7574995, 4.8313017, "Bellecour - Grande roue"),
@@ -241,7 +241,7 @@ TEST_CASE("Testing ETL::getData for sensors") {
 
 TEST_CASE("Testing ETL::getData for sensors by sensorId") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Sensor *> expected = {
             new Sensor("1", 45.7574995, 4.8313017, "Bellecour - Grande roue"),
@@ -262,7 +262,7 @@ TEST_CASE("Testing ETL::getData for sensors by sensorId") {
 
 TEST_CASE("Testing ETL::getData for attributes") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
             new Attribute("1", "mg/l", "Capteur en mg/l")
@@ -279,7 +279,7 @@ TEST_CASE("Testing ETL::getData for attributes") {
 TEST_CASE("Testing ETL::getData for attributes by attributeId") {
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
 
-    ETL etl = ETL::getInstance();
+    IETL& etl = ETL::getInstance();
 
     vector<Attribute *> expected = {
             new Attribute("1", "mg/l", "Capteur en mg/l"),

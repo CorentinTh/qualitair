@@ -87,7 +87,8 @@ Command* Controller::parseCommand() {
                 LOG(ERROR) << "Missing mandatory argument \"attribute\".";
             }
         } else if(verb == "broken") {
-            command = new DetectBrokenCommand(bbox, start, end, attributes, sensors, outputArguments);
+            command = new DetectBrokenCommand(bbox, start, end, attributes, sensors, config.getBrokenTime(),
+                    config.getAdmissibleRanges(), outputArguments);
         } else if(verb == "similarities") {
             std::string thresholdStr = cliParser.getArgument("threshold");
             double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);

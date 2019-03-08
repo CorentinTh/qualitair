@@ -70,8 +70,8 @@ void DetectSimCommand::execute() {
         config["hasSensors"] = false;
     }
 
-    ETL etl = ETL::getInstance();
-    DataProcessor dataProcessor = DataProcessor::getInstance();
+    IETL& etl = ETL::getInstance();
+    IDataProcessor& dataProcessor = DataProcessor::getInstance();
 
     auto result = *((std::vector<Measurement*> *) etl.getData(config));
 

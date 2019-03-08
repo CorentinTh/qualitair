@@ -21,14 +21,14 @@ class BrokenDetection : IDataProcess {
         BrokenDetection & operator = ( BrokenDetection other );
         BrokenDetection ( const BrokenDetection & other );
         BrokenDetection ( std::vector<Measurement*> measures, int brokenTime,
-                std::unordered_map<std::string, std::pair<int, int>> admissibleRanges);
+                std::unordered_map<std::string, std::pair<double, double>> admissibleRanges);
         virtual ~BrokenDetection ( );
     
     protected:
         friend void swap(BrokenDetection & first, BrokenDetection & second);
 
         int brokenTime;
-        std::unordered_map<std::string, std::pair<int, int>> admissibleRanges;
+        std::unordered_map<std::string, std::pair<double, double>> admissibleRanges;
         std::vector<Measurement*> measures;
 };
 

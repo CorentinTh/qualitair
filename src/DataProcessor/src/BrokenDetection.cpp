@@ -38,7 +38,7 @@ BrokenDetection::BrokenDetection(const BrokenDetection &other) {
 BrokenDetection::BrokenDetection(
         std::vector<Measurement*> m,
         int bT,
-        std::unordered_map<std::string, std::pair<int, int>> ranges)
+        std::unordered_map<std::string, std::pair<double, double>> ranges)
         : measures(m), brokenTime(bT), admissibleRanges(ranges) {
 
 }
@@ -91,7 +91,7 @@ json* BrokenDetection::apply() {
                 it->end = measure->getTimestamp();
             }
         }
-        lastTimes[make_pair(sensor, attribute.getId())] = measure.getTimestamp();
+        lastTimes[make_pair(sensor, attribute.getId())] = measure->getTimestamp();
     }
 
     auto lastTimestamp = measures.back()->getTimestamp();

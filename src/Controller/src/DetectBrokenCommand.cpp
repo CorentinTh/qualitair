@@ -87,7 +87,7 @@ DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
 }
 
 DetectBrokenCommand::DetectBrokenCommand(BBox box, time_t st, time_t e, std::vector<std::string> attr,
-        std::vector<std::string> sens, int bT, std::unordered_map<std::string, std::pair<int,int>> aR,
+        std::vector<std::string> sens, int bT, std::unordered_map<std::string, std::pair<double ,double >> aR,
         OutputArguments outputArguments) : Command(outputArguments), bbox(box), start(st), end(e), attributes(attr),
         sensors(sens), brokenTime(bT), admissibleRanges(aR)
 {

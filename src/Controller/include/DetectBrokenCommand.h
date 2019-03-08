@@ -16,7 +16,7 @@ class DetectBrokenCommand : public Command {
         DetectBrokenCommand & operator = ( DetectBrokenCommand other );
         DetectBrokenCommand ( const DetectBrokenCommand & other );
         DetectBrokenCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes,
-                std::vector<std::string> sensors, int brokenTime, std::unordered_map<std::string, std::pair<int,int>> admissibleRanges,
+                std::vector<std::string> sensors, int brokenTime, std::unordered_map<std::string, std::pair<double,double>> admissibleRanges,
                 OutputArguments outputArguments );
         virtual ~DetectBrokenCommand ( );
 
@@ -34,7 +34,7 @@ class DetectBrokenCommand : public Command {
         std::vector<std::string> attributes;
         std::vector<std::string> sensors;
         int brokenTime;
-        std::unordered_map<std::string, std::pair<int,int>> admissibleRanges;
+        std::unordered_map<std::string, std::pair<double,double>> admissibleRanges;
 
 
 };

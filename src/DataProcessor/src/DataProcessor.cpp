@@ -37,7 +37,7 @@ json *DataProcessor::detectSimilar(std::vector<Measurement*> measures, double th
     return SimilarDetection(measures, threshold).apply();
 }
 
-json *DataProcessor::detectBroken(std::vector<Measurement> measures, int timeThreshold,
-                                  std::unordered_map<std::string, std::pair<int, int>> admissibleRanges) {
+json *DataProcessor::detectBroken(std::vector<Measurement*> measures, int timeThreshold,
+                                  std::unordered_map<std::string, std::pair<double, double>> admissibleRanges) {
     return BrokenDetection(measures, timeThreshold, admissibleRanges).apply();
 }
