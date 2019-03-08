@@ -43,9 +43,19 @@ TEST_CASE("Interpolation 1x3x3 with 1 attribute", "[]") {
     json config = {
             {"spatialGranularity",   10},
             {"temporalGranularity",  10},
-            {"area",                 {0, 0, 20, 20}},
-            {"timeRange",            {0, 0}},
-            {"minimalInterDistance", {{"longitude", 5000}, {"latitude", 5000}, {"time", 50}}}
+            {"BBox",                 {
+                                             {"left",      0},
+                                             {"right",    20},
+                                             {"top",  20},
+                                             {"bottom", 0}
+                                     }},
+            {"start",                0},
+            {"end",                  0},
+            {"minimalInterDistance", {
+                                             {"longitude", 5000},
+                                             {"latitude", 5000},
+                                             {"time", 50}
+                                     }}
     };
 
     pointCollection output = {{
@@ -68,12 +78,23 @@ TEST_CASE("Interpolation 1x3x3 with 2 attributes", "[]") {
             new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
     };
 
+
     json config = {
             {"spatialGranularity",   10},
             {"temporalGranularity",  10},
-            {"area",                 {0, 0, 20, 20}},
-            {"timeRange",            {0, 0}},
-            {"minimalInterDistance", {{"longitude", 5000}, {"latitude", 5000}, {"time", 50}}}
+            {"BBox",                 {
+                                             {"left",      0},
+                                             {"right",    20},
+                                             {"top",  20},
+                                             {"bottom", 0}
+                                     }},
+            {"start",                0},
+            {"end",                  0},
+            {"minimalInterDistance", {
+                                             {"longitude", 5000},
+                                             {"latitude", 5000},
+                                             {"time", 50}
+                                     }}
     };
 
     pointCollection output = {{
@@ -104,9 +125,19 @@ TEST_CASE("Interpolation 3x3x3 with 2 attributes", "[]") {
     json config = {
             {"spatialGranularity",   10},
             {"temporalGranularity",  10},
-            {"area",                 {0, 0, 20, 20}},
-            {"timeRange",            {0, 20}},
-            {"minimalInterDistance", {{"longitude", 5000}, {"latitude", 5000}, {"time", 50}}}
+            {"BBox",                 {
+                                             {"left",      0},
+                                             {"right",    20},
+                                             {"top",  20},
+                                             {"bottom", 0}
+                                     }},
+            {"start",                0},
+            {"end",                  20},
+            {"minimalInterDistance", {
+                                             {"longitude", 5000},
+                                             {"latitude", 5000},
+                                             {"time", 50}
+                                     }}
     };
 
     pointCollection output = {

@@ -34,7 +34,7 @@ void SensorFilter::addSensor(std::string sensor) {
 }
 
 void SensorFilter::addSensors(std::vector<std::string> vectSensors) {
-    for (std::string sensor : vectSensors){
+    for (std::string sensor : vectSensors) {
         this->addSensor(sensor);
     }
 }

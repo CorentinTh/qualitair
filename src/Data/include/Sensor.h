@@ -19,8 +19,12 @@ class Sensor {
 
         Sensor() {}
         Sensor & operator = ( Sensor other );
-        bool operator==(const Sensor &rhs) const;
-        Sensor ( const Sensor & other );
+
+    bool operator==(const Sensor &rhs) const;
+
+    bool operator!=(const Sensor &rhs) const;
+
+    Sensor ( const Sensor & other );
         Sensor ( std::string sensorId, double latitude, double longitude, std::string description);
         virtual ~Sensor ( );
 

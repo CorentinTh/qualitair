@@ -35,6 +35,16 @@ Attribute::~Attribute() {
 
 }
 
+bool Attribute::operator==(const Attribute &rhs) const {
+    return attributeId == rhs.attributeId &&
+           unit == rhs.unit &&
+           description == rhs.description;
+}
+
+bool Attribute::operator!=(const Attribute &rhs) const {
+    return !(rhs == *this);
+}
+
 void swap(Attribute & first, Attribute & second){
     std::swap(first.unit, second.unit);
     std::swap(first.description, second.description);

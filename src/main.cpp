@@ -1,7 +1,5 @@
 #include <iostream>
 #include "easylogging++.h"
-#include "ETL/include/ETL.h"
-#include "Data/include/ConnectionFactory.h"
 
 using namespace std;
 
