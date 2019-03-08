@@ -7,7 +7,6 @@
 
 #include "../../Data/include/QueryBuilder.h"
 #include <string>
-#include "../../Data/include/QueryBuilder.h"
 
 
 class Filter {
