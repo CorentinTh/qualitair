@@ -50,3 +50,15 @@ void swap(Attribute & first, Attribute & second){
     std::swap(first.description, second.description);
     std::swap(first.attributeId, second.attributeId);
 }
+
+void to_json(json &j, const Attribute &a) {
+    j = json{{"unit",           a.unit},
+             {"description",    a.description},
+             {"attributeId",    a.attributeId}};
+}
+
+void from_json(const json &j, Attribute &a) {
+    j.at("unit").get_to(a.unit);
+    j.at("description").get_to(a.description);
+    j.at("attributeId").get_to(a.attributeId);
+}

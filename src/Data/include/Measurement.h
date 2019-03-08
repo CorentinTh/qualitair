@@ -28,6 +28,8 @@ class Measurement {
         
     protected:
         friend void swap(Measurement & first, Measurement & second);
+        friend void to_json(json& j, const Measurement& s);
+        friend void from_json(const json& j, Measurement& s);
 
         int timestamp;
         double value;
