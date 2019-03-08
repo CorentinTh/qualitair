@@ -14,6 +14,9 @@ INITIALIZE_EASYLOGGINGPP
  * On le mettra qqlque part dans le controler pour avoir un main vide et propre.
  */
 
+
+
+
 /**
  * Main function
  * @param {int} argc - Argument count
@@ -21,9 +24,7 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char **argv) {
-    cout << argv[0] << endl;
     cout << "Hello world!" << endl;
-
     return 0;
 }
 

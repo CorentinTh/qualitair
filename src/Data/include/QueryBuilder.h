@@ -22,7 +22,7 @@ struct Argument {
 class QueryBuilder : public IData {
 
     public:
-        QueryBuilder() : argumentIndex(0) {};
+        QueryBuilder() : argumentIndex(0), requestType(SELECT) {};
         ~ QueryBuilder();
         std::string getQuery();
         QueryBuilder & select(std::string field);

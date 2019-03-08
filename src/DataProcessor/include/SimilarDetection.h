@@ -16,15 +16,13 @@ class SimilarDetection : IDataProcess {
 
         SimilarDetection & operator = ( SimilarDetection other );
         SimilarDetection ( const SimilarDetection & other );
-        SimilarDetection ( std::vector<Measurement> measures, double epsilon,
-                           int threshold);
+        SimilarDetection ( std::vector<Measurement> measures, double threshold);
         virtual ~SimilarDetection ( );
     
     protected:
         friend void swap(SimilarDetection & first, SimilarDetection & second);
 
-        double epsilon;
-        int threshold;
+        double threshold;
         std::vector<Measurement> measures;
 };
 
