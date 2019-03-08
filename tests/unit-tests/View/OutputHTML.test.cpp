@@ -88,6 +88,20 @@ namespace HTMLTest {
             {"lines_inserted", 4201},
             {"error",          ""}
     };
+    json dataJsonSensors = {
+            {
+                    {"id", 147},
+                    {"lat", 28.468412},
+                    {"long", 14.351684},
+                    {"description", "Paris - Tour Eiffel"}
+            },
+            {
+                    {"id", 71},
+                    {"lat", 48.597855},
+                    {"long", 3.401035},
+                    {"description", "Pétaouchnok"}
+            }
+    };
 
 
     TEST_CASE("Test printSpikes(dataJSON) HTML", "[UT-V-6]") {
@@ -227,6 +241,33 @@ namespace HTMLTest {
 
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
+            // TODO determine what is the html output
+        }
+    }
+
+    TEST_CASE("Test printSensors(dataJSON) HTML", "[UT-V-xxx]") {
+
+        SECTION("is the method creating the file") {
+            OutputHTML::getInstance().printSensors(dataJsonSensors, htmlFilename);
+            std::ifstream file(htmlFilename);
+            REQUIRE(file.good());
+            file.close();
+            remove(htmlFilename.c_str());
+        }
+        SECTION("is the method putting something in the html file") {
+            OutputHTML::getInstance().printSensors(dataJsonSensors, htmlFilename);
+            std::ifstream out(htmlFilename);
+            std::string line;
+            int nbCharacters = 0;
+            while (std::getline(out, line)) {
+                nbCharacters += line.length();
+            }
+            out.close();
+            REQUIRE(nbCharacters > 0);
+            remove(htmlFilename.c_str());
+        }
+        SECTION("is the method putting the right thing in the html file") {
+            OutputHTML::getInstance().printSensors(dataJsonSensors, htmlFilename);
             // TODO determine what is the html output
         }
     }
