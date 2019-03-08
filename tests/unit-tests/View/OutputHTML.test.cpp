@@ -57,13 +57,13 @@ namespace HTMLTest {
     json dataJsonSim = {
             {
                     {
-                            {"id", 1},
+                            {"id", "sensor1"},
                             {"lat", 45.7574995},
                             {"long", 4.8313017},
                             {"description", "Bellecour - Grande roue"}
                     },
                     {
-                            {"id", 3},
+                            {"id", "sensor3"},
                             {"lat", 45.762994},
                             {"long", 4.833632},
                             {"description", "Rue de la république"}
@@ -72,16 +72,26 @@ namespace HTMLTest {
     };
     json dataJsonBroken = {
             {
-                    {"id", 71},
-                    {"lat", 48.597855},
-                             {"long", 3.401035},
-                    {"description", "Pétaouchnok"}
+                    {"start", 1550150014},
+                    {"end", 1550151032},
+                    {"sensor" ,{
+                                       {"id", "sensor71"},
+                                       {"lat", 48.597855},
+                                       {"long", 3.401035},
+                                       {"description", "Pétaouchnok"}
+                               }
+                    }
             },
             {
-                    {"id", 147},
-                    {"lat"}, 28.468412,
-                    {"long",        14.351684},
-                    {"description", "Paris - Tour Eiffel"}
+                    {"start", 1550150156},
+                    {"end", 1650158000},
+                    {"sensor" ,{
+                                       {"id", "sensor147"},
+                                       {"lat", 28.468412},
+                                       {"long", 14.351684},
+                                       {"description", "Paris - Tour Eiffel"}
+                               }
+                    }
             }
     };
     json dataJsonIngest = {

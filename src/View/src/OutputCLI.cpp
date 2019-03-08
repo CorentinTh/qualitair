@@ -140,9 +140,8 @@ void OutputCLI::printSim(json data, std::string filename) {
         for (const auto & listSimilarSensors : data){
             std::cout << "------" << std::endl;
             std::cout << "Les capteurs suivants sont similaires :" << std::endl;
-            int id;
             double latitude, longitude;
-            std::string description;
+            std::string description, id;
             for (const auto & sensor : listSimilarSensors){
                 id = sensor.at("id");
                 latitude = sensor.at("lat");
@@ -150,7 +149,7 @@ void OutputCLI::printSim(json data, std::string filename) {
                 description = sensor.at("description");
 
                 std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-                std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
+                std::cout << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
                 std::cout << "   Description : " << description << std::endl;
             }
         }
@@ -162,9 +161,8 @@ void OutputCLI::printBroken(json data, std::string filename) {
     if (!data.empty()){
         std::cout << "Les capteurs suivants sont en panne :" << std::endl;
         for (json::iterator itSensor = data.begin(); itSensor != data.end(); ++itSensor) {
-            int id;
             double latitude, longitude;
-            std::string description;
+            std::string description, id;
             id = (*itSensor).at("sensor").at("id");
             latitude = (*itSensor).at("sensor").at("lat");
             longitude = (*itSensor).at("sensor").at("long");
@@ -181,7 +179,7 @@ void OutputCLI::printBroken(json data, std::string filename) {
             strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
             std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-            std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")";
+            std::cout << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")";
             std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
             std::cout << "   Description : " << description << std::endl;
         }

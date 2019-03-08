@@ -53,13 +53,13 @@ namespace CLITest {
     json dataJsonSim = {
             {
                     {
-                            {"id", 1},
+                            {"id", "sensor1"},
                             {"lat", 45.7574995},
                             {"long", 4.8313017},
                             {"description", "Bellecour - Grande roue"}
                     },
                     {
-                            {"id", 3},
+                            {"id", "sensor3"},
                             {"lat", 45.762994},
                             {"long", 4.833632},
                             {"description", "Rue de la république"}
@@ -71,7 +71,7 @@ namespace CLITest {
                     {"start", 1550150014},
                     {"end", 1550151032},
                     {"sensor" ,{
-                                       {"id", 71},
+                                       {"id", "sensor71"},
                                        {"lat", 48.597855},
                                        {"long", 3.401035},
                                        {"description", "Pétaouchnok"}
@@ -83,7 +83,7 @@ namespace CLITest {
                     {"start", 1550150156},
                     {"end", 1650158000},
                     {"sensor" ,{
-                                       {"id", 147},
+                                       {"id", "sensor147"},
                                        {"lat", 28.468412},
                                        {"long", 14.351684},
                                        {"description", "Paris - Tour Eiffel"}
@@ -244,11 +244,11 @@ namespace CLITest {
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "Les capteurs suivants sont similaires :");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°1 : positionné en (45.7574995,4.8313017)");
+            REQUIRE(line == " - Capteur sensor1 : positionné en (45.7574995,4.8313017)");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "   Description : Bellecour - Grande roue");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°3 : positionné en (45.762994,4.833632)");
+            REQUIRE(line == " - Capteur sensor3 : positionné en (45.762994,4.833632)");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "   Description : Rue de la république");
             REQUIRE(std::getline(outToRead, line));
@@ -296,11 +296,11 @@ namespace CLITest {
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "Les capteurs suivants sont en panne :");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°71 : positionné en (48.597855,3.401035) entre 14:13:34 le 14/02/2019 et 14:30:32 le 14/02/2019");
+            REQUIRE(line == " - Capteur sensor71 : positionné en (48.597855,3.401035) entre 14:13:34 le 14/02/2019 et 14:30:32 le 14/02/2019");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "   Description : Pétaouchnok");
             REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°147 : positionné en (28.468412,14.351684) entre 14:15:56 le 14/02/2019 et 03:13:20 le 17/04/2022");
+            REQUIRE(line == " - Capteur sensor147 : positionné en (28.468412,14.351684) entre 14:15:56 le 14/02/2019 et 03:13:20 le 17/04/2022");
             REQUIRE(std::getline(outToRead, line));
             REQUIRE(line == "   Description : Paris - Tour Eiffel");
             //check if we are at the end of the file
