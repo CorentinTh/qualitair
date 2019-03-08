@@ -24,7 +24,7 @@ class DataProcessor : public IDataProcessor {
 
         json *computeExtrems(pointCollection &data) override;
 
-        json *detectSimilar(std::vector<Measurement> measures, double threshold) override;
+        json *detectSimilar(std::vector<Measurement*> measures, double threshold) override;
 
         json *detectBroken(std::vector<Measurement> measures, int timeThreshold,
                            std::unordered_map<std::string, std::pair<int, int>> admissibleRanges) override;
