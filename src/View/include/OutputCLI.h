@@ -21,7 +21,6 @@ class OutputCLI : public IOutput {
         virtual void printSim(json data, std::string filename="");
         virtual void printBroken(json data, std::string filename="");
         virtual void printIngest(json data, std::string filename="");
-        virtual void printSensors(json data, std::string filename="");
 
         OutputCLI(OutputCLI const&)       = delete;
         void operator=(OutputCLI const&)  = delete;

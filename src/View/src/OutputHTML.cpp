@@ -24,10 +24,6 @@ void OutputHTML::printIngest(json data, std::string filename) {
 
 }
 
-void OutputHTML::printSensors(json data, std::string filename){
-
-}
-
 OutputHTML::OutputHTML() {
 
 }

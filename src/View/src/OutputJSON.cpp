@@ -29,10 +29,6 @@ void OutputJSON::printIngest(json data, std::string filename) {
     printAnyData(data, filename);
 }
 
-void OutputJSON::printSensors(json data, std::string filename){
-    printAnyData(data, filename);
-}
-
 void OutputJSON::copyJsonToFile(json data, std::ofstream * ptrFile) {
     std::string s = data.dump(4); // indent with four spaces
     (*ptrFile) << s;

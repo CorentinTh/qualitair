@@ -19,7 +19,6 @@ class IOutput {
         virtual void printSim(json dataJson, std::string filename) = 0;
         virtual void printBroken(json dataJson, std::string filename) = 0;
         virtual void printIngest(json dataJson, std::string filename) = 0;
-        virtual void printSensors(json dataJson, std::string filename) = 0;
 };
 
 

@@ -204,22 +204,3 @@ void OutputCLI::printIngest(json data, std::string filename) {
     }
 }
 
-void OutputCLI::printSensors(json data, std::string filename){
-    if (!data.empty()){
-        std::cout << "Résultats de la recherche de capteurs :" << std::endl;
-        int id;
-        double latitude, longitude;
-        std::string description;
-        for (const auto & sensor : data){
-            id = sensor.at("id");
-            latitude = sensor.at("lat");
-            longitude = sensor.at("long");
-            description = sensor.at("description");
-
-            std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-            std::cout << " - Capteur n°" << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
-            std::cout << "   Description : " << description << std::endl;
-        }
-    }
-}
-

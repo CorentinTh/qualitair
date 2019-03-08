@@ -96,20 +96,6 @@ namespace CLITest {
             {"lines_inserted", 4201},
             {"error",          ""}
     };
-    json dataJsonSensors = {
-            {
-                    {"id", 147},
-                    {"lat", 28.468412},
-                    {"long", 14.351684},
-                    {"description", "Paris - Tour Eiffel"}
-            },
-            {
-                    {"id", 71},
-                    {"lat", 48.597855},
-                    {"long", 3.401035},
-                    {"description", "Pétaouchnok"}
-            }
-    };
 
 
     TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
@@ -362,53 +348,5 @@ namespace CLITest {
             outToRead.close();
             remove("expected_out.txt");
         }
-    }
-
-    TEST_CASE("Test printSensors(dataJSON) CLI", "[UT-V-xx]") {
-
-        SECTION("is the method putting something in cout") {
-            std::ofstream out("out.txt");
-            std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
-            OutputCLI::getInstance().printSensors(dataJsonSensors);
-            std::cout.rdbuf(coutbuf); // restore cout
-            out.close();
-
-            std::ifstream out2("out.txt");
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out2, line)) {
-                nbCharacters += line.length();
-            }
-            out2.close();
-            REQUIRE(nbCharacters > 0);
-            remove("out.txt");
-        }
-        SECTION("is the method putting the expected thing in cout") {
-            std::ofstream out("expected_out.txt");
-            std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-            std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
-            OutputCLI::getInstance().printSensors(dataJsonSensors);
-            std::cout.rdbuf(coutbuf); // restore cout
-            out.close();
-
-            std::ifstream outToRead("expected_out.txt");
-            std::string line;
-            REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == "Résultats de la recherche de capteurs :");
-            REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°147 : positionné en (28.468412,14.351684)");
-            REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == "   Description : Paris - Tour Eiffel");
-            REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == " - Capteur n°71 : positionné en (48.597855,3.401035)");
-            REQUIRE(std::getline(outToRead, line));
-            REQUIRE(line == "   Description : Pétaouchnok");
-            //check if we are at the end of the file
-            REQUIRE(!std::getline(outToRead, line));
-            outToRead.close();
-            remove("expected_out.txt");
-        }
-
     }
 }
