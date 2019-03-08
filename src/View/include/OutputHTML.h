@@ -21,6 +21,7 @@ class OutputHTML : public IOutput {
         virtual void printSim(json data, std::string filename);
         virtual void printBroken(json data, std::string filename);
         virtual void printIngest(json data, std::string filename);
+        virtual void printSensors(json data, std::string filename);
     
         OutputHTML(OutputHTML const&)       = delete;
         void operator=(OutputHTML const&)  = delete;

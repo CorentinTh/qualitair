@@ -99,6 +99,20 @@ namespace JSONTest {
             {"lines_inserted", 4201},
             {"error",          ""}
     };
+    json dataJsonSensors = {
+            {
+                    {"id", 147},
+                    {"lat", 28.468412},
+                    {"long", 14.351684},
+                    {"description", "Paris - Tour Eiffel"}
+            },
+            {
+                    {"id", 71},
+                    {"lat", 48.597855},
+                    {"long", 3.401035},
+                    {"description", "Pétaouchnok"}
+            }
+    };
 
 
     TEST_CASE("Test printSpikes(dataJSON) JSON", "[UT-V-11]") {
@@ -254,6 +268,37 @@ namespace JSONTest {
             json j;
             outToRead >> j; // on convertit le json du fichier en un objet json
             REQUIRE(j == dataJsonIngest);
+            remove(jsonFilename.c_str());
+        }
+    }
+
+    TEST_CASE("Test printSensors(dataJSON) JSON", "[UT-V-14]") {
+
+        SECTION("is the method creating the file") {
+            OutputJSON::getInstance().printSensors(dataJsonSensors, jsonFilename);
+            std::ifstream file(jsonFilename);
+            REQUIRE(file.good());
+            file.close();
+            remove(jsonFilename.c_str());
+        }
+        SECTION("is the method putting something in the json file") {
+            OutputJSON::getInstance().printSensors(dataJsonSensors, jsonFilename);
+            std::ifstream out(jsonFilename);
+            std::string line;
+            int nbCharacters = 0;
+            while (std::getline(out, line)) {
+                nbCharacters += line.length();
+            }
+            out.close();
+            REQUIRE(nbCharacters > 0);
+            remove(jsonFilename.c_str());
+        }
+        SECTION("is the method putting the expected thing in the json file") {
+            OutputJSON::getInstance().printSensors(dataJsonSensors, jsonFilename);
+            std::ifstream outToRead(jsonFilename);
+            json j;
+            outToRead >> j; // on convertit le json du fichier en un objet json
+            REQUIRE(j == dataJsonSensors);
             remove(jsonFilename.c_str());
         }
     }
