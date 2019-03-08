@@ -37,7 +37,7 @@ void AttributeFilter::addAttribute(std::string attribute) {
 
 void AttributeFilter::addAttributes(std::vector<std::string> vectAttributes) {
     for (std::string attr : vectAttributes) {
-        this->addAttribute(attr);
+        addAttribute(attr);
     }
 }
 
