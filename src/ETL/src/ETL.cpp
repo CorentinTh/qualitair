@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <csvmonkey.hpp>
+#include "easylogging++.h"
 
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
@@ -124,11 +125,11 @@ void *ETL::getData(json config) {
         }else if (config.at("type")  == ETL::ATTRIBUTE) {
             setAttributeConfig(&qb);
         }else{
-            cerr << "Wrong type" << endl;
+            LOG(ERROR) << "Wrong type" ;
         }
 
     } catch (json::out_of_range &e) {
-        cerr << "Attribute 'type' must be specified in ETL::getData config";
+        LOG(ERROR) << "Attribute 'type' must be specified in ETL::getData config";
     }
 
     setFilters(&qb, config);
@@ -249,12 +250,12 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
             }
 
         } catch (SQLite::Exception &e) {
-            cerr << "An unexpected error occurred while fetching from the database. Please retry." << endl;
-            cerr << e.what() << endl;
+            LOG(ERROR) << "An unexpected error occurred while fetching from the database. Please retry.";
+            LOG(ERROR) << e.what();
         }
     }catch (SQLite::Exception &e){
-        cerr << "Error while executing the SQL request." << endl;
-        cerr << e.what() << endl;
+        LOG(ERROR) << "Error while executing the SQL request.";
+        LOG(ERROR) << e.what();
     }
 
 
