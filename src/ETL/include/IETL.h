@@ -17,9 +17,8 @@ class IETL {
         virtual long ingest(std::string path) = 0;
 
     /**
-     *
-     * @param {json} config - Configuration for data retreivement
-     * @param {ETL::data_type}  config["type"]
+     * @param {json}            config
+     * @param {ETL::DataType}   config["type"]
      * @param {bool}            config["hasBBox"]
      * @param {bool}            config["hasStart"]
      * @param {bool}            config["hasEnd"]
