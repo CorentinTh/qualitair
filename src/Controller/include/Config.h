@@ -14,35 +14,35 @@ class Config {
 
         void load();
 
-        int getThreshold();
-        int getEpsilon();
+        int getSimilarityThreshold();
+        double getSimilarityTolerance();
         int getBrokenTime();
-        int getValueThreshold();
-        int getTimeThreshold();
+        double getSpikesValueThreshold();
+        int getSpikesTimeThreshold();
+        double getSpikesMinimalArea();
         int getSpatialGranularity();
         int getTemporalGranularity();
-        int getMinimalArea();
-        std::unordered_map<std::string, std::pair<int,int>> getAdmissibleRanges();
-        std::string getIGQAFormula();
+        std::unordered_map<std::string, std::pair<double ,double>> getAdmissibleRanges();
+        std::string getDatabaseFilepath();
 
         Config & operator = ( Config other );
         Config ( const Config & other );
-        Config ( std::string path = FILEPATH );
+        explicit Config (  std::string path = FILEPATH );
         virtual ~Config ( );
 
     protected:
         friend void swap(Config & first, Config & second);
 
-        int threshold;
-        int epsilon;
+        int similarityThreshold;
+        double similarityTolerance;
         int brokenTime;
-        int valueThreshold;
-        int timeThreshold;
-        int minimalArea;
+        double spikesValueThreshold;
+        int spikesTimeThreshold;
+        double spikesMinimalArea;
         int spatialGranularity;
         int temporalGranularity;
-        std::unordered_map<std::string, std::pair<int,int>> admissibleRanges;
-        std::string igqaFormula;
+        std::unordered_map<std::string, std::pair<double,double>> admissibleRanges;
+        std::string databaseFilepath;
 
         std::string filepath;
 };

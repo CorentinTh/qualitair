@@ -7,23 +7,14 @@
 
 
 #include "Filter.h"
-
-// TODO: move BBox, it not belong here
-typedef struct {
-    int left;   // min longitude    [-180, 180[
-    int top;    // min latitude     [ -90,  90[
-    int right;  // max longitude    [-180, 180[
-    int bottom; // max latitude     [ -90,  90[
-} BBox;
-
+#include "../../Data/include/BBox.h"
 
 class GeoFilter : public Filter {
     public:
-            virtual std::string apply();
+            virtual void applyTo(QueryBuilder &qb);
 
-            //TODO
-            void setBBox(const BBox &bbox);
-            void extend(double ratio);
+            void setBBox(const BBox &bBox);
+            void extend(double valElargissement);
 
             GeoFilter & operator = ( GeoFilter other );
             GeoFilter ( const GeoFilter & other );

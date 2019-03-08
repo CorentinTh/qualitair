@@ -1,6 +1,5 @@
 #include <iostream>
 #include "easylogging++.h"
-#include "DataProcessor/include/SpikeDetection.h"
 
 using namespace std;
 
@@ -24,8 +23,8 @@ INITIALIZE_EASYLOGGINGPP
  * @param {char**} argv - Argument string array
  * @return {int}
  */
-int main(int argc, char ** argv){
-    cout << "Salut monde" << endl;
+int main(int argc, char **argv) {
+    cout << "Hello world!" << endl;
     return 0;
 }
 
