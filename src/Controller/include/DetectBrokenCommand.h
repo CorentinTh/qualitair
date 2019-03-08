@@ -15,7 +15,7 @@ class DetectBrokenCommand : public Command {
 
         DetectBrokenCommand & operator = ( DetectBrokenCommand other );
         DetectBrokenCommand ( const DetectBrokenCommand & other );
-        DetectBrokenCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors );
+        DetectBrokenCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors, OutputArguments outputArguments );
         virtual ~DetectBrokenCommand ( );
 
         void execute() override;

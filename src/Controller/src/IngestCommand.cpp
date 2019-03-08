@@ -12,7 +12,7 @@ IngestCommand::IngestCommand(const IngestCommand &other) {
     input = other.input;
 }
 
-IngestCommand::IngestCommand(std::string in) : input(in) {
+IngestCommand::IngestCommand(std::string in, OutputArguments outputArguments) : Command(outputArguments), input(in) {
 
 }
 

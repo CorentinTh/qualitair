@@ -10,15 +10,25 @@
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
 
-enum OutputFormat { HUMAN, JSON, HTML };
-
 class Command {
     public:
+        enum OutputFormat { HUMAN, JSON, HTML };
+        static const std::unordered_map<std::string, OutputFormat> OutputFormatDictionary;
+        struct OutputArguments {
+            OutputArguments() = default;
+            OutputArguments(std::string outputFile, Command::OutputFormat outputFormat) :
+                    outputFile(outputFile), outputFormat(outputFormat) {};
+            std::string outputFile;
+            OutputFormat outputFormat;
+        };
+
+        Command() = default;
+        Command(OutputArguments outputArguments);
         virtual void execute() = 0;
         virtual void output() = 0;
 
     protected:
-        std::string database;
+        OutputArguments outputArguments;
 
         virtual void to_json(json& j) const = 0;
         virtual void from_json(const json& j) = 0;

@@ -15,7 +15,7 @@ class SpikesCommand : public Command {
 
         SpikesCommand & operator = ( SpikesCommand other );
         SpikesCommand ( const SpikesCommand & other );
-        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors );
+        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors, OutputArguments outputArguments );
         virtual ~SpikesCommand ( );
 
         void execute() override;

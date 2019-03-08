@@ -15,7 +15,7 @@ class DetectSimCommand : public Command {
 
         DetectSimCommand & operator = ( DetectSimCommand other );
         DetectSimCommand ( const DetectSimCommand & other );
-        DetectSimCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors, double threshold );
+        DetectSimCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors, double threshold, OutputArguments outputArguments );
         virtual ~DetectSimCommand ( );
 
         void execute() override;

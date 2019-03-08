@@ -26,7 +26,7 @@ DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
 }
 
 DetectBrokenCommand::DetectBrokenCommand(BBox box, time_t st, time_t e, std::vector<std::string> attr,
-        std::vector<std::string> sens) : bbox(box), start(st), end(e), attributes(attr), sensors(sens)
+        std::vector<std::string> sens, OutputArguments outputArguments) : Command(outputArguments), bbox(box), start(st), end(e), attributes(attr), sensors(sens)
 {
 
 }

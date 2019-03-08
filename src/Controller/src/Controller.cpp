@@ -42,9 +42,16 @@ Command* Controller::parseCommand() {
     Command * command = nullptr;
     std::string verb = cliParser.getVerb();
 
+    ConnectionFactory::setDatabase(cliParser.getArgument("database", config.getDatabaseFilepath()));
+    Command::OutputArguments outputArguments(
+            cliParser.getArgument("file", "stdout"),
+            Command::OutputFormatDictionary.at(cliParser.getArgument("format", "HUMAN"))
+    );
+
+
     if(verb == "ingest") {
         std::string input = cliParser.getArgument("input", ".");
-        command = new IngestCommand(input);
+        command = new IngestCommand(input, outputArguments);
     } else {
         BBox bbox(cliParser.getArgument("bbox"));
         time_t start = parseRFC3339Date(cliParser.getArgument("start"));
@@ -58,7 +65,7 @@ Command* Controller::parseCommand() {
                 for (auto & c: statType) c = toupper(c);
                 StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
 
-                command = new StatsCommand(stat, bbox, start, end, attributes, sensors);
+                command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments);
             }
             catch (std::out_of_range) {
                 LOG(ERROR) << "Unknown stat type";
@@ -69,20 +76,20 @@ Command* Controller::parseCommand() {
         } else if(verb == "spikes") {
             try {
                 std::string attribute = cliParser.getMandatoryArgument();
-                command = new SpikesCommand(attribute, bbox, start, end, sensors);
+                command = new SpikesCommand(attribute, bbox, start, end, sensors, outputArguments);
             }
             catch (std::exception) {
                 LOG(ERROR) << "Missing mandatory argument \"attribute\".";
             }
         } else if(verb == "broken") {
-            command = new DetectBrokenCommand(bbox, start, end, attributes, sensors);
+            command = new DetectBrokenCommand(bbox, start, end, attributes, sensors, outputArguments);
         } else if(verb == "similarities") {
             std::string thresholdStr = cliParser.getArgument("threshold");
             double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
 
-            command = new DetectSimCommand(bbox, start, end, attributes, sensors, threshold);
+            command = new DetectSimCommand(bbox, start, end, attributes, sensors, threshold, outputArguments);
         } else if(verb == "sensors") {
-            command = new SensorsCommand(bbox);
+            command = new SensorsCommand(bbox, outputArguments);
         }
         else {
             LOG(ERROR) << "Unknown verb \"" << verb << "\".";
@@ -95,8 +102,6 @@ Command* Controller::parseCommand() {
 }
 
 void Controller::execute() {
-    ConnectionFactory::setDatabase(config.getDatabaseFilepath());
-
     Command * command = parseCommand();
     if(command == nullptr) {
         std::cout << userManual << std::endl;
