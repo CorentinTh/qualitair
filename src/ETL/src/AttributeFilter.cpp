@@ -30,7 +30,7 @@ void AttributeFilter::addAttribute(std::string attribute) {
     if (!attribute.empty()){
         if (std::find(this->attributes.begin(), this->attributes.end(), attribute) == this->attributes.end()){
             // if the attribute is not already in the vector
-            this->attributes.push_back(attribute);
+            attributes.push_back(attribute);
         }
     }
 }
