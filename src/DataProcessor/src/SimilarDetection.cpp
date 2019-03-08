@@ -15,7 +15,7 @@ SimilarDetection::SimilarDetection(const SimilarDetection &other) {
     threshold = other.threshold;
 }
 
-SimilarDetection::SimilarDetection(std::vector<Measurement> m, double thresh) : measures(m), threshold(thresh) {
+SimilarDetection::SimilarDetection(std::vector<Measurement*> m, double thresh) : measures(m), threshold(thresh) {
 
 }
 
@@ -29,8 +29,8 @@ json * SimilarDetection::apply() {
     std::unordered_map<std::pair<Sensor, std::string>, double, utils::pair_hash> sums;
     std::unordered_map<std::pair<Sensor, std::string>, int, utils::pair_hash> counts;
     for (auto m : measures) {
-        sums[std::make_pair(m.getSensor(), m.getAttribute().getId())] += m.getValue();
-        counts[std::make_pair(m.getSensor(), m.getAttribute().getId())]++;
+        sums[std::make_pair(m->getSensor(), m->getAttribute().getId())] += m->getValue();
+        counts[std::make_pair(m->getSensor(), m->getAttribute().getId())]++;
     }
 
     //transform to means

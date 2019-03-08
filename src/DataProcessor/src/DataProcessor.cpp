@@ -33,7 +33,7 @@ json *DataProcessor::computeExtrems(pointCollection &data) {
     return Extrems(data).apply();
 }
 
-json *DataProcessor::detectSimilar(std::vector<Measurement> measures, double threshold) {
+json *DataProcessor::detectSimilar(std::vector<Measurement*> measures, double threshold) {
     return SimilarDetection(measures, threshold).apply();
 }
 
