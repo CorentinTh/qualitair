@@ -22,8 +22,8 @@ class DetectSimCommand : public Command {
 
     protected:
         friend void swap(DetectSimCommand & first, DetectSimCommand & second);
-        friend void to_json(json& j, const DetectSimCommand& command);
-        friend void from_json(const json& j, DetectSimCommand& command);
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         double threshold;
         BBox bbox;

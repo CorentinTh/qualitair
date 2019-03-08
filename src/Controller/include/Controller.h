@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "Command.h"
+#include "../include/Config.h"
 
 class Controller {
     public:
@@ -24,7 +25,9 @@ class Controller {
     private:
         static time_t parseRFC3339Date(std::string stringDate);
         static std::vector<std::string> unjoinString(std::string string);
+        static std::string userManual;
         char ** argv;
+        Config config;
 };
 
 

@@ -39,21 +39,21 @@ void swap(SpikesCommand &first, SpikesCommand &second) {
     std::swap(first.sensors, second.sensors);
 }
 
-void to_json(json& j, const SpikesCommand& command) {
+void SpikesCommand::to_json(json& j) const {
     j = json{
             {"command", "broken"},
-            {"bbox", command.bbox},
-            {"start", command.start},
-            {"end", command.end},
-            {"attribute", command.attribute},
-            {"sensors", command.sensors}
+            {"bbox", bbox},
+            {"start", start},
+            {"end", end},
+            {"attribute", attribute},
+            {"sensors", sensors}
     };
 }
 
-void from_json(const json& j, SpikesCommand& command) {
-    j.at("bbox").get_to(command.bbox);
-    j.at("start").get_to(command.start);
-    j.at("end").get_to(command.end);
-    j.at("attribute").get_to(command.attribute);
-    j.at("sensors").get_to(command.sensors);
+void SpikesCommand::from_json(const json& j) {
+    j.at("bbox").get_to(bbox);
+    j.at("start").get_to(start);
+    j.at("end").get_to(end);
+    j.at("attribute").get_to(attribute);
+    j.at("sensors").get_to(sensors);
 }

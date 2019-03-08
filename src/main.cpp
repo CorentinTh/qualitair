@@ -1,5 +1,6 @@
 #include <iostream>
 #include "easylogging++.h"
+#include "Controller/include/Controller.h"
 
 using namespace std;
 
@@ -24,7 +25,9 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char ** argv){
-    cout << "Hello world!" << endl;
+    Controller controller(argv);
+    controller.execute();
+
     return 0;
 }
 

@@ -22,8 +22,9 @@ class DetectBrokenCommand : public Command {
 
     protected:
         friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
-        friend void to_json(json& j, const DetectBrokenCommand& command);
-        friend void from_json(const json& j, DetectBrokenCommand& command);
+
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         BBox bbox;
         time_t start;

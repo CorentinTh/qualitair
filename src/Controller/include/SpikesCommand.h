@@ -22,8 +22,8 @@ class SpikesCommand : public Command {
 
     protected:
         friend void swap(SpikesCommand & first, SpikesCommand & second);
-        friend void to_json(json& j, const SpikesCommand& command);
-        friend void from_json(const json& j, SpikesCommand& command);
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         std::string outputPath;
         BBox bbox;
