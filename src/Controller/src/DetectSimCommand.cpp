@@ -62,7 +62,7 @@ void DetectSimCommand::execute() {
         config["hasEnd"] = false;
     }
 
-    if (!attributes.empty()){
+    if (!sensors.empty()){
         config["hasSensors"] = true;
         config["sensors"] = sensors;
     }

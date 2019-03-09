@@ -1,6 +1,9 @@
 #include "../include/IngestCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "easylogging++.h"
+#include "../../View/include/OutputJSON.h"
+#include "../../View/include/OutputCLI.h"
+#include "../../View/include/OutputHTML.h"
 
 
 
@@ -25,12 +28,17 @@ void IngestCommand::execute() {
     IETL& etl = ETL::getInstance();
 
     long output = etl.ingest(input);
-    if(output == 0) {
-        LOG(WARNING) << "No element could not be inserted" << std::endl;
-    } else if(output == -1) {
-        LOG(ERROR) << "File is not properly formatted" << std::endl;
-    } else {
-        LOG(INFO) << output << " elements inserted successfully !";
+    json res;
+    res["lines"] = output;
+
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+        OutputCLI::getInstance().printIngest(res);
+    }
+    else if(outputArguments.outputFormat == OutputFormat::JSON){
+        OutputJSON::getInstance().printIngest(res, outputArguments.outputFile);
+    }
+    else{ // OutputFormat::HTML
+        OutputHTML::getInstance().printIngest(res, outputArguments.outputFile);
     }
 }
 

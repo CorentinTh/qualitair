@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include "easylogging++.h"
 #include "../include/OutputCLI.h"
 
 OutputCLI::OutputCLI() {}
@@ -22,7 +23,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
     if (!data.empty() && data.find("pics") != data.end()) {
         for (json::iterator it = data.at("pics")[0][0][0].begin(); it != data.at("pics")[0][0][0].end(); ++it){
             std::string actualType = it.key();
-            std::cout << "Des pics de "<< actualType <<" ont été détectés :" << std::endl;
+            LOG(INFO) << "Des pics de "<< actualType <<" ont été détectés :" << std::endl;
 
             double t0, x0, y0;
             int deltaS, deltaT;
@@ -89,9 +90,9 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                 char dateStart[25];
                 strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
-                std::cout << std::setprecision(8);
-                std::cout << " - en position (" << s->x << "," << s->y << ")";
-                std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
+                LOG(INFO) << std::setprecision(8);
+                LOG(INFO) << " - en position (" << s->x << "," << s->y << ")";
+                LOG(INFO) << " entre " << dateStart << " et " << dateEnd << std::endl;
 
                 // delete the pointers
                 delete(s);
@@ -103,8 +104,8 @@ void OutputCLI::printSpikes(json data, std::string filename) {
 void OutputCLI::printStats(json data, std::string filename) {
     if (!data.empty()){
         if(data.find("atmo") != data.end()){
-            std::cout << "Résultats des analyses :" << std::endl;
-            std::cout << " - ATMO :" << std::endl;
+            LOG(INFO) << "Résultats des analyses :" << std::endl;
+            LOG(INFO) << " - ATMO :" << std::endl;
             for (json::iterator it = data.at("atmo").begin(); it != data.at("atmo").end(); ++it){
                 int date = std::stoi(it.key());
                 int indiceAtmo = it.value();
@@ -112,7 +113,7 @@ void OutputCLI::printStats(json data, std::string filename) {
                 struct tm *tmDate = localtime(&tDate);
                 char dateChar[12];
                 strftime(dateChar, sizeof(dateChar), "%d/%m/%Y", tmDate);
-                std::cout << "     " << dateChar << " : " << indiceAtmo << std::endl;
+                LOG(INFO) << "     " << dateChar << " : " << indiceAtmo << std::endl;
             }
             std::string attribute;
             double min, max, avg, deviation;
@@ -124,11 +125,11 @@ void OutputCLI::printStats(json data, std::string filename) {
                     avg = it.value().at("avg");
                     deviation = it.value().at("deviation");
 
-                    std::cout << " - " << attribute << " :" << std::endl;
-                    std::cout << "     avg : " << avg << std::endl;
-                    std::cout << "     min : " << min << std::endl;
-                    std::cout << "     max : " << max << std::endl;
-                    std::cout << "     deviation : " << deviation << std::endl;
+                    LOG(INFO) << " - " << attribute << " :" << std::endl;
+                    LOG(INFO) << "     avg : " << avg << std::endl;
+                    LOG(INFO) << "     min : " << min << std::endl;
+                    LOG(INFO) << "     max : " << max << std::endl;
+                    LOG(INFO) << "     deviation : " << deviation << std::endl;
                 }
             }
         }
@@ -138,8 +139,8 @@ void OutputCLI::printStats(json data, std::string filename) {
 void OutputCLI::printSim(json data, std::string filename) {
     if (!data.empty()){
         for (const auto & listSimilarSensors : data){
-            std::cout << "------" << std::endl;
-            std::cout << "Les capteurs suivants sont similaires :" << std::endl;
+            LOG(INFO) << "------" << std::endl;
+            LOG(INFO) << "Les capteurs suivants sont similaires :" << std::endl;
             double latitude, longitude;
             std::string description, id;
             for (const auto & sensor : listSimilarSensors){
@@ -148,18 +149,18 @@ void OutputCLI::printSim(json data, std::string filename) {
                 longitude = sensor.at("long");
                 description = sensor.at("description");
 
-                std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-                std::cout << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
-                std::cout << "   Description : " << description << std::endl;
+                LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
+                LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
+                LOG(INFO) << "   Description : " << description << std::endl;
             }
         }
-        std::cout << "------" << std::endl;
+        LOG(INFO) << "------" << std::endl;
     }
 }
 
 void OutputCLI::printBroken(json data, std::string filename) {
     if (!data.empty()){
-        std::cout << "Les capteurs suivants sont en panne :" << std::endl;
+        LOG(INFO) << "Les capteurs suivants sont en panne :" << std::endl;
         for (json::iterator itSensor = data.begin(); itSensor != data.end(); ++itSensor) {
             double latitude, longitude;
             std::string description, id;
@@ -178,26 +179,23 @@ void OutputCLI::printBroken(json data, std::string filename) {
             char dateStart[25];
             strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
-            std::cout << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-            std::cout << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")";
-            std::cout << " entre " << dateStart << " et " << dateEnd << std::endl;
-            std::cout << "   Description : " << description << std::endl;
+            LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
+            LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")";
+            LOG(INFO) << " entre " << dateStart << " et " << dateEnd << std::endl;
+            LOG(INFO) << "   Description : " << description << std::endl;
         }
     }
 }
 
 void OutputCLI::printIngest(json data, std::string filename) {
-    if (!data.empty()){
-        if (data.find("error") != data.end()
-                && data.find("lines_inserted") != data.end()){
-            if (!data.at("error").empty()){
-                int nbLinesInserted = data.at("lines_inserted");
-                std::cout << std::to_string(nbLinesInserted) << " lignes ont été insérées avec succès" << std::endl;
-            }
-            else{
-                std::cout << "Erreur :" << std::endl;
-                std::cout << data.at("error") << std::endl;
-            }
+    if (!data.empty()) {
+        long output = data["lines"];
+        if (output == 0) {
+            LOG(WARNING) << "No element could not be inserted" << std::endl;
+        } else if (output == -1) {
+            LOG(ERROR) << "File is not properly formatted" << std::endl;
+        } else {
+            LOG(INFO) << output << " elements inserted successfully !";
         }
     }
 }
