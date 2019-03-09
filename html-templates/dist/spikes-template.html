@@ -53,7 +53,7 @@ $(document).ready(() => {
 
                 for (const key in point) {
                     tooltip += '\n' + key;
-                    tooltip += ' is spike: ' + (point[key] === 1 ? 'yes': 'no');
+                    tooltip += ' is spike: ' + (point[key] === 1 ? 'yes' : 'no');
 
                     if (point[key] === 1) {
                         isSpike = true;
@@ -70,7 +70,7 @@ $(document).ready(() => {
     }
 
     const count = data.pics.length;
-    gridViewer.append(`<input id="slider" class="slider" type="range" min="0" max="${count-1}" value="0" step="1">`);
+    gridViewer.append(`<input id="slider" class="slider" type="range" min="0" max="${count - 1}" value="0" step="1">`);
 
     $('#slider').on('input', function () {
 
@@ -78,7 +78,7 @@ $(document).ready(() => {
         const val = el.val();
 
         gridViewer.find('table').hide();
-        $('#grid-'+val).show();
+        $('#grid-' + val).show();
     })
 });
 
@@ -88,8 +88,8 @@ function printDate(timestamp) {
     $('.report-date').text(d.toLocaleDateString() + " - " + d.toLocaleTimeString());
 }
 
-function round(v, d=5) {
-    const mult = 10**d;
+function round(v, d = 5) {
+    const mult = 10 ** d;
     console.log(mult);
     return Math.floor(v * mult) / mult
 }</script>
@@ -134,7 +134,7 @@ function round(v, d=5) {
                 <br>
                 <h2 class="text-center">Spikes list</h2>
 
-                <table class="table">
+                <table class="table table-hover table-scroll table-striped">
                     <thead>
                     <tr>
                         <th>Attribute</th>
@@ -170,7 +170,7 @@ function round(v, d=5) {
                     <div class="col-6 text-center">
                         <br>
                         Qualitair - All rights reserved.
-                            <br>
+                        <br>
                         Copyright © 2019
                     </div>
                     <div class="col-6 text-center">
