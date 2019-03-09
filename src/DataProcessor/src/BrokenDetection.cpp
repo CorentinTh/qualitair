@@ -53,6 +53,11 @@ json* BrokenDetection::apply() {
     std::vector<BrokenSensor> brokenSensors;
     std::unordered_map<std::pair<Sensor, std::string>, int, utils::pair_hash> lastTimes;
 
+    if (measures.size() == 0) {
+        LOG(ERROR) << "No measures to apply broken sensor detection";
+        return new json;
+    }
+
     for (auto measure : measures)
     {
         auto attribute = measure->getAttribute();

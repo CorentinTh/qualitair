@@ -127,6 +127,9 @@ void Controller::execute() {
 }
 
 time_t Controller::parseRFC3339Date(std::string stringDate) {
+    if (stringDate == "") {
+        return 0;
+    }
     std::tm date = {};
     std::istringstream stringStream(stringDate);
     stringStream >> std::get_time(&date, "%Y-%m-%d %H:%M:%S");
