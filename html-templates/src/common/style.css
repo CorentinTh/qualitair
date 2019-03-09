@@ -1,0 +1,49 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+h1{
+    font-size: 50px;
+    margin: 0;
+}
+
+.sub-title{
+    margin-top: 10px;
+    color: #888888;
+    font-size: 25px;
+}
+
+.wrapper{
+    min-height: 100%;
+    margin-bottom: -256px;
+    padding-bottom: 256px;
+}
+
+#grid{
+    width: 100%;
+}
+
+#grid .time {
+    width: 100%;
+}
+#grid .time td {
+    width: 33.33%;
+    position: relative;
+    border: 1px solid #303742;
+}
+#grid .time td:after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+}
+#grid .time td .content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #c0c0c0;
+}
+#grid .time td .content.spike {
+    background: #303742;
+}
