@@ -13,50 +13,19 @@
     </a>
 </p>
 
+# Installation procedure
 
-## Includes
-### SQLiteCpp
-
-```cpp
-#include "SQLiteCpp/SQLiteCpp.h"
+```bash
+# Download and extract 
+wget https://link-to-github-release.com/qualitair.zip
+unzip qualitair.zip
+cd qualitair && ./install.sh
 ```
 
-### Catch2
-
-```cpp
-#include "catch2/catch.hpp"
+# Create the installation archive
+In the qualitair project root directory, run :
+```bash
+cd installer
+./create-installer.sh
 ```
-
-### json
-
-```cpp
-#include "nlohmann/json.hpp"
-using json = nlohmann::json;
-```
-
-### argh
-
-```cpp
-#include "argh.h"
-```
-
-### .ini
-
-```cpp
-#include "INIReader.h"
-```
-
-### csv
-
-```cpp
-#include "csvmonkey.hpp"
-```
-
-### loggin
-
-```cpp
-#include "easylogging++.h"
-```
-
-
-
+You have now a zip archive `qualitair.zip` at the project root directory.
