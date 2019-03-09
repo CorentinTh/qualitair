@@ -105,7 +105,7 @@ namespace nsquerybuilder {
                 .bind("dummy").bind("dummy").bind("dummy").bind("dummy")
                 .bind("dummy").bind("dummy").bind("dummy").bind("dummy");
 
-        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Sensor(SensorID, Latitude, Longitude, Description) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?);");
+        REQUIRE(queryBuilder.getQuery() == "INSERT INTO Sensor(SensorID, Latitude, Longitude, Description) VALUES (?, ?, ?, ?);");
     }
 
     TEST_CASE("Test QueryBuilder::execute", "[UT-D-10]") {

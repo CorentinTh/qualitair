@@ -3,6 +3,7 @@
 //
 
 #include <SQLiteCpp/Transaction.h>
+#include <iostream>
 #include "../include/QueryBuilder.h"
 #include "../include/ConnectionFactory.h"
 
@@ -84,17 +85,12 @@ std::string QueryBuilder::getQuery() {
         query += tables[0];
         query += "(" + joinStringVector(attributes, ", ") + ")";
         query += " VALUES ";
+        query += "(";
 
-        for(int i = 0; i < arguments.size() / attributes.size(); i ++) {
-            query += "(";
-
-            for(int j = 0; j < attributes.size(); j++) query += "?, ";
-            query = query.substr(0, query.size() - 2);
-
-            query += "), ";
-        }
-
+        for(int j = 0; j < attributes.size(); j++) query += "?, ";
         query = query.substr(0, query.size() - 2);
+
+        query += ")";
     }
 
     query += ";";
@@ -118,7 +114,26 @@ SQLite::Statement * QueryBuilder::execute() {
 }
 
 int QueryBuilder::executeUpdate() {
-    return execute()->exec();
+    int nbRows = 0;
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    SQLite::Transaction transaction(* database);
+
+    for(int i = 0; i < arguments.size(); i += attributes.size()) {
+        SQLite::Statement * statement = new SQLite::Statement(* database, getQuery());
+        for(int j = 0; j < attributes.size(); j++) {
+            if(arguments[i + j].type == INT) statement->bind(j + 1, * (int *) arguments[i + j].value);
+            else if(arguments[i + j].type == LONG) statement->bind(j + 1, * (long long *) arguments[i + j].value);
+            else if(arguments[i + j].type == FLOAT) statement->bind(j + 1, * (float *) arguments[i + j].value);
+            else if(arguments[i + j].type == DOUBLE) statement->bind(j + 1, * (double *) arguments[i + j].value);
+            else if(arguments[i + j].type == STRING) statement->bind(j + 1, * (std::string *) arguments[i + j].value);
+        }
+        std::cout << statement->getQuery() << std::endl;
+        nbRows += statement->exec();
+        std::cout << nbRows << std::endl;
+    }
+
+    transaction.commit();
+    return nbRows;
 }
 
 QueryBuilder & QueryBuilder::bind(int arg) {
