@@ -7,6 +7,7 @@
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputCLI.h"
 #include "../../View/include/OutputHTML.h"
+#include "easylogging++.h"
 
 
 SensorsCommand &SensorsCommand::operator=(SensorsCommand other) {
@@ -59,15 +60,17 @@ void SensorsCommand::execute() {
         res.push_back(*ptrSensor);
     }
 
-    if (outputArguments.outputFormat == OutputFormat::HUMAN){
-        OutputCLI::getInstance().printStats(res);
+    /*if (outputArguments.outputFormat == OutputFormat::HUMAN){
+        OutputCLI::getInstance().p(res);
     }
     else if(outputArguments.outputFormat == OutputFormat::JSON){
         OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
         OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
-    }
+    }*/
+    //TODO there's no OUTPUT defined for that command
+    LOG(INFO) << res;
 
 }
 
