@@ -37,7 +37,7 @@ public:
     void operator=(ETL const &) = delete;
 
 protected:
-    static const int NB_ROW_PER_BATCH = 1000;
+    static const int NB_ROW_PER_BATCH = 200;
     std::vector<std::string> listCSVFiles(std::string path);
 
 

@@ -22,7 +22,6 @@ INITIALIZE_EASYLOGGINGPP
  * @return {int}
  */
 int main(int argc, char **argv) {
-
     START_EASYLOGGINGPP(argc, argv);
     Controller controller(argv);
     controller.execute();

@@ -24,7 +24,7 @@ long ETL::ingest(std::string path) {
 
         int dataType = extractDataTypeFromFile(file);
         if(dataType == -1) {
-            //TODO: error handling ?
+            LOG(ERROR) << "Unable to recognize header on file " << file;
             return -1;
         }
 
@@ -43,7 +43,7 @@ long ETL::ingest(std::string path) {
                 if(dataType == ATTRIBUTE) {
                     queryBuilder.insert("Attribute").values({"AttributeID", "Unit", "Description"});
                 } else if(dataType == SENSOR) {
-                    queryBuilder.insert("Sensor").values({"SensorID", "Longitude", "Latitude", "Description"});
+                    queryBuilder.insert("Sensor").values({"SensorID", "Latitude", "Longitude", "Description"});
                 } else {
                     queryBuilder.insert("Measurement").values({"Timestamp", "SensorID", "AttributeID", "Value"});
                 }
@@ -101,7 +101,7 @@ int ETL::extractDataTypeFromFile(std::string path) {
     if(fileStream.good()) {
         std::string header;
         std::getline(fileStream, header);
-
+        header.erase( std::remove(header.begin(), header.end(), '\r'), header.end());
         if(header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
         else if(header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
         else if(header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;

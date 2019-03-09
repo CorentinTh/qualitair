@@ -19,6 +19,7 @@ struct Argument {
     void * value;
 };
 
+//TODO use IDataInterface instead of using QueryBuilder (implementation) in the code !
 class QueryBuilder : public IData {
 
     public:

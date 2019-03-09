@@ -1,0 +1,5 @@
+AttributeID;Unit;Description;
+O3;µg/m3;concentration d'ozone;
+SO2;µg/m3;concentration de dioxyde de soufre;
+NO2;µg/m3;concentration de dioxyde d'azote;
+PM10;µg/m3;concentration de particules fines;
