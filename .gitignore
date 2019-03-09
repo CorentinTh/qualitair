@@ -9,3 +9,9 @@ lib
 html-templates/node_modules
 html-templates/.cache
 html-templates/test
+
+
+data-example
+
+#Tests
+dbmockcopy.sqlite

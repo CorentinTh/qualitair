@@ -1,65 +1,108 @@
 #include "catch2/catch.hpp"
 #include "../../../src/ETL/include/GeoFilter.h"
+#include "../../../src/Data/include/ConnectionFactory.h"
 
 using namespace std;
 
 TEST_CASE("Testing GeoFilter::setBBox with normal BBox", "[UT-E-6]") {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+
+    SQLite::Statement * query;
+
+    queryBuilder.select("SensorID").from("Sensor");
+
+    BBox b = {4.83, 50.54412, 4.84, 40.13849};
+
     GeoFilter geoFilter1;
+    REQUIRE_NOTHROW(geoFilter1.setBBox(b));
+    geoFilter1.applyTo(queryBuilder);
 
-    BBox b = { 45, 4, 50, 30 };
+    REQUIRE_NOTHROW(query = queryBuilder.execute()); // to help debug
 
-    geoFilter1.setBBox(b);
+    vector<int> vectResult;
+    vectResult.push_back(1);
+    vectResult.push_back(2);
+    vectResult.push_back(3);
 
-    CHECK(geoFilter1.apply() == "longitude >= 45 AND latitude >= 4 AND longitude <= 50 AND latitude <= 30");
-}
+    bool resultNotEmpty = false;
 
-TEST_CASE("Testing GeoFilter::setBBox with equal BBox", "[UT-E-6]") {
-    GeoFilter geoFilter1;
+    while (query->executeStep()){
+        resultNotEmpty = true;
+        int sensorId = query->getColumn("SensorID");
+        REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
+        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+    }
 
-    BBox b = {10, 10, 10, 10};
-
-    geoFilter1.setBBox(b);
-
-    CHECK(geoFilter1.apply() == "longitude >= 10 AND latitude >= 10 AND longitude <= 10 AND latitude <= 10");
+    REQUIRE(resultNotEmpty);
 }
 
 TEST_CASE("Testing GeoFilter::setBBox with bad BBox", "[UT-E-6]") {
     GeoFilter geoFilter1;
 
-    BBox b = {10, 11, -20, 21};
-
-    REQUIRE_THROWS(geoFilter1.setBBox(b));
+    BBox b1 = {10, 11, -20, 21}; // impossible : left >= right
+    BBox b2 = {-181.54684, 147.05310, 49.21657, 0.15746}; // impossible : left < -180
+    GeoFilter geoFilter2;
+    REQUIRE_THROWS(geoFilter2.setBBox(b1));
+    REQUIRE_THROWS(geoFilter2.setBBox(b2));
 }
 
-TEST_CASE("Testing GeoFilter::extend with ratio=2", "[UT-E-7]") {
-    GeoFilter geoFilter1;
+TEST_CASE("Testing GeoFilter::extend with ratio=0.05", "[UT-E-7]") {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+    queryBuilder.select("SensorID").from("Sensor");
 
-    BBox b = { 45, 4, 50, 30 };
+    SQLite::Statement * query;
 
-    geoFilter1.setBBox(b);
-    geoFilter1.extend(2);
+    SECTION("without extension : no results are found"){
 
-    CHECK(geoFilter1.apply() == "longitude >= 22.5 AND latitude >= 2 AND longitude <= 100 AND latitude <= 60");
-}
+        GeoFilter geoFilter3;
+        BBox b = {4.7, 50.54412, 4.8, 40.13849};
+        REQUIRE_NOTHROW(geoFilter3.setBBox(b));
+        geoFilter3.applyTo(queryBuilder);
 
-TEST_CASE("Testing GeoFilter::extend with ratio=0.5", "[UT-E-7]") {
-    GeoFilter geoFilter1;
+        REQUIRE_NOTHROW(query = queryBuilder.execute()); // to help debug
 
-    BBox b = { 45, 4, 50, 30 };
+        REQUIRE(!query->executeStep());
+        // empty result
+    }
 
-    geoFilter1.setBBox(b);
-    geoFilter1.extend(0.5);
+    SECTION("extension of the bbox : results found"){
+        GeoFilter geoFilter4;
+        BBox b = {4.7, 50.54412, 4.8, 40.13849};
+        REQUIRE_NOTHROW(geoFilter4.setBBox(b));
+        REQUIRE_NOTHROW(geoFilter4.extend(0.05));
+        geoFilter4.applyTo(queryBuilder);
 
-    CHECK(geoFilter1.apply() == "longitude >= 67.5 AND latitude >= 6 AND longitude <= 25 AND latitude <= 15");
+        REQUIRE_NOTHROW(query = queryBuilder.execute()); // to help debug
+
+        vector<int> vectResult;
+        vectResult.push_back(1);
+        vectResult.push_back(2);
+        vectResult.push_back(3);
+
+        bool resultNotEmpty = false;
+
+        while (query->executeStep()){
+            resultNotEmpty = true;
+            int sensorId = query->getColumn("SensorID");
+            REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
+            REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+        }
+
+        REQUIRE(resultNotEmpty);
+    }
+
 }
 
 TEST_CASE("Testing GeoFilter::extend with ratio=-2", "[UT-E-7]") {
     GeoFilter geoFilter1;
 
-    BBox b = { 45, 4, 50, 30 };
+    BBox b = { 45, 30, 50, 4 };
 
-    geoFilter1.setBBox(b);
-    geoFilter1.extend(-2);
+    REQUIRE_NOTHROW(geoFilter1.setBBox(b));
 
-    REQUIRE_THROWS(geoFilter1.apply());
+    REQUIRE_THROWS(geoFilter1.extend(-2));
 }

@@ -6,25 +6,33 @@
 #define QUALITAIR_MEASUREMENT_H
 
 
+#include "Sensor.h"
+#include "Attribute.h"
+
 class Measurement {
     public:
-        int getTimestamp();
-        double getValue();
-        int getSensorId();
-        int getAttributeId();
+        int getTimestamp() const;
+        double getValue() const;
+        Sensor getSensor() const;
+        Attribute getAttribute() const;
 
         Measurement & operator = ( Measurement other );
         Measurement ( const Measurement & other );
-        Measurement ( int timestamp, int sensorId, int attributeId, double value );
-        virtual ~Measurement ( );
+        Measurement ( int timestamp, Sensor sensor, Attribute attribute, double value );
+
+    bool operator==(const Measurement &rhs) const;
+
+    bool operator!=(const Measurement &rhs) const;
+
+    virtual ~Measurement ( );
         
     protected:
         friend void swap(Measurement & first, Measurement & second);
 
         int timestamp;
         double value;
-        int sensorId;
-        int attributeId;
+        Sensor sensor;
+        Attribute attribute;
 };
 
 

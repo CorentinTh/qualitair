@@ -1,48 +1,74 @@
 #include "catch2/catch.hpp"
-#include <string>
 #include <vector>
 #include "../../../src/ETL/include/SensorFilter.h"
+#include "../../../src/Data/include/ConnectionFactory.h"
 
 using namespace std;
 
 TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-8]") {
-    SensorFilter sensorFilter;
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+    queryBuilder.select("AttributeID").from("Measurement");
 
-    sensorFilter.addSensor("sensor1");
-    sensorFilter.addSensor("sensor2");
-    sensorFilter.addSensor("sensor3");
+    SQLite::Statement * query;
 
-    CHECK(sensorFilter.apply() == "sensorID in (sensor1, sensor2, sensor3)" );
+    SensorFilter sensorFilter1;
+    sensorFilter1.addSensor("1");
+    sensorFilter1.addSensor("1");
+    sensorFilter1.addSensor("");
+    sensorFilter1.applyTo(queryBuilder);
+
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
+
+    vector<int> vectResults;
+    vectResults.push_back(1);
+    vectResults.push_back(2);
+
+    bool resultNotEmpty = false;
+
+    while (query->executeStep()){
+        resultNotEmpty = true;
+        int attributeId = query->getColumn("AttributeID");
+        REQUIRE(std::find(vectResults.begin(), vectResults.end(), attributeId) != vectResults.end());
+        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+    }
+
+    REQUIRE(resultNotEmpty);
 }
 
 TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-9]") {
-    SensorFilter sensorFilter;
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
+    QueryBuilder queryBuilder = QueryBuilder();
+    queryBuilder.select("AttributeID").from("Measurement");
 
-    vector<string> sensors;
+    SQLite::Statement * query;
 
-    sensors.emplace_back("sensor1");
-    sensors.emplace_back("sensor2");
-    sensors.emplace_back("sensor3");
+    vector<string> attributes;
+    attributes.emplace_back("2");
+    attributes.emplace_back("2");
+    attributes.emplace_back("4");
+    attributes.emplace_back("5");
+    attributes.emplace_back("");
 
-    sensorFilter.addSensors(sensors);
+    SensorFilter sensorFilter1;
+    sensorFilter1.addSensors(attributes);
+    sensorFilter1.applyTo(queryBuilder);
 
-    CHECK(sensorFilter.apply() == "sensorID in (sensor1, sensor2, sensor3)" );
-}
+    REQUIRE_NOTHROW(query = queryBuilder.execute());
 
-TEST_CASE("Testing SensorFilter '=' operator", "[extra]") {
-    SensorFilter sensorFilter1, sensorFilter2;
+    int result = 3;
 
-    sensorFilter1.addSensor("sensor1");
-    sensorFilter2 = sensorFilter1;
+    bool resultNotEmpty = false;
 
-    SECTION("Equality") {
-        CHECK(sensorFilter1.apply() == sensorFilter2.apply());
+    while (query->executeStep()){
+        resultNotEmpty = true;
+        int attributeId = query->getColumn("AttributeID");
+        REQUIRE(result == attributeId);
+        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    sensorFilter1.addSensor("sensor2");
-
-    SECTION("Non-Equality") {
-        CHECK(sensorFilter1.apply() != sensorFilter2.apply());
-    }
+    REQUIRE(resultNotEmpty);
 }
 

@@ -4,19 +4,19 @@
 
 #include "../include/Sensor.h"
 
-int Sensor::getId() {
+std::string Sensor::getId() const {
     return sensorId;
 }
 
-double Sensor::getLatitude() {
+double Sensor::getLatitude() const {
     return latitude;
 }
 
-double Sensor::getLongitude() {
+double Sensor::getLongitude() const {
     return longitude;
 }
 
-std::string Sensor::getDescription() {
+std::string Sensor::getDescription() const {
     return description;
 }
 
@@ -32,7 +32,8 @@ Sensor::Sensor(const Sensor &other) {
     longitude = other.longitude;
 }
 
-Sensor::Sensor(int sId, double lat, double lon, std::string d) : sensorId(sId), latitude(lat), longitude(lon), description(d) {
+Sensor::Sensor(std::string sId, double lat, double lon, std::string d) : sensorId(sId), latitude(lat), longitude(lon),
+                                                                         description(d) {
 
 }
 
@@ -40,9 +41,34 @@ Sensor::~Sensor() {
 
 }
 
-void swap(Sensor & first, Sensor & second) {
+void swap(Sensor &first, Sensor &second) {
     std::swap(first.sensorId, second.sensorId);
     std::swap(first.description, second.description);
     std::swap(first.longitude, second.longitude);
     std::swap(first.latitude, second.latitude);
+}
+
+void to_json(json &j, const Sensor &s) {
+    j = json{{"id",          s.sensorId},
+             {"long",        s.longitude},
+             {"lat",         s.latitude},
+             {"description", s.description}};
+}
+
+void from_json(const json &j, Sensor &s) {
+    j.at("description").get_to(s.description);
+    j.at("id").get_to(s.sensorId);
+    j.at("long").get_to(s.longitude);
+    j.at("lat").get_to(s.latitude);
+}
+
+bool Sensor::operator==(const Sensor &rhs) const {
+    return sensorId == rhs.sensorId &&
+           std::abs(rhs.latitude - latitude) < 0.00001 &&
+           std::abs(rhs.longitude - longitude) < 0.00001 &&
+           description == rhs.description;
+}
+
+bool Sensor::operator!=(const Sensor &rhs) const {
+    return !(rhs == *this);
 }
