@@ -64,8 +64,8 @@ void SpikesCommand::execute() {
     }
 
     if (!attribute.empty()){
-        config["hasAttribute"] = true;
-        config["attribute"] = attribute;
+        config["hasAttributes"] = true;
+        config["attributes"] = {attribute};
     }
     else{
         config["hasAttributes"] = false;
