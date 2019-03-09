@@ -71,7 +71,7 @@ void StatsCommand::execute() {
         config["hasAttributes"] = false;
     }
 
-    if (!attributes.empty()){
+    if (!sensors.empty()){
         config["hasSensors"] = true;
         config["sensors"] = sensors;
     }

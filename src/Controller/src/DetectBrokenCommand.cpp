@@ -52,7 +52,7 @@ void DetectBrokenCommand::execute() {
         config["hasAttributes"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!this->sensors.empty()){
         config["hasSensors"] = true;
         config["sensors"] = this->sensors;
     }

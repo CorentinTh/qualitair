@@ -70,6 +70,14 @@ void DetectSimCommand::execute() {
         config["hasSensors"] = false;
     }
 
+    if (!attributes.empty()){
+        config["hasAttributes"] = true;
+        config["attributes"] = attributes;
+    }
+    else{
+        config["hasAttributes"] = false;
+    }
+
     IETL& etl = ETL::getInstance();
     IDataProcessor& dataProcessor = DataProcessor::getInstance();
 

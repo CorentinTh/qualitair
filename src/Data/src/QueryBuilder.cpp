@@ -5,6 +5,7 @@
 #include <SQLiteCpp/Transaction.h>
 #include "../include/QueryBuilder.h"
 #include "../include/ConnectionFactory.h"
+#include "easylogging++.h"
 
 QueryBuilder::~QueryBuilder() {
     for(Argument argument : arguments) {
@@ -104,6 +105,7 @@ std::string QueryBuilder::getQuery() {
 
 SQLite::Statement * QueryBuilder::execute() {
     SQLite::Database * database = ConnectionFactory::getConnection();
+    //LOG(DEBUG) << getQuery();
     SQLite::Statement * statement = new SQLite::Statement(* database, getQuery());
 
     for(Argument argument : arguments) {
