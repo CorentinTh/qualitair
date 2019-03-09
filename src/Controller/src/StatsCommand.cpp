@@ -36,7 +36,7 @@ void StatsCommand::execute() {
     // get data puis aggregation
     json config;
     config["type"] = ETL::MEASURE;
-
+    config["doInterpolation"] = true;
     if(!bbox.isNull()){
         config["hasBBox"] = true;
 

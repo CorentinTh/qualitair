@@ -7,9 +7,7 @@
 #include <cstring>
 
 std::string CLIParser::getArgument(std::string name, std::string defaultValue) const {
-    std::string arg;
-    parser(name) >> arg;
-
+    std::string arg = parser(name).str();
     if(arg.empty()) arg = defaultValue;
     return arg;
 }

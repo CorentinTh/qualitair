@@ -105,7 +105,7 @@ std::string QueryBuilder::getQuery() {
 
 SQLite::Statement * QueryBuilder::execute() {
     SQLite::Database * database = ConnectionFactory::getConnection();
-    //LOG(DEBUG) << getQuery();
+    LOG(DEBUG) << getQuery();
     SQLite::Statement * statement = new SQLite::Statement(* database, getQuery());
 
     for(Argument argument : arguments) {

@@ -197,7 +197,7 @@ void ETL::setFilters(QueryBuilder *qb, json config) {
 void *ETL::extractData(QueryBuilder *qb, json config) {
 
     auto result = new vector<void *>;
-
+    int count = 0;
     SQLite::Statement * statement;
     try {
         statement = qb->execute();
@@ -209,19 +209,19 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
                 while (statement->executeStep()) {
                     result->emplace_back(new Measurement(
-                            statement->getColumn("Timestamp"),
-                            {
+                            statement->getColumn("Timestamp"), Sensor(
                                     statement->getColumn("SensorID"),
                                     statement->getColumn("Latitude"),
                                     statement->getColumn("Longitude"),
                                     statement->getColumn("SensorDescription")
-                            }, {
+                            ), Attribute(
                                     statement->getColumn("AttributeID"),
                                     statement->getColumn("Unit"),
                                     statement->getColumn("AttributeDescription")
-                            },
+                            ),
                             statement->getColumn("Value")
                     ));
+                    count++;
                 }
 
             } else if (config["type"] == ETL::SENSOR) {
@@ -233,6 +233,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                             statement->getColumn("Longitude"),
                             statement->getColumn("Description")
                     ));
+                    count++;
                 }
 
             } else if (config["type"] == ETL::ATTRIBUTE) {
@@ -243,6 +244,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                             statement->getColumn("Unit"),
                             statement->getColumn("Description")
                     ));
+                    count++;
                 }
 
             }
@@ -258,7 +260,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
 
 
-
+    LOG(DEBUG) << "Fetched " << std::to_string(count) << " lines";
 
 
     return result;
