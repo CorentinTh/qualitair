@@ -127,9 +127,7 @@ int QueryBuilder::executeUpdate() {
             else if(arguments[i + j].type == DOUBLE) statement->bind(j + 1, * (double *) arguments[i + j].value);
             else if(arguments[i + j].type == STRING) statement->bind(j + 1, * (std::string *) arguments[i + j].value);
         }
-        std::cout << statement->getQuery() << std::endl;
         nbRows += statement->exec();
-        std::cout << nbRows << std::endl;
     }
 
     transaction.commit();
