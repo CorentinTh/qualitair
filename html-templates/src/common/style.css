@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
 h1{
     font-size: 50px;
     margin: 0;
@@ -9,23 +13,23 @@ h1{
     font-size: 25px;
 }
 
+.wrapper{
+    min-height: 100%;
+    margin-bottom: -256px;
+    padding-bottom: 256px;
+}
 
 #grid{
     width: 100%;
-    height: 100%;
 }
 
 #grid .time {
-
-}
-
-
-#grid .time {
-    width: 90%;
+    width: 100%;
 }
 #grid .time td {
     width: 33.33%;
     position: relative;
+    border: 1px solid #303742;
 }
 #grid .time td:after {
     content: '';
@@ -38,5 +42,8 @@ h1{
     bottom: 0;
     left: 0;
     right: 0;
-    background: gold;
+    background: #c0c0c0;
+}
+#grid .time td .content.spike {
+    background: #303742;
 }

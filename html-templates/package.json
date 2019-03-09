@@ -5,20 +5,20 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "parcel src/spikes/spikes-template.html --out-dir test",
-    "build": "gulp"
+    "test": "parcel --out-dir test",
+    "build": "gulp",
+    "b": "parcel build --out-dir dist "
   },
   "devDependencies": {
     "css-mqpacker": "^7.0.0",
     "del": "^4.0.0",
     "gulp": "^4.0.0",
-    "gulp-htmlnano": "^0.1.0",
+    "gulp-email-remove-unused-css": "^3.6.9",
+    "gulp-inline-source": "^4.0.0",
     "gulp-parcel": "^0.3.5",
-    "gulp-postcss": "^8.0.0",
-    "parcel-bundler": "^1.11.0",
-    "parcel-plugin-inliner": "^1.0.6",
-    "postcss-uncss": "^0.16.1",
-    "uncss": "^0.16.1"
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "parcel-bundler": "^1.11.0"
   },
   "dependencies": {}
 }

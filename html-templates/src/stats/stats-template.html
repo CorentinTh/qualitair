@@ -21,7 +21,7 @@
                 <div class="col-6 col-md-8 col-sm-12 col-mx-auto">
                     <div class="hero-body">
 
-                        <h1>Spikes detection</h1>
+                        <h1>Statistics</h1>
                         <p class="sub-title">Qualitair - <span class="report-date"></span></p>
 
                     </div>
@@ -37,29 +37,37 @@
 
                 <br>
                 <br>
-                <h2 class="text-center">Spikes viewer</h2>
-                <div class="columns">
-                    <div class="col-6 col-md-10 col-sm-12 col-mx-auto">
+                <h2 class="text-center">ATMO</h2>
 
-                        <div id="grid"></div>
 
-                    </div>
-                </div>
+                <table class="table table-hover table-scroll table-striped">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="atmo">
+
+                    </tbody>
+                </table>
                 <br>
                 <br>
-                <h2 class="text-center">Spikes list</h2>
+                <h2 class="text-center">Attributes</h2>
 
                 <table class="table table-hover table-scroll table-striped">
                     <thead>
                     <tr>
                         <th>Attribute</th>
-                        <th>Date</th>
-                        <th>Longitude</th>
-                        <th>Latitude</th>
+                        <th>Average</th>
+                        <th>Deviation</th>
+                        <th>Maximum</th>
+                        <th>Minimum</th>
                     </tr>
                     </thead>
 
-                    <tbody id="rows">
+                    <tbody id="attributes">
 
                     </tbody>
                 </table>

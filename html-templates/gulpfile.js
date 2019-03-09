@@ -1,31 +1,27 @@
-const {src, dest, series} = require('gulp');
-const parcel = require('gulp-parcel');
-const htmlnano = require('gulp-htmlnano');
-const del = require('del');
-const postcss = require('gulp-postcss');
+const {src, dest}   = require('gulp');
+const rename        = require('gulp-rename');
+const replace       = require('gulp-replace');
+const inlineSource  = require('gulp-inline-source');
 
-function bundle() {
-    return src('./src/**/*.html', {read: false})
-        .pipe(parcel({
-            outDir: './.tmp',
-            publicURL: './',
-            cache: false,
-            sourceMaps: false,
-            scopeHoist: true,
-            minify: true,
-            hrm:false
-        }, {source: 'build'}))
-}
+const jsonPlaceholder = "$JSONPLACEHOLDER$";
+const datePlaceholder = "$DATEPLACEHOLDER$";
 
-function build() {
-    return src('./.tmp/*.html')
-        .pipe(postcss())
-
+const build = () => {
+    return src('./src/**/*.html')
+        .pipe(inlineSource({
+            compress: true
+        }))
+        .pipe(replace(/const\sjsonInput\s?=\s?(.*?);/ms, (match, p1) => {
+            return match.replace(p1, `\`\n${jsonPlaceholder}\n\``);
+        }))
+        .pipe(replace(/const\sreportDate\s?=\s?(.*?);/ms, (match, p1) => {
+            return match.replace(p1, `\`\n${datePlaceholder}\n\``);
+        }))
+        .pipe(rename({
+            dirname: '.'
+        }))
         .pipe(dest('./dist'))
-}
+};
 
-function clean() {
-    return del(['./dist/*', '!./dist/*.html', '.tmp']);
-}
-
-exports.default = series(bundle, build, clean);
+exports.build = build;
+exports.default = build;
