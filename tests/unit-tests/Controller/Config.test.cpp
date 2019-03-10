@@ -10,7 +10,7 @@
 #include <string>
 #include <utility>
 
-TEST_CASE("Testing Config::load", "[UT-C-3]") {
+TEST_CASE("Testing Config::load", "[UT-C-4]") {
     Config config = Config("../tests/data/config-sample.ini");
     config.load();
 

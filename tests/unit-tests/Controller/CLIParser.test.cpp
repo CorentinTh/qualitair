@@ -60,7 +60,7 @@ TEST_CASE("Testing CLIParser::getVerb", "[UT-C-2]") {
 
 }
 
-TEST_CASE("Testing CLIParser::getMandatoryArgument", "") {
+TEST_CASE("Testing CLIParser::getMandatoryArgument", "UT-C-3") {
     char* command1[] = { "./qualitair", "spikes", "CO2" , NULL };
     CLIParser cliParser = CLIParser(command1);
 

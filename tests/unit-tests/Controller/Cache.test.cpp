@@ -5,7 +5,7 @@
 #include "catch2/catch.hpp"
 #include "../../src/Controller/include/Cache.h"
 
-TEST_CASE("Testing Cache", "") {
+TEST_CASE("Testing Cache", "UT-C-5") {
     Cache cache;
 
     auto j1 = R"(
