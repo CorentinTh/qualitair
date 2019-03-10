@@ -6,6 +6,7 @@
 #include "../../Data/include/QueryBuilder.h"
 #include "../include/Interpolater.h"
 #include "SQLiteCpp/Column.h"
+#include "../../utils.h"
 
 #include <dirent.h>
 #include <stdio.h>
@@ -59,7 +60,7 @@ long ETL::ingest(std::string path) {
                 queryBuilder.bind(row.cells[2].as_double());
                 queryBuilder.bind(row.cells[3].as_str());
             } else if(dataType == MEASURE){
-                queryBuilder.bind(row.cells[0].as_str());
+                queryBuilder.bind(parseISO8601Date(row.cells[0].as_str()));
                 queryBuilder.bind(row.cells[1].as_str());
                 queryBuilder.bind(row.cells[2].as_str());
                 queryBuilder.bind(row.cells[3].as_double());
