@@ -40,6 +40,7 @@ class QueryBuilder : public IData {
         QueryBuilder & bind(long arg);
         QueryBuilder & bind(long long arg);
         QueryBuilder & bind(std::string arg);
+        QueryBuilder & orderBy(std::string attribute);
         SQLite::Statement * execute();
         int executeUpdate();
 
@@ -52,6 +53,7 @@ class QueryBuilder : public IData {
         std::vector<std::string> joinedTables;
         std::vector<std::pair<ConditionOperator, std::string>> conditions;
         std::vector<Argument> arguments;
+        std::string orderByAttribute;
 };
 
 

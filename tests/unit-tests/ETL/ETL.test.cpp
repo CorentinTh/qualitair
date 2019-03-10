@@ -71,6 +71,8 @@ TEST_CASE("Testing ETL::getData for all measures") {
     IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
+            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
+                            {"3", "mol", "Capteur en mol"}, 15),
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
                             {"1", "mg/l", "Capteur en mg/l"}, 4),
             new Measurement(1550150156, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
@@ -79,8 +81,6 @@ TEST_CASE("Testing ETL::getData for all measures") {
                             {"3", "mol", "Capteur en mol"}, 10),
             new Measurement(1550158000, {"2", 45.7632485, 4.8335574, "Cordelier - Métro"},
                             {"3", "mol", "Capteur en mol"}, 28),
-            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
-                            {"3", "mol", "Capteur en mol"}, 15),
             new Measurement(1550158049, {"5", 48.7138336, 2.2137995, "Polytechnique Paris Sud"},
                             {"3", "mol", "Capteur en mol"}, 11),
     };
@@ -100,6 +100,8 @@ TEST_CASE("Testing ETL::getData for measures by bbox") {
     IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
+            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
+                            {"3", "mol", "Capteur en mol"}, 15),
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
                             {"1", "mg/l", "Capteur en mg/l"}, 4),
             new Measurement(1550150156, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
@@ -108,8 +110,6 @@ TEST_CASE("Testing ETL::getData for measures by bbox") {
                             {"3", "mol", "Capteur en mol"}, 10),
             new Measurement(1550158000, {"2", 45.7632485, 4.8335574, "Cordelier - Métro"},
                             {"3", "mol", "Capteur en mol"}, 28),
-            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
-                            {"3", "mol", "Capteur en mol"}, 15),
     };
 
     auto result = (vector<Measurement *> *) etl.getData(
@@ -160,14 +160,14 @@ TEST_CASE("Testing ETL::getData for measures by end time") {
     IETL& etl = ETL::getInstance();
 
     vector<Measurement *> expected = {
+            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
+                            {"3", "mol", "Capteur en mol"}, 15),
             new Measurement(1550150155, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
                             {"1", "mg/l", "Capteur en mg/l"}, 4),
             new Measurement(1550150156, {"1", 45.7574995, 4.8313017, "Bellecour - Grande roue"},
                             {"2", "%", "Capteur en pourcent"}, 5),
             new Measurement(1550151014, {"2", 45.7632485, 4.8335574, "Cordelier - Métro"},
                             {"3", "mol", "Capteur en mol"}, 10),
-            new Measurement(1550150048, {"4", 45.7436395, 4.8801768, "Hôpital Edouard Herriot"},
-                            {"3", "mol", "Capteur en mol"}, 15),
     };
 
     auto result = (vector<Measurement *> *) etl.getData(

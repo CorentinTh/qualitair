@@ -15,8 +15,8 @@
 #include "../include/SensorsCommand.h"
 #include "../include/Cache.h"
 #include "../../Data/include/ConnectionFactory.h"
+#include "../../utils.h"
 
-static time_t parseRFC3339Date(std::string stringDate);
 
 Controller &Controller::operator=(Controller other) {
     swap(*this, other);
@@ -54,8 +54,8 @@ Command* Controller::parseCommand() {
         command = new IngestCommand(input, outputArguments);
     } else {
         BBox bbox(cliParser.getArgument("bbox"));
-        time_t start = parseRFC3339Date(cliParser.getArgument("start"));
-        time_t end = parseRFC3339Date(cliParser.getArgument("end"));
+        time_t start = utils::parseRFC3339Date(cliParser.getArgument("start"));
+        time_t end = utils::parseRFC3339Date(cliParser.getArgument("end"));
         std::vector<std::string> attributes = unjoinString(cliParser.getArgument("attributes"));
         std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
 
@@ -141,21 +141,6 @@ void Controller::execute() {
         LOG(WARNING) << "Cached command, showing previous data : ";
         LOG(INFO) << *cached;
     }
-}
-
-time_t Controller::parseRFC3339Date(std::string stringDate) {
-    if (stringDate == "") {
-        return 0;
-    }
-    std::tm date = {};
-    std::istringstream stringStream(stringDate);
-    stringStream >> std::get_time(&date, "%Y-%m-%d %H:%M:%S");
-
-    if (!stringStream.fail()) {
-        std::put_time(&date, "%c");
-    }
-
-    return mktime(&date);
 }
 
 std::vector<std::string> Controller::unjoinString(std::string string) {

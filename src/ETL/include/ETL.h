@@ -37,7 +37,7 @@ public:
     void operator=(ETL const &) = delete;
 
 protected:
-    static const int NB_ROW_PER_BATCH = 200;
+    static const int NB_ROW_PER_BATCH = 10000;
     std::vector<std::string> listCSVFiles(std::string path);
 
 
@@ -49,6 +49,8 @@ private:
     void setMeasurementConfig(QueryBuilder *qb);
     void setSensorConfig(QueryBuilder *qb);
     void setAttributeConfig(QueryBuilder *qb);
+    void createDatabaseIndexs();
+    void dropDatabaseIndexs();
 
     ETL() = default;
 };

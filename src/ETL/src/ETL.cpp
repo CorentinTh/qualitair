@@ -6,14 +6,18 @@
 #include "../../Data/include/QueryBuilder.h"
 #include "../include/Interpolater.h"
 #include "SQLiteCpp/Column.h"
+#include "../../utils.h"
 
 #include <dirent.h>
 #include <stdio.h>
 #include <csvmonkey.hpp>
 #include "easylogging++.h"
+#include "../../Data/include/ConnectionFactory.h"
 
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
+
+    //dropDatabaseIndexs();
     for(std::string file : listCSVFiles(path)) {
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
@@ -25,6 +29,8 @@ long ETL::ingest(std::string path) {
         int dataType = extractDataTypeFromFile(file);
         if(dataType == -1) {
             LOG(ERROR) << "Unable to recognize header on file " << file;
+            //TODO: error handling ?
+            //createDatabaseIndexs();
             return -1;
         }
 
@@ -59,7 +65,7 @@ long ETL::ingest(std::string path) {
                 queryBuilder.bind(row.cells[2].as_double());
                 queryBuilder.bind(row.cells[3].as_str());
             } else if(dataType == MEASURE){
-                queryBuilder.bind(row.cells[0].as_str());
+                queryBuilder.bind(utils::parseISO8601Date(row.cells[0].as_str()) / 1000); //ms -> s
                 queryBuilder.bind(row.cells[1].as_str());
                 queryBuilder.bind(row.cells[2].as_str());
                 queryBuilder.bind(row.cells[3].as_double());
@@ -71,6 +77,7 @@ long ETL::ingest(std::string path) {
         insertedRows += queryBuilder.executeUpdate();
     }
 
+    //createDatabaseIndexs();
     return insertedRows;
 }
 
@@ -102,6 +109,7 @@ int ETL::extractDataTypeFromFile(std::string path) {
         std::string header;
         std::getline(fileStream, header);
         header.erase( std::remove(header.begin(), header.end(), '\r'), header.end());
+        header.erase( std::remove(header.begin(), header.end(), '\n'), header.end());
         if(header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
         else if(header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
         else if(header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;
@@ -281,6 +289,7 @@ void ETL::setMeasurementConfig(QueryBuilder *qb) {
     qb->join("Attribute");
     qb->where("Measurement.AttributeID = Attribute.AttributeID");
     qb->where("Measurement.SensorID = Sensor.SensorID");
+    qb->orderBy("Timestamp");
 }
 
 
@@ -292,4 +301,30 @@ void ETL::setSensorConfig(QueryBuilder *qb) {
 void ETL::setAttributeConfig(QueryBuilder *qb) {
     qb->select("*");
     qb->from("Attribute");
+}
+
+void ETL::createDatabaseIndexs() {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    database->exec(
+            "CREATE INDEX IF NOT EXISTS index_Attribute_AttributeID ON Attribute ( AttributeID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_AttributeID ON Measurement ( AttributeID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_SensorID ON Measurement ( SensorID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_Timestamp ON Measurement ( Timestamp ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_Latitude ON Sensor ( Latitude ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_Longitude ON Sensor ( Longitude ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_SensorID ON Sensor ( SensorID ASC );"
+    );
+}
+
+void ETL::dropDatabaseIndexs() {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    database->exec(
+            "DROP INDEX IF EXISTS index_Attribute_AttributeID;"
+            "DROP INDEX IF EXISTS index_Measurement_AttributeID;"
+            "DROP INDEX IF EXISTS index_Measurement_SensorID;"
+            "DROP INDEX IF EXISTS index_Measurement_Timestamp;"
+            "DROP INDEX IF EXISTS index_Sensor_Latitude;"
+            "DROP INDEX IF EXISTS index_Sensor_Longitude;"
+            "DROP INDEX IF EXISTS index_Sensor_SensorID;"
+    );
 }
