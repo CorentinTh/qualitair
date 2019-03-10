@@ -22,7 +22,6 @@ class Controller {
         friend void swap(Controller & first, Controller & second);
 
     private:
-        static time_t parseRFC3339Date(std::string stringDate);
         static std::vector<std::string> unjoinString(std::string string);
         char ** argv;
 };

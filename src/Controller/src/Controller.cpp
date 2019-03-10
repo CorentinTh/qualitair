@@ -11,8 +11,8 @@
 #include "../include/SpikesCommand.h"
 #include "../include/DetectBrokenCommand.h"
 #include "../include/DetectSimCommand.h"
+#include "../../utils.h"
 
-static time_t parseRFC3339Date(std::string stringDate);
 
 Controller &Controller::operator=(Controller other) {
     return *this;
@@ -78,18 +78,6 @@ void Controller::execute() {
 
     command->execute();
     command->output();
-}
-
-time_t Controller::parseRFC3339Date(std::string stringDate) {
-    std::tm date = {};
-    std::istringstream stringStream(stringDate);
-    stringStream >> std::get_time(&date, "%Y-%m-%d %H:%M:%S");
-
-    if (!stringStream.fail()) {
-        std::put_time(&date, "%c");
-    }
-
-    return mktime(&date);
 }
 
 std::vector<std::string> Controller::unjoinString(std::string string) {
