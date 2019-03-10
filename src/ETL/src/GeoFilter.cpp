@@ -52,14 +52,16 @@ GeoFilter::~GeoFilter() {
 
 void GeoFilter::setBBox(const BBox &bBox) {
     if (bBox.getTop() >= 90
-        || bBox.getBottom() <= -90
-        || bBox.getLeft() <= -180
-        || bBox.getRight() >= 180
-        || bBox.getTop() < bBox.getBottom()
+        || bBox.getBottom() <= -90 ) {
+        throw std::invalid_argument("Latitude invalide ou cas non géré (bbox sur 180ème méridien)");
+    }
+    if (bBox.getLeft() <= -180
+        || bBox.getRight() >= 180) {
+        throw std::invalid_argument("Longitude invalide ou cas non géré (bbox sur 180ème méridien)");
+    }
+    if (bBox.getTop() < bBox.getBottom()
         || bBox.getLeft() > bBox.getRight()){
-        // bbox incorrecte
-        // ou bbox à cheval sur le 180eme Meridien (non géré)
-        throw std::invalid_argument("La bbox en entrée n'est pas définie correctement ou cas non géré (bbox sur 180ème méridien)");
+        throw std::invalid_argument("Coordonnées incohérentes (left > right ou top < bottom) ou cas non géré (bbox sur 180ème méridien)");
     }
     else{
         this->bbox.setTop(bBox.getTop());

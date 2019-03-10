@@ -59,3 +59,17 @@ void swap(Measurement & first, Measurement & second) {
     std::swap(first.attribute, second.attribute);
     std::swap(first.sensor, second.sensor);
 }
+
+void to_json(json &j, const Measurement &m) {
+    j = json{{"timestamp",    m.timestamp},
+             {"value",        m.value},
+             {"attribute",    m.attribute},
+             {"sensor",       m.sensor}};
+}
+
+void from_json(const json &j, Measurement &m) {
+    j.at("timestamp").get_to(m.timestamp);
+    j.at("value").get_to(m.value);
+    j.at("attribute").get_to(m.attribute);
+    j.at("sensor").get_to(m.sensor);
+}

@@ -15,23 +15,26 @@ class DetectBrokenCommand : public Command {
 
         DetectBrokenCommand & operator = ( DetectBrokenCommand other );
         DetectBrokenCommand ( const DetectBrokenCommand & other );
-        DetectBrokenCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes, std::vector<std::string> sensors );
+        DetectBrokenCommand ( BBox bbox, time_t start, time_t end, std::vector<std::string> attributes,
+                std::vector<std::string> sensors, int brokenTime, std::unordered_map<std::string, std::pair<double,double>> admissibleRanges,
+                OutputArguments outputArguments );
         virtual ~DetectBrokenCommand ( );
 
         void execute() override;
 
-        void output() override;
-
     protected:
         friend void swap(DetectBrokenCommand & first, DetectBrokenCommand & second);
-        friend void to_json(json& j, const DetectBrokenCommand& command);
-        friend void from_json(const json& j, DetectBrokenCommand& command);
+
+        virtual void to_json(json& j) const override;
+        virtual void from_json(const json& j) override;
 
         BBox bbox;
         time_t start;
         time_t end;
         std::vector<std::string> attributes;
         std::vector<std::string> sensors;
+        int brokenTime;
+        std::unordered_map<std::string, std::pair<double,double>> admissibleRanges;
 
 
 };

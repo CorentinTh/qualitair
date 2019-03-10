@@ -7,6 +7,8 @@
 
 
 #include <string>
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
 
 class Attribute {
     public:
@@ -26,6 +28,8 @@ class Attribute {
 
 protected:
         friend void swap(Attribute & first, Attribute & second);
+        friend void to_json(json& j, const Attribute& s);
+        friend void from_json(const json& j, Attribute& s);
 
         std::string attributeId;
         std::string unit;

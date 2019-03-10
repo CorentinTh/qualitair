@@ -13,23 +13,23 @@ INITIALIZE_EASYLOGGINGPP    // Those line must be set only once in *.test.cpp fi
 
 
 TEST_CASE("Testing CLIParser::getArgument", "[UT-C-1]") {
-    char* command1[] = { "ingest", "--input=data", NULL };
+    char* command1[] = { "./qualitair", "ingest", "--input=data", NULL };
     CLIParser cliParser(command1);
 
     REQUIRE(cliParser.getArgument("input") == "data");
     REQUIRE(cliParser.getArgument("xxxx") == "");
 
-    char* command2[] = { "ingest", "--input=", NULL  };
+    char* command2[] = { "./qualitair", "ingest", "--input=", NULL  };
     cliParser = CLIParser(command2);
 
     REQUIRE(cliParser.getArgument("input") == "");
 
-    char* command3[] = { "ingest", "--input=a", "--input=b" , NULL };
+    char* command3[] = { "./qualitair", "ingest", "--input=a", "--input=b" , NULL };
     cliParser = CLIParser(command3);
 
     REQUIRE(cliParser.getArgument("input") == "a");
 
-    char* command4[] = { "ingest", "--input=a", "--format=RAW" , NULL };
+    char* command4[] = { "./qualitair","ingest", "--input=a", "--format=RAW" , NULL };
     cliParser = CLIParser(command4);
 
     REQUIRE(cliParser.getArgument("input") == "a");
@@ -38,20 +38,37 @@ TEST_CASE("Testing CLIParser::getArgument", "[UT-C-1]") {
 }
 
 TEST_CASE("Testing CLIParser::getVerb", "[UT-C-2]") {
-    char* command1[] = { "ingest", "--input=data" , NULL };
+    char* command1[] = { "./qualitair", "ingest", "--input=data" , NULL };
     CLIParser cliParser = CLIParser(command1);
 
     REQUIRE(cliParser.getVerb() == "ingest");
 
-    // TODO looks odd, remove the detect ?
-    char* command2[] = { "sim" , NULL };
+    char* command2[] = { "./qualitair", "similarities" , NULL };
     cliParser = CLIParser(command2);
 
-    REQUIRE(cliParser.getVerb() == "sim");
+    REQUIRE(cliParser.getVerb() == "similarities");
 
-    char* command3[] = { "--input=.", "--bbox=a" , NULL };
+    char* command3[] = { "./qualitair", "--input=.", "--bbox=a" , NULL };
     cliParser = CLIParser(command3);
 
     REQUIRE(cliParser.getVerb() == "");
+
+}
+
+TEST_CASE("Testing CLIParser::getMandatoryArgument", "") {
+    char* command1[] = { "./qualitair", "spikes", "CO2" , NULL };
+    CLIParser cliParser = CLIParser(command1);
+
+    REQUIRE(cliParser.getMandatoryArgument() == "CO2");
+
+    char* command2[] = {  "./qualitair", "similarities" , NULL };
+    cliParser = CLIParser(command2);
+
+    CHECK_THROWS(cliParser.getMandatoryArgument());
+
+    char* command3[] = { "./qualitair", "stats", "AVG", "--input=.", "--bbox=a" , NULL };
+    cliParser = CLIParser(command3);
+
+    CHECK_THROWS(cliParser.getMandatoryArgument(5));
 
 }

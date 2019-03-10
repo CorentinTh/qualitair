@@ -11,28 +11,40 @@
 #include "../../Data/include/BBox.h"
 
 class SpikesCommand : public Command {
-    public:
+public:
+    struct SpikeDetectionConfiguration {
+        double valueThreshold;
+        unsigned int timeThreshold;
+        unsigned int areaThreshold;
+    };
 
-        SpikesCommand & operator = ( SpikesCommand other );
-        SpikesCommand ( const SpikesCommand & other );
-        SpikesCommand ( std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors );
-        virtual ~SpikesCommand ( );
+    SpikesCommand &operator=(SpikesCommand other);
 
-        void execute() override;
+    SpikesCommand(const SpikesCommand &other);
 
-        void output() override;
+    SpikesCommand(std::string attribute, BBox bbox, time_t start, time_t end, std::vector<std::string> sensors,
+                  SpikeDetectionConfiguration config, OutputArguments outputArguments, json interpolationConfig);
 
-    protected:
-        friend void swap(SpikesCommand & first, SpikesCommand & second);
-        friend void to_json(json& j, const SpikesCommand& command);
-        friend void from_json(const json& j, SpikesCommand& command);
+    virtual ~SpikesCommand();
 
-        std::string outputPath;
-        BBox bbox;
-        time_t start;
-        time_t end;
-        std::string attribute;
-        std::vector<std::string> sensors;
+    void execute() override;
+
+
+protected:
+    friend void swap(SpikesCommand &first, SpikesCommand &second);
+
+    virtual void to_json(json &j) const override;
+
+    virtual void from_json(const json &j) override;
+
+    std::string outputPath;
+    BBox bbox;
+    time_t start;
+    time_t end;
+    std::string attribute;
+    std::vector<std::string> sensors;
+    SpikeDetectionConfiguration detectionConfig;
+    json interpolationConfig;
 
 };
 

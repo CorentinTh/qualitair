@@ -24,7 +24,7 @@ long ETL::ingest(std::string path) {
 
         int dataType = extractDataTypeFromFile(file);
         if(dataType == -1) {
-            //TODO: error handling ?
+            LOG(ERROR) << "Unable to recognize header on file " << file;
             return -1;
         }
 
@@ -43,7 +43,7 @@ long ETL::ingest(std::string path) {
                 if(dataType == ATTRIBUTE) {
                     queryBuilder.insert("Attribute").values({"AttributeID", "Unit", "Description"});
                 } else if(dataType == SENSOR) {
-                    queryBuilder.insert("Sensor").values({"SensorID", "Longitude", "Latitude", "Description"});
+                    queryBuilder.insert("Sensor").values({"SensorID", "Latitude", "Longitude", "Description"});
                 } else {
                     queryBuilder.insert("Measurement").values({"Timestamp", "SensorID", "AttributeID", "Value"});
                 }
@@ -101,7 +101,7 @@ int ETL::extractDataTypeFromFile(std::string path) {
     if(fileStream.good()) {
         std::string header;
         std::getline(fileStream, header);
-
+        header.erase( std::remove(header.begin(), header.end(), '\r'), header.end());
         if(header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
         else if(header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
         else if(header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;
@@ -197,7 +197,7 @@ void ETL::setFilters(QueryBuilder *qb, json config) {
 void *ETL::extractData(QueryBuilder *qb, json config) {
 
     auto result = new vector<void *>;
-
+    int count = 0;
     SQLite::Statement * statement;
     try {
         statement = qb->execute();
@@ -209,19 +209,19 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
                 while (statement->executeStep()) {
                     result->emplace_back(new Measurement(
-                            statement->getColumn("Timestamp"),
-                            {
+                            statement->getColumn("Timestamp"), Sensor(
                                     statement->getColumn("SensorID"),
                                     statement->getColumn("Latitude"),
                                     statement->getColumn("Longitude"),
                                     statement->getColumn("SensorDescription")
-                            }, {
+                            ), Attribute(
                                     statement->getColumn("AttributeID"),
                                     statement->getColumn("Unit"),
                                     statement->getColumn("AttributeDescription")
-                            },
+                            ),
                             statement->getColumn("Value")
                     ));
+                    count++;
                 }
 
             } else if (config["type"] == ETL::SENSOR) {
@@ -233,6 +233,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                             statement->getColumn("Longitude"),
                             statement->getColumn("Description")
                     ));
+                    count++;
                 }
 
             } else if (config["type"] == ETL::ATTRIBUTE) {
@@ -243,6 +244,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
                             statement->getColumn("Unit"),
                             statement->getColumn("Description")
                     ));
+                    count++;
                 }
 
             }
@@ -258,7 +260,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
 
 
-
+    LOG(DEBUG) << "Fetched " << std::to_string(count) << " lines";
 
 
     return result;

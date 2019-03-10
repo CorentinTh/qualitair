@@ -9,20 +9,24 @@ BBox::BBox(double l, double t, double r, double b) : left(l), top(t), right(r), 
 }
 
 BBox::BBox(std::string stringValue) {
-    int values[4] = {0};
+    double values[4] = {0};
     size_t position = 0;
     std::string value;
 
-    for(int i = 0; (position = stringValue.find(',')) != std::string::npos && i < 3; i++) {
+    for(int i = 0; (position = stringValue.find(',')) != std::string::npos || i < 4; i++) {
         value = stringValue.substr(0, position);
-        values[i] = std::stoi(value);
+        values[i] = std::stod(value);
         stringValue.erase(0, position + 1);
     }
 
-    left = values[0];
+    /*left = values[0];
     top = values[1];
     right = values[2];
-    bottom = values[3];
+    bottom = values[3];*/
+    left = values[0];
+    bottom = values[1];
+    right = values[2];
+    top = values[3];
 }
 
 bool BBox::isNull() {

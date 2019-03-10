@@ -14,8 +14,8 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
     double x1 = config["BBox"]["right"];
     double y0 = config["BBox"]["bottom"];
     double y1 = config["BBox"]["top"];
-    double z0 = config["start"];
-    double z1 = config["end"];
+    double z0 = (config.count("start") == 1) ? (double)config["start"] : (*measures.begin())->getTimestamp();
+    double z1 = (config.count("end") == 1) ? (double)config["end"] : (*measures.end())->getTimestamp();
     double xFactor = config["spatialGranularity"];
     double yFactor = config["spatialGranularity"];
     double zFactor = config["temporalGranularity"];

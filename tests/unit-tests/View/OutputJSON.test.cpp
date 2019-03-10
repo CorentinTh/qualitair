@@ -57,13 +57,13 @@ namespace JSONTest {
     json dataJsonSim = {
             {
                     {
-                            {"id", 1},
+                            {"id", "sensor1"},
                             {"lat", 45.7574995},
                             {"long", 4.8313017},
                             {"description", "Bellecour - Grande roue"}
                     },
                     {
-                            {"id", 3},
+                            {"id", "sensor3"},
                             {"lat", 45.762994},
                             {"long", 4.833632},
                             {"description", "Rue de la république"}
@@ -75,7 +75,7 @@ namespace JSONTest {
                     {"start", 1550150014},
                     {"end", 1550151032},
                     {"sensor" ,{
-                                       {"id", 71},
+                                       {"id", "sensor71"},
                                        {"lat", 48.597855},
                                        {"long", 3.401035},
                                        {"description", "Pétaouchnok"}
@@ -86,7 +86,7 @@ namespace JSONTest {
                     {"start", 1550150156},
                     {"end", 1650158000},
                     {"sensor" ,{
-                                       {"id", 147},
+                                       {"id", "sensor147"},
                                        {"lat", 28.468412},
                                        {"long", 14.351684},
                                        {"description", "Paris - Tour Eiffel"}

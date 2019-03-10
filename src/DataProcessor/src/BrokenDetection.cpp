@@ -36,9 +36,9 @@ BrokenDetection::BrokenDetection(const BrokenDetection &other) {
 }
 
 BrokenDetection::BrokenDetection(
-        std::vector<Measurement> m,
+        std::vector<Measurement*> m,
         int bT,
-        std::unordered_map<std::string, std::pair<int, int>> ranges)
+        std::unordered_map<std::string, std::pair<double, double>> ranges)
         : measures(m), brokenTime(bT), admissibleRanges(ranges) {
 
 }
@@ -51,50 +51,55 @@ BrokenDetection::~BrokenDetection() {
 
 json* BrokenDetection::apply() {
     std::vector<BrokenSensor> brokenSensors;
-    std::unordered_map<std::pair<Sensor, std::string>, int, pair_hash> lastTimes;
+    std::unordered_map<std::pair<Sensor, std::string>, int, utils::pair_hash> lastTimes;
+
+    if (measures.size() == 0) {
+        LOG(ERROR) << "No measures to apply broken sensor detection";
+        return new json;
+    }
 
     for (auto measure : measures)
     {
-        auto attribute = measure.getAttribute();
-        auto sensor = measure.getSensor();
+        auto attribute = measure->getAttribute();
+        auto sensor = measure->getSensor();
 
         //out of admissible ranges
-        if (measure.getValue() < admissibleRanges[attribute.getId()].first ||
-            measure.getValue() > admissibleRanges[attribute.getId()].second) {
+        if (measure->getValue() < admissibleRanges[attribute.getId()].first ||
+            measure->getValue() > admissibleRanges[attribute.getId()].second) {
             auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
             if (brokenSensors.end() != it) {
-                it->end = measure.getTimestamp();
+                it->end = measure->getTimestamp();
             }
             else {
                 auto bs = BrokenSensor();
-                bs.start = measure.getTimestamp();
-                bs.end = measure.getTimestamp();
+                bs.start = measure->getTimestamp();
+                bs.end = measure->getTimestamp();
                 bs.sensor = sensor;
                 brokenSensors.push_back(bs);
             }
         }
 
-        if ((measure.getTimestamp() - lastTimes[make_pair(sensor, attribute.getId())]) > brokenTime
+        if ((measure->getTimestamp() - lastTimes[make_pair(sensor, attribute.getId())]) > brokenTime
             && lastTimes[make_pair(sensor, attribute.getId())] != 0) {
             LOG(INFO) << "Sensor " << sensor.getId() << " has no measurement for " << attribute.getId() <<
-            " for more than " << brokenTime << " s" << "(" << measure.getTimestamp() << ")";
+            " for more than " << brokenTime << " s" << "(" << measure->getTimestamp() << ")";
 
             auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
             if (it == brokenSensors.end()) {
                 auto bs = BrokenSensor();
                 bs.start = lastTimes[make_pair(sensor, attribute.getId())];
-                bs.end = measure.getTimestamp();
+                bs.end = measure->getTimestamp();
                 bs.sensor = sensor;
                 brokenSensors.push_back(bs);
             }
             else {
-                it->end = measure.getTimestamp();
+                it->end = measure->getTimestamp();
             }
         }
-        lastTimes[make_pair(sensor, attribute.getId())] = measure.getTimestamp();
+        lastTimes[make_pair(sensor, attribute.getId())] = measure->getTimestamp();
     }
 
-    auto lastTimestamp = measures.back().getTimestamp();
+    auto lastTimestamp = measures.back()->getTimestamp();
     for (auto lastT : lastTimes) {
         if ((lastTimestamp - lastT.second) > brokenTime) {
             auto sensor = lastT.first.first;

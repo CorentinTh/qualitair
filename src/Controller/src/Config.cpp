@@ -1,30 +1,38 @@
 #include "../include/Config.h"
 #include "INIReader.h"
 #include "easylogging++.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
+
 
 #include <iostream>
 
-const std::string Config::FILEPATH = "~/.qualitair/config.ini";
+const std::string Config::FILEPATH = "/.qualitair/config.ini";
 
 void Config::load() {
-    INIReader reader(filepath);
+    char* homeDir;
+    if ((homeDir = getenv("HOME")) == NULL) {
+        homeDir = getpwuid(getuid())->pw_dir;
+    }
+    std::string path = homeDir + filepath;
+    INIReader reader(path);
     if (reader.ParseError() < 0) {
-        LOG(ERROR) << "Unable to load " << filepath << std::endl;
+        LOG(ERROR) << "Unable to load " << path << std::endl;
         return;
     }
 
     databaseFilepath = reader.Get("general", "database", "");
-
     similarityThreshold = reader.GetInteger("similarity", "threshold", 0);
-
     brokenTime = (int)reader.GetInteger("breakdown", "brokenTime", 0);
-
     spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0.0);
     spikesTimeThreshold = (int)reader.GetInteger("spikes", "timeThreshold", 0);
     spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0.0);
-
     spatialGranularity = (int)reader.GetInteger("interpolation", "spatialGranularity", 0);
     temporalGranularity = (int)reader.GetInteger("interpolation", "temporalGranularity", 0);
+    minimalInterDistanceTime = reader.GetReal("interpolation", "minimalInterDistanceTime", 0);
+    minimalInterDistanceArea = reader.GetReal("interpolation", "minimalInterDistanceArea", 0);
 
     try {
         std::set<std::string> fields = reader.GetFields("admissibleRanges");
@@ -117,5 +125,13 @@ void swap(Config &first, Config &second) {
     std::swap(first.brokenTime, second.brokenTime);
     std::swap(first.similarityThreshold, second.similarityThreshold);
     std::swap(first.admissibleRanges, second.admissibleRanges);
+}
+
+double Config::getMinimalInterDistanceArea() const {
+    return minimalInterDistanceArea;
+}
+
+double Config::getMinimalInterDistanceTime() const {
+    return minimalInterDistanceTime;
 }
 

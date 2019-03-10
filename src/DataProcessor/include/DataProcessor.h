@@ -10,13 +10,11 @@
 
 class DataProcessor : public IDataProcessor {
     public:
-        static DataProcessor& getInstance()
+        static IDataProcessor& getInstance()
         {
             static DataProcessor instance;
             return instance;
         }
-
-        DataProcessor(DataProcessor const&)       = delete;
 
         json *computeAverage(pointCollection &data) override;
 
@@ -26,17 +24,17 @@ class DataProcessor : public IDataProcessor {
 
         json *computeExtrems(pointCollection &data) override;
 
-        json *detectSimilar(std::vector<Measurement> measures, double threshold) override;
+        json *detectSimilar(std::vector<Measurement*> measures, double threshold) override;
 
-        json *detectBroken(std::vector<Measurement> measures, int timeThreshold,
-                           std::unordered_map<std::string, std::pair<int, int>> admissibleRanges) override;
+        json *detectBroken(std::vector<Measurement*> measures, int timeThreshold,
+                           std::unordered_map<std::string, std::pair<double, double>> admissibleRanges) override;
 
         json * detectSpikes(pointCollection *data, std::string attribute, double valueThreshold,
                 unsigned int areaThreshold, unsigned int timeThreshold) override;
 
 
     private:
-        DataProcessor() {}
+        DataProcessor() = default;
 };
 
 
