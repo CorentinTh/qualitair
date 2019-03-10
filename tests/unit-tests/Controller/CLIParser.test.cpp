@@ -16,42 +16,47 @@ TEST_CASE("Testing CLIParser::getArgument", "[UT-C-1]") {
     char* command1[] = { "./qualitair", "ingest", "--input=data", NULL };
     CLIParser cliParser(command1);
 
-    REQUIRE(cliParser.getArgument("input") == "data");
-    REQUIRE(cliParser.getArgument("xxxx") == "");
+    CHECK(cliParser.getArgument("input") == "data");
+    CHECK(cliParser.getArgument("xxxx") == "");
 
     char* command2[] = { "./qualitair", "ingest", "--input=", NULL  };
     cliParser = CLIParser(command2);
 
-    REQUIRE(cliParser.getArgument("input") == "");
+    CHECK(cliParser.getArgument("input") == "");
 
     char* command3[] = { "./qualitair", "ingest", "--input=a", "--input=b" , NULL };
     cliParser = CLIParser(command3);
 
-    REQUIRE(cliParser.getArgument("input") == "a");
+    CHECK(cliParser.getArgument("input") == "a");
 
     char* command4[] = { "./qualitair","ingest", "--input=a", "--format=RAW" , NULL };
     cliParser = CLIParser(command4);
 
-    REQUIRE(cliParser.getArgument("input") == "a");
-    REQUIRE(cliParser.getArgument("format") == "RAW");
-    REQUIRE(cliParser.getArgument("xxxxx") == "");
+    CHECK(cliParser.getArgument("input") == "a");
+    CHECK(cliParser.getArgument("format") == "RAW");
+    CHECK(cliParser.getArgument("xxxxx") == "");
+
+    char* command5[] = { "./qualitair","broken", "--start=2017-01-01 00:00:00", NULL };
+    cliParser = CLIParser(command5);
+
+    CHECK(cliParser.getArgument("start") == "2017-01-01 00:00:00");
 }
 
 TEST_CASE("Testing CLIParser::getVerb", "[UT-C-2]") {
     char* command1[] = { "./qualitair", "ingest", "--input=data" , NULL };
     CLIParser cliParser = CLIParser(command1);
 
-    REQUIRE(cliParser.getVerb() == "ingest");
+    CHECK(cliParser.getVerb() == "ingest");
 
     char* command2[] = { "./qualitair", "similarities" , NULL };
     cliParser = CLIParser(command2);
 
-    REQUIRE(cliParser.getVerb() == "similarities");
+    CHECK(cliParser.getVerb() == "similarities");
 
     char* command3[] = { "./qualitair", "--input=.", "--bbox=a" , NULL };
     cliParser = CLIParser(command3);
 
-    REQUIRE(cliParser.getVerb() == "");
+    CHECK(cliParser.getVerb() == "");
 
 }
 
@@ -59,7 +64,7 @@ TEST_CASE("Testing CLIParser::getMandatoryArgument", "") {
     char* command1[] = { "./qualitair", "spikes", "CO2" , NULL };
     CLIParser cliParser = CLIParser(command1);
 
-    REQUIRE(cliParser.getMandatoryArgument() == "CO2");
+    CHECK(cliParser.getMandatoryArgument() == "CO2");
 
     char* command2[] = {  "./qualitair", "similarities" , NULL };
     cliParser = CLIParser(command2);

@@ -12,11 +12,19 @@
 const std::string Config::FILEPATH = "/.qualitair/config.ini";
 
 void Config::load() {
-    char* homeDir;
-    if ((homeDir = getenv("HOME")) == NULL) {
-        homeDir = getpwuid(getuid())->pw_dir;
+    std::string path;
+
+    if (filepath == FILEPATH)  {
+        char* homeDir;
+        if ((homeDir = getenv("HOME")) == NULL) {
+            homeDir = getpwuid(getuid())->pw_dir;
+        }
+        path = homeDir + filepath;
     }
-    std::string path = homeDir + filepath;
+    else {
+        path = filepath;
+    }
+
     INIReader reader(path);
     if (reader.ParseError() < 0) {
         LOG(ERROR) << "Unable to load " << path << std::endl;

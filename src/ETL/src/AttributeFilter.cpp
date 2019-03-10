@@ -10,17 +10,17 @@ void AttributeFilter::applyTo(QueryBuilder &qb){
     for (std::string attr : this->attributes){
         if (compteur == 1){
             if (this->attributes.size()>1){
-                qb.andWhere("(Measurement.AttributeID = ?").bind(attr);
+                qb.andWhere("(AttributeID = ?").bind(attr);
             }
             else{
-                qb.andWhere("Measurement.AttributeID = ?").bind(attr);
+                qb.andWhere("AttributeID = ?").bind(attr);
             }
         }
         else if(compteur == this->attributes.size()){
-            qb.orWhere("Measurement.AttributeID = ?)").bind(attr);
+            qb.orWhere("AttributeID = ?)").bind(attr);
         }
         else{
-            qb.orWhere("Measurement.AttributeID = ?").bind(attr);
+            qb.orWhere("AttributeID = ?").bind(attr);
         }
         compteur++;
     }
