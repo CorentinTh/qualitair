@@ -25,8 +25,10 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
     CHECK(config.getAdmissibleRanges()
             ==
             (std::unordered_map<std::string, std::pair<double, double>>) {
-                    {"CO2", {0,  15}},
-                    {"O2", {10, 100}},
+                    {"O3", {0,  400}},
+                    {"PM10", {0, 120}},
+                    {"SO2", {0, 700}},
+                    {"NO2", {0, 600}}
             });
 
 
