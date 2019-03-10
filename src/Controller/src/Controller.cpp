@@ -153,7 +153,7 @@ std::vector<std::string> Controller::unjoinString(std::string string) {
         values.push_back(value);
         string.erase(0, position + 1);
     }
-    if (values.empty()) {
+    if (values.empty() && string != "") {
         return std::vector<std::string>{ string };
     }
     return values;
