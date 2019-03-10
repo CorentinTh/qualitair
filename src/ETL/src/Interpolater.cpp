@@ -39,7 +39,7 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
         OT::point_t p = {
                 measure->getSensor().getLongitude(),
                 measure->getSensor().getLatitude(),
-                (double) measure->getTimestamp(),
+                (double) measure->getTimestamp(), //TODO: is it problematic if timestamp is a long ?
                 new double(measure->getValue())
         };
 

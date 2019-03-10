@@ -6,8 +6,8 @@
 
 struct BrokenSensor {
     public:
-        int start;
-        int end;
+        long start;
+        long end;
         Sensor sensor;
 
         friend void to_json(json& j, const BrokenSensor& s);
@@ -51,7 +51,7 @@ BrokenDetection::~BrokenDetection() {
 
 json* BrokenDetection::apply() {
     std::vector<BrokenSensor> brokenSensors;
-    std::unordered_map<std::pair<Sensor, std::string>, int, utils::pair_hash> lastTimes;
+    std::unordered_map<std::pair<Sensor, std::string>, long, utils::pair_hash> lastTimes;
 
     if (measures.size() == 0) {
         LOG(ERROR) << "No measures to apply broken sensor detection";

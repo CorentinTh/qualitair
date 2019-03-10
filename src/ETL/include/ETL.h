@@ -49,6 +49,8 @@ private:
     void setMeasurementConfig(QueryBuilder *qb);
     void setSensorConfig(QueryBuilder *qb);
     void setAttributeConfig(QueryBuilder *qb);
+    void createDatabaseIndexs();
+    void dropDatabaseIndexs();
 
     ETL() = default;
 };

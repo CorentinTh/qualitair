@@ -5,7 +5,7 @@
 #include "../include/Measurement.h"
 #include <utility>
 
-int Measurement::getTimestamp() const {
+long Measurement::getTimestamp() const {
     return timestamp;
 }
 
@@ -22,7 +22,7 @@ Attribute Measurement::getAttribute() const {
     return attribute;
 }
 
-Measurement::Measurement(int t, Sensor sensor, Attribute attribute, double v) : timestamp(t), sensor(sensor), attribute(attribute), value(v) {
+Measurement::Measurement(long t, Sensor sensor, Attribute attribute, double v) : timestamp(t), sensor(sensor), attribute(attribute), value(v) {
 
 }
 
