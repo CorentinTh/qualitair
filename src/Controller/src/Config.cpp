@@ -37,7 +37,7 @@ void Config::load() {
     spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0.0);
     spikesTimeThreshold = (int)reader.GetInteger("spikes", "timeThreshold", 0);
     spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0.0);
-    spatialGranularity = (int)reader.GetInteger("interpolation", "spatialGranularity", 0);
+    spatialGranularity = reader.GetReal("interpolation", "spatialGranularity", 0);
     temporalGranularity = (int)reader.GetInteger("interpolation", "temporalGranularity", 0);
     minimalInterDistanceTime = reader.GetReal("interpolation", "minimalInterDistanceTime", 0);
     minimalInterDistanceArea = reader.GetReal("interpolation", "minimalInterDistanceArea", 0);
@@ -78,7 +78,7 @@ int Config::getSpikesTimeThreshold() {
     return spikesTimeThreshold;
 }
 
-int Config::getSpatialGranularity() {
+double Config::getSpatialGranularity() {
     return spatialGranularity;
 }
 
