@@ -31,7 +31,7 @@ class Interpolater {
 
         int step;
 
-        double interpolate(double x, double y, double z, vector<const OT::point_t *> *neigboors);
+        double interpolate(double x, double y, double z, vector< OT::point_t *> *neigboors);
 };
 
 
