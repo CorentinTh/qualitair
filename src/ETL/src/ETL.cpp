@@ -17,7 +17,7 @@
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
 
-    dropDatabaseIndexs();
+    //dropDatabaseIndexs();
     for(std::string file : listCSVFiles(path)) {
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
@@ -30,7 +30,7 @@ long ETL::ingest(std::string path) {
         if(dataType == -1) {
             LOG(ERROR) << "Unable to recognize header on file " << file;
             //TODO: error handling ?
-            createDatabaseIndexs();
+            //createDatabaseIndexs();
             return -1;
         }
 
@@ -77,7 +77,7 @@ long ETL::ingest(std::string path) {
         insertedRows += queryBuilder.executeUpdate();
     }
 
-    createDatabaseIndexs();
+    //createDatabaseIndexs();
     return insertedRows;
 }
 
@@ -109,6 +109,7 @@ int ETL::extractDataTypeFromFile(std::string path) {
         std::string header;
         std::getline(fileStream, header);
         header.erase( std::remove(header.begin(), header.end(), '\r'), header.end());
+        header.erase( std::remove(header.begin(), header.end(), '\n'), header.end());
         if(header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
         else if(header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
         else if(header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;
@@ -305,25 +306,25 @@ void ETL::setAttributeConfig(QueryBuilder *qb) {
 void ETL::createDatabaseIndexs() {
     SQLite::Database * database = ConnectionFactory::getConnection();
     database->exec(
-            "CREATE INDEX index_Attribute_AttributeID ON Attribute ( AttributeID ASC );"
-            "CREATE INDEX index_Measurement_AttributeID ON Measurement ( AttributeID ASC );"
-            "CREATE INDEX index_Measurement_SensorID ON Measurement ( SensorID ASC );"
-            "CREATE INDEX index_Measurement_Timestamp ON Measurement ( Timestamp ASC );"
-            "CREATE INDEX index_Sensor_Latitude ON Sensor ( Latitude ASC );"
-            "CREATE INDEX index_Sensor_Longitude ON Sensor ( Longitude ASC );"
-            "CREATE INDEX index_Sensor_SensorID ON Sensor ( SensorID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Attribute_AttributeID ON Attribute ( AttributeID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_AttributeID ON Measurement ( AttributeID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_SensorID ON Measurement ( SensorID ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Measurement_Timestamp ON Measurement ( Timestamp ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_Latitude ON Sensor ( Latitude ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_Longitude ON Sensor ( Longitude ASC );"
+            "CREATE INDEX IF NOT EXISTS index_Sensor_SensorID ON Sensor ( SensorID ASC );"
     );
 }
 
 void ETL::dropDatabaseIndexs() {
     SQLite::Database * database = ConnectionFactory::getConnection();
     database->exec(
-            "DROP INDEX index_Attribute_AttributeID;"
-            "DROP INDEX index_Measurement_AttributeID;"
-            "DROP INDEX index_Measurement_SensorID;"
-            "DROP INDEX index_Measurement_Timestamp;"
-            "DROP INDEX index_Sensor_Latitude;"
-            "DROP INDEX index_Sensor_Longitude;"
-            "DROP INDEX index_Sensor_SensorID;"
+            "DROP INDEX IF EXISTS index_Attribute_AttributeID;"
+            "DROP INDEX IF EXISTS index_Measurement_AttributeID;"
+            "DROP INDEX IF EXISTS index_Measurement_SensorID;"
+            "DROP INDEX IF EXISTS index_Measurement_Timestamp;"
+            "DROP INDEX IF EXISTS index_Sensor_Latitude;"
+            "DROP INDEX IF EXISTS index_Sensor_Longitude;"
+            "DROP INDEX IF EXISTS index_Sensor_SensorID;"
     );
 }
