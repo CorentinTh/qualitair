@@ -42,6 +42,9 @@ static time_t parseRFC3339Date(std::string stringDate) {
 }
 
 static time_t parseISO8601Date(std::string stringDate) {
+    if (stringDate == "") {
+         return 0;
+     }
     unsigned long milisIndex = stringDate.find('.');
     int milis = std::stoi(stringDate.substr(milisIndex + 1, 3));
     tm date = stringDateToTm(stringDate.substr(0, milisIndex), "%Y-%m-%dT%H:%M:%S");
