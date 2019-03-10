@@ -5,7 +5,7 @@
 #include "../include/AttributeFilter.h"
 #include <algorithm>
 
-void AttributeFilter::applyTo(QueryBuilder &qb){
+void AttributeFilter::applyTo(IData &qb){
     int compteur = 1;
     for (std::string attr : this->attributes){
         if (compteur == 1){

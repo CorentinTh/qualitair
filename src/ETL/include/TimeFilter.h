@@ -11,7 +11,7 @@
 
 class TimeFilter : public Filter {
     public:
-            void applyTo(QueryBuilder &qb) override;
+            void applyTo(IData &qb) override;
 
             void setStart(std::time_t start);
             void setEnd(std::time_t end);

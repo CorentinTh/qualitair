@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 
-void TimeFilter::applyTo(QueryBuilder &qb) {
+void TimeFilter::applyTo(IData &qb) {
     if (this->startDefined){
         qb.andWhere("Timestamp > ?").bind(this->start);
     }

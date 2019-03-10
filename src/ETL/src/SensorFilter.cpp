@@ -5,7 +5,7 @@
 #include "../include/SensorFilter.h"
 #include <algorithm>
 
-void SensorFilter::applyTo(QueryBuilder &qb) {
+void SensorFilter::applyTo(IData &qb) {
     int compteur = 1;
     for (std::string sensor : this->sensors){
         if (compteur == 1){

@@ -5,7 +5,7 @@
 #include "../include/GeoFilter.h"
 #include <stdexcept>
 
-void GeoFilter::applyTo(QueryBuilder &qb){
+void GeoFilter::applyTo(IData &qb){
     qb.where("Longitude >= ?").bind(this->bbox.getLeft());
     qb.andWhere("Latitude <= ?").bind(this->bbox.getTop());
     qb.andWhere("Longitude <= ?").bind(this->bbox.getRight());
