@@ -4,6 +4,7 @@
 #include <SQLiteCpp/Database.h>
 #include "../../../src/Data/include/ConnectionFactory.h"
 #include "../../../src/ETL/include/AttributeFilter.h"
+#include "../../../src/Data/include/QueryBuilder.h"
 
 
 using namespace std;
@@ -26,7 +27,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
     attributeFilter1.addAttribute("");
     attributeFilter1.applyTo(queryBuilder);
 
-    REQUIRE_NOTHROW(query = queryBuilder.execute());
+    CHECK_NOTHROW(query = queryBuilder.execute());
 
     vector<int> vectSensorId;
     vectSensorId.push_back(2);
@@ -38,11 +39,11 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
     while (query->executeStep()){
         resultNotEmpty = true;
         int sensorId = query->getColumn("SensorID");
-        REQUIRE(std::find(vectSensorId.begin(), vectSensorId.end(), sensorId) != vectSensorId.end());
-        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+        CHECK(std::find(vectSensorId.begin(), vectSensorId.end(), sensorId) != vectSensorId.end());
+        CHECK_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    REQUIRE(resultNotEmpty);
+    CHECK(resultNotEmpty);
 }
 
 TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
@@ -66,7 +67,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     attributeFilter2.addAttributes(attributes);
     attributeFilter2.applyTo(queryBuilder);
 
-    REQUIRE_NOTHROW(query = queryBuilder.execute());
+    CHECK_NOTHROW(query = queryBuilder.execute());
 
     vector<int> vectResults;
     vectResults.push_back(1);
@@ -79,10 +80,10 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     while (query->executeStep()){
         resultNotEmpty = true;
         int sensorId = query->getColumn("SensorID");
-        REQUIRE(std::find(vectResults.begin(), vectResults.end(), sensorId) != vectResults.end());
-        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+        CHECK(std::find(vectResults.begin(), vectResults.end(), sensorId) != vectResults.end());
+        CHECK_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    REQUIRE(resultNotEmpty);
+    CHECK(resultNotEmpty);
 }
 
