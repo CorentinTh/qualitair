@@ -138,7 +138,7 @@ void Controller::execute() {
         command->execute();
     } else {
         // TODO store & pass to correct view instead of printing json ?
-        LOG(WARNING) << "Cached command, showing previous data : ";
+        LOG(WARNING) << "Cached command, showing previous data (if necessary, delete cache at /tmp/.qualitair_cache) : ";
         LOG(INFO) << *cached;
     }
 }
