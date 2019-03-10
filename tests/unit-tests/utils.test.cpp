@@ -10,6 +10,8 @@ TEST_CASE("Test parseRFC3339Date to timestamp", "[UT-Utils-1]") {
     long expectedTimestamp = 1552210575000;
 
     CHECK(parseRFC3339Date(date) == expectedTimestamp);
+    CHECK(parseRFC3339Date("") == 0)
+    CHECK(parseRFC3339Date() == 0)
 }
 
 TEST_CASE("Test parseISO8601Date to timestamp", "[UT-Utils-2]") {
@@ -17,4 +19,6 @@ TEST_CASE("Test parseISO8601Date to timestamp", "[UT-Utils-2]") {
     long expectedTimestamp = 1483284674242;
 
     CHECK(parseISO8601Date(date) == expectedTimestamp);
+    CHECK(parseISO8601Date("") == 0);
+    CHECK(parseISO8601Date() == 0);
 }
