@@ -40,7 +40,7 @@ class IETL {
      * @param {string[]}        config["attributes"]
      * @return
      */
-    virtual void *getData(json config) = 0;
+    virtual void *getData(json config, unsigned int recurseCount=0) = 0;
 };
 
 

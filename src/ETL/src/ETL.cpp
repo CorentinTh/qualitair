@@ -14,6 +14,8 @@
 #include "easylogging++.h"
 #include "../../Data/include/ConnectionFactory.h"
 
+unsigned int MAX_RECURSE_CALL = 5;
+
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
 
@@ -120,7 +122,7 @@ int ETL::extractDataTypeFromFile(std::string path) {
 
 
 
-void *ETL::getData(json config) {
+void *ETL::getData(json config, unsigned int recurseCount) {
 
     QueryBuilder qb;
 
@@ -144,6 +146,25 @@ void *ETL::getData(json config) {
     void *data = extractData(&qb, config);
     try {
         if(config.at("doInterpolation") && config.at("type") == ETL::MEASURE){
+            bool isExtended = ((vector< Measurement*>*) data)->empty();
+
+            if (isExtended){
+                if(recurseCount < MAX_RECURSE_CALL){
+                    delete (vector< Measurement*>*) data; // Freeing some memory since it's recursive
+
+                    config["BBox"]["left"] += config["minimalInterDistance"];
+                    config["BBox"]["top"] += config["minimalInterDistance"];
+                    config["BBox"]["right"] += config["minimalInterDistance"];
+                    config["BBox"]["bottom"] += config["minimalInterDistance"];
+
+                    data = getData(config, ++recurseCount);
+                }else{
+
+                    /* send error */
+
+                }
+            }
+
             Interpolater interpolater;
             data = interpolater.interpolate(*(vector< Measurement*>*) data, config);
         }
