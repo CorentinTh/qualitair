@@ -64,8 +64,16 @@ Command* Controller::parseCommand() {
                 std::string statType = cliParser.getMandatoryArgument();
                 for (auto & c: statType) c = toupper(c);
                 StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
-
-                command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments);
+                json interpolationConfig = {
+                        {"spatialGranularity", config.getSpatialGranularity()},
+                        {"temporalGranularity", config.getTemporalGranularity()},
+                        {"minimalInterDistance", {
+                                                       {"longitude", config.getMinimalInterDistanceArea()},
+                                                       {"latitude", config.getMinimalInterDistanceArea()},
+                                                       {"time", config.getMinimalInterDistanceTime()}
+                                               }},
+                };
+                command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments, interpolationConfig);
             }
             catch (std::out_of_range) {
                 LOG(ERROR) << "Unknown stat type";
@@ -81,7 +89,16 @@ Command* Controller::parseCommand() {
                         (unsigned int) config.getSpikesTimeThreshold(),
                         (unsigned int) config.getSpikesMinimalArea()
                 };
-                command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments);
+                json interpolationConfig = {
+                        {"spatialGranularity", config.getSpatialGranularity()},
+                        {"temporalGranularity", config.getTemporalGranularity()},
+                        {"minimalInterDistance", {
+                                                       {"longitude", config.getMinimalInterDistanceArea()},
+                                                       {"latitude", config.getMinimalInterDistanceArea()},
+                                                       {"time", config.getMinimalInterDistanceTime()}
+                                               }},
+                };
+                command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments, interpolationConfig);
             }
             catch (std::exception) {
                 LOG(ERROR) << "Missing mandatory argument \"attribute\".";

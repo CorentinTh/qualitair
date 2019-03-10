@@ -9,40 +9,56 @@
 #include <unordered_map>
 
 class Config {
-    public:
-        static const std::string FILEPATH;
+public:
+    static const std::string FILEPATH;
 
-        void load();
+    void load();
 
-        double getSimilarityThreshold();
-        int getBrokenTime();
-        double getSpikesValueThreshold();
-        int getSpikesTimeThreshold();
-        double getSpikesMinimalArea();
-        int getSpatialGranularity();
-        int getTemporalGranularity();
-        std::unordered_map<std::string, std::pair<double ,double>> getAdmissibleRanges();
-        std::string getDatabaseFilepath();
+    double getSimilarityThreshold();
 
-        Config & operator = ( Config other );
-        Config ( const Config & other );
-        explicit Config (  std::string path = FILEPATH );
-        virtual ~Config ( );
+    int getBrokenTime();
 
-    protected:
-        friend void swap(Config & first, Config & second);
+    double getSpikesValueThreshold();
 
-        double similarityThreshold;
-        int brokenTime;
-        double spikesValueThreshold;
-        int spikesTimeThreshold;
-        double spikesMinimalArea;
-        int spatialGranularity;
-        int temporalGranularity;
-        std::unordered_map<std::string, std::pair<double,double>> admissibleRanges;
-        std::string databaseFilepath;
+    int getSpikesTimeThreshold();
 
-        std::string filepath;
+    double getSpikesMinimalArea();
+
+    int getSpatialGranularity();
+
+    int getTemporalGranularity();
+
+    double getMinimalInterDistanceArea() const;
+
+    double getMinimalInterDistanceTime() const;
+
+    std::unordered_map<std::string, std::pair<double, double>> getAdmissibleRanges();
+
+    std::string getDatabaseFilepath();
+
+    Config &operator=(Config other);
+
+    Config(const Config &other);
+
+    explicit Config(std::string path = FILEPATH);
+
+    virtual ~Config();
+
+protected:
+    friend void swap(Config &first, Config &second);
+
+    int brokenTime;
+    int spikesTimeThreshold;
+    int spatialGranularity;
+    int temporalGranularity;
+    std::unordered_map<std::string, std::pair<double, double>> admissibleRanges;
+    std::string databaseFilepath;
+    std::string filepath;
+    double similarityThreshold;
+    double spikesValueThreshold;
+    double spikesMinimalArea;
+    double minimalInterDistanceArea;
+    double minimalInterDistanceTime;
 };
 
 
