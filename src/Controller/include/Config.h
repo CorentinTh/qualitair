@@ -26,7 +26,7 @@ public:
 
     double getSpatialGranularity();
 
-    int getTemporalGranularity();
+    double getTemporalGranularity();
 
     double getMinimalInterDistanceArea() const;
 
@@ -50,7 +50,7 @@ protected:
     int brokenTime;
     int spikesTimeThreshold;
     double spatialGranularity;
-    int temporalGranularity;
+    double temporalGranularity;
     std::unordered_map<std::string, std::pair<double, double>> admissibleRanges;
     std::string databaseFilepath;
     std::string filepath;

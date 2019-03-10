@@ -1,3 +1,9 @@
+
+// -----------------<< for debug
+#include <iostream>
+#include <iomanip>
+// ----------------->> for debug
+
 #include "../include/StatsCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "../../globals.h"
@@ -7,7 +13,7 @@
 #include "../../DataProcessor/include/DataProcessor.h"
 
 const std::unordered_map<std::string, StatsCommand::StatEnum> StatsCommand::StatDictionary {
-    {"AVG", StatsCommand::AVG}, {"EXTREMS", StatsCommand::EXTREMS}, {"DEVIATION", StatsCommand::DEVIATION}, {"ATMO", StatsCommand::ATMO}
+        {"AVG", StatsCommand::AVG}, {"EXTREMS", StatsCommand::EXTREMS}, {"DEVIATION", StatsCommand::DEVIATION}, {"ATMO", StatsCommand::ATMO}
 };
 
 StatsCommand &StatsCommand::operator=(StatsCommand other) {
@@ -100,6 +106,39 @@ void StatsCommand::execute() {
     }
     // todo cache res
     // if end start settled
+
+
+    // -----------------<< for debug
+
+    std::cout << config.dump() << std::endl;
+    std::cout << "x: " << result->at(0)[0].size() << std::endl;
+    std::cout << "y: " << result->at(0).size() << std::endl;
+    std::cout << "z: " << result->size() << std::endl;
+
+
+    std::cout << "{" << std::endl;
+    for (auto &c : *result) {
+        std::cout << "\t{" << std::endl;
+        for (auto &r : c) {
+            std::cout << "\t\t{";
+            for (auto &d : r) {
+                std::cout << "{";
+                for (auto &v : d) {
+                    std::cout << "{\"";
+                    std::cout << v.first << "\", ";
+                    std::cout << std::fixed << std::setprecision(3) << v.second << " ";
+                    std::cout << "}, ";
+                }
+                std::cout << "}, ";
+
+            }
+            std::cout << "}, " << std::endl;
+        }
+        std::cout << "\t}, " << std::endl;
+    }
+    std::cout << "}" << std::endl;
+
+    // ----------------->> for debug
 
 
 
