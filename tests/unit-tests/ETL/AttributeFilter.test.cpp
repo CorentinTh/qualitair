@@ -15,7 +15,10 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
 
     SQLite::Statement * query;
 
-    queryBuilder.select("SensorID").from("Measurement");
+    queryBuilder.select("SensorID")
+                .from("Measurement")
+                .join("Attribute")
+                .where("Measurement.AttributeID = Attribute.AttributeID");
 
     AttributeFilter attributeFilter1;
     attributeFilter1.addAttribute("3");
@@ -46,7 +49,10 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    queryBuilder.select("SensorID").from("Measurement");
+    queryBuilder.select("SensorID")
+                .from("Measurement")
+                .join("Attribute")
+                .where("Measurement.AttributeID = Attribute.AttributeID");
 
     SQLite::Statement * query;
 
