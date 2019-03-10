@@ -34,6 +34,9 @@ static tm stringDateToTm(std::string stringDate, std::string pattern) {
 }
 
 static time_t parseRFC3339Date(std::string stringDate) {
+     if (stringDate == "") {
+         return 0;
+     }
     tm date = stringDateToTm(stringDate, "%Y-%m-%d %H:%M:%S");
     return mktime(&date) * 1000;
 }
