@@ -25,7 +25,7 @@ StatsCommand::StatsCommand(const StatsCommand &other) {
 }
 
 StatsCommand::StatsCommand(StatEnum t, BBox b, time_t s, time_t e, std::vector<std::string> attr,
-                           std::vector<std::string> sen, OutputArguments outputArguments, json interpolationConfig) : Command(outputArguments), type(t), bbox(b), start(s), end(s), attributes(attr), sensors(sen), interpolationConfig(interpolationConfig) {
+                           std::vector<std::string> sen, OutputArguments outputArguments, json interpolationConfig) : Command(outputArguments), type(t), bbox(b), start(s), end(e), attributes(attr), sensors(sen), interpolationConfig(interpolationConfig) {
 }
 
 StatsCommand::~StatsCommand() {

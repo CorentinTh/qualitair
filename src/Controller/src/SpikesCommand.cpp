@@ -25,7 +25,7 @@ SpikesCommand::SpikesCommand(const SpikesCommand &other) {
 
 SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, SpikeDetectionConfiguration config, OutputArguments outputArguments,json interpolationConfig)
         : Command(outputArguments), attribute(attr),
-          bbox(b), start(s), end(s), sensors(sen),
+          bbox(b), start(s), end(e), sensors(sen),
           detectionConfig(config),
           interpolationConfig(interpolationConfig) {
 
