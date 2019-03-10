@@ -66,12 +66,7 @@ Command* Controller::parseCommand() {
                 StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
                 json interpolationConfig = {
                         {"spatialGranularity", config.getSpatialGranularity()},
-                        {"temporalGranularity", config.getTemporalGranularity()},
-                        {"minimalInterDistance", {
-                                                       {"longitude", config.getMinimalInterDistanceArea()},
-                                                       {"latitude", config.getMinimalInterDistanceArea()},
-                                                       {"time", config.getMinimalInterDistanceTime()}
-                                               }},
+                        {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments, interpolationConfig);
             }
@@ -91,12 +86,7 @@ Command* Controller::parseCommand() {
                 };
                 json interpolationConfig = {
                         {"spatialGranularity", config.getSpatialGranularity()},
-                        {"temporalGranularity", config.getTemporalGranularity()},
-                        {"minimalInterDistance", {
-                                                       {"longitude", config.getMinimalInterDistanceArea()},
-                                                       {"latitude", config.getMinimalInterDistanceArea()},
-                                                       {"time", config.getMinimalInterDistanceTime()}
-                                               }},
+                        {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments, interpolationConfig);
             }

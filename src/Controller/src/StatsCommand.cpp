@@ -110,7 +110,7 @@ void StatsCommand::execute() {
 
     // -----------------<< for debug
 
-    std::cout << config.dump() << std::endl;
+    /*std::cout << config.dump() << std::endl;
     std::cout << "x: " << result->at(0)[0].size() << std::endl;
     std::cout << "y: " << result->at(0).size() << std::endl;
     std::cout << "z: " << result->size() << std::endl;
@@ -138,7 +138,7 @@ void StatsCommand::execute() {
     }
     std::cout << "}" << std::endl;
 
-    // ----------------->> for debug
+    // ----------------->> for debug*/
 
 
 

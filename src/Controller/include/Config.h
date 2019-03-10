@@ -28,10 +28,6 @@ public:
 
     double getTemporalGranularity();
 
-    double getMinimalInterDistanceArea() const;
-
-    double getMinimalInterDistanceTime() const;
-
     std::unordered_map<std::string, std::pair<double, double>> getAdmissibleRanges();
 
     std::string getDatabaseFilepath();
@@ -57,8 +53,6 @@ protected:
     double similarityThreshold;
     double spikesValueThreshold;
     double spikesMinimalArea;
-    double minimalInterDistanceArea;
-    double minimalInterDistanceTime;
 };
 
 

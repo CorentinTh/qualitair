@@ -39,8 +39,6 @@ void Config::load() {
     spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0.0);
     spatialGranularity = reader.GetReal("interpolation", "spatialGranularity", 0);
     temporalGranularity = reader.GetReal("interpolation", "temporalGranularity", 0);
-    minimalInterDistanceTime = reader.GetReal("interpolation", "minimalInterDistanceTime", 0);
-    minimalInterDistanceArea = reader.GetReal("interpolation", "minimalInterDistanceArea", 0);
 
     try {
         std::set<std::string> fields = reader.GetFields("admissibleRanges");
@@ -133,13 +131,5 @@ void swap(Config &first, Config &second) {
     std::swap(first.brokenTime, second.brokenTime);
     std::swap(first.similarityThreshold, second.similarityThreshold);
     std::swap(first.admissibleRanges, second.admissibleRanges);
-}
-
-double Config::getMinimalInterDistanceArea() const {
-    return minimalInterDistanceArea;
-}
-
-double Config::getMinimalInterDistanceTime() const {
-    return minimalInterDistanceTime;
 }
 

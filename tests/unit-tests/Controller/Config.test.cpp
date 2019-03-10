@@ -19,8 +19,6 @@ TEST_CASE("Testing Config::load", "[UT-C-3]") {
     CHECK(config.getTemporalGranularity() == 7200);
     CHECK(config.getSpatialGranularity() == 0.05);
     CHECK(config.getSpikesTimeThreshold() == 12);
-    CHECK(config.getMinimalInterDistanceTime() == 7200);
-    CHECK(config.getMinimalInterDistanceArea() == 0.5);
     CHECK(config.getSpikesValueThreshold() == 500.0);
     CHECK(config.getSpikesMinimalArea() == 10000.0);
 
