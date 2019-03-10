@@ -41,7 +41,7 @@ protected:
     time_t end;
     std::vector<std::string> attributes;
     std::vector<std::string> sensors;
-    json interpolationConfig
+    json interpolationConfig;
 };
 
 
