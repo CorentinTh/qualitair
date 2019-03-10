@@ -78,6 +78,7 @@ void StatsCommand::execute() {
     else{
         config["hasSensors"] = false;
     }
+    config.merge_patch(interpolationConfig);
 
     IETL& etl = ETL::getInstance();
     IDataProcessor& dataProcessor = DataProcessor::getInstance();
@@ -100,7 +101,7 @@ void StatsCommand::execute() {
     // todo cache res
     // if end start settled
 
-    config.merge_patch(interpolationConfig);
+
 
     if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printStats(res);
