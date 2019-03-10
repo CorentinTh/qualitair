@@ -20,3 +20,21 @@ TEST_CASE("Test parseISO8601Date to timestamp", "[UT-Utils-2]") {
     CHECK(utils::parseISO8601Date(date) == expectedTimestamp);
     CHECK(utils::parseISO8601Date("") == 0);
 }
+
+TEST_CASE("Test unjoinString", "[UT-Utils-3]") {
+    std::string input1 = "a,b,c";
+    std::string input2 = "a,  b, c";
+    std::string input3 = "a";
+    std::string input4 = "";
+    
+    std::vector<std::string> output1 = {"a", "b", "c"};
+    std::vector<std::string> output2 = {"a", "  b", " c"};
+    std::vector<std::string> output3 = {"a"};
+    std::vector<std::string> output4;
+    
+    CHECK(utils::unjoinString(input1) == output1);
+    CHECK(utils::unjoinString(input2) == output2);
+    CHECK(utils::unjoinString(input3) == output3);
+    CHECK(utils::unjoinString(input4) == output4);
+    
+}

@@ -56,8 +56,8 @@ Command* Controller::parseCommand() {
         BBox bbox(cliParser.getArgument("bbox"));
         time_t start = utils::parseRFC3339Date(cliParser.getArgument("start"));
         time_t end = utils::parseRFC3339Date(cliParser.getArgument("end"));
-        std::vector<std::string> attributes = unjoinString(cliParser.getArgument("attributes"));
-        std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
+        std::vector<std::string> attributes = utils::unjoinString(cliParser.getArgument("attributes"));
+        std::vector<std::string> sensors = utils::unjoinString(cliParser.getArgument("sensors"));
 
         if(verb == "stats") {
             try {
@@ -143,21 +143,7 @@ void Controller::execute() {
     }
 }
 
-std::vector<std::string> Controller::unjoinString(std::string string) {
-    std::vector<std::string> values;
-    size_t position = 0;
-    std::string value;
 
-    while((position = string.find(',')) != std::string::npos) {
-        value = string.substr(0, position);
-        values.push_back(value);
-        string.erase(0, position + 1);
-    }
-    if (values.empty() && string != "") {
-        return std::vector<std::string>{ string };
-    }
-    return values;
-}
 
 void Controller::printHelp() const {
     std::cout << "    ______      __    __       ___       __       __  .___________.__     ___       __  .______      \n"

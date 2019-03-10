@@ -63,6 +63,22 @@ namespace utils
 
         return mktime(&date) * 1000 + milis;
     }
+
+    static std::vector<std::string> unjoinString(std::string string) {
+        std::vector<std::string> values;
+        size_t position = 0;
+        std::string value;
+
+        while((position = string.find(',')) != std::string::npos) {
+            value = string.substr(0, position);
+            values.push_back(value);
+            string.erase(0, position + 1);
+        }
+        if (string != "") {
+            values.push_back(string);
+        }
+        return values;
+    }
 }
 
 
