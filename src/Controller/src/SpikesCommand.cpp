@@ -23,9 +23,11 @@ SpikesCommand::SpikesCommand(const SpikesCommand &other) {
     sensors = other.sensors;
 }
 
-SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, SpikeDetectionConfiguration config, OutputArguments outputArguments) : Command(outputArguments), attribute(attr),
-        bbox(b), start(s), end(s), sensors(sen), detectionConfig(config)
-{
+SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, SpikeDetectionConfiguration config, OutputArguments outputArguments,json interpolationConfig)
+        : Command(outputArguments), attribute(attr),
+          bbox(b), start(s), end(s), sensors(sen),
+          detectionConfig(config),
+          interpolationConfig(interpolationConfig) {
 
 }
 
@@ -37,62 +39,57 @@ void SpikesCommand::execute() {
     json config;
     config["type"] = ETL::MEASURE;
     config["doInterpolation"] = true;
-    if(!bbox.isNull()){
+    if (!bbox.isNull()) {
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
         config["BBox"] = bbox;
-    }
-    else{
+    } else {
         config["hasBBox"] = false;
     }
 
-    if (start != 0){
+    if (start != 0) {
         config["hasStart"] = true;
         config["start"] = start;
-    }
-    else{
+    } else {
         config["hasStart"] = false;
     }
 
-    if (end != 0){
+    if (end != 0) {
         config["hasEnd"] = true;
         config["end"] = end;
-    }
-    else{
+    } else {
         config["hasEnd"] = false;
     }
 
-    if (!attribute.empty()){
+    if (!attribute.empty()) {
         config["hasAttributes"] = true;
         config["attributes"] = {attribute};
-    }
-    else{
+    } else {
         config["hasAttributes"] = false;
     }
 
-    if (!this->sensors.empty()){
+    if (!this->sensors.empty()) {
         config["hasSensors"] = true;
         config["sensors"] = sensors;
-    }
-    else{
+    } else {
         config["hasSensors"] = false;
     }
 
-    IETL& etl = ETL::getInstance();
-    IDataProcessor& dataProcessor = DataProcessor::getInstance();
+    config.merge_patch(interpolationConfig);
 
-    pointCollection * result = (pointCollection *) etl.getData(config);
-    json res = * dataProcessor.detectSpikes(result, attribute, detectionConfig.valueThreshold,
-            detectionConfig.timeThreshold, detectionConfig.areaThreshold);
+    IETL &etl = ETL::getInstance();
+    IDataProcessor &dataProcessor = DataProcessor::getInstance();
 
-    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+    pointCollection *result = (pointCollection *) etl.getData(config);
+    json res = *dataProcessor.detectSpikes(result, attribute, detectionConfig.valueThreshold,
+                                           detectionConfig.timeThreshold, detectionConfig.areaThreshold);
+
+    if (outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printSpikes(res);
-    }
-    else if(outputArguments.outputFormat == OutputFormat::JSON){
+    } else if (outputArguments.outputFormat == OutputFormat::JSON) {
         OutputJSON::getInstance().printSpikes(res, outputArguments.outputFile);
-    }
-    else{
+    } else {
         OutputHTML::getInstance().printSpikes(res, outputArguments.outputFile);
     }
 }
@@ -106,18 +103,18 @@ void swap(SpikesCommand &first, SpikesCommand &second) {
     std::swap(first.sensors, second.sensors);
 }
 
-void SpikesCommand::to_json(json& j) const {
+void SpikesCommand::to_json(json &j) const {
     j = json{
-            {"command", "broken"},
-            {"bbox", bbox},
-            {"start", start},
-            {"end", end},
+            {"command",   "broken"},
+            {"bbox",      bbox},
+            {"start",     start},
+            {"end",       end},
             {"attribute", attribute},
-            {"sensors", sensors}
+            {"sensors",   sensors}
     };
 }
 
-void SpikesCommand::from_json(const json& j) {
+void SpikesCommand::from_json(const json &j) {
     j.at("bbox").get_to(bbox);
     j.at("start").get_to(start);
     j.at("end").get_to(end);
