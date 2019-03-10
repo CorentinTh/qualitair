@@ -6,8 +6,8 @@
 
 struct BrokenSensor {
     public:
-        int start;
-        int end;
+        long start;
+        long end;
         Sensor sensor;
 
         friend void to_json(json& j, const BrokenSensor& s);
@@ -51,7 +51,7 @@ BrokenDetection::~BrokenDetection() {
 
 json* BrokenDetection::apply() {
     std::vector<BrokenSensor> brokenSensors;
-    std::unordered_map<std::pair<Sensor, std::string>, int, pair_hash> lastTimes;
+    std::unordered_map<std::pair<Sensor, std::string>, long, pair_hash> lastTimes;
 
     for (auto measure : measures)
     {
@@ -63,7 +63,7 @@ json* BrokenDetection::apply() {
             measure.getValue() > admissibleRanges[attribute.getId()].second) {
             auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
             if (brokenSensors.end() != it) {
-                it->end = measure.getTimestamp();
+                it->end = measure.getTimestamp(); //TODO: Is it problematic if timestamp is a long ?
             }
             else {
                 auto bs = BrokenSensor();
@@ -88,7 +88,7 @@ json* BrokenDetection::apply() {
                 brokenSensors.push_back(bs);
             }
             else {
-                it->end = measure.getTimestamp();
+                it->end = measure.getTimestamp(); //TODO: Is it problematic if timestamp is a long ?
             }
         }
         lastTimes[make_pair(sensor, attribute.getId())] = measure.getTimestamp();

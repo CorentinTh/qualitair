@@ -11,14 +11,14 @@
 
 class Measurement {
     public:
-        int getTimestamp() const;
+        long getTimestamp() const;
         double getValue() const;
         Sensor getSensor() const;
         Attribute getAttribute() const;
 
         Measurement & operator = ( Measurement other );
         Measurement ( const Measurement & other );
-        Measurement ( int timestamp, Sensor sensor, Attribute attribute, double value );
+        Measurement ( long timestamp, Sensor sensor, Attribute attribute, double value );
 
     bool operator==(const Measurement &rhs) const;
 
@@ -29,7 +29,7 @@ class Measurement {
     protected:
         friend void swap(Measurement & first, Measurement & second);
 
-        int timestamp;
+        long timestamp;
         double value;
         Sensor sensor;
         Attribute attribute;
