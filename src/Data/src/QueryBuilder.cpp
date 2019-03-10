@@ -59,6 +59,11 @@ QueryBuilder & QueryBuilder::join(std::string clause) {
     return * this;
 }
 
+QueryBuilder & QueryBuilder::orderBy(std::string attribute) {
+    orderByAttribute = attribute;
+    return * this;
+}
+
 std::string QueryBuilder::getQuery() {
     std::string query;
 
@@ -79,6 +84,10 @@ std::string QueryBuilder::getQuery() {
                 if(conditions.at(0) != condition) query += condition.first ? " OR " : " AND ";
                 query += condition.second;
             }
+        }
+
+        if(!orderByAttribute.empty()) {
+            query += " ORDER BY " + orderByAttribute + " ASC";
         }
     } else {
         query += "INSERT INTO ";

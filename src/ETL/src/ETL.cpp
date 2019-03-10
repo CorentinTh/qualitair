@@ -12,9 +12,12 @@
 #include <stdio.h>
 #include <csvmonkey.hpp>
 #include "easylogging++.h"
+#include "../../Data/include/ConnectionFactory.h"
 
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
+
+    dropDatabaseIndexs();
     for(std::string file : listCSVFiles(path)) {
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
@@ -26,6 +29,7 @@ long ETL::ingest(std::string path) {
         int dataType = extractDataTypeFromFile(file);
         if(dataType == -1) {
             //TODO: error handling ?
+            createDatabaseIndexs();
             return -1;
         }
 
@@ -72,6 +76,7 @@ long ETL::ingest(std::string path) {
         insertedRows += queryBuilder.executeUpdate();
     }
 
+    createDatabaseIndexs();
     return insertedRows;
 }
 
@@ -280,6 +285,7 @@ void ETL::setMeasurementConfig(QueryBuilder *qb) {
     qb->join("Attribute");
     qb->where("Measurement.AttributeID = Attribute.AttributeID");
     qb->where("Measurement.SensorID = Sensor.SensorID");
+    qb->orderBy("Timestamp");
 }
 
 
@@ -291,4 +297,30 @@ void ETL::setSensorConfig(QueryBuilder *qb) {
 void ETL::setAttributeConfig(QueryBuilder *qb) {
     qb->select("*");
     qb->from("Attribute");
+}
+
+void ETL::createDatabaseIndexs() {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    database->exec(
+            "CREATE INDEX index_Attribute_AttributeID ON Attribute ( AttributeID ASC );"
+            "CREATE INDEX index_Measurement_AttributeID ON Measurement ( AttributeID ASC );"
+            "CREATE INDEX index_Measurement_SensorID ON Measurement ( SensorID ASC );"
+            "CREATE INDEX index_Measurement_Timestamp ON Measurement ( Timestamp ASC );"
+            "CREATE INDEX index_Sensor_Latitude ON Sensor ( Latitude ASC );"
+            "CREATE INDEX index_Sensor_Longitude ON Sensor ( Longitude ASC );"
+            "CREATE INDEX index_Sensor_SensorID ON Sensor ( SensorID ASC );"
+    );
+}
+
+void ETL::dropDatabaseIndexs() {
+    SQLite::Database * database = ConnectionFactory::getConnection();
+    database->exec(
+            "DROP INDEX index_Attribute_AttributeID;"
+            "DROP INDEX index_Measurement_AttributeID;"
+            "DROP INDEX index_Measurement_SensorID;"
+            "DROP INDEX index_Measurement_Timestamp;"
+            "DROP INDEX index_Sensor_Latitude;"
+            "DROP INDEX index_Sensor_Longitude;"
+            "DROP INDEX index_Sensor_SensorID;"
+    );
 }

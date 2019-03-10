@@ -116,11 +116,12 @@ namespace nsquerybuilder {
                             .from("Sensor")
                             .where("Latitude < ?")
                             .bind(48.0)
+                            .orderBy("SensorID")
                             .execute();
 
         for(int i = 1; i <= 4; i++) {
             REQUIRE(query->executeStep());
-            REQUIRE((int) query->getColumn("SensorID") == i);
+            REQUIRE(std::stoi(query->getColumn("SensorID")) == i);
         }
 
         queryBuilder = QueryBuilder();
