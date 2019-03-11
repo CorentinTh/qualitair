@@ -80,6 +80,14 @@ else
 fi
 
 echo
+echo "    > Creating folder $configDir/html-templates"
+mkdir -p "$configDir/html-templates"
+
+echo
+echo "    > Copying html-templates to $configDir/html-templates"
+cp -f assets/html-templates/*.html "$configDir/html-templates"
+
+echo
 echo "> Installation done."
 echo
 

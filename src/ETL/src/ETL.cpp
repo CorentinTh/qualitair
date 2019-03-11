@@ -160,6 +160,9 @@ void *ETL::getData(json config, unsigned int recurseCount) {
                     config["BBox"]["right"] = (double) config["BBox"]["right"] + (double) config["spatialGranularity"];
                     config["BBox"]["bottom"] = (double) config["BBox"]["bottom"] - (double) config["spatialGranularity"];
 
+                    config["start"] = (double) config["start"] - (double) config["temporalGranularity"];
+                    config["end"] = (double) config["end"] + (double) config["temporalGranularity"];
+
                     data = getData(config, ++recurseCount);
                 } else {
 
@@ -176,6 +179,12 @@ void *ETL::getData(json config, unsigned int recurseCount) {
 
             // Reducing data size since it has been extended
             if (isExtended) {
+
+                for (int i = 0; i < recurseCount; ++i) {
+                    ((pointCollection*) data)->erase(((pointCollection*) data)->begin() + i);   // remove first
+                    ((pointCollection*) data)->pop_back();                                      // remove last
+                }
+
 
                 for (auto &grid : *(pointCollection *) data) {
 
