@@ -208,7 +208,7 @@ void *ETL::getData(json config, unsigned int recurseCount) {
         }
     } catch (json::out_of_range &e) {
         LOG(ERROR) << "Missing argument for interpolation. Require BBox and time range (start and end).";
-        exit(1);
+//        exit(1);
     }
 
     return data;
