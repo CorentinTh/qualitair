@@ -11,7 +11,7 @@
 
 class SensorFilter : public Filter {
     public:
-        void applyTo(QueryBuilder &qb) override;
+        void applyTo(IData &qb) override;
 
 
         void addSensor(std::string sensor);

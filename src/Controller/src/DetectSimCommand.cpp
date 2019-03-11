@@ -8,6 +8,7 @@
 #include "../../View/include/OutputCLI.h"
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputHTML.h"
+#include "../include/Cache.h"
 
 DetectSimCommand &DetectSimCommand::operator=(DetectSimCommand other) {
     swap(*this, other);
@@ -85,7 +86,10 @@ void DetectSimCommand::execute() {
 
     json res = *dataProcessor.detectSimilar(result, threshold);
 
-    // TODO: cache, only if "end" set
+    if (config["hasStart"] && config["hasEnd"]) {
+        Cache cache;
+        cache.put(*this, res);
+    }
 
     if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printSim(res);

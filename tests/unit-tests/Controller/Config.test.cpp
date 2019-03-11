@@ -16,8 +16,8 @@ TEST_CASE("Testing Config::load", "[UT-C-4]") {
 
     CHECK(config.getBrokenTime() == 3600);
     CHECK(config.getSimilarityThreshold() == 10);
-    CHECK(config.getTemporalGranularity() == 1000);
-    CHECK(config.getSpatialGranularity() == 1000);
+    CHECK(config.getTemporalGranularity() == 7200);
+    CHECK(config.getSpatialGranularity() == 0.05);
     CHECK(config.getSpikesTimeThreshold() == 12);
     CHECK(config.getSpikesValueThreshold() == 500.0);
     CHECK(config.getSpikesMinimalArea() == 10000.0);
@@ -25,8 +25,10 @@ TEST_CASE("Testing Config::load", "[UT-C-4]") {
     CHECK(config.getAdmissibleRanges()
             ==
             (std::unordered_map<std::string, std::pair<double, double>>) {
-                    {"CO2", {0,  15}},
-                    {"O2", {10, 100}},
+                    {"O3", {0,  400}},
+                    {"PM10", {0, 120}},
+                    {"SO2", {0, 700}},
+                    {"NO2", {0, 600}}
             });
 
 

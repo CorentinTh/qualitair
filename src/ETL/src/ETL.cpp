@@ -14,11 +14,13 @@
 #include "easylogging++.h"
 #include "../../Data/include/ConnectionFactory.h"
 
+unsigned int MAX_RECURSE_CALL = 5;
+
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
 
     //dropDatabaseIndexs();
-    for(std::string file : listCSVFiles(path)) {
+    for (std::string file : listCSVFiles(path)) {
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
 
@@ -27,7 +29,7 @@ long ETL::ingest(std::string path) {
         reader.read_row();
 
         int dataType = extractDataTypeFromFile(file);
-        if(dataType == -1) {
+        if (dataType == -1) {
             LOG(ERROR) << "Unable to recognize header on file " << file;
             //TODO: error handling ?
             //createDatabaseIndexs();
@@ -37,34 +39,34 @@ long ETL::ingest(std::string path) {
         int nbRows = 0;
         QueryBuilder queryBuilder;
 
-        while(reader.read_row()) {
-            if(nbRows == NB_ROW_PER_BATCH) {
+        while (reader.read_row()) {
+            if (nbRows == NB_ROW_PER_BATCH) {
                 insertedRows += queryBuilder.executeUpdate();
 
                 queryBuilder = QueryBuilder();
                 nbRows = 0;
             }
 
-            if(nbRows == 0) {
-                if(dataType == ATTRIBUTE) {
+            if (nbRows == 0) {
+                if (dataType == ATTRIBUTE) {
                     queryBuilder.insert("Attribute").values({"AttributeID", "Unit", "Description"});
-                } else if(dataType == SENSOR) {
+                } else if (dataType == SENSOR) {
                     queryBuilder.insert("Sensor").values({"SensorID", "Latitude", "Longitude", "Description"});
                 } else {
                     queryBuilder.insert("Measurement").values({"Timestamp", "SensorID", "AttributeID", "Value"});
                 }
             }
 
-            if(dataType == ATTRIBUTE) {
+            if (dataType == ATTRIBUTE) {
                 queryBuilder.bind(row.cells[0].as_str());
                 queryBuilder.bind(row.cells[1].as_str());
                 queryBuilder.bind(row.cells[2].as_str());
-            } else if(dataType == SENSOR) {
+            } else if (dataType == SENSOR) {
                 queryBuilder.bind(row.cells[0].as_str());
                 queryBuilder.bind(row.cells[1].as_double());
                 queryBuilder.bind(row.cells[2].as_double());
                 queryBuilder.bind(row.cells[3].as_str());
-            } else if(dataType == MEASURE){
+            } else if (dataType == MEASURE) {
                 queryBuilder.bind(utils::parseISO8601Date(row.cells[0].as_str()) / 1000); //ms -> s
                 queryBuilder.bind(row.cells[1].as_str());
                 queryBuilder.bind(row.cells[2].as_str());
@@ -86,10 +88,10 @@ std::vector<std::string> ETL::listCSVFiles(std::string path) {
     DIR *dir;
     struct dirent *ent;
 
-    if((dir = opendir(path.c_str())) != nullptr) {
-        while((ent = readdir (dir)) != nullptr) {
+    if ((dir = opendir(path.c_str())) != nullptr) {
+        while ((ent = readdir(dir)) != nullptr) {
             std::string fileName = ent->d_name;
-            if(fileName.find(".csv") != std::string::npos) {
+            if (fileName.find(".csv") != std::string::npos) {
                 files.push_back(path + "/" + fileName);
             }
         }
@@ -105,34 +107,33 @@ int ETL::extractDataTypeFromFile(std::string path) {
     int dataType = -1;
     std::ifstream fileStream(path);
 
-    if(fileStream.good()) {
+    if (fileStream.good()) {
         std::string header;
         std::getline(fileStream, header);
-        header.erase( std::remove(header.begin(), header.end(), '\r'), header.end());
-        header.erase( std::remove(header.begin(), header.end(), '\n'), header.end());
-        if(header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
-        else if(header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
-        else if(header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;
+        header.erase(std::remove(header.begin(), header.end(), '\r'), header.end());
+        header.erase(std::remove(header.begin(), header.end(), '\n'), header.end());
+        if (header == "AttributeID;Unit;Description;") dataType = ATTRIBUTE;
+        else if (header == "SensorID;Latitude;Longitude;Description;") dataType = SENSOR;
+        else if (header == "Timestamp;SensorID;AttributeID;Value;") dataType = MEASURE;
     }
 
     return dataType;
 }
 
 
-
-void *ETL::getData(json config) {
+void *ETL::getData(json config, unsigned int recurseCount) {
 
     QueryBuilder qb;
 
     try {
         if (config.at("type") == ETL::MEASURE) {
             setMeasurementConfig(&qb);
-        }else if (config.at("type")  == ETL::SENSOR) {
+        } else if (config.at("type") == ETL::SENSOR) {
             setSensorConfig(&qb);
-        }else if (config.at("type")  == ETL::ATTRIBUTE) {
+        } else if (config.at("type") == ETL::ATTRIBUTE) {
             setAttributeConfig(&qb);
-        }else{
-            LOG(ERROR) << "Wrong type" ;
+        } else {
+            LOG(ERROR) << "Wrong type";
         }
 
     } catch (json::out_of_range &e) {
@@ -142,10 +143,66 @@ void *ETL::getData(json config) {
     setFilters(&qb, config);
 
     void *data = extractData(&qb, config);
+
+
     try {
-        if(config.at("doInterpolation") && config.at("type") == ETL::MEASURE){
+        if (config.at("doInterpolation") && config.at("type") == ETL::MEASURE) {
+            bool isExtended = ((vector<Measurement *> *) data)->empty();
+
+            if (isExtended) {
+                LOG(DEBUG) << "No point in current area. New try with extended area";
+
+                if (recurseCount < MAX_RECURSE_CALL) {
+                    delete (vector<Measurement *> *) data; // Freeing some memory since it's recursive
+
+                    config["BBox"]["top"] = (double) config["BBox"]["top"] + (double) config["spatialGranularity"];
+                    config["BBox"]["left"] = (double) config["BBox"]["left"] - (double) config["spatialGranularity"];
+                    config["BBox"]["right"] = (double) config["BBox"]["right"] + (double) config["spatialGranularity"];
+                    config["BBox"]["bottom"] = (double) config["BBox"]["bottom"] - (double) config["spatialGranularity"];
+
+                    config["start"] = (double) config["start"] - (double) config["temporalGranularity"];
+                    config["end"] = (double) config["end"] + (double) config["temporalGranularity"];
+
+                    data = getData(config, ++recurseCount);
+                } else {
+
+                    LOG(ERROR) << "Not enough point for interpolation. Extended " << recurseCount << " times.";
+                    exit(1);
+
+                }
+            } else if (recurseCount != 0) {
+                return data;
+            }
+
             Interpolater interpolater;
-            data = interpolater.interpolate(*(vector< Measurement*>*) data, config);
+            data = interpolater.interpolate(*(vector<Measurement *> *) data, config);
+
+            // Reducing data size since it has been extended
+            if (isExtended) {
+
+                for (int i = 0; i < recurseCount; ++i) {
+                    ((pointCollection*) data)->erase(((pointCollection*) data)->begin() + i);   // remove first
+                    ((pointCollection*) data)->pop_back();                                      // remove last
+                }
+
+
+                for (auto &grid : *(pointCollection *) data) {
+
+                    for (int i = 0; i < recurseCount; ++i) {
+                        grid.erase(grid.begin() + i);   // remove first
+                        grid.pop_back();                // remove last
+                    }
+
+                    for (auto &row : grid) {
+
+                        for (int i = 0; i < recurseCount; ++i) {
+                            row.erase(row.begin() + i);   // remove first
+                            row.pop_back();                // remove last
+                        }
+
+                    }
+                }
+            }
         }
     } catch (json::out_of_range &e) {}
 
@@ -206,7 +263,7 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
 
     auto result = new vector<void *>;
     int count = 0;
-    SQLite::Statement * statement;
+    SQLite::Statement *statement;
     try {
         statement = qb->execute();
 
@@ -261,11 +318,10 @@ void *ETL::extractData(QueryBuilder *qb, json config) {
             LOG(ERROR) << "An unexpected error occurred while fetching from the database. Please retry.";
             LOG(ERROR) << e.what();
         }
-    }catch (SQLite::Exception &e){
+    } catch (SQLite::Exception &e) {
         LOG(ERROR) << "Error while executing the SQL request.";
         LOG(ERROR) << e.what();
     }
-
 
 
     LOG(DEBUG) << "Fetched " << std::to_string(count) << " lines";
@@ -304,7 +360,7 @@ void ETL::setAttributeConfig(QueryBuilder *qb) {
 }
 
 void ETL::createDatabaseIndexs() {
-    SQLite::Database * database = ConnectionFactory::getConnection();
+    SQLite::Database *database = ConnectionFactory::getConnection();
     database->exec(
             "CREATE INDEX IF NOT EXISTS index_Attribute_AttributeID ON Attribute ( AttributeID ASC );"
             "CREATE INDEX IF NOT EXISTS index_Measurement_AttributeID ON Measurement ( AttributeID ASC );"
@@ -317,7 +373,7 @@ void ETL::createDatabaseIndexs() {
 }
 
 void ETL::dropDatabaseIndexs() {
-    SQLite::Database * database = ConnectionFactory::getConnection();
+    SQLite::Database *database = ConnectionFactory::getConnection();
     database->exec(
             "DROP INDEX IF EXISTS index_Attribute_AttributeID;"
             "DROP INDEX IF EXISTS index_Measurement_AttributeID;"

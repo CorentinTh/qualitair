@@ -8,7 +8,7 @@
 
 pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures, const json &config) {
 
-    auto trees = new unordered_map<string, OT::Octree *>;
+    auto trees = new unordered_map<string, vector<OT::point_t *>*>;
 
     double x0 = config["BBox"]["left"];
     double x1 = config["BBox"]["right"];
@@ -20,9 +20,9 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
     double yFactor = config["spatialGranularity"];
     double zFactor = config["temporalGranularity"];
 
-    double interRadiusX = config["minimalInterDistance"]["longitude"];
-    double interRadiusY = config["minimalInterDistance"]["latitude"];
-    double interRadiusZ = config["minimalInterDistance"]["time"];
+//    double interRadiusX = config["minimalInterDistance"]["longitude"];
+//    double interRadiusY = config["minimalInterDistance"]["latitude"];
+//    double interRadiusZ = config["minimalInterDistance"]["time"];
 
     // Preparing the data.
     // We insert each measure in an octree according to the attributeID
@@ -31,19 +31,20 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
         if (it == trees->end()) {
             trees->insert(make_pair(
                     measure->getAttribute().getId(),
-                    new OT::Octree(new OT::Boundary(x0, y0, z0, x1, y1, z1))
+                    new vector<OT::point_t *>
             ));
             it = trees->find(measure->getAttribute().getId());
         }
 
-        OT::point_t p = {
+        auto *p = new OT::point_t;
+        *p = {
                 measure->getSensor().getLongitude(),
                 measure->getSensor().getLatitude(),
                 (double) measure->getTimestamp(), //TODO: is it problematic if timestamp is a long ?
                 new double(measure->getValue())
         };
 
-        it->second->insert(p);
+        it->second->emplace_back(p);
 
     }
 
@@ -72,16 +73,8 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
                 unordered_map<string, double> attributes;
 
                 for (auto &pair: *trees) {
-                    auto neigboors = pair.second->query(new OT::Boundary(
-                            xReal - interRadiusX,
-                            yReal - interRadiusY,
-                            zReal - interRadiusZ,
-                            xReal + interRadiusX,
-                            yReal + interRadiusY,
-                            zReal + interRadiusZ
-                    ));
 
-                    auto d = interpolate(xReal, yReal, zReal, neigboors);
+                    auto d = interpolate(xReal, yReal, zReal, pair.second);
                     attributes.insert(make_pair(pair.first, d));
                 }
 
@@ -115,7 +108,7 @@ Interpolater::~Interpolater() {
 
 }
 
-double Interpolater::interpolate(double x, double y, double z, vector<const OT::point_t *> *neigboors) {
+double Interpolater::interpolate(double x, double y, double z, vector< OT::point_t *> *neigboors) {
 
     double distance = 0;
     double value = 0;

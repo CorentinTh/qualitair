@@ -138,23 +138,26 @@ void OutputCLI::printStats(json data, std::string filename) {
 
 void OutputCLI::printSim(json data, std::string filename) {
     if (!data.empty()){
-        for (const auto & listSimilarSensors : data){
-            LOG(INFO) << "------" << std::endl;
-            LOG(INFO) << "Les capteurs suivants sont similaires :" << std::endl;
-            double latitude, longitude;
-            std::string description, id;
-            for (const auto & sensor : listSimilarSensors){
-                id = sensor.at("id");
-                latitude = sensor.at("lat");
-                longitude = sensor.at("long");
-                description = sensor.at("description");
+        for (auto& pair : data.items()) {
+            LOG(INFO) << "Attribut : " << pair.key();
+            for (const auto & listSimilarSensors : pair.value()){
+                LOG(INFO) << "------" << std::endl;
+                LOG(INFO) << "Les capteurs suivants sont similaires :" << std::endl;
+                double latitude, longitude;
+                std::string description, id;
+                for (const auto & sensor : listSimilarSensors){
+                    id = sensor.at("id");
+                    latitude = sensor.at("lat");
+                    longitude = sensor.at("long");
+                    description = sensor.at("description");
 
-                LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-                LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
-                LOG(INFO) << "   Description : " << description << std::endl;
+                    LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
+                    LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
+                    LOG(INFO) << "   Description : " << description << std::endl;
+                }
             }
+            LOG(INFO) << "------" << std::endl;
         }
-        LOG(INFO) << "------" << std::endl;
     }
 }
 

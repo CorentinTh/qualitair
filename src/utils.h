@@ -50,7 +50,7 @@ namespace utils
             return 0;
         }
         tm date = stringDateToTm(stringDate, "%Y-%m-%d %H:%M:%S");
-        return mktime(&date) * 1000;
+        return mktime(&date);
     }
 
     static time_t parseISO8601Date(std::string stringDate) {
@@ -61,7 +61,32 @@ namespace utils
         int milis = std::stoi(stringDate.substr(milisIndex + 1, 3));
         tm date = stringDateToTm(stringDate.substr(0, milisIndex), "%Y-%m-%dT%H:%M:%S");
 
-        return mktime(&date) * 1000 + milis;
+        return mktime(&date) + milis;
+    }
+
+    static std::vector<std::string> unjoinString(std::string string) {
+        std::vector<std::string> values;
+        size_t position = 0;
+        std::string value;
+
+        while((position = string.find(',')) != std::string::npos) {
+            value = string.substr(0, position);
+            values.push_back(value);
+            string.erase(0, position + 1);
+        }
+        if (string != "") {
+            values.push_back(string);
+        }
+        return values;
+    }
+
+    static std::string timestampToString(const time_t rawtime)
+    {
+        struct tm * dt;
+        char buffer [30];
+        dt = localtime(&rawtime);
+        strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", dt);
+        return std::string(buffer);
     }
 }
 

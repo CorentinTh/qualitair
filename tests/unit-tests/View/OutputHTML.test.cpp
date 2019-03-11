@@ -13,7 +13,7 @@
 
 
 namespace HTMLTest {
-    std::string htmlFilename = "../../data/mon_rapport_qualitair.html";
+    std::string htmlFilename = "../tests/data/mon_rapport_qualitair.html";
     json dataJsonSpikes = {
             {"spatialStep", 2},
             {"temporalStep", 1000},
@@ -105,7 +105,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
             std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
+            CHECK(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -118,7 +118,7 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            REQUIRE(nbCharacters > 0);
+            CHECK(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
@@ -133,7 +133,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
             std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
+            CHECK(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -146,7 +146,7 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            REQUIRE(nbCharacters > 0);
+            CHECK(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
@@ -161,7 +161,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
             std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
+            CHECK(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -174,7 +174,7 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            REQUIRE(nbCharacters > 0);
+            CHECK(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
@@ -189,7 +189,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
             std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
+            CHECK(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -202,7 +202,7 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            REQUIRE(nbCharacters > 0);
+            CHECK(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
@@ -218,7 +218,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
             std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
+            CHECK(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -231,7 +231,7 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            REQUIRE(nbCharacters > 0);
+            CHECK(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
 

@@ -27,6 +27,7 @@ class OutputHTML : public IOutput {
     
     private:
         OutputHTML();
+        void fulfillHtmlTemplate(json data, std::string filename);
 };
 
 

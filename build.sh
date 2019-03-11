@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 dir='cmake-build-debug'
-
+export CC=gcc-7
+export CXX=g++-7
 
 if [[ -z "$1" ]]
   then

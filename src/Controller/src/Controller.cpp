@@ -56,8 +56,8 @@ Command* Controller::parseCommand() {
         BBox bbox(cliParser.getArgument("bbox"));
         time_t start = utils::parseRFC3339Date(cliParser.getArgument("start"));
         time_t end = utils::parseRFC3339Date(cliParser.getArgument("end"));
-        std::vector<std::string> attributes = unjoinString(cliParser.getArgument("attributes"));
-        std::vector<std::string> sensors = unjoinString(cliParser.getArgument("sensors"));
+        std::vector<std::string> attributes = utils::unjoinString(cliParser.getArgument("attributes"));
+        std::vector<std::string> sensors = utils::unjoinString(cliParser.getArgument("sensors"));
 
         if(verb == "stats") {
             try {
@@ -66,12 +66,7 @@ Command* Controller::parseCommand() {
                 StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
                 json interpolationConfig = {
                         {"spatialGranularity", config.getSpatialGranularity()},
-                        {"temporalGranularity", config.getTemporalGranularity()},
-                        {"minimalInterDistance", {
-                                                       {"longitude", config.getMinimalInterDistanceArea()},
-                                                       {"latitude", config.getMinimalInterDistanceArea()},
-                                                       {"time", config.getMinimalInterDistanceTime()}
-                                               }},
+                        {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments, interpolationConfig);
             }
@@ -91,12 +86,7 @@ Command* Controller::parseCommand() {
                 };
                 json interpolationConfig = {
                         {"spatialGranularity", config.getSpatialGranularity()},
-                        {"temporalGranularity", config.getTemporalGranularity()},
-                        {"minimalInterDistance", {
-                                                       {"longitude", config.getMinimalInterDistanceArea()},
-                                                       {"latitude", config.getMinimalInterDistanceArea()},
-                                                       {"time", config.getMinimalInterDistanceTime()}
-                                               }},
+                        {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments, interpolationConfig);
             }
@@ -138,24 +128,12 @@ void Controller::execute() {
         command->execute();
     } else {
         // TODO store & pass to correct view instead of printing json ?
-        LOG(WARNING) << "Cached command, showing previous data : ";
+        LOG(WARNING) << "Cached command, showing previous data (if necessary, delete cache at /tmp/.qualitair_cache) : ";
         LOG(INFO) << *cached;
     }
 }
 
-std::vector<std::string> Controller::unjoinString(std::string string) {
-    std::vector<std::string> values;
-    size_t position = 0;
-    std::string value;
 
-    while((position = string.find(',')) != std::string::npos) {
-        value = string.substr(0, position);
-        values.push_back(value);
-        string.erase(0, position + 1);
-    }
-
-    return values;
-}
 
 void Controller::printHelp() const {
     std::cout << "    ______      __    __       ___       __       __  .___________.__     ___       __  .______      \n"
