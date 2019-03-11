@@ -83,8 +83,8 @@ void Cache::load() {
     std::vector<uint8_t> contents((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
     if (contents.size() > 0) {
         json j_from_bson = json::from_ubjson(contents);
-        for (auto& [key, value] : j_from_bson.items()) {
-            cache[json::parse(to_string(key))] = json::parse(to_string(value));
+        for (auto& it : j_from_bson.items()) {
+            cache[json::parse(to_string(it.key()))] = json::parse(to_string(it.value()));
         }
     }
     stream.close();
