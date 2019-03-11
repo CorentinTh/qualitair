@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_ATTRIBUTE_H
@@ -8,32 +11,41 @@
 
 #include <string>
 #include "nlohmann/json.hpp"
+
 using json = nlohmann::json;
 
 class Attribute {
-    public:
-        std::string getId();
-        std::string getUnit();
-        std::string getDescription();
+public:
+    std::string getId();
 
-        Attribute() {}
-        Attribute & operator = ( Attribute other );
-        Attribute ( const Attribute & other );
-        Attribute ( std::string attributeId, std::string unit, std::string description);
-        virtual ~Attribute ( );
+    std::string getUnit();
+
+    std::string getDescription();
+
+    Attribute() {}
+
+    Attribute &operator=(Attribute other);
+
+    Attribute(const Attribute &other);
+
+    Attribute(std::string attributeId, std::string unit, std::string description);
+
+    virtual ~Attribute();
 
     bool operator==(const Attribute &rhs) const;
 
     bool operator!=(const Attribute &rhs) const;
 
 protected:
-        friend void swap(Attribute & first, Attribute & second);
-        friend void to_json(json& j, const Attribute& s);
-        friend void from_json(const json& j, Attribute& s);
+    friend void swap(Attribute &first, Attribute &second);
 
-        std::string attributeId;
-        std::string unit;
-        std::string description;
+    friend void to_json(json &j, const Attribute &s);
+
+    friend void from_json(const json &j, Attribute &s);
+
+    std::string attributeId;
+    std::string unit;
+    std::string description;
 };
 
 

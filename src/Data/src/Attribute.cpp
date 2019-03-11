@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Attribute.h"
@@ -45,16 +48,16 @@ bool Attribute::operator!=(const Attribute &rhs) const {
     return !(rhs == *this);
 }
 
-void swap(Attribute & first, Attribute & second){
+void swap(Attribute &first, Attribute &second) {
     std::swap(first.unit, second.unit);
     std::swap(first.description, second.description);
     std::swap(first.attributeId, second.attributeId);
 }
 
 void to_json(json &j, const Attribute &a) {
-    j = json{{"unit",           a.unit},
-             {"description",    a.description},
-             {"attributeId",    a.attributeId}};
+    j = json{{"unit",        a.unit},
+             {"description", a.description},
+             {"attributeId", a.attributeId}};
 }
 
 void from_json(const json &j, Attribute &a) {

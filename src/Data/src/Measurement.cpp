@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Measurement.h"
@@ -9,12 +12,12 @@ long Measurement::getTimestamp() const {
     return timestamp;
 }
 
-double Measurement::getValue() const{
+double Measurement::getValue() const {
     return value;
 }
 
 
-Sensor Measurement::getSensor() const{
+Sensor Measurement::getSensor() const {
     return sensor;
 }
 
@@ -53,7 +56,7 @@ bool Measurement::operator!=(const Measurement &rhs) const {
     return !(rhs == *this);
 }
 
-void swap(Measurement & first, Measurement & second) {
+void swap(Measurement &first, Measurement &second) {
     std::swap(first.timestamp, second.timestamp);
     std::swap(first.value, second.value);
     std::swap(first.attribute, second.attribute);
@@ -61,10 +64,10 @@ void swap(Measurement & first, Measurement & second) {
 }
 
 void to_json(json &j, const Measurement &m) {
-    j = json{{"timestamp",    m.timestamp},
-             {"value",        m.value},
-             {"attribute",    m.attribute},
-             {"sensor",       m.sensor}};
+    j = json{{"timestamp", m.timestamp},
+             {"value",     m.value},
+             {"attribute", m.attribute},
+             {"sensor",    m.sensor}};
 }
 
 void from_json(const json &j, Measurement &m) {
