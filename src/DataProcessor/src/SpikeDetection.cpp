@@ -36,9 +36,6 @@ SpikeDetection::~SpikeDetection() {
 json *SpikeDetection::apply() {
     json *j = new json;
 
-    std::cout << valueThreshold << endl;
-    std::cout << timeThreshold << endl;
-    std::cout << areaThreshold << endl;
 
     *j = json::array();
     for (unsigned int z = 0; z < points->size(); ++z) {
