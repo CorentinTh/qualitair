@@ -2,6 +2,8 @@
 // Created by Wallyn Valentin on 17/02/2019.
 //
 
+#include <iostream>
+#include <iomanip>
 #include "../include/SpikesCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "../../globals.h"
@@ -10,6 +12,9 @@
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputHTML.h"
 #include "../include/Cache.h"
+
+
+using namespace std;
 
 SpikesCommand &SpikesCommand::operator=(SpikesCommand other) {
     swap(*this, other);
@@ -24,7 +29,7 @@ SpikesCommand::SpikesCommand(const SpikesCommand &other) {
     sensors = other.sensors;
 }
 
-SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, SpikeDetectionConfiguration config, OutputArguments outputArguments,json interpolationConfig)
+SpikesCommand::SpikesCommand(std::string attr, BBox b, time_t s, time_t e, std::vector<std::string> sen, SpikeDetectionConfiguration config, OutputArguments outputArguments, json interpolationConfig)
         : Command(outputArguments), attribute(attr),
           bbox(b), start(s), end(e), sensors(sen),
           detectionConfig(config),
@@ -77,14 +82,61 @@ void SpikesCommand::execute() {
         config["hasSensors"] = false;
     }
 
+
     config.merge_patch(interpolationConfig);
 
     IETL &etl = ETL::getInstance();
     IDataProcessor &dataProcessor = DataProcessor::getInstance();
 
     pointCollection *result = (pointCollection *) etl.getData(config);
-    json res = *dataProcessor.detectSpikes(result, attribute, detectionConfig.valueThreshold,
-                                           detectionConfig.timeThreshold, detectionConfig.areaThreshold);
+
+
+
+
+    // debug
+//
+//    cout << "{" << endl;
+//    for (auto &c : *result) {
+//        cout << "\t{" << endl;
+//        for (auto &r : c) {
+//            cout << "\t\t{";
+//            for (auto &d : r) {
+//                cout << "{";
+//                for (auto &v : d) {
+//                    cout << "{\"";
+//                    cout << v.first << "\", ";
+//                    cout << fixed << setprecision(3) << v.second << " ";
+//                    cout << "}, ";
+//                }
+//                cout << "}, ";
+//
+//            }
+//            cout << "}, " << endl;
+//        }
+//        cout << "\t}, " << endl;
+//    }
+//    cout << "}" << endl;
+
+//    cout << "timeThreshold"<<detectionConfig.timeThreshold << endl;
+//    cout << "areaTh"<< detectionConfig.areaThreshold << endl;
+//    cout << (unsigned int)interpolationConfig["temporalGranularity"] << endl;
+//    cout << interpolationConfig["spatialGranularity"] << endl;
+
+//    unsigned int timethreshold = detectionConfig.timeThreshold
+    double areaThresh = ((double)detectionConfig.areaThreshold / (double)interpolationConfig["spatialGranularity"]);
+    double timeThreshold = ((double)detectionConfig.timeThreshold / (double)interpolationConfig["temporalGranularity"]);
+
+//    cout << "areaThresh" << areaThresh << endl;
+//    cout << "areaThresh" << (unsigned int)areaThresh << endl;
+//    cout << endl;
+
+    json res = *dataProcessor.detectSpikes(result,
+                                           attribute,
+                                           detectionConfig.valueThreshold,
+                                           (unsigned int)areaThresh,
+                                           (unsigned int)timeThreshold);
+
+//    cout << res.dump() << endl;
 
     if (config["hasStart"] && config["hasEnd"]) {
         Cache cache;
