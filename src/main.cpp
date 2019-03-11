@@ -1,3 +1,11 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
+
 #include "easylogging++.h"
 #include "Controller/include/Controller.h"
 
