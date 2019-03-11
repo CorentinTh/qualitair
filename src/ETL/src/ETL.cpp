@@ -19,7 +19,7 @@ unsigned int MAX_RECURSE_CALL = 5;
 long ETL::ingest(std::string path) {
     long insertedRows = 0;
 
-    //dropDatabaseIndexs();
+    dropDatabaseIndexs();
     for (std::string file : listCSVFiles(path)) {
         csvmonkey::MappedFileCursor cursor;
         cursor.open(file.c_str());
@@ -32,7 +32,7 @@ long ETL::ingest(std::string path) {
         if (dataType == -1) {
             LOG(ERROR) << "Unable to recognize header on file " << file;
             //TODO: error handling ?
-            //createDatabaseIndexs();
+            createDatabaseIndexs();
             return -1;
         }
 
@@ -79,7 +79,7 @@ long ETL::ingest(std::string path) {
         insertedRows += queryBuilder.executeUpdate();
     }
 
-    //createDatabaseIndexs();
+    createDatabaseIndexs();
     return insertedRows;
 }
 
