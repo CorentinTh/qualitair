@@ -1,12 +1,15 @@
 //
-// Created by vwallyn on 03/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Deviation.h"
 
 json *Deviation::apply() {
     auto deviations = computeDeviation();
-    json* j = new json(deviations);
+    json *j = new json(deviations);
     return j;
 }
 
@@ -27,20 +30,16 @@ Deviation::~Deviation() {
 
 }
 
-std::unordered_map<std::string, double>  Deviation::computeDeviation() const {
+std::unordered_map<std::string, double> Deviation::computeDeviation() const {
     std::unordered_map<std::string, double> sums;
     std::unordered_map<std::string, double> deviations;
     std::unordered_map<std::string, int> count;
 
-    for (auto i = points.begin(); i != points.end() ; ++i)
-    {
-        for (auto j = i->begin(); j != i->end() ; ++j)
-        {
-            for (auto k = j->begin(); k != j->end() ; ++k)
-            {
+    for (auto i = points.begin(); i != points.end(); ++i) {
+        for (auto j = i->begin(); j != i->end(); ++j) {
+            for (auto k = j->begin(); k != j->end(); ++k) {
                 for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it)
-                {
+                     it != k->end(); ++it) {
                     sums[it->first] += it->second;
                     count[it->first]++;
 
@@ -50,26 +49,22 @@ std::unordered_map<std::string, double>  Deviation::computeDeviation() const {
     }
 
     //transform sums to means
-    for (auto it = sums.begin(); it!= sums.end(); ++it) {
+    for (auto it = sums.begin(); it != sums.end(); ++it) {
         sums[it->first] /= count[it->first];
     }
 
-    for (auto i = points.begin(); i != points.end() ; ++i)
-    {
-        for (auto j = i->begin(); j != i->end() ; ++j)
-        {
-            for (auto k = j->begin(); k != j->end() ; ++k)
-            {
+    for (auto i = points.begin(); i != points.end(); ++i) {
+        for (auto j = i->begin(); j != i->end(); ++j) {
+            for (auto k = j->begin(); k != j->end(); ++k) {
                 for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it)
-                {
+                     it != k->end(); ++it) {
                     deviations[it->first] += std::pow(it->second - sums[it->first], 2);
                 }
             }
         }
     }
 
-    for (auto it = deviations.begin(); it!= deviations.end(); ++it) {
+    for (auto it = deviations.begin(); it != deviations.end(); ++it) {
         deviations[it->first] = std::floor((std::sqrt(deviations[it->first] / count[it->first])) * 100.0 + 0.5) / 100.0;
     }
 

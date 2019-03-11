@@ -1,12 +1,15 @@
 //
-// Created by vwallyn on 03/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Average.h"
 
 json *Average::apply() {
     auto means = computeAverage();
-    json* j = new json(means);
+    json *j = new json(means);
     return j;
 }
 
@@ -31,15 +34,11 @@ std::unordered_map<std::string, double> Average::computeAverage() const {
     std::unordered_map<std::string, double> sums;
     std::unordered_map<std::string, int> count;
 
-    for (auto i = points.begin(); i != points.end() ; ++i)
-    {
-        for (auto j = i->begin(); j != i->end() ; ++j)
-        {
-            for (auto k = j->begin(); k != j->end() ; ++k)
-            {
+    for (auto i = points.begin(); i != points.end(); ++i) {
+        for (auto j = i->begin(); j != i->end(); ++j) {
+            for (auto k = j->begin(); k != j->end(); ++k) {
                 for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it)
-                {
+                     it != k->end(); ++it) {
                     sums[it->first] += it->second;
                     count[it->first]++;
 
@@ -49,7 +48,7 @@ std::unordered_map<std::string, double> Average::computeAverage() const {
     }
 
     //transform sums to mean
-    for (auto it = sums.begin(); it!= sums.end(); ++it) {
+    for (auto it = sums.begin(); it != sums.end(); ++it) {
         //round to 2 digits
         sums[it->first] = std::floor((sums[it->first] / count[it->first]) * 100.0 + 0.5) / 100.0;
     }

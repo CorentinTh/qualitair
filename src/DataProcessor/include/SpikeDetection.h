@@ -1,3 +1,9 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
 
 #ifndef QUALITAIR_SPIKEDETECTION_H
 #define QUALITAIR_SPIKEDETECTION_H

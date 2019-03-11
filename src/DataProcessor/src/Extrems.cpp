@@ -1,13 +1,16 @@
 //
-// Created by vwallyn on 03/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Extrems.h"
 
-json* Extrems::apply() {
+json *Extrems::apply() {
     auto extrems = computeExtrems();
-    json* j = new json;
-    for (auto it = extrems.begin(); it!= extrems.end(); ++it) {
+    json *j = new json;
+    for (auto it = extrems.begin(); it != extrems.end(); ++it) {
         (*j)[it->first]["min"] = extrems[it->first].first;
         (*j)[it->first]["max"] = extrems[it->first].second;
     }
@@ -34,18 +37,13 @@ Extrems::~Extrems() {
 std::unordered_map<std::string, std::pair<double, double>> Extrems::computeExtrems() const {
     std::unordered_map<std::string, std::pair<double, double>> results;
 
-    for (auto i = points.begin(); i != points.end() ; ++i)
-    {
-        for (auto j = i->begin(); j != i->end() ; ++j)
-        {
-            for (auto k = j->begin(); k != j->end() ; ++k)
-            {
+    for (auto i = points.begin(); i != points.end(); ++i) {
+        for (auto j = i->begin(); j != i->end(); ++j) {
+            for (auto k = j->begin(); k != j->end(); ++k) {
                 for (std::unordered_map<std::string, double>::const_iterator it = k->begin();
-                     it != k->end(); ++it)
-                {
+                     it != k->end(); ++it) {
                     //initial values
-                    if (!results.count(it->first))
-                    {
+                    if (!results.count(it->first)) {
                         results[it->first] = std::pair<double, double>(it->second, it->second);
                     }
                     //min

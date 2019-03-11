@@ -1,24 +1,32 @@
-
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
 
 #include "../include/BrokenDetection.h"
 #include "easylogging++.h"
 #include <algorithm>
 
 struct BrokenSensor {
-    public:
-        long start;
-        long end;
-        Sensor sensor;
+public:
+    long start;
+    long end;
+    Sensor sensor;
 
-        friend void to_json(json& j, const BrokenSensor& s);
-        friend void from_json(const json& j, BrokenSensor& s);
+    friend void to_json(json &j, const BrokenSensor &s);
+
+    friend void from_json(const json &j, BrokenSensor &s);
 };
 
-void to_json(json& j, const BrokenSensor& s) {
-    j = json{{"start", s.start}, {"end", s.end}, {"sensor", s.sensor}};
+void to_json(json &j, const BrokenSensor &s) {
+    j = json{{"start",  s.start},
+             {"end",    s.end},
+             {"sensor", s.sensor}};
 }
 
-void from_json(const json& j, BrokenSensor& s) {
+void from_json(const json &j, BrokenSensor &s) {
     j.at("start").get_to(s.start);
     j.at("end").get_to(s.end);
     j.at("sensor").get_to(s.sensor);
@@ -36,7 +44,7 @@ BrokenDetection::BrokenDetection(const BrokenDetection &other) {
 }
 
 BrokenDetection::BrokenDetection(
-        std::vector<Measurement*> m,
+        std::vector<Measurement *> m,
         int bT,
         std::unordered_map<std::string, std::pair<double, double>> ranges)
         : measures(m), brokenTime(bT), admissibleRanges(ranges) {
@@ -48,8 +56,7 @@ BrokenDetection::~BrokenDetection() {
 }
 
 
-
-json* BrokenDetection::apply() {
+json *BrokenDetection::apply() {
     std::vector<BrokenSensor> brokenSensors;
     std::unordered_map<std::pair<Sensor, std::string>, long, utils::pair_hash> lastTimes;
 
@@ -58,19 +65,17 @@ json* BrokenDetection::apply() {
         return new json;
     }
 
-    for (auto measure : measures)
-    {
+    for (auto measure : measures) {
         auto attribute = measure->getAttribute();
         auto sensor = measure->getSensor();
 
         //out of admissible ranges
         if (measure->getValue() < admissibleRanges[attribute.getId()].first ||
             measure->getValue() > admissibleRanges[attribute.getId()].second) {
-            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
+            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor &obj) { return obj.sensor.getId() == sensor.getId(); });
             if (brokenSensors.end() != it) {
                 it->end = measure->getTimestamp();
-            }
-            else {
+            } else {
                 auto bs = BrokenSensor();
                 bs.start = measure->getTimestamp();
                 bs.end = measure->getTimestamp();
@@ -82,17 +87,16 @@ json* BrokenDetection::apply() {
         if ((measure->getTimestamp() - lastTimes[make_pair(sensor, attribute.getId())]) > brokenTime
             && lastTimes[make_pair(sensor, attribute.getId())] != 0) {
             LOG(INFO) << "Sensor " << sensor.getId() << " has no measurement for " << attribute.getId() <<
-            " for more than " << brokenTime << " s" << "(" << measure->getTimestamp() << ")";
+                      " for more than " << brokenTime << " s" << "(" << measure->getTimestamp() << ")";
 
-            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
+            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor &obj) { return obj.sensor.getId() == sensor.getId(); });
             if (it == brokenSensors.end()) {
                 auto bs = BrokenSensor();
                 bs.start = lastTimes[make_pair(sensor, attribute.getId())];
                 bs.end = measure->getTimestamp();
                 bs.sensor = sensor;
                 brokenSensors.push_back(bs);
-            }
-            else {
+            } else {
                 it->end = measure->getTimestamp();
             }
         }
@@ -103,7 +107,7 @@ json* BrokenDetection::apply() {
     for (auto lastT : lastTimes) {
         if ((lastTimestamp - lastT.second) > brokenTime) {
             auto sensor = lastT.first.first;
-            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor& obj) {return obj.sensor.getId() == sensor.getId();});
+            auto it = find_if(brokenSensors.begin(), brokenSensors.end(), [&sensor](BrokenSensor &obj) { return obj.sensor.getId() == sensor.getId(); });
             if (it == brokenSensors.end()) {
                 auto bs = BrokenSensor();
                 bs.start = lastT.second;
@@ -114,7 +118,7 @@ json* BrokenDetection::apply() {
         }
     }
 
-    json* j = new json(brokenSensors);
+    json *j = new json(brokenSensors);
 
     return j;
 }

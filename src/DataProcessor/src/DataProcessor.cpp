@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/DataProcessor.h"
@@ -12,9 +15,8 @@
 #include "../include/SpikeDetection.h"
 
 
-json *DataProcessor::detectSpikes(pointCollection *data, std::string attribute, double valueThreshold,
-        unsigned int areaThreshold, unsigned int timeThreshold) {
-     return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold, attribute).apply();
+json *DataProcessor::detectSpikes(pointCollection *data, std::string attribute, double valueThreshold, unsigned int areaThreshold, unsigned int timeThreshold) {
+    return SpikeDetection(data, valueThreshold, areaThreshold, timeThreshold, attribute).apply();
 }
 
 json *DataProcessor::computeAverage(pointCollection &data) {
@@ -33,11 +35,10 @@ json *DataProcessor::computeExtrems(pointCollection &data) {
     return Extrems(data).apply();
 }
 
-json *DataProcessor::detectSimilar(std::vector<Measurement*> measures, double threshold) {
+json *DataProcessor::detectSimilar(std::vector<Measurement *> measures, double threshold) {
     return SimilarDetection(measures, threshold).apply();
 }
 
-json *DataProcessor::detectBroken(std::vector<Measurement*> measures, int timeThreshold,
-                                  std::unordered_map<std::string, std::pair<double, double>> admissibleRanges) {
+json *DataProcessor::detectBroken(std::vector<Measurement *> measures, int timeThreshold, std::unordered_map<std::string, std::pair<double, double>> admissibleRanges) {
     return BrokenDetection(measures, timeThreshold, admissibleRanges).apply();
 }

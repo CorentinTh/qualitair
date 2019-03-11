@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_IDATAPROCESSOR_H
@@ -15,21 +18,26 @@
 #include "../../globals.h"
 
 #include "nlohmann/json.hpp"
+
 using json = nlohmann::json;
 
 class IDataProcessor {
-    public:
-        virtual ~IDataProcessor() {}
+public:
+    virtual ~IDataProcessor() {}
 
-        virtual json* computeAverage(pointCollection& data) = 0;
-        virtual json* computeDeviation(pointCollection& data) = 0;
-        virtual json* computeAtmo(pointCollection& data) = 0;
-        virtual json* computeExtrems(pointCollection& data) = 0;
-        virtual json* detectSimilar(std::vector<Measurement*> measures, double threshold) = 0;
-        virtual json* detectBroken(std::vector<Measurement*> measures, int timeThreshold,
-                std::unordered_map<std::string, std::pair<double,double>> admissibleRanges) = 0;
-        virtual json* detectSpikes(pointCollection* data, std::string attribute, double valueThreshold,
-                unsigned int areaThreshold, unsigned int timeThreshold) = 0;
+    virtual json *computeAverage(pointCollection &data) = 0;
+
+    virtual json *computeDeviation(pointCollection &data) = 0;
+
+    virtual json *computeAtmo(pointCollection &data) = 0;
+
+    virtual json *computeExtrems(pointCollection &data) = 0;
+
+    virtual json *detectSimilar(std::vector<Measurement *> measures, double threshold) = 0;
+
+    virtual json *detectBroken(std::vector<Measurement *> measures, int timeThreshold, std::unordered_map<std::string, std::pair<double, double>> admissibleRanges) = 0;
+
+    virtual json *detectSpikes(pointCollection *data, std::string attribute, double valueThreshold, unsigned int areaThreshold, unsigned int timeThreshold) = 0;
 };
 
 

@@ -1,10 +1,12 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include <utility>
 #include <iostream>
-
-//
-// Created by Wallyn Valentin on 17/02/2019.
-//
-
 #include "../include/SpikeDetection.h"
 
 SpikeDetection &SpikeDetection::operator=(SpikeDetection other) {
@@ -46,7 +48,7 @@ json *SpikeDetection::apply() {
                 (*j)[z][y][x] = json::array();
 
                 for (auto &it : points->at(z)[y][x]) {
-                    if (attribute == it.first){
+                    if (attribute == it.first) {
                         (*j)[z][y][x].push_back({it.first, isSpike(x, y, z, it.first) ? 1 : 0});
                     }
                 }
@@ -84,7 +86,7 @@ bool SpikeDetection::isSpike(unsigned int x, unsigned int y, unsigned int z, con
         for (unsigned int j = (unsigned int) jMin; j <= jMax; ++j) {
             // point in radius &&
             // point not a spike from long enough
-            int distance = ((x-i) * (x-i) + (y-j) * (y-j));
+            int distance = ((x - i) * (x - i) + (y - j) * (y - j));
             if (spikeStartFrame(i, j, z, attribute) < timeThreshold &&
                 distance <= areaThreshold * areaThreshold) {
                 return false;

@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/SimilarDetection.h"
@@ -15,7 +18,7 @@ SimilarDetection::SimilarDetection(const SimilarDetection &other) {
     threshold = other.threshold;
 }
 
-SimilarDetection::SimilarDetection(std::vector<Measurement*> m, double thresh) : measures(m), threshold(thresh) {
+SimilarDetection::SimilarDetection(std::vector<Measurement *> m, double thresh) : measures(m), threshold(thresh) {
 
 }
 
@@ -23,7 +26,7 @@ SimilarDetection::~SimilarDetection() {
 
 }
 
-json * SimilarDetection::apply() {
+json *SimilarDetection::apply() {
     std::unordered_map<std::string, std::vector<std::vector<Sensor>>> results;
 
     std::unordered_map<std::pair<Sensor, std::string>, double, utils::pair_hash> sums;
@@ -42,7 +45,7 @@ json * SimilarDetection::apply() {
         for (auto s : sums) {
             //compare only same attributes
             if (m.first.second == s.first.second && !(m.first.first == s.first.first)) {
-                double diff = std::abs((((std::max(m.second, s.second) - std::min(m.second, s.second)) / (std::max(m.second, s.second) )) * 100));
+                double diff = std::abs((((std::max(m.second, s.second) - std::min(m.second, s.second)) / (std::max(m.second, s.second))) * 100));
 
                 if (diff < threshold) {
                     bool existing = false;
@@ -58,7 +61,7 @@ json * SimilarDetection::apply() {
 
                             }
                         }
-                        //if s is in that list
+                            //if s is in that list
                         else if (std::find(vec.begin(), vec.end(), s.first.first) != vec.end()) {
                             existing = true;
                             // and not m
@@ -77,7 +80,7 @@ json * SimilarDetection::apply() {
         }
     }
 
-    json* j = new json(results);
+    json *j = new json(results);
 
     return j;
 }
