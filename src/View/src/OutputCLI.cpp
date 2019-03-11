@@ -1,5 +1,8 @@
 //
-// Created by test on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <iostream>
@@ -19,11 +22,11 @@ typedef struct {
 } Spike;
 
 void OutputCLI::printSpikes(json data, std::string filename) {
-    std::vector<Spike*> vectSpikes;
+    std::vector<Spike *> vectSpikes;
     if (!data.empty() && data.find("pics") != data.end()) {
-        for (json::iterator it = data.at("pics")[0][0][0].begin(); it != data.at("pics")[0][0][0].end(); ++it){
+        for (json::iterator it = data.at("pics")[0][0][0].begin(); it != data.at("pics")[0][0][0].end(); ++it) {
             std::string actualType = it.key();
-            LOG(INFO) << "Des pics de "<< actualType <<" ont été détectés :" << std::endl;
+            LOG(INFO) << "Des pics de " << actualType << " ont été détectés :" << std::endl;
 
             double t0, x0, y0;
             int deltaS, deltaT;
@@ -34,17 +37,17 @@ void OutputCLI::printSpikes(json data, std::string filename) {
             deltaT = data.at("temporalStep");
 
             int indiceT = 0; // time index
-            for (const auto & timeList : data.at("pics")){
+            for (const auto &timeList : data.at("pics")) {
                 int indiceY = 0; // longitude index
-                for (const auto & y : timeList){
+                for (const auto &y : timeList) {
                     int indiceX = 0; // latitude index
-                    for (const auto & x : y){
-                        for (json::const_iterator itType = x.begin(); itType != x.end(); itType++){
+                    for (const auto &x : y) {
+                        for (json::const_iterator itType = x.begin(); itType != x.end(); itType++) {
                             std::string type = itType.key();
                             int value = itType.value();
                             if (actualType == type && value == 1) {
                                 bool spikeInVector = false;
-                                for (Spike* s : vectSpikes) {
+                                for (Spike *s : vectSpikes) {
                                     if (s->x == x0 + indiceX * deltaS
                                         && s->y == y0 + indiceY * deltaS) {
                                         if (s->tStart < (int) t0 + indiceT * deltaT
@@ -53,8 +56,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                                             // we extend its duration
                                             s->tEnd = (int) t0 + (indiceT) * deltaT;
                                             spikeInVector = true;
-                                        }
-                                        else {
+                                        } else {
                                             spikeInVector = false;
                                         }
                                     }
@@ -62,7 +64,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                                 if (!spikeInVector) {
                                     // if the spike is not in the spikes vector
                                     // we create it and add it
-                                    Spike * newSpike = new Spike;
+                                    Spike *newSpike = new Spike;
                                     newSpike->tEnd = (int) t0 + (indiceT) * deltaT;
                                     newSpike->tStart = (int) t0 + (indiceT) * deltaT;
                                     newSpike->x = x0 + indiceX * deltaS;
@@ -78,7 +80,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                 indiceT++;
             }
 
-            for (Spike * s : vectSpikes) {
+            for (Spike *s : vectSpikes) {
 
                 time_t tEnd = (time_t) s->tEnd;
                 struct tm *tmEnd = localtime(&tEnd);
@@ -95,18 +97,18 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                 LOG(INFO) << " entre " << dateStart << " et " << dateEnd << std::endl;
 
                 // delete the pointers
-                delete(s);
+                delete (s);
             }
         }
     }
 }
 
 void OutputCLI::printStats(json data, std::string filename) {
-    if (!data.empty()){
-        if(data.find("atmo") != data.end()){
+    if (!data.empty()) {
+        if (data.find("atmo") != data.end()) {
             LOG(INFO) << "Résultats des analyses :" << std::endl;
             LOG(INFO) << " - ATMO :" << std::endl;
-            for (json::iterator it = data.at("atmo").begin(); it != data.at("atmo").end(); ++it){
+            for (json::iterator it = data.at("atmo").begin(); it != data.at("atmo").end(); ++it) {
                 int date = std::stoi(it.key());
                 int indiceAtmo = it.value();
                 time_t tDate = (time_t) date;
@@ -118,7 +120,7 @@ void OutputCLI::printStats(json data, std::string filename) {
             std::string attribute;
             double min, max, avg, deviation;
             for (json::iterator it = data.begin(); it != data.end(); ++it) {
-                if (it.key() != "atmo"){
+                if (it.key() != "atmo") {
                     attribute = it.key();
                     min = it.value().at("min");
                     max = it.value().at("max");
@@ -137,15 +139,15 @@ void OutputCLI::printStats(json data, std::string filename) {
 }
 
 void OutputCLI::printSim(json data, std::string filename) {
-    if (!data.empty()){
-        for (auto& pair : data.items()) {
+    if (!data.empty()) {
+        for (auto &pair : data.items()) {
             LOG(INFO) << "Attribut : " << pair.key();
-            for (const auto & listSimilarSensors : pair.value()){
+            for (const auto &listSimilarSensors : pair.value()) {
                 LOG(INFO) << "------" << std::endl;
                 LOG(INFO) << "Les capteurs suivants sont similaires :" << std::endl;
                 double latitude, longitude;
                 std::string description, id;
-                for (const auto & sensor : listSimilarSensors){
+                for (const auto &sensor : listSimilarSensors) {
                     id = sensor.at("id");
                     latitude = sensor.at("lat");
                     longitude = sensor.at("long");
@@ -162,7 +164,7 @@ void OutputCLI::printSim(json data, std::string filename) {
 }
 
 void OutputCLI::printBroken(json data, std::string filename) {
-    if (!data.empty()){
+    if (!data.empty()) {
         LOG(INFO) << "Les capteurs suivants sont en panne :" << std::endl;
         for (json::iterator itSensor = data.begin(); itSensor != data.end(); ++itSensor) {
             double latitude, longitude;
@@ -208,7 +210,7 @@ void OutputCLI::printSensors(json data, std::string filename) {
         LOG(INFO) << "Les capteurs suivants ont été trouvés :";
         double latitude, longitude;
         std::string description, id;
-        for (const auto & sensor : data){
+        for (const auto &sensor : data) {
             id = sensor.at("id");
             latitude = sensor.at("lat");
             longitude = sensor.at("long");

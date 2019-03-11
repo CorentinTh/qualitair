@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <fstream>
@@ -7,7 +10,7 @@
 
 #include "../include/OutputJSON.h"
 
-OutputJSON::OutputJSON(){}
+OutputJSON::OutputJSON() {}
 
 void OutputJSON::printSpikes(json data, std::string filename) {
     printAnyData(data, filename);
@@ -33,27 +36,25 @@ void OutputJSON::printSensors(json data, std::string filename) {
     printAnyData(data, filename);
 }
 
-void OutputJSON::copyJsonToFile(json data, std::ofstream * ptrFile) {
+void OutputJSON::copyJsonToFile(json data, std::ofstream *ptrFile) {
     std::string s = data.dump(4); // indent with four spaces
     (*ptrFile) << s;
 }
 
-void OutputJSON::putJsonInStdout(json data){
+void OutputJSON::putJsonInStdout(json data) {
     std::cout << data.dump(4);
 }
 
-void OutputJSON::printAnyData(json data, std::string filename){
-    if (filename == "stdout"){
+void OutputJSON::printAnyData(json data, std::string filename) {
+    if (filename == "stdout") {
         putJsonInStdout(data);
-    }
-    else{
+    } else {
         // if the file existed, we overwrite it
         std::ofstream file(filename);
-        if (file.is_open()){
+        if (file.is_open()) {
             copyJsonToFile(data, &file);
             file.close();
-        }
-        else{
+        } else {
             std::cout << "Erreur de manipulation du fichier " << filename << std::endl;
         }
     }

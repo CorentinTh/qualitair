@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/OutputHTML.h"
@@ -36,21 +39,20 @@ OutputHTML::OutputHTML() {
 
 }
 
-void OutputHTML::fulfillHtmlTemplate(json data, std::string filename, std::string srcTemplateHtml){
+void OutputHTML::fulfillHtmlTemplate(json data, std::string filename, std::string srcTemplateHtml) {
     std::ofstream htmlFile(filename);
 
     std::ifstream fileTemplate;
 
     fileTemplate.open(srcTemplateHtml, std::ifstream::in);
 
-    if (fileTemplate.is_open()){
-        if (htmlFile.is_open()){
+    if (fileTemplate.is_open()) {
+        if (htmlFile.is_open()) {
             std::string line = "";
-            while (std::getline(fileTemplate, line)){
-                if (line == "$JSONPLACEHOLDER$"){
+            while (std::getline(fileTemplate, line)) {
+                if (line == "$JSONPLACEHOLDER$") {
                     line = data.dump();
-                }
-                else if(line == "$DATEPLACEHOLDER$"){
+                } else if (line == "$DATEPLACEHOLDER$") {
                     int timestamp = (int) std::time(nullptr);
                     line = std::to_string(timestamp);
                 }
