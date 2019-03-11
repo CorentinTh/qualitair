@@ -1,25 +1,25 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/AttributeFilter.h"
 #include <algorithm>
 
-void AttributeFilter::applyTo(IData &qb){
+void AttributeFilter::applyTo(IData &qb) {
     int compteur = 1;
-    for (std::string attr : this->attributes){
-        if (compteur == 1){
-            if (this->attributes.size()>1){
+    for (std::string attr : this->attributes) {
+        if (compteur == 1) {
+            if (this->attributes.size() > 1) {
                 qb.andWhere("(Attribute.AttributeID = ?").bind(attr);
-            }
-            else{
+            } else {
                 qb.andWhere("Attribute.AttributeID = ?").bind(attr);
             }
-        }
-        else if(compteur == this->attributes.size()){
+        } else if (compteur == this->attributes.size()) {
             qb.orWhere("Attribute.AttributeID = ?)").bind(attr);
-        }
-        else{
+        } else {
             qb.orWhere("Attribute.AttributeID = ?").bind(attr);
         }
         compteur++;
@@ -27,8 +27,8 @@ void AttributeFilter::applyTo(IData &qb){
 }
 
 void AttributeFilter::addAttribute(std::string attribute) {
-    if (!attribute.empty()){
-        if (std::find(attributes.begin(), attributes.end(), attribute) == attributes.end()){
+    if (!attribute.empty()) {
+        if (std::find(attributes.begin(), attributes.end(), attribute) == attributes.end()) {
             // if the attribute is not already in the vector
             attributes.push_back(attribute);
         }

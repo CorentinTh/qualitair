@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/TimeFilter.h"
@@ -7,42 +10,39 @@
 
 
 void TimeFilter::applyTo(IData &qb) {
-    if (this->startDefined){
+    if (this->startDefined) {
         qb.andWhere("Timestamp > ?").bind(this->start);
     }
-    if (this->endDefined){
+    if (this->endDefined) {
         qb.andWhere("Timestamp < ?").bind(this->end);
     }
 }
 
 void TimeFilter::setStart(std::time_t start) {
-    if (!this->endDefined || (this->endDefined && start < this->end)){
+    if (!this->endDefined || (this->endDefined && start < this->end)) {
         this->start = start;
         this->startDefined = true;
-    }
-    else{
+    } else {
         throw std::logic_error("starting date must be before ending date");
     }
 }
 
 void TimeFilter::setEnd(std::time_t end) {
-    if (!this->startDefined || (this->startDefined && this->start < end)){
+    if (!this->startDefined || (this->startDefined && this->start < end)) {
         this->end = end;
         this->endDefined = true;
-    }
-    else{
+    } else {
         throw std::logic_error("Ending date must be after starting date");
     }
 }
 
 void TimeFilter::setInterval(std::time_t start, std::time_t end) {
-    if (start < end){
+    if (start < end) {
         this->start = start;
         this->end = end;
         this->startDefined = true;
         this->endDefined = true;
-    }
-    else{
+    } else {
         throw std::logic_error("Starting date must be before ending date");
     }
 }

@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Interpolater.h"
@@ -8,14 +11,14 @@
 
 pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures, const json &config) {
 
-    auto trees = new unordered_map<string, vector<OT::point_t *>*>;
+    auto trees = new unordered_map<string, vector<OT::point_t *> *>;
 
     double x0 = config["BBox"]["left"];
     double x1 = config["BBox"]["right"];
     double y0 = config["BBox"]["bottom"];
     double y1 = config["BBox"]["top"];
-    double z0 = (config.count("start") == 1) ? (double)config["start"] : (*measures.begin())->getTimestamp();
-    double z1 = (config.count("end") == 1) ? (double)config["end"] : (*measures.end())->getTimestamp();
+    double z0 = (config.count("start") == 1) ? (double) config["start"] : (*measures.begin())->getTimestamp();
+    double z1 = (config.count("end") == 1) ? (double) config["end"] : (*measures.end())->getTimestamp();
     double xFactor = config["spatialGranularity"];
     double yFactor = config["spatialGranularity"];
     double zFactor = config["temporalGranularity"];
@@ -48,9 +51,9 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
 
     }
 
-    unsigned long xCount =(unsigned long) 1 + (unsigned long) ((x1 - x0) / xFactor);
-    unsigned long yCount =(unsigned long) 1 + (unsigned long) ((y1 - y0) / yFactor);
-    unsigned long zCount =(unsigned long) 1 + (unsigned long) ((z1 - z0) / zFactor);
+    unsigned long xCount = (unsigned long) 1 + (unsigned long) ((x1 - x0) / xFactor);
+    unsigned long yCount = (unsigned long) 1 + (unsigned long) ((y1 - y0) / yFactor);
+    unsigned long zCount = (unsigned long) 1 + (unsigned long) ((z1 - z0) / zFactor);
 
     auto *collection = new pointCollection(zCount);
 
@@ -108,7 +111,7 @@ Interpolater::~Interpolater() {
 
 }
 
-double Interpolater::interpolate(double x, double y, double z, vector< OT::point_t *> *neigboors) {
+double Interpolater::interpolate(double x, double y, double z, vector<OT::point_t *> *neigboors) {
 
     double distance = 0;
     double value = 0;
@@ -120,14 +123,14 @@ double Interpolater::interpolate(double x, double y, double z, vector< OT::point
         distance = euclideanSquared(x, y, z, m->x, m->y, m->z);
         value = *(double *) m->data;
 
-        if(distance < 0.0001) return value;
+        if (distance < 0.0001) return value;
 
-        weight = 1.0/distance;
+        weight = 1.0 / distance;
         collector += weight;
         result += weight * value;
     }
 
-    return result /collector;
+    return result / collector;
 }
 
 /**

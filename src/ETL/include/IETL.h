@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_IETL_H
@@ -13,8 +16,8 @@ using json = nlohmann::json;
 #include <string>
 
 class IETL {
-    public:
-        virtual long ingest(std::string path) = 0;
+public:
+    virtual long ingest(std::string path) = 0;
 
     /**
      * @param {json}            config
@@ -40,7 +43,7 @@ class IETL {
      * @param {string[]}        config["attributes"]
      * @return
      */
-    virtual void *getData(json config, unsigned int recurseCount=0) = 0;
+    virtual void *getData(json config, unsigned int recurseCount = 0) = 0;
 };
 
 

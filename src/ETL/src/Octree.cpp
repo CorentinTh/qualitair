@@ -1,5 +1,8 @@
 //
-// Created by cthomasset on 27/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/Octree.h"
@@ -64,7 +67,7 @@ namespace OT {
     }
 
     Octree::~Octree() {
-        if(isDivided){
+        if (isDivided) {
             for (auto &node : nodes) {
                 delete node;
             }

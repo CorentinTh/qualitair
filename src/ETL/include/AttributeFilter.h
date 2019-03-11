@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_ATTRIBUTEFILTER_H
@@ -10,21 +13,25 @@
 #include "Filter.h"
 
 class AttributeFilter : public Filter {
-    public:
-        void applyTo(IData &qb) override;
+public:
+    void applyTo(IData &qb) override;
 
-        void addAttribute(std::string attribute);
-        void addAttributes(std::vector<std::string> vectAttributes);
-        
-        AttributeFilter & operator = ( AttributeFilter other );
-        AttributeFilter ( const AttributeFilter & other );
-        AttributeFilter ();
-        virtual ~AttributeFilter ( );
-        
-    protected:
-        friend void swap(AttributeFilter & first, AttributeFilter & second);
+    void addAttribute(std::string attribute);
 
-        std::vector<std::string> attributes;
+    void addAttributes(std::vector<std::string> vectAttributes);
+
+    AttributeFilter &operator=(AttributeFilter other);
+
+    AttributeFilter(const AttributeFilter &other);
+
+    AttributeFilter();
+
+    virtual ~AttributeFilter();
+
+protected:
+    friend void swap(AttributeFilter &first, AttributeFilter &second);
+
+    std::vector<std::string> attributes;
 };
 
 

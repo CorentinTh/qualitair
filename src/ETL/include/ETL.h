@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_ETL_H
@@ -38,6 +41,7 @@ public:
 
 protected:
     static const int NB_ROW_PER_BATCH = 10000;
+
     std::vector<std::string> listCSVFiles(std::string path);
 
 
@@ -47,9 +51,13 @@ private:
     void *extractData(QueryBuilder *pBuilder, json config);
 
     void setMeasurementConfig(QueryBuilder *qb);
+
     void setSensorConfig(QueryBuilder *qb);
+
     void setAttributeConfig(QueryBuilder *qb);
+
     void createDatabaseIndexs();
+
     void dropDatabaseIndexs();
 
     ETL() = default;

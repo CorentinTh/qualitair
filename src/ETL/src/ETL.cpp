@@ -5,7 +5,6 @@
 //  Copyright © 2019 - All right reserved
 //
 
-
 #include "../include/ETL.h"
 #include "../../Data/include/QueryBuilder.h"
 #include "../include/Interpolater.h"

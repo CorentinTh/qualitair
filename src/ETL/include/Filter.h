@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_FILTER_H
@@ -10,8 +13,8 @@
 
 
 class Filter {
-    public:
-        virtual void applyTo(IData &qb) = 0;
+public:
+    virtual void applyTo(IData &qb) = 0;
 };
 
 

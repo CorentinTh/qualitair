@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/SensorFilter.h"
@@ -7,19 +10,16 @@
 
 void SensorFilter::applyTo(IData &qb) {
     int compteur = 1;
-    for (std::string sensor : this->sensors){
-        if (compteur == 1){
-            if (this->sensors.size()>1){
+    for (std::string sensor : this->sensors) {
+        if (compteur == 1) {
+            if (this->sensors.size() > 1) {
                 qb.andWhere("(Sensor.SensorID = ?").bind(sensor);
-            }
-            else{
+            } else {
                 qb.andWhere("Sensor.SensorID = ?").bind(sensor);
             }
-        }
-        else if(compteur == this->sensors.size()){
+        } else if (compteur == this->sensors.size()) {
             qb.orWhere("Sensor.SensorID = ?)").bind(sensor);
-        }
-        else{
+        } else {
             qb.orWhere("Sensor.SensorID = ?").bind(sensor);
         }
         compteur++;
@@ -27,7 +27,7 @@ void SensorFilter::applyTo(IData &qb) {
 }
 
 void SensorFilter::addSensor(std::string sensor) {
-    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) == this->sensors.end()){
+    if (std::find(this->sensors.begin(), this->sensors.end(), sensor) == this->sensors.end()) {
         // if the sensor is not already in the vector
         this->sensors.push_back(sensor);
     }
