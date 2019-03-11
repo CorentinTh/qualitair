@@ -7,7 +7,7 @@
 
 #include "../../../src/DataProcessor/include/DataProcessor.h"
 
-TEST_CASE("Testing singleton", "[UT-DP-9]") {
+TEST_CASE("Testing singleton", "[UT-DP-5]") {
     CHECK(&DataProcessor::getInstance() == &DataProcessor::getInstance());
 
     std::string type = typeid(DataProcessor::getInstance()).name();

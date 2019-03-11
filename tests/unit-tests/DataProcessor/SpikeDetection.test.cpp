@@ -6,7 +6,7 @@
 namespace SpikeTest {
 
 
-    TEST_CASE("Spike detection", "") {
+    TEST_CASE("Spike detection", "UT-DP-6") {
         SECTION("Test on simple point: > valueThreshold & > timeThreshold") {
             pointCollection in = {{{{{"co2", 10}}}}};
             json out = R"([[[[["co2",1]]]]])"_json;

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-8]") {
+TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-10]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
@@ -37,7 +37,7 @@ TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-8]") {
     REQUIRE(resultNotEmpty);
 }
 
-TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-9]") {
+TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-11]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();

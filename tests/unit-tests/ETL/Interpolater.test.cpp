@@ -32,135 +32,136 @@ bool pointCollectionEquals(pointCollection *a, pointCollection *b, double tolera
     return true;
 }
 
-TEST_CASE("Interpolation 1x3x3 with 1 attribute", "[]") {
-    Interpolater interpolater;
+TEST_CASE("Interpolater::interpolate(data)", "[UT-E-12]") {
 
-    vector<Measurement *> input = {
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
-    };
+    SECTION("Interpolation 1x3x3 with 1 attribute"){
+        Interpolater interpolater;
 
-    json config = {
-            {"spatialGranularity",   10},
-            {"temporalGranularity",  10},
-            {"BBox",                 {
-                                             {"left",      0},
-                                             {"right",    20},
-                                             {"top",  20},
-                                             {"bottom", 0}
-                                     }},
-            {"start",                0},
-            {"end",                  0},
-            {"minimalInterDistance", {
-                                             {"longitude", 5000},
-                                             {"latitude", 5000},
-                                             {"time", 50}
-                                     }}
-    };
+        vector<Measurement *> input = {
+                new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
+                new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
+        };
 
-    pointCollection output = {{
-                                      {{{"1", 5.000}}, {{"1", 5.833}}, {{"1", 7.500}}},
-                                      {{{"1", 5.833}}, {{"1", 7.500}}, {{"1", 9.167}}},
-                                      {{{"1", 7.500}}, {{"1", 9.167}}, {{"1", 10.00}}}
-                              }};
+        json config = {
+                {"spatialGranularity",   10},
+                {"temporalGranularity",  10},
+                {"BBox",                 {
+                                                 {"left",      0},
+                                                 {"right",    20},
+                                                 {"top",  20},
+                                                 {"bottom", 0}
+                                         }},
+                {"start",                0},
+                {"end",                  0},
+                {"minimalInterDistance", {
+                                                 {"longitude", 5000},
+                                                 {"latitude", 5000},
+                                                 {"time", 50}
+                                         }}
+        };
 
-    auto result = interpolater.interpolate(input, config);
+        pointCollection output = {{
+                                          {{{"1", 5.000}}, {{"1", 5.833}}, {{"1", 7.500}}},
+                                          {{{"1", 5.833}}, {{"1", 7.500}}, {{"1", 9.167}}},
+                                          {{{"1", 7.500}}, {{"1", 9.167}}, {{"1", 10.00}}}
+                                  }};
 
-    CHECK(pointCollectionEquals(result, &output));
-}
+        auto result = interpolater.interpolate(input, config);
+
+        CHECK(pointCollectionEquals(result, &output));
+    }
+    SECTION("Interpolation 1x3x3 with 2 attributes"){
+        Interpolater interpolater;
+
+        vector<Measurement *> input = {
+                new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
+                new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
+        };
 
 
-TEST_CASE("Interpolation 1x3x3 with 2 attributes", "[]") {
-    Interpolater interpolater;
+        json config = {
+                {"spatialGranularity",   10},
+                {"temporalGranularity",  10},
+                {"BBox",                 {
+                                                 {"left",      0},
+                                                 {"right",    20},
+                                                 {"top",  20},
+                                                 {"bottom", 0}
+                                         }},
+                {"start",                0},
+                {"end",                  0},
+                {"minimalInterDistance", {
+                                                 {"longitude", 5000},
+                                                 {"latitude", 5000},
+                                                 {"time", 50}
+                                         }}
+        };
 
-    vector<Measurement *> input = {
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
-    };
+        pointCollection output = {{
+                                          {{{"1", 5.000}, {"2", 5.000}}, {{"1", 5.833}, {"2", 5.833}}, {{"1", 7.500}, {"2", 7.500}}},
+                                          {{{"1", 5.833}, {"2", 5.833}}, {{"1", 7.500}, {"2", 7.500}}, {{"1", 9.167}, {"2", 9.167}}},
+                                          {{{"1", 7.500}, {"2", 7.500}}, {{"1", 9.167}, {"2", 9.167}}, {{"1", 10.00}, {"2", 10.00}}}
+                                  }};
 
+        auto result = interpolater.interpolate(input, config);
 
-    json config = {
-            {"spatialGranularity",   10},
-            {"temporalGranularity",  10},
-            {"BBox",                 {
-                                             {"left",      0},
-                                             {"right",    20},
-                                             {"top",  20},
-                                             {"bottom", 0}
-                                     }},
-            {"start",                0},
-            {"end",                  0},
-            {"minimalInterDistance", {
-                                             {"longitude", 5000},
-                                             {"latitude", 5000},
-                                             {"time", 50}
-                                     }}
-    };
+        CHECK(pointCollectionEquals(result, &output));
+    }
 
-    pointCollection output = {{
-                                      {{{"1", 5.000}, {"2", 5.000}}, {{"1", 5.833}, {"2", 5.833}}, {{"1", 7.500}, {"2", 7.500}}},
-                                      {{{"1", 5.833}, {"2", 5.833}}, {{"1", 7.500}, {"2", 7.500}}, {{"1", 9.167}, {"2", 9.167}}},
-                                      {{{"1", 7.500}, {"2", 7.500}}, {{"1", 9.167}, {"2", 9.167}}, {{"1", 10.00}, {"2", 10.00}}}
-                              }};
+    SECTION("Interpolation 3x3x3 with 2 attributes"){
+        Interpolater interpolater;
 
-    auto result = interpolater.interpolate(input, config);
+        vector<Measurement *> input = {
+                new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
+                new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
+                new Measurement(0, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 5),
+                new Measurement(0, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 10),
+                new Measurement(20, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 10),
+                new Measurement(20, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 5),
+                new Measurement(20, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 10),
+                new Measurement(20, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 5),
+        };
 
-    CHECK(pointCollectionEquals(result, &output));
-}
+        json config = {
+                {"spatialGranularity",   10},
+                {"temporalGranularity",  10},
+                {"BBox",                 {
+                                                 {"left",      0},
+                                                 {"right",    20},
+                                                 {"top",  20},
+                                                 {"bottom", 0}
+                                         }},
+                {"start",                0},
+                {"end",                  20},
+                {"minimalInterDistance", {
+                                                 {"longitude", 5000},
+                                                 {"latitude", 5000},
+                                                 {"time", 50}
+                                         }}
+        };
 
-TEST_CASE("Interpolation 3x3x3 with 2 attributes", "[]") {
-    Interpolater interpolater;
+        pointCollection output = {
+                {
+                        {{{"1", 5.000},  {"2", 5.000},},  {{"1", 6.324}, {"2", 6.324},}, {{"1", 7.500}, {"2", 7.500}}},
+                        {{{"1", 6.324}, {"2", 6.324},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 8.676}, {"2", 8.676}}},
+                        {{{"1", 7.500}, {"2", 7.500},}, {{"1", 8.676}, {"2", 8.676},}, {{"1", 10.000}, {"2", 10.000}}},
+                },
+                {
+                        {{{"1", 7.500},  {"2", 7.500},},  {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500}}},
+                        {{{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500}}},
+                        {{{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500},  {"2", 7.500}}},
+                },
+                {
+                        {{{"1", 10.000}, {"2", 10.000},}, {{"1", 8.676}, {"2", 8.676},}, {{"1", 7.500}, {"2", 7.500}}},
+                        {{{"1", 8.676}, {"2", 8.676},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 6.324}, {"2", 6.324}}},
+                        {{{"1", 7.500}, {"2", 7.500},}, {{"1", 6.324}, {"2", 6.324},}, {{"1", 5.000},  {"2", 5.000}}},
+                },
+        };
 
-    vector<Measurement *> input = {
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 10),
-            new Measurement(0, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 5),
-            new Measurement(0, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 10),
-            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("1", "", ""), 10),
-            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("1", "", ""), 5),
-            new Measurement(20, Sensor("1", 0, 0, ""), Attribute("2", "", ""), 10),
-            new Measurement(20, Sensor("1", 20, 20, ""), Attribute("2", "", ""), 5),
-    };
+        auto result = interpolater.interpolate(input, config);
 
-    json config = {
-            {"spatialGranularity",   10},
-            {"temporalGranularity",  10},
-            {"BBox",                 {
-                                             {"left",      0},
-                                             {"right",    20},
-                                             {"top",  20},
-                                             {"bottom", 0}
-                                     }},
-            {"start",                0},
-            {"end",                  20},
-            {"minimalInterDistance", {
-                                             {"longitude", 5000},
-                                             {"latitude", 5000},
-                                             {"time", 50}
-                                     }}
-    };
-
-    pointCollection output = {
-            {
-                    {{{"1", 5.000},  {"2", 5.000},},  {{"1", 6.324}, {"2", 6.324},}, {{"1", 7.500}, {"2", 7.500}}},
-                    {{{"1", 6.324}, {"2", 6.324},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 8.676}, {"2", 8.676}}},
-                    {{{"1", 7.500}, {"2", 7.500},}, {{"1", 8.676}, {"2", 8.676},}, {{"1", 10.000}, {"2", 10.000}}},
-            },
-            {
-                    {{{"1", 7.500},  {"2", 7.500},},  {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500}}},
-                    {{{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500}}},
-                    {{{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 7.500},  {"2", 7.500}}},
-            },
-            {
-                    {{{"1", 10.000}, {"2", 10.000},}, {{"1", 8.676}, {"2", 8.676},}, {{"1", 7.500}, {"2", 7.500}}},
-                    {{{"1", 8.676}, {"2", 8.676},}, {{"1", 7.500}, {"2", 7.500},}, {{"1", 6.324}, {"2", 6.324}}},
-                    {{{"1", 7.500}, {"2", 7.500},}, {{"1", 6.324}, {"2", 6.324},}, {{"1", 5.000},  {"2", 5.000}}},
-            },
-    };
-
-    auto result = interpolater.interpolate(input, config);
-
-    CHECK(pointCollectionEquals(result, &output));
+        CHECK(pointCollectionEquals(result, &output));
+    }
 }
 
 

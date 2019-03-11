@@ -7,7 +7,7 @@
 
 #include "../../../src/DataProcessor/include/ATMOComputer.h"
 
-TEST_CASE("Testing ATMO", "[UT-DP-5]") {
+TEST_CASE("Testing ATMO", "[UT-DP-1]") {
     pointCollection atmoTest =
         {
                 {

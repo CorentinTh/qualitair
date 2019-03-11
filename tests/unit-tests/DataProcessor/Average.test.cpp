@@ -33,7 +33,7 @@ TEST_CASE("Testing average", "[UT-DP-2]") {
                             }
                     }
 
-            },
+            }
     };
 
     pointCollection ds3 =
