@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 03/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #ifndef QUALITAIR_UTILS_H
@@ -11,8 +14,7 @@
 #include <iomanip>
 #include <iostream>
 
-namespace utils
-{
+namespace utils {
     struct pair_hash {
         template<class T>
         std::size_t operator()(const std::pair<Sensor, T> &p) const {
@@ -69,7 +71,7 @@ namespace utils
         size_t position = 0;
         std::string value;
 
-        while((position = string.find(',')) != std::string::npos) {
+        while ((position = string.find(',')) != std::string::npos) {
             value = string.substr(0, position);
             values.push_back(value);
             string.erase(0, position + 1);
@@ -80,16 +82,14 @@ namespace utils
         return values;
     }
 
-    static std::string timestampToString(const time_t rawtime)
-    {
-        struct tm * dt;
-        char buffer [30];
+    static std::string timestampToString(const time_t rawtime) {
+        struct tm *dt;
+        char buffer[30];
         dt = localtime(&rawtime);
         strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", dt);
         return std::string(buffer);
     }
 }
-
 
 
 #endif //QUALITAIR_UTILS_H
