@@ -7,7 +7,7 @@ addons:
   apt:
     packages:
       - lcov
-      - g++-8
+      - g++-7
 
 stages:
   - "compile"
