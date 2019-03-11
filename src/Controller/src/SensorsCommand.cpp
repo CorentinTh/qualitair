@@ -61,13 +61,13 @@ void SensorsCommand::execute() {
     }
 
     if (outputArguments.outputFormat == OutputFormat::HUMAN){
-        OutputCLI::getInstance().printStats(res);
+        OutputCLI::getInstance().printSensors(res);
     }
     else if(outputArguments.outputFormat == OutputFormat::JSON){
-        OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
+        OutputJSON::getInstance().printSensors(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
-        OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
+        OutputHTML::getInstance().printSensors(res, outputArguments.outputFile);
     }
     //LOG(INFO) << res;
 
