@@ -1,10 +1,16 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "../include/IngestCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "easylogging++.h"
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputCLI.h"
 #include "../../View/include/OutputHTML.h"
-
 
 
 IngestCommand &IngestCommand::operator=(IngestCommand other) {
@@ -25,19 +31,17 @@ IngestCommand::~IngestCommand() {
 }
 
 void IngestCommand::execute() {
-    IETL& etl = ETL::getInstance();
+    IETL &etl = ETL::getInstance();
 
     long output = etl.ingest(input);
     json res;
     res["lines"] = output;
 
-    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printIngest(res);
-    }
-    else if(outputArguments.outputFormat == OutputFormat::JSON){
+    } else if (outputArguments.outputFormat == OutputFormat::JSON) {
         OutputJSON::getInstance().printIngest(res, outputArguments.outputFile);
-    }
-    else{ // OutputFormat::HTML
+    } else { // OutputFormat::HTML
         OutputHTML::getInstance().printIngest(res, outputArguments.outputFile);
     }
 }

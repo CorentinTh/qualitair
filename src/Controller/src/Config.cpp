@@ -1,11 +1,16 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "../include/Config.h"
 #include "INIReader.h"
 #include "easylogging++.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-
-
 
 #include <iostream>
 
@@ -14,14 +19,13 @@ const std::string Config::FILEPATH = "/.qualitair/config.ini";
 void Config::load() {
     std::string path;
 
-    if (filepath == FILEPATH)  {
-        char* homeDir;
+    if (filepath == FILEPATH) {
+        char *homeDir;
         if ((homeDir = getenv("HOME")) == NULL) {
             homeDir = getpwuid(getuid())->pw_dir;
         }
         path = homeDir + filepath;
-    }
-    else {
+    } else {
         path = filepath;
     }
 
@@ -33,9 +37,9 @@ void Config::load() {
 
     databaseFilepath = reader.Get("general", "database", "");
     similarityThreshold = reader.GetInteger("similarity", "threshold", 0);
-    brokenTime = (int)reader.GetInteger("breakdown", "brokenTime", 0);
+    brokenTime = (int) reader.GetInteger("breakdown", "brokenTime", 0);
     spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0.0);
-    spikesTimeThreshold = (int)reader.GetInteger("spikes", "timeThreshold", 0);
+    spikesTimeThreshold = (int) reader.GetInteger("spikes", "timeThreshold", 0);
     spikesMinimalArea = reader.GetReal("spikes", "minimalArea", 0.0);
     spatialGranularity = reader.GetReal("interpolation", "spatialGranularity", 0);
     temporalGranularity = reader.GetReal("interpolation", "temporalGranularity", 0);
@@ -55,7 +59,7 @@ void Config::load() {
             admissibleRanges[*fieldsIt] = std::make_pair(min, max);
         }
     }
-    catch(std::exception const& e) {
+    catch (std::exception const &e) {
         std::cerr << "ERREUR : " << e.what() << std::endl;
     }
 }
@@ -103,14 +107,14 @@ Config &Config::operator=(Config other) {
 
 Config::Config(const Config &other) {
     databaseFilepath = other.databaseFilepath;
-    temporalGranularity= other.temporalGranularity;
-    spatialGranularity= other.spatialGranularity;
+    temporalGranularity = other.temporalGranularity;
+    spatialGranularity = other.spatialGranularity;
     spikesMinimalArea = other.spikesMinimalArea;
     spikesTimeThreshold = other.spikesTimeThreshold;
     spikesValueThreshold = other.spikesValueThreshold;
-    brokenTime= other.brokenTime;
+    brokenTime = other.brokenTime;
     similarityThreshold = other.similarityThreshold;
-    admissibleRanges= other.admissibleRanges;
+    admissibleRanges = other.admissibleRanges;
 }
 
 Config::Config(std::string path) : filepath(path) {

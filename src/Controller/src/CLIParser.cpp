@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/CLIParser.h"
@@ -8,7 +11,7 @@
 
 std::string CLIParser::getArgument(std::string name, std::string defaultValue) const {
     std::string arg = parser(name).str();
-    if(arg.empty()) arg = defaultValue;
+    if (arg.empty()) arg = defaultValue;
     return arg;
 }
 
@@ -19,7 +22,7 @@ std::string CLIParser::getVerb() const {
 std::string CLIParser::getMandatoryArgument(int index) const {
     std::string result = parser[2 + index];
     if (result == "") {
-        throw std::runtime_error ("missing mandatory argument at index " + std::to_string(index) );
+        throw std::runtime_error("missing mandatory argument at index " + std::to_string(index));
     }
     return result;
 }
@@ -37,10 +40,10 @@ CLIParser::~CLIParser() {
 
 }
 
-CLIParser::CLIParser(char* const argv[]) : parser(argv){
+CLIParser::CLIParser(char *const argv[]) : parser(argv) {
 
 }
 
-void swap(CLIParser & first, CLIParser & second) {
+void swap(CLIParser &first, CLIParser &second) {
     std::swap(first.parser, second.parser);
 }

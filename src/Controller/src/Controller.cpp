@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <iomanip>
@@ -27,7 +30,7 @@ Controller::Controller(const Controller &other) {
 
 }
 
-Controller::Controller(char** argv) {
+Controller::Controller(char **argv) {
     this->argv = argv;
     config.load();
 }
@@ -36,10 +39,10 @@ Controller::~Controller() {
 
 }
 
-Command* Controller::parseCommand() {
+Command *Controller::parseCommand() {
     CLIParser cliParser(argv);
 
-    Command * command = nullptr;
+    Command *command = nullptr;
     std::string verb = cliParser.getVerb();
 
     ConnectionFactory::setDatabase(cliParser.getArgument("database", config.getDatabaseFilepath()));
@@ -49,7 +52,7 @@ Command* Controller::parseCommand() {
     );
 
 
-    if(verb == "ingest") {
+    if (verb == "ingest") {
         std::string input = cliParser.getArgument("input", ".");
         command = new IngestCommand(input, outputArguments);
     } else {
@@ -59,13 +62,13 @@ Command* Controller::parseCommand() {
         std::vector<std::string> attributes = utils::unjoinString(cliParser.getArgument("attributes"));
         std::vector<std::string> sensors = utils::unjoinString(cliParser.getArgument("sensors"));
 
-        if(verb == "stats") {
+        if (verb == "stats") {
             try {
                 std::string statType = cliParser.getMandatoryArgument();
-                for (auto & c: statType) c = toupper(c);
+                for (auto &c: statType) c = toupper(c);
                 StatsCommand::StatEnum stat = StatsCommand::StatDictionary.at(statType);
                 json interpolationConfig = {
-                        {"spatialGranularity", config.getSpatialGranularity()},
+                        {"spatialGranularity",  config.getSpatialGranularity()},
                         {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new StatsCommand(stat, bbox, start, end, attributes, sensors, outputArguments, interpolationConfig);
@@ -76,8 +79,7 @@ Command* Controller::parseCommand() {
             catch (std::exception) {
                 LOG(ERROR) << "Missing mandatory argument \"stat type\".";
             }
-        } else if(verb == "spikes") {
-
+        } else if (verb == "spikes") {
 
 
             try {
@@ -88,7 +90,7 @@ Command* Controller::parseCommand() {
                         (unsigned int) config.getSpikesMinimalArea()
                 };
                 json interpolationConfig = {
-                        {"spatialGranularity", config.getSpatialGranularity()},
+                        {"spatialGranularity",  config.getSpatialGranularity()},
                         {"temporalGranularity", config.getTemporalGranularity()}
                 };
                 command = new SpikesCommand(attribute, bbox, start, end, sensors, detectionConfig, outputArguments, interpolationConfig);
@@ -96,18 +98,17 @@ Command* Controller::parseCommand() {
             catch (std::exception) {
                 LOG(ERROR) << "Missing mandatory argument \"attribute\".";
             }
-        } else if(verb == "broken") {
+        } else if (verb == "broken") {
             command = new DetectBrokenCommand(bbox, start, end, attributes, sensors, config.getBrokenTime(),
-                    config.getAdmissibleRanges(), outputArguments);
-        } else if(verb == "similarities") {
+                                              config.getAdmissibleRanges(), outputArguments);
+        } else if (verb == "similarities") {
             std::string thresholdStr = cliParser.getArgument("threshold");
             double threshold = thresholdStr.empty() ? config.getSimilarityThreshold() : std::stod(thresholdStr);
 
             command = new DetectSimCommand(bbox, start, end, attributes, sensors, threshold, outputArguments);
-        } else if(verb == "sensors") {
+        } else if (verb == "sensors") {
             command = new SensorsCommand(bbox, outputArguments);
-        }
-        else {
+        } else {
             LOG(ERROR) << "Unknown verb \"" << verb << "\".";
         }
 
@@ -119,14 +120,14 @@ Command* Controller::parseCommand() {
 
 void Controller::execute() {
     TIMED_FUNC(objTimer);
-    Command * command = parseCommand();
-    if(command == nullptr) {
+    Command *command = parseCommand();
+    if (command == nullptr) {
         printHelp();
         return;
     }
 
     Cache cache;
-    json * cached = cache.get(*command);
+    json *cached = cache.get(*command);
     if (cached == nullptr) {
         command->execute();
     } else {
@@ -135,7 +136,6 @@ void Controller::execute() {
         LOG(INFO) << *cached;
     }
 }
-
 
 
 void Controller::printHelp() const {

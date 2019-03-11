@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 05/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/SensorsCommand.h"
@@ -20,7 +23,7 @@ SensorsCommand::SensorsCommand(const SensorsCommand &other) {
 }
 
 SensorsCommand::SensorsCommand(BBox b, OutputArguments outputArguments) {
-    if (!b.isNull()){
+    if (!b.isNull()) {
         bbox = b;
     }
 }
@@ -33,13 +36,12 @@ void SensorsCommand::execute() {
     json config;
     config["type"] = ETL::SENSOR;
 
-    if(!bbox.isNull()){
+    if (!bbox.isNull()) {
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
         config["BBox"] = bbox;
-    }
-    else{
+    } else {
         config["hasBBox"] = false;
     }
 
@@ -49,24 +51,22 @@ void SensorsCommand::execute() {
     config["hasAttributes"] = false;
     config["hasSensors"] = false;
 
-    IETL& etl = ETL::getInstance();
-    std::vector<Sensor*> result = * (std::vector<Sensor*>*) etl.getData(config);
+    IETL &etl = ETL::getInstance();
+    std::vector<Sensor *> result = *(std::vector<Sensor *> *) etl.getData(config);
 
     // no dataprocesor treatment
 
     // transform result in json here (because no data processor treatment)
     json res = json::array();
-    for (const Sensor* ptrSensor : result){
+    for (const Sensor *ptrSensor : result) {
         res.push_back(*ptrSensor);
     }
 
-    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printSensors(res);
-    }
-    else if(outputArguments.outputFormat == OutputFormat::JSON){
+    } else if (outputArguments.outputFormat == OutputFormat::JSON) {
         OutputJSON::getInstance().printSensors(res, outputArguments.outputFile);
-    }
-    else{ // OutputFormat::HTML
+    } else { // OutputFormat::HTML
         OutputHTML::getInstance().printSensors(res, outputArguments.outputFile);
     }
     //LOG(INFO) << res;
@@ -77,13 +77,13 @@ void swap(SensorsCommand &first, SensorsCommand &second) {
     std::swap(first.bbox, second.bbox);
 }
 
-void SensorsCommand::to_json(json& j) const {
+void SensorsCommand::to_json(json &j) const {
     j = json{
             {"command", "sensors"},
-            {"bbox", bbox}
+            {"bbox",    bbox}
     };
 }
 
-void SensorsCommand::from_json(const json& j) {
+void SensorsCommand::from_json(const json &j) {
     j.at("bbox").get_to(bbox);
 }

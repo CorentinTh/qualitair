@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <iostream>
@@ -90,15 +93,15 @@ void SpikesCommand::execute() {
 
     pointCollection *result = (pointCollection *) etl.getData(config);
 
-    double areaThresh = ((double)detectionConfig.areaThreshold / (double)interpolationConfig["spatialGranularity"]);
-    double timeThreshold = ((double)detectionConfig.timeThreshold / (double)interpolationConfig["temporalGranularity"]);
+    double areaThresh = ((double) detectionConfig.areaThreshold / (double) interpolationConfig["spatialGranularity"]);
+    double timeThreshold = ((double) detectionConfig.timeThreshold / (double) interpolationConfig["temporalGranularity"]);
 
 
     json res = *dataProcessor.detectSpikes(result,
                                            attribute,
                                            detectionConfig.valueThreshold,
-                                           (unsigned int)areaThresh,
-                                           (unsigned int)timeThreshold);
+                                           (unsigned int) areaThresh,
+                                           (unsigned int) timeThreshold);
 
     if (config["hasStart"] && config["hasEnd"]) {
         Cache cache;

@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "../include/StatsCommand.h"
 #include "../../ETL/include/ETL.h"
 #include "../../globals.h"
@@ -9,8 +16,11 @@
 #include "../../utils.h"
 #include "../include/Cache.h"
 
-const std::unordered_map<std::string, StatsCommand::StatEnum> StatsCommand::StatDictionary {
-        {"AVG", StatsCommand::AVG}, {"EXTREMS", StatsCommand::EXTREMS}, {"DEVIATION", StatsCommand::DEVIATION}, {"ATMO", StatsCommand::ATMO}
+const std::unordered_map<std::string, StatsCommand::StatEnum> StatsCommand::StatDictionary{
+        {"AVG",       StatsCommand::AVG},
+        {"EXTREMS",   StatsCommand::EXTREMS},
+        {"DEVIATION", StatsCommand::DEVIATION},
+        {"ATMO",      StatsCommand::ATMO}
 };
 
 StatsCommand &StatsCommand::operator=(StatsCommand other) {
@@ -27,8 +37,8 @@ StatsCommand::StatsCommand(const StatsCommand &other) {
     sensors = other.sensors;
 }
 
-StatsCommand::StatsCommand(StatEnum t, BBox b, time_t s, time_t e, std::vector<std::string> attr,
-                           std::vector<std::string> sen, OutputArguments outputArguments, json interpolationConfig) : Command(outputArguments), type(t), bbox(b), start(s), end(e), attributes(attr), sensors(sen), interpolationConfig(interpolationConfig) {
+StatsCommand::StatsCommand(StatEnum t, BBox b, time_t s, time_t e, std::vector<std::string> attr, std::vector<std::string> sen, OutputArguments outputArguments, json interpolationConfig)
+        : Command(outputArguments), type(t), bbox(b), start(s), end(e), attributes(attr), sensors(sen), interpolationConfig(interpolationConfig) {
 }
 
 StatsCommand::~StatsCommand() {
@@ -39,51 +49,46 @@ void StatsCommand::execute() {
     json config;
     config["type"] = ETL::MEASURE;
     config["doInterpolation"] = true;
-    if(!bbox.isNull()){
+    if (!bbox.isNull()) {
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
         config["BBox"] = bbox;
-    }
-    else{
+    } else {
         config["hasBBox"] = false;
     }
 
-    if (start != 0){
+    if (start != 0) {
         config["hasStart"] = true;
         config["start"] = start;
-    }
-    else{
+    } else {
         config["hasStart"] = false;
     }
 
-    if (end != 0){
+    if (end != 0) {
         config["hasEnd"] = true;
         config["end"] = end;
-    }
-    else{
+    } else {
         config["hasEnd"] = false;
     }
 
-    if (!attributes.empty()){
+    if (!attributes.empty()) {
         config["hasAttributes"] = true;
         config["attributes"] = attributes;
-    }
-    else{
+    } else {
         config["hasAttributes"] = false;
     }
 
-    if (!sensors.empty()){
+    if (!sensors.empty()) {
         config["hasSensors"] = true;
         config["sensors"] = sensors;
-    }
-    else{
+    } else {
         config["hasSensors"] = false;
     }
     config.merge_patch(interpolationConfig);
 
-    IETL& etl = ETL::getInstance();
-    IDataProcessor& dataProcessor = DataProcessor::getInstance();
+    IETL &etl = ETL::getInstance();
+    IDataProcessor &dataProcessor = DataProcessor::getInstance();
 
     json res;
     if (type == StatEnum::ATMO) {
@@ -99,14 +104,13 @@ void StatsCommand::execute() {
                 res[date] = (*dataProcessor.computeAtmo(*result))["atmo"];
             }
         }
-    }
-    else if(type == StatEnum::AVG) {
+    } else if (type == StatEnum::AVG) {
         if (!config["hasStart"] || !config["hasEnd"]) {
             LOG(WARNING) << "start and end must be specified to do process batching in Qualit'Air BETA";
-            pointCollection* result = (pointCollection*) etl.getData(config);
-            res = * dataProcessor.computeAverage(* result);
+            pointCollection *result = (pointCollection *) etl.getData(config);
+            res = *dataProcessor.computeAverage(*result);
         } else {
-            std::vector<std::pair<json,std::unordered_map<std::string, int>>> means;
+            std::vector<std::pair<json, std::unordered_map<std::string, int>>> means;
             std::unordered_map<std::string, int> totalAttributesCount;
 
             for (long i = start; i <= end - 86400; i += 86400) {
@@ -118,8 +122,8 @@ void StatsCommand::execute() {
                     for (auto j : i) {
                         for (auto k : j) {
                             for (auto it : k) {
-                                attributesCount[it.first] ++;
-                                totalAttributesCount[it.first] ++;
+                                attributesCount[it.first]++;
+                                totalAttributesCount[it.first]++;
                             }
                         }
                     }
@@ -127,20 +131,19 @@ void StatsCommand::execute() {
                 means.push_back(std::make_pair(*dataProcessor.computeAverage(*result), attributesCount));
             }
             for (int i = 0; i < means.size(); i++) {
-                for (auto& [key, value] : means[i].first.items()) {
+                for (auto&[key, value] : means[i].first.items()) {
                     if (i == 0) {
                         res[key] = 0.0;
                     }
-                    res[key] = (double)res[key] + (double)means[i].first[key] * ((double)means[i].second[key] / totalAttributesCount[key]);
+                    res[key] = (double) res[key] + (double) means[i].first[key] * ((double) means[i].second[key] / totalAttributesCount[key]);
                 }
             }
 
         }
 
-    }
-    else if(type == StatEnum::DEVIATION){
-        pointCollection* result = (pointCollection*) etl.getData(config);
-        res = * dataProcessor.computeDeviation(* result);
+    } else if (type == StatEnum::DEVIATION) {
+        pointCollection *result = (pointCollection *) etl.getData(config);
+        res = *dataProcessor.computeDeviation(*result);
         /* TODO in order to compute correct value, we need to also calculate the variation between the means
          * etc.. so it is not implemented right now
          *
@@ -173,12 +176,11 @@ void StatsCommand::execute() {
                 res[key] = sqrt((double)value);
             }
         }*/
-    }
-    else{ // StatEnum::EXTREMS
+    } else { // StatEnum::EXTREMS
         if (!config["hasStart"] || !config["hasEnd"]) {
             LOG(WARNING) << "start and end must be specified to do process batching in Qualit'Air BETA";
-            pointCollection* result = (pointCollection*) etl.getData(config);
-            res = * dataProcessor.computeExtrems(* result);
+            pointCollection *result = (pointCollection *) etl.getData(config);
+            res = *dataProcessor.computeExtrems(*result);
         } else {
             for (long i = start; i <= end - 86400; i += 86400) {
                 config["start"] = i;
@@ -187,7 +189,7 @@ void StatsCommand::execute() {
                 if (res.empty()) {
                     res = *dataProcessor.computeExtrems(*result);
                 } else {
-                    for (auto& [key, value] : (*dataProcessor.computeExtrems(*result)).items()) {
+                    for (auto&[key, value] : (*dataProcessor.computeExtrems(*result)).items()) {
                         if (res[key]["max"] < value["max"]) {
                             res[key]["max"] = value["max"];
                         }
@@ -206,13 +208,11 @@ void StatsCommand::execute() {
         cache.put(*this, res);
     }
 
-    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printStats(res);
-    }
-    else if(outputArguments.outputFormat == OutputFormat::JSON){
+    } else if (outputArguments.outputFormat == OutputFormat::JSON) {
         OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
-    }
-    else{ // OutputFormat::HTML
+    } else { // OutputFormat::HTML
         OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
     }
 }
@@ -226,19 +226,19 @@ void swap(StatsCommand &first, StatsCommand &second) {
     std::swap(first.sensors, second.sensors);
 }
 
-void StatsCommand::to_json(json& j) const {
+void StatsCommand::to_json(json &j) const {
     j = json{
-            {"command", "stats"},
-            {"type", type},
-            {"bbox", bbox},
-            {"start", start},
-            {"end", end},
+            {"command",    "stats"},
+            {"type",       type},
+            {"bbox",       bbox},
+            {"start",      start},
+            {"end",        end},
             {"attributes", attributes},
-            {"sensors", sensors}
+            {"sensors",    sensors}
     };
 }
 
-void StatsCommand::from_json(const json& j) {
+void StatsCommand::from_json(const json &j) {
     j.at("bbox").get_to(bbox);
     j.at("type").get_to(type);
     j.at("start").get_to(start);

@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 02/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <fstream>
@@ -9,7 +12,7 @@
 
 const std::string FILENAME = "/tmp/.qualitair_cache";
 
-json* Cache::get(json request) {
+json *Cache::get(json request) {
     //TODO better lookup to find also partial match
     try {
         return new json(cache.at(request));
@@ -41,13 +44,11 @@ Cache::~Cache() {
 
 }
 
-inline std::string to_string(const json &j)
-{
+inline std::string to_string(const json &j) {
     std::string result;
     if (j.type() == json::value_t::string) {
         result = j.get<std::string>();
-    }
-    else {
+    } else {
         result = j.dump();
     }
 
@@ -58,20 +59,19 @@ void Cache::save() {
     std::ofstream stream(FILENAME, std::ios::out | std::ios::binary);
     try {
         std::unordered_map<std::string, std::string> s_cache;
-        for (auto& it : cache) {
+        for (auto &it : cache) {
             s_cache[to_string(it.first)] = to_string(it.second);
         }
         json j(s_cache);
 
         std::vector<std::uint8_t> v_bson = json::to_ubjson(j);
-        for (auto d : v_bson)
-        {
-            stream.write((char*)&d, sizeof(std::uint8_t));
+        for (auto d : v_bson) {
+            stream.write((char *) &d, sizeof(std::uint8_t));
         }
 
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         LOG(ERROR) << " a standard exception was caught, with message '"
-                  << e.what() << "'\n";
+                   << e.what() << "'\n";
     }
 
 
@@ -83,7 +83,7 @@ void Cache::load() {
     std::vector<uint8_t> contents((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
     if (contents.size() > 0) {
         json j_from_bson = json::from_ubjson(contents);
-        for (auto& it : j_from_bson.items()) {
+        for (auto &it : j_from_bson.items()) {
             cache[json::parse(to_string(it.key()))] = json::parse(to_string(it.value()));
         }
     }

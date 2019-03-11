@@ -1,5 +1,8 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "../include/DetectBrokenCommand.h"
@@ -19,52 +22,47 @@ void DetectBrokenCommand::execute() {
     json config;
     config["type"] = ETL::MEASURE;
 
-    if(!this->bbox.isNull()){
+    if (!this->bbox.isNull()) {
         config["hasBBox"] = true;
 
         json bbox = this->bbox;
         config["BBox"] = bbox;
-    }
-    else{
+    } else {
         config["hasBBox"] = false;
     }
 
-    if (this->start != 0){
+    if (this->start != 0) {
         config["hasStart"] = true;
         config["start"] = this->start;
-    }
-    else{
+    } else {
         config["hasStart"] = false;
     }
 
-    if (this->end != 0){
+    if (this->end != 0) {
         config["hasEnd"] = true;
         config["end"] = this->end;
-    }
-    else{
+    } else {
         config["hasEnd"] = false;
     }
 
-    if (!this->attributes.empty()){
+    if (!this->attributes.empty()) {
         config["hasAttributes"] = true;
         config["attributes"] = this->attributes;
-    }
-    else{
+    } else {
         config["hasAttributes"] = false;
     }
 
-    if (!this->sensors.empty()){
+    if (!this->sensors.empty()) {
         config["hasSensors"] = true;
         config["sensors"] = this->sensors;
-    }
-    else{
+    } else {
         config["hasSensors"] = false;
     }
 
-    IETL& etl = ETL::getInstance();
-    std::vector<Measurement*> result = * (std::vector<Measurement*>*) etl.getData(config);
+    IETL &etl = ETL::getInstance();
+    std::vector<Measurement *> result = *(std::vector<Measurement *> *) etl.getData(config);
 
-    IDataProcessor& dataProcessor = DataProcessor::getInstance();
+    IDataProcessor &dataProcessor = DataProcessor::getInstance();
     auto res = dataProcessor.detectBroken(result, brokenTime, admissibleRanges);
 
 
@@ -73,13 +71,11 @@ void DetectBrokenCommand::execute() {
         cache.put(*this, *res);
     }
 
-    if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
+    if (this->outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printBroken(*res);
-    }
-    else if(this->outputArguments.outputFormat == OutputFormat::JSON){
+    } else if (this->outputArguments.outputFormat == OutputFormat::JSON) {
         OutputJSON::getInstance().printBroken(*res, this->outputArguments.outputFile);
-    }
-    else{
+    } else {
         OutputHTML::getInstance().printBroken(*res, this->outputArguments.outputFile);
     }
 }
@@ -94,10 +90,9 @@ DetectBrokenCommand::DetectBrokenCommand(const DetectBrokenCommand &other) {
 }
 
 DetectBrokenCommand::DetectBrokenCommand(BBox box, time_t st, time_t e, std::vector<std::string> attr,
-        std::vector<std::string> sens, int bT, std::unordered_map<std::string, std::pair<double ,double >> aR,
-        OutputArguments outputArguments) : Command(outputArguments), bbox(box), start(st), end(e), attributes(attr),
-        sensors(sens), brokenTime(bT), admissibleRanges(aR)
-{
+                                         std::vector<std::string> sens, int bT, std::unordered_map<std::string, std::pair<double, double >> aR,
+                                         OutputArguments outputArguments) : Command(outputArguments), bbox(box), start(st), end(e), attributes(attr),
+                                                                            sensors(sens), brokenTime(bT), admissibleRanges(aR) {
 
 }
 
@@ -113,18 +108,18 @@ void swap(DetectBrokenCommand &first, DetectBrokenCommand &second) {
     std::swap(first.sensors, second.sensors);
 }
 
-void DetectBrokenCommand::to_json(json& j) const {
+void DetectBrokenCommand::to_json(json &j) const {
     j = json{
-        {"command", "broken"},
-        {"bbox", bbox},
-        {"start", start},
-        {"end", end},
-        {"attributes", attributes},
-        {"sensors", sensors}
+            {"command",    "broken"},
+            {"bbox",       bbox},
+            {"start",      start},
+            {"end",        end},
+            {"attributes", attributes},
+            {"sensors",    sensors}
     };
 }
 
-void DetectBrokenCommand::from_json(const json& j) {
+void DetectBrokenCommand::from_json(const json &j) {
     j.at("bbox").get_to(bbox);
     j.at("start").get_to(start);
     j.at("end").get_to(end);
