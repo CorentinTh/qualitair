@@ -61,7 +61,7 @@ namespace utils
         int milis = std::stoi(stringDate.substr(milisIndex + 1, 3));
         tm date = stringDateToTm(stringDate.substr(0, milisIndex), "%Y-%m-%dT%H:%M:%S");
 
-        return mktime(&date) + milis;
+        return mktime(&date);
     }
 
     static std::vector<std::string> unjoinString(std::string string) {

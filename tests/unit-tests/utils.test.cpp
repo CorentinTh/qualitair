@@ -7,7 +7,7 @@
 
 TEST_CASE("Test parseRFC3339Date to timestamp", "[UT-Utils-1]") {
     std::string date = "2019-03-10 10:36:15";
-    long expectedTimestamp = 1552210575000;
+    long expectedTimestamp = 1552210575;
 
     CHECK(utils::parseRFC3339Date(date) == expectedTimestamp);
     CHECK(utils::parseRFC3339Date("") == 0);
@@ -15,7 +15,7 @@ TEST_CASE("Test parseRFC3339Date to timestamp", "[UT-Utils-1]") {
 
 TEST_CASE("Test parseISO8601Date to timestamp", "[UT-Utils-2]") {
     std::string date = "2017-01-01T16:31:14.2420000";
-    long expectedTimestamp = 1483284674242;
+    long expectedTimestamp = 1483284674;
 
     CHECK(utils::parseISO8601Date(date) == expectedTimestamp);
     CHECK(utils::parseISO8601Date("") == 0);
