@@ -20,9 +20,9 @@ pointCollection *Interpolater::interpolate(const vector<Measurement *> &measures
     double yFactor = config["spatialGranularity"];
     double zFactor = config["temporalGranularity"];
 
-    double interRadiusX = config["minimalInterDistance"]["longitude"];
-    double interRadiusY = config["minimalInterDistance"]["latitude"];
-    double interRadiusZ = config["minimalInterDistance"]["time"];
+//    double interRadiusX = config["minimalInterDistance"]["longitude"];
+//    double interRadiusY = config["minimalInterDistance"]["latitude"];
+//    double interRadiusZ = config["minimalInterDistance"]["time"];
 
     // Preparing the data.
     // We insert each measure in an octree according to the attributeID
