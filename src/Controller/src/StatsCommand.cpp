@@ -36,7 +36,6 @@ StatsCommand::~StatsCommand() {
 }
 
 void StatsCommand::execute() {
-    // get data puis aggregation
     json config;
     config["type"] = ETL::MEASURE;
     config["doInterpolation"] = true;
@@ -86,8 +85,6 @@ void StatsCommand::execute() {
     IETL& etl = ETL::getInstance();
     IDataProcessor& dataProcessor = DataProcessor::getInstance();
 
-
-
     json res;
     if (type == StatEnum::ATMO) {
         if (!config["hasStart"] || !config["hasEnd"]) {
@@ -128,26 +125,17 @@ void StatsCommand::execute() {
                     }
                 }
                 means.push_back(std::make_pair(*dataProcessor.computeAverage(*result), attributesCount));
-
-                //LOG(DEBUG) << *dataProcessor.computeAverage(*result);
             }
             for (int i = 0; i < means.size(); i++) {
                 for (auto& [key, value] : means[i].first.items()) {
                     if (i == 0) {
                         res[key] = 0.0;
                     }
-                    //LOG(DEBUG) << "mean " << i << " of " << key << " : " << (double)means[i].first[key];
-                    //LOG(DEBUG) << "count " << i << " of " << key << " : " << (double)means[i].second[key];
-                    //LOG(DEBUG) << "total of " << key << " : " << totalAttributesCount[key];
-
                     res[key] = (double)res[key] + (double)means[i].first[key] * ((double)means[i].second[key] / totalAttributesCount[key]);
                 }
-                //LOG(DEBUG) << res;
             }
 
         }
-        /*pointCollection* result = (pointCollection*) etl.getData(config);
-        res = * dataProcessor.computeAverage(* result);*/
 
     }
     else if(type == StatEnum::DEVIATION){
@@ -213,12 +201,10 @@ void StatsCommand::execute() {
         }
     }
 
-    /*
-     * TODO uncomment after debug !
-     * if (config["hasStart"] && config["hasEnd"]) {
+    if (config["hasStart"] && config["hasEnd"]) {
         Cache cache;
         cache.put(*this, res);
-    }*/
+    }
 
     if (outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printStats(res);
@@ -242,17 +228,19 @@ void swap(StatsCommand &first, StatsCommand &second) {
 
 void StatsCommand::to_json(json& j) const {
     j = json{
-            {"command", "broken"},
+            {"command", "stats"},
+            {"type", type},
             {"bbox", bbox},
             {"start", start},
             {"end", end},
-            {"attribute", attributes},
+            {"attributes", attributes},
             {"sensors", sensors}
     };
 }
 
 void StatsCommand::from_json(const json& j) {
     j.at("bbox").get_to(bbox);
+    j.at("type").get_to(type);
     j.at("start").get_to(start);
     j.at("end").get_to(end);
     j.at("attribute").get_to(attributes);
