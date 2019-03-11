@@ -9,6 +9,7 @@
 #include "../../View/include/OutputCLI.h"
 #include "../../View/include/OutputJSON.h"
 #include "../../View/include/OutputHTML.h"
+#include "../include/Cache.h"
 
 SpikesCommand &SpikesCommand::operator=(SpikesCommand other) {
     swap(*this, other);
@@ -85,6 +86,11 @@ void SpikesCommand::execute() {
     json res = *dataProcessor.detectSpikes(result, attribute, detectionConfig.valueThreshold,
                                            detectionConfig.timeThreshold, detectionConfig.areaThreshold);
 
+    if (config["hasStart"] && config["hasEnd"]) {
+        Cache cache;
+        cache.put(*this, res);
+    }
+
     if (outputArguments.outputFormat == OutputFormat::HUMAN) {
         OutputCLI::getInstance().printSpikes(res);
     } else if (outputArguments.outputFormat == OutputFormat::JSON) {
@@ -105,7 +111,7 @@ void swap(SpikesCommand &first, SpikesCommand &second) {
 
 void SpikesCommand::to_json(json &j) const {
     j = json{
-            {"command",   "broken"},
+            {"command",   "spikes"},
             {"bbox",      bbox},
             {"start",     start},
             {"end",       end},

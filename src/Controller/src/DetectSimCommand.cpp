@@ -86,7 +86,7 @@ void DetectSimCommand::execute() {
 
     json res = *dataProcessor.detectSimilar(result, threshold);
 
-    if (config["hasEnd"]) {
+    if (config["hasStart"] && config["hasEnd"]) {
         Cache cache;
         cache.put(*this, res);
     }

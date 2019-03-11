@@ -67,8 +67,11 @@ void DetectBrokenCommand::execute() {
     IDataProcessor& dataProcessor = DataProcessor::getInstance();
     auto res = dataProcessor.detectBroken(result, brokenTime, admissibleRanges);
 
-    Cache cache;
-    cache.put(*this, *res);
+
+    if (config["hasStart"] && config["hasEnd"]) {
+        Cache cache;
+        cache.put(*this, *res);
+    }
 
     if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printBroken(*res);
