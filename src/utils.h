@@ -79,6 +79,15 @@ namespace utils
         }
         return values;
     }
+
+    static std::string timestampToString(const time_t rawtime)
+    {
+        struct tm * dt;
+        char buffer [30];
+        dt = localtime(&rawtime);
+        strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", dt);
+        return std::string(buffer);
+    }
 }
 
 

@@ -38,3 +38,15 @@ TEST_CASE("Test unjoinString", "[UT-Utils-3]") {
     CHECK(utils::unjoinString(input4) == output4);
     
 }
+
+TEST_CASE("Test timestampToString", "[UT-Utils-4]") {
+    std::time_t input1 = 1552306632;
+    std::time_t input2 = 0;
+
+    std::string output1 = "11/03/2019 13:17:12";
+    std::string output2 = "01/01/1970 01:00:00";
+
+    CHECK(utils::timestampToString(input1) == output1);
+    CHECK(utils::timestampToString(input2) == output2);
+
+}
