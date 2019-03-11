@@ -2,6 +2,7 @@
 #include <vector>
 #include "../../../src/ETL/include/SensorFilter.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
+#include "../../../src/Data/include/QueryBuilder.h"
 
 using namespace std;
 
@@ -9,7 +10,10 @@ TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-10]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    queryBuilder.select("AttributeID").from("Measurement");
+    queryBuilder.select("AttributeID")
+                .from("Measurement")
+                .join("Sensor")
+                .where("Measurement.SensorID = Sensor.SensorID");
 
     SQLite::Statement * query;
 
@@ -19,7 +23,7 @@ TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-10]") {
     sensorFilter1.addSensor("");
     sensorFilter1.applyTo(queryBuilder);
 
-    REQUIRE_NOTHROW(query = queryBuilder.execute());
+    CHECK_NOTHROW(query = queryBuilder.execute());
 
     vector<int> vectResults;
     vectResults.push_back(1);
@@ -30,18 +34,21 @@ TEST_CASE("Testing SensorFilter::addSensor", "[UT-E-10]") {
     while (query->executeStep()){
         resultNotEmpty = true;
         int attributeId = query->getColumn("AttributeID");
-        REQUIRE(std::find(vectResults.begin(), vectResults.end(), attributeId) != vectResults.end());
-        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+        CHECK(std::find(vectResults.begin(), vectResults.end(), attributeId) != vectResults.end());
+        CHECK_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    REQUIRE(resultNotEmpty);
+    CHECK(resultNotEmpty);
 }
 
 TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-11]") {
     SQLite::Database * database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
-    queryBuilder.select("AttributeID").from("Measurement");
+    queryBuilder.select("AttributeID")
+                .from("Measurement")
+                .join("Sensor")
+                .where("Measurement.SensorID = Sensor.SensorID");
 
     SQLite::Statement * query;
 
@@ -56,7 +63,7 @@ TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-11]") {
     sensorFilter1.addSensors(attributes);
     sensorFilter1.applyTo(queryBuilder);
 
-    REQUIRE_NOTHROW(query = queryBuilder.execute());
+    CHECK_NOTHROW(query = queryBuilder.execute());
 
     int result = 3;
 
@@ -65,10 +72,10 @@ TEST_CASE("Testing SensorFilter::addSensors", "[UT-E-11]") {
     while (query->executeStep()){
         resultNotEmpty = true;
         int attributeId = query->getColumn("AttributeID");
-        REQUIRE(result == attributeId);
-        REQUIRE_THROWS(query->getColumn("inexistantColumn"));
+        CHECK(result == attributeId);
+        CHECK_THROWS(query->getColumn("inexistantColumn"));
     }
 
-    REQUIRE(resultNotEmpty);
+    CHECK(resultNotEmpty);
 }
 

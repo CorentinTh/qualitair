@@ -24,13 +24,9 @@ public:
 
     double getSpikesMinimalArea();
 
-    int getSpatialGranularity();
+    double getSpatialGranularity();
 
-    int getTemporalGranularity();
-
-    double getMinimalInterDistanceArea() const;
-
-    double getMinimalInterDistanceTime() const;
+    double getTemporalGranularity();
 
     std::unordered_map<std::string, std::pair<double, double>> getAdmissibleRanges();
 
@@ -49,16 +45,14 @@ protected:
 
     int brokenTime;
     int spikesTimeThreshold;
-    int spatialGranularity;
-    int temporalGranularity;
+    double spatialGranularity;
+    double temporalGranularity;
     std::unordered_map<std::string, std::pair<double, double>> admissibleRanges;
     std::string databaseFilepath;
     std::string filepath;
     double similarityThreshold;
     double spikesValueThreshold;
     double spikesMinimalArea;
-    double minimalInterDistanceArea;
-    double minimalInterDistanceTime;
 };
 
 

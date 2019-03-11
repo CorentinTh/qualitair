@@ -8,6 +8,7 @@
 #include "../../View/include/OutputHTML.h"
 #include "../../View/include/OutputJSON.h"
 #include "../../DataProcessor/include/DataProcessor.h"
+#include "../include/Cache.h"
 
 DetectBrokenCommand &DetectBrokenCommand::operator=(DetectBrokenCommand other) {
     swap(*this, other);
@@ -65,6 +66,12 @@ void DetectBrokenCommand::execute() {
 
     IDataProcessor& dataProcessor = DataProcessor::getInstance();
     auto res = dataProcessor.detectBroken(result, brokenTime, admissibleRanges);
+
+
+    if (config["hasStart"] && config["hasEnd"]) {
+        Cache cache;
+        cache.put(*this, *res);
+    }
 
     if (this->outputArguments.outputFormat == OutputFormat::HUMAN){
         OutputCLI::getInstance().printBroken(*res);

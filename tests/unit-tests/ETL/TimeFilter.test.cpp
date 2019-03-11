@@ -2,6 +2,7 @@
 #include <string>
 #include "../../../src/ETL/include/TimeFilter.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
+#include "../../../src/Data/include/QueryBuilder.h"
 
 using namespace std;
 

@@ -9,6 +9,14 @@ BBox::BBox(double l, double t, double r, double b) : left(l), top(t), right(r), 
 }
 
 BBox::BBox(std::string stringValue) {
+    if (stringValue == "") {
+        left = -1;
+        bottom = -1;
+        right = -1;
+        top = -1;
+        return;
+    }
+
     double values[4] = {0};
     size_t position = 0;
     std::string value;

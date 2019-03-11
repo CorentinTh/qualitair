@@ -1,6 +1,7 @@
 #include "catch2/catch.hpp"
 #include "../../../src/ETL/include/GeoFilter.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
+#include "../../../src/Data/include/QueryBuilder.h"
 
 using namespace std;
 

@@ -60,17 +60,16 @@ void SensorsCommand::execute() {
         res.push_back(*ptrSensor);
     }
 
-    /*if (outputArguments.outputFormat == OutputFormat::HUMAN){
-        OutputCLI::getInstance().p(res);
+    if (outputArguments.outputFormat == OutputFormat::HUMAN){
+        OutputCLI::getInstance().printSensors(res);
     }
     else if(outputArguments.outputFormat == OutputFormat::JSON){
-        OutputJSON::getInstance().printStats(res, outputArguments.outputFile);
+        OutputJSON::getInstance().printSensors(res, outputArguments.outputFile);
     }
     else{ // OutputFormat::HTML
-        OutputHTML::getInstance().printStats(res, outputArguments.outputFile);
-    }*/
-    //TODO there's no OUTPUT defined for that command
-    LOG(INFO) << res;
+        OutputHTML::getInstance().printSensors(res, outputArguments.outputFile);
+    }
+    //LOG(INFO) << res;
 
 }
 

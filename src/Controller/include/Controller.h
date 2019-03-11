@@ -24,7 +24,6 @@ class Controller {
         friend void swap(Controller & first, Controller & second);
 
     private:
-        static std::vector<std::string> unjoinString(std::string string);
         static std::string userManual;
         char ** argv;
         Config config;

@@ -5,8 +5,12 @@ dist: xenial
 
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
       - lcov
+      - gcc-7
+      - g++-7
 
 stages:
   - "compile"

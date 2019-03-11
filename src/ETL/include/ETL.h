@@ -28,7 +28,7 @@ public:
 
     long ingest(std::string path) override;
 
-    void *getData(json config);
+    void *getData(json config, unsigned int recurseCount = 0);
 
     int extractDataTypeFromFile(std::string path);
 

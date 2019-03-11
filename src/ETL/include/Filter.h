@@ -5,13 +5,13 @@
 #ifndef QUALITAIR_FILTER_H
 #define QUALITAIR_FILTER_H
 
-#include "../../Data/include/QueryBuilder.h"
+#include "../../Data/include/IData.h"
 #include <string>
 
 
 class Filter {
     public:
-        virtual void applyTo(QueryBuilder &qb) = 0;
+        virtual void applyTo(IData &qb) = 0;
 };
 
 
