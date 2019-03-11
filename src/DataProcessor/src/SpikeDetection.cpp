@@ -1,4 +1,5 @@
 #include <utility>
+#include <iostream>
 
 //
 // Created by Wallyn Valentin on 17/02/2019.
@@ -34,6 +35,7 @@ SpikeDetection::~SpikeDetection() {
 
 json *SpikeDetection::apply() {
     json *j = new json;
+
 
     *j = json::array();
     for (unsigned int z = 0; z < points->size(); ++z) {

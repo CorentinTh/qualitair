@@ -1,6 +1,10 @@
 //
-// Created by Wallyn Valentin on 17/02/2019.
+//        ----[  QUALIT'AIR  ]----
 //
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 
 #include "../include/ETL.h"
 #include "../../Data/include/QueryBuilder.h"
@@ -178,33 +182,34 @@ void *ETL::getData(json config, unsigned int recurseCount) {
             data = interpolater.interpolate(*(vector<Measurement *> *) data, config);
 
             // Reducing data size since it has been extended
-            if (isExtended) {
+
+            for (int i = 0; i < recurseCount; ++i) {
+                ((pointCollection *) data)->erase(((pointCollection *) data)->begin() + i);   // remove first
+                ((pointCollection *) data)->pop_back();                                      // remove last
+            }
+
+
+            for (auto &grid : *(pointCollection *) data) {
 
                 for (int i = 0; i < recurseCount; ++i) {
-                    ((pointCollection*) data)->erase(((pointCollection*) data)->begin() + i);   // remove first
-                    ((pointCollection*) data)->pop_back();                                      // remove last
+                    grid.erase(grid.begin() + i);   // remove first
+                    grid.pop_back();                // remove last
                 }
 
-
-                for (auto &grid : *(pointCollection *) data) {
+                for (auto &row : grid) {
 
                     for (int i = 0; i < recurseCount; ++i) {
-                        grid.erase(grid.begin() + i);   // remove first
-                        grid.pop_back();                // remove last
+                        row.erase(row.begin() + i);   // remove first
+                        row.pop_back();                // remove last
                     }
 
-                    for (auto &row : grid) {
-
-                        for (int i = 0; i < recurseCount; ++i) {
-                            row.erase(row.begin() + i);   // remove first
-                            row.pop_back();                // remove last
-                        }
-
-                    }
                 }
             }
         }
-    } catch (json::out_of_range &e) {}
+    } catch (json::out_of_range &e) {
+        LOG(ERROR) << "Missing argument for interpolation. Require BBox and time range (start and end).";
+        exit(1);
+    }
 
     return data;
 }

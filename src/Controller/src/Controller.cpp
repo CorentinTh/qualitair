@@ -77,6 +77,9 @@ Command* Controller::parseCommand() {
                 LOG(ERROR) << "Missing mandatory argument \"stat type\".";
             }
         } else if(verb == "spikes") {
+
+
+
             try {
                 std::string attribute = cliParser.getMandatoryArgument();
                 SpikesCommand::SpikeDetectionConfiguration detectionConfig = {
