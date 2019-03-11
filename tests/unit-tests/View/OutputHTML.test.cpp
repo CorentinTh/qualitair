@@ -13,7 +13,7 @@
 
 
 namespace HTMLTest {
-    std::string htmlFilename = "../tests/data/mon_rapport_qualitair.html";
+    std::string htmlFilename = "mon_rapport_qualitair.html";
     json dataJsonSpikes = {
             {"spatialStep", 2},
             {"temporalStep", 1000},
@@ -105,7 +105,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
             std::ifstream file(htmlFilename);
-            CHECK(file.good());
+            REQUIRE(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -118,22 +118,32 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            CHECK(nbCharacters > 0);
+            REQUIRE(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printSpikes(dataJsonSpikes, htmlFilename);
-            // TODO determine what is the html output
+
+            std::ifstream out(htmlFilename);
+            std::string line;
+            bool titlePresent = false;
+            while (std::getline(out, line)) {
+                if (line.find("Spikes detection")!=std::string::npos){
+                    titlePresent = true;
+                }
+            }
+            out.close();
+            REQUIRE(titlePresent);
+            remove(htmlFilename.c_str());
         }
     }
 
     TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
 
-
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
             std::ifstream file(htmlFilename);
-            CHECK(file.good());
+            REQUIRE(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -146,12 +156,22 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            CHECK(nbCharacters > 0);
+            REQUIRE(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            // TODO determine what is the html output
+            std::ifstream out(htmlFilename);
+            std::string line;
+            bool titlePresent = false;
+            while (std::getline(out, line)) {
+                if (line.find("Statistics")!=std::string::npos){
+                    titlePresent = true;
+                }
+            }
+            out.close();
+            REQUIRE(titlePresent);
+            remove(htmlFilename.c_str());
         }
     }
 
@@ -161,7 +181,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
             std::ifstream file(htmlFilename);
-            CHECK(file.good());
+            REQUIRE(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -174,12 +194,22 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            CHECK(nbCharacters > 0);
+            REQUIRE(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printSim(dataJsonSim, htmlFilename);
-            // TODO determine what is the html output
+            std::ifstream out(htmlFilename);
+            std::string line;
+            bool titlePresent = false;
+            while (std::getline(out, line)) {
+                if (line.find("Similar sensors")!=std::string::npos){
+                    titlePresent = true;
+                }
+            }
+            out.close();
+            REQUIRE(titlePresent);
+            remove(htmlFilename.c_str());
         }
     }
 
@@ -189,7 +219,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
             std::ifstream file(htmlFilename);
-            CHECK(file.good());
+            REQUIRE(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -202,12 +232,22 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            CHECK(nbCharacters > 0);
+            REQUIRE(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printBroken(dataJsonBroken, htmlFilename);
-            // TODO determine what is the html output
+            std::ifstream out(htmlFilename);
+            std::string line;
+            bool titlePresent = false;
+            while (std::getline(out, line)) {
+                if (line.find("Broken sensors")!=std::string::npos){
+                    titlePresent = true;
+                }
+            }
+            out.close();
+            REQUIRE(titlePresent);
+            remove(htmlFilename.c_str());
         }
 
     }
@@ -218,7 +258,7 @@ namespace HTMLTest {
         SECTION("is the method creating the file") {
             OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
             std::ifstream file(htmlFilename);
-            CHECK(file.good());
+            REQUIRE(file.good());
             file.close();
             remove(htmlFilename.c_str());
         }
@@ -231,13 +271,23 @@ namespace HTMLTest {
                 nbCharacters += line.length();
             }
             out.close();
-            CHECK(nbCharacters > 0);
+            REQUIRE(nbCharacters > 0);
             remove(htmlFilename.c_str());
         }
 
         SECTION("is the method putting the right thing in the html file") {
             OutputHTML::getInstance().printIngest(dataJsonIngest, htmlFilename);
-            // TODO determine what is the html output
+            std::ifstream out(htmlFilename);
+            std::string line;
+            bool titlePresent = false;
+            while (std::getline(out, line)) {
+                if (line.find("Ingestion")!=std::string::npos){
+                    titlePresent = true;
+                }
+            }
+            out.close();
+            REQUIRE(titlePresent);
+            remove(htmlFilename.c_str());
         }
     }
 }
