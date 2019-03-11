@@ -12,6 +12,10 @@ addons:
       - gcc-7
       - g++-7
 
+env:
+  - CC=gcc-7
+  - CXX=g++-7
+
 stages:
   - "compile"
   - "test"
