@@ -145,10 +145,6 @@ void *ETL::getData(json config, unsigned int recurseCount) {
     void *data = extractData(&qb, config);
 
 
-    // debug
-    cout << endl << endl << config["BBox"]["top"] << endl << endl;
-    // fin debug
-
     try {
         if (config.at("doInterpolation") && config.at("type") == ETL::MEASURE) {
             bool isExtended = ((vector<Measurement *> *) data)->empty();
