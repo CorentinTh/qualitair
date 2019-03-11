@@ -154,6 +154,8 @@ void *ETL::getData(json config, unsigned int recurseCount) {
             bool isExtended = ((vector<Measurement *> *) data)->empty();
 
             if (isExtended) {
+                LOG(DEBUG) << "No point in current area. New try with extended area";
+
                 if (recurseCount < MAX_RECURSE_CALL) {
                     delete (vector<Measurement *> *) data; // Freeing some memory since it's recursive
 
