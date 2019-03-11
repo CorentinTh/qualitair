@@ -109,32 +109,40 @@ void StatsCommand::execute() {
             pointCollection* result = (pointCollection*) etl.getData(config);
             res = * dataProcessor.computeAverage(* result);
         } else {
-            std::vector<std::pair<json,int>> means;
-            double totalLength = 0;
+            std::vector<std::pair<json,std::unordered_map<std::string, int>>> means;
+            std::unordered_map<std::string, int> totalAttributesCount;
+
             for (long i = start; i <= end - 86400; i += 86400) {
                 config["start"] = i;
                 config["end"] = (i + 86400);
-                int length = 0;
                 pointCollection *result = (pointCollection *) etl.getData(config);
+                std::unordered_map<std::string, int> attributesCount;
                 for (auto i : *result) {
                     for (auto j : i) {
                         for (auto k : j) {
-                            length += k.size();
+                            for (auto it : k) {
+                                attributesCount[it.first] ++;
+                                totalAttributesCount[it.first] ++;
+                            }
                         }
                     }
                 }
-                totalLength += length;
-                means.push_back(std::make_pair(*dataProcessor.computeAverage(*result), length));
+                means.push_back(std::make_pair(*dataProcessor.computeAverage(*result), attributesCount));
 
-                LOG(DEBUG) << *dataProcessor.computeAverage(*result);
+                //LOG(DEBUG) << *dataProcessor.computeAverage(*result);
             }
             for (int i = 0; i < means.size(); i++) {
                 for (auto& [key, value] : means[i].first.items()) {
                     if (i == 0) {
                         res[key] = 0.0;
                     }
-                    res[key] = (double)res[key] + (double)means[i].first[key] * ((double)means[i].second / totalLength);
+                    //LOG(DEBUG) << "mean " << i << " of " << key << " : " << (double)means[i].first[key];
+                    //LOG(DEBUG) << "count " << i << " of " << key << " : " << (double)means[i].second[key];
+                    //LOG(DEBUG) << "total of " << key << " : " << totalAttributesCount[key];
+
+                    res[key] = (double)res[key] + (double)means[i].first[key] * ((double)means[i].second[key] / totalAttributesCount[key]);
                 }
+                //LOG(DEBUG) << res;
             }
 
         }
@@ -145,7 +153,10 @@ void StatsCommand::execute() {
     else if(type == StatEnum::DEVIATION){
         pointCollection* result = (pointCollection*) etl.getData(config);
         res = * dataProcessor.computeDeviation(* result);
-        /*if (!config["hasStart"] || !config["hasEnd"]) {
+        /* TODO in order to compute correct value, we need to also calculate the variation between the means
+         * etc.. so it is not implemented right now
+         *
+         * if (!config["hasStart"] || !config["hasEnd"]) {
             LOG(WARNING) << "start and end must be specified to do process batching in Qualit'Air BETA";
             pointCollection* result = (pointCollection*) etl.getData(config);
             res = * dataProcessor.computeDeviation(* result);
@@ -202,7 +213,9 @@ void StatsCommand::execute() {
         }
     }
 
-    /*if (config["hasStart"] && config["hasEnd"]) {
+    /*
+     * TODO uncomment after debug !
+     * if (config["hasStart"] && config["hasEnd"]) {
         Cache cache;
         cache.put(*this, res);
     }*/
