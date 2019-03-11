@@ -21,6 +21,7 @@ TEST_CASE("Testing Config::load", "[UT-C-4]") {
     CHECK(config.getSpikesTimeThreshold() == 12);
     CHECK(config.getSpikesValueThreshold() == 500.0);
     CHECK(config.getSpikesMinimalArea() == 10000.0);
+    CHECK(config.getDatabaseFilepath() == "db.sqlite");
 
     CHECK(config.getAdmissibleRanges()
             ==
@@ -33,5 +34,8 @@ TEST_CASE("Testing Config::load", "[UT-C-4]") {
 
 
 
-    // TODO test with broken file, missing conf ?
+    Config config2 = Config("garbage");
+    config2.load();
+
+    CHECK(config2.getBrokenTime() == 0);
 }
