@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "catch2/catch.hpp"
 #include <string>
 #include <vector>
@@ -10,16 +17,16 @@
 using namespace std;
 
 TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
-    SQLite::Database * database = ConnectionFactory::getConnection();
+    SQLite::Database *database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
 
-    SQLite::Statement * query;
+    SQLite::Statement *query;
 
     queryBuilder.select("SensorID")
-                .from("Measurement")
-                .join("Attribute")
-                .where("Measurement.AttributeID = Attribute.AttributeID");
+            .from("Measurement")
+            .join("Attribute")
+            .where("Measurement.AttributeID = Attribute.AttributeID");
 
     AttributeFilter attributeFilter1;
     attributeFilter1.addAttribute("3");
@@ -36,7 +43,7 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
 
     bool resultNotEmpty = false;
 
-    while (query->executeStep()){
+    while (query->executeStep()) {
         resultNotEmpty = true;
         int sensorId = query->getColumn("SensorID");
         CHECK(std::find(vectSensorId.begin(), vectSensorId.end(), sensorId) != vectSensorId.end());
@@ -47,15 +54,15 @@ TEST_CASE("Testing AttributeFilter::addAttribute", "[UT-E-8]") {
 }
 
 TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
-    SQLite::Database * database = ConnectionFactory::getConnection();
+    SQLite::Database *database = ConnectionFactory::getConnection();
     ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
     QueryBuilder queryBuilder = QueryBuilder();
     queryBuilder.select("SensorID")
-                .from("Measurement")
-                .join("Attribute")
-                .where("Measurement.AttributeID = Attribute.AttributeID");
+            .from("Measurement")
+            .join("Attribute")
+            .where("Measurement.AttributeID = Attribute.AttributeID");
 
-    SQLite::Statement * query;
+    SQLite::Statement *query;
 
     vector<string> attributes;
     attributes.emplace_back("1");
@@ -77,7 +84,7 @@ TEST_CASE("Testing AttributeFilter::addAttributes", "[UT-E-9]") {
 
     bool resultNotEmpty = false;
 
-    while (query->executeStep()){
+    while (query->executeStep()) {
         resultNotEmpty = true;
         int sensorId = query->getColumn("SensorID");
         CHECK(std::find(vectResults.begin(), vectResults.end(), sensorId) != vectResults.end());

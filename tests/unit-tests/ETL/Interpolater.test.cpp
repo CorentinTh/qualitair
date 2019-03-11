@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "catch2/catch.hpp"
 
 #include "../../../src/ETL/include/Interpolater.h"
@@ -34,7 +41,7 @@ bool pointCollectionEquals(pointCollection *a, pointCollection *b, double tolera
 
 TEST_CASE("Interpolater::interpolate(data)", "[UT-E-12]") {
 
-    SECTION("Interpolation 1x3x3 with 1 attribute"){
+    SECTION("Interpolation 1x3x3 with 1 attribute") {
         Interpolater interpolater;
 
         vector<Measurement *> input = {
@@ -70,7 +77,7 @@ TEST_CASE("Interpolater::interpolate(data)", "[UT-E-12]") {
 
         CHECK(pointCollectionEquals(result, &output));
     }
-    SECTION("Interpolation 1x3x3 with 2 attributes"){
+    SECTION("Interpolation 1x3x3 with 2 attributes") {
         Interpolater interpolater;
 
         vector<Measurement *> input = {
@@ -108,7 +115,7 @@ TEST_CASE("Interpolater::interpolate(data)", "[UT-E-12]") {
         CHECK(pointCollectionEquals(result, &output));
     }
 
-    SECTION("Interpolation 3x3x3 with 2 attributes"){
+    SECTION("Interpolation 3x3x3 with 2 attributes") {
         Interpolater interpolater;
 
         vector<Measurement *> input = {

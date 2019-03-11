@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 18/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"
@@ -15,35 +18,35 @@
 namespace HTMLTest {
     std::string htmlFilename = "mon_rapport_qualitair.html";
     json dataJsonSpikes = {
-            {"spatialStep", 2},
+            {"spatialStep",  2},
             {"temporalStep", 1000},
-            {"t0", 1550150155},
-            {"x0",  48.8534},
-            {"y0", 2.3488},
-            {"pics",      {
-                                    {
-                                            {{{"co2",0}}, {{"co2",1}}},
-                                            {{{"co2",0}}, {{"co2",0}}}
-                                    },
-                                    {
-                                            {{{"co2",0}}, {{"co2",1}}},
-                                            {{{"co2",0}}, {{"co2",0}}}
-                                    }
-                            }
+            {"t0",           1550150155},
+            {"x0",           48.8534},
+            {"y0",           2.3488},
+            {"pics",         {
+                                     {
+                                             {{{"co2", 0}}, {{"co2", 1}}},
+                                             {{{"co2", 0}}, {{"co2", 0}}}
+                                     },
+                                     {
+                                             {{{"co2", 0}}, {{"co2", 1}}},
+                                             {{{"co2", 0}}, {{"co2", 0}}}
+                                     }
+                             }
             }
     };
     json dataJsonStats = {
             {"co2",  {
-                             {"avg", 6},
-                             {"min", 2},
-                             {"max", 10},
+                             {"avg",        6},
+                             {"min",        2},
+                             {"max",        10},
                              {"deviation", 2.62}
                      }
             },
             {"o2",   {
-                             {"avg", 4.88},
-                             {"min", 1},
-                             {"max", 10},
+                             {"avg",        4.88},
+                             {"min",        1},
+                             {"max",        10},
                              {"deviation", 2.70},
                      }
             },
@@ -74,7 +77,7 @@ namespace HTMLTest {
             {
                     {"start", 1550150014},
                     {"end", 1550151032},
-                    {"sensor" ,{
+                    {"sensor", {
                                        {"id", "sensor71"},
                                        {"lat", 48.597855},
                                        {"long", 3.401035},
@@ -85,7 +88,7 @@ namespace HTMLTest {
             {
                     {"start", 1550150156},
                     {"end", 1650158000},
-                    {"sensor" ,{
+                    {"sensor", {
                                        {"id", "sensor147"},
                                        {"lat", 28.468412},
                                        {"long", 14.351684},
@@ -128,7 +131,7 @@ namespace HTMLTest {
             std::string line;
             bool titlePresent = false;
             while (std::getline(out, line)) {
-                if (line.find("Spikes detection")!=std::string::npos){
+                if (line.find("Spikes detection") != std::string::npos) {
                     titlePresent = true;
                 }
             }
@@ -165,7 +168,7 @@ namespace HTMLTest {
             std::string line;
             bool titlePresent = false;
             while (std::getline(out, line)) {
-                if (line.find("Statistics")!=std::string::npos){
+                if (line.find("Statistics") != std::string::npos) {
                     titlePresent = true;
                 }
             }
@@ -203,7 +206,7 @@ namespace HTMLTest {
             std::string line;
             bool titlePresent = false;
             while (std::getline(out, line)) {
-                if (line.find("Similar sensors")!=std::string::npos){
+                if (line.find("Similar sensors") != std::string::npos) {
                     titlePresent = true;
                 }
             }
@@ -241,7 +244,7 @@ namespace HTMLTest {
             std::string line;
             bool titlePresent = false;
             while (std::getline(out, line)) {
-                if (line.find("Broken sensors")!=std::string::npos){
+                if (line.find("Broken sensors") != std::string::npos) {
                     titlePresent = true;
                 }
             }
@@ -281,7 +284,7 @@ namespace HTMLTest {
             std::string line;
             bool titlePresent = false;
             while (std::getline(out, line)) {
-                if (line.find("Ingestion")!=std::string::npos){
+                if (line.find("Ingestion") != std::string::npos) {
                     titlePresent = true;
                 }
             }

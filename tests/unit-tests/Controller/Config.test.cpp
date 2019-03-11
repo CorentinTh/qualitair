@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 18/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"
@@ -24,14 +27,13 @@ TEST_CASE("Testing Config::load", "[UT-C-4]") {
     CHECK(config.getDatabaseFilepath() == "db.sqlite");
 
     CHECK(config.getAdmissibleRanges()
-            ==
-            (std::unordered_map<std::string, std::pair<double, double>>) {
-                    {"O3", {0,  400}},
-                    {"PM10", {0, 120}},
-                    {"SO2", {0, 700}},
-                    {"NO2", {0, 600}}
-            });
-
+          ==
+          (std::unordered_map<std::string, std::pair<double, double>>) {
+                  {"O3",   {0, 400}},
+                  {"PM10", {0, 120}},
+                  {"SO2",  {0, 700}},
+                  {"NO2",  {0, 600}}
+          });
 
 
     Config config2 = Config("garbage");

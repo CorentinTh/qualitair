@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include <SQLiteCpp/Database.h>
 #include <fstream>
 #include "catch2/catch.hpp"

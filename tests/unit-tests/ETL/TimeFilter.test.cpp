@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "catch2/catch.hpp"
 #include <string>
 #include "../../../src/ETL/include/TimeFilter.h"
@@ -9,13 +16,13 @@ using namespace std;
 
 TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
 
-    SECTION("with start"){
-        SQLite::Database * database = ConnectionFactory::getConnection();
+    SECTION("with start") {
+        SQLite::Database *database = ConnectionFactory::getConnection();
         ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         QueryBuilder queryBuilder = QueryBuilder();
         queryBuilder.select("rowid").from("Measurement");
 
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
         TimeFilter timeFilter;
 
@@ -36,7 +43,7 @@ TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
 
         bool resultNotEmpty = false;
 
-        while (query->executeStep()){
+        while (query->executeStep()) {
             resultNotEmpty = true;
             int rowId = query->getColumn("rowid");
             REQUIRE(std::find(vectLineNumberResult.begin(), vectLineNumberResult.end(), rowId) != vectLineNumberResult.end());
@@ -46,13 +53,13 @@ TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
         REQUIRE(resultNotEmpty);
     }
 
-    SECTION("with end"){
-        SQLite::Database * database = ConnectionFactory::getConnection();
+    SECTION("with end") {
+        SQLite::Database *database = ConnectionFactory::getConnection();
         ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         QueryBuilder queryBuilder = QueryBuilder();
         queryBuilder.select("rowid").from("Measurement");
 
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
         TimeFilter timeFilter;
 
@@ -66,7 +73,7 @@ TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
         REQUIRE(!query->executeStep());
     }
 
-    SECTION ("with start and end inverted"){
+    SECTION ("with start and end inverted") {
         TimeFilter timeFilter;
 
         time_t end = 1550430257;    // 17/02/2019 à 19:04:17
@@ -76,7 +83,7 @@ TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
         REQUIRE_THROWS(timeFilter.setEnd(end));
     }
 
-    SECTION ("with start and end equals"){
+    SECTION ("with start and end equals") {
         TimeFilter timeFilter;
 
         time_t t = 1550430257;  // 17/02/2019 à 19:04:17
@@ -89,13 +96,13 @@ TEST_CASE("Testing TimeFilter::setStart et setEnd", "[UT-E-4]") {
 
 TEST_CASE("Testing TimeFilter::setInterval", "[UT-E-5]") {
 
-    SECTION("with interval"){
-        SQLite::Database * database = ConnectionFactory::getConnection();
+    SECTION("with interval") {
+        SQLite::Database *database = ConnectionFactory::getConnection();
         ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         QueryBuilder queryBuilder = QueryBuilder();
         queryBuilder.select("rowid").from("Measurement");
 
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
         TimeFilter timeFilter;
 
@@ -115,7 +122,7 @@ TEST_CASE("Testing TimeFilter::setInterval", "[UT-E-5]") {
 
         bool resultNotEmpty = false;
 
-        while (query->executeStep()){
+        while (query->executeStep()) {
             resultNotEmpty = true;
             int rowId = query->getColumn("rowid");
             REQUIRE(std::find(vectLineNumberResult.begin(), vectLineNumberResult.end(), rowId) != vectLineNumberResult.end());
@@ -125,7 +132,7 @@ TEST_CASE("Testing TimeFilter::setInterval", "[UT-E-5]") {
         REQUIRE(resultNotEmpty);
     }
 
-    SECTION("with interval inverted"){
+    SECTION("with interval inverted") {
         TimeFilter timeFilter;
 
         time_t end = 1550150154;    // 14/02/2019 à 14:15:54
@@ -134,7 +141,7 @@ TEST_CASE("Testing TimeFilter::setInterval", "[UT-E-5]") {
         REQUIRE_THROWS(timeFilter.setInterval(start, end));
     }
 
-    SECTION("with start and end equals"){
+    SECTION("with start and end equals") {
         TimeFilter timeFilter;
 
         time_t t = 1550430257;  // 17/02/2019 à 19:04:17

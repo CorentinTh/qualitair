@@ -1,3 +1,10 @@
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
+
 #include "catch2/catch.hpp"
 #include "../../../src/ETL/include/GeoFilter.h"
 #include "../../../src/Data/include/ConnectionFactory.h"
@@ -6,12 +13,12 @@
 using namespace std;
 
 TEST_CASE("Testing GeoFilter::setBBox", "[UT-E-6]") {
-    SECTION("with normal BBox"){
-        SQLite::Database * database = ConnectionFactory::getConnection();
+    SECTION("with normal BBox") {
+        SQLite::Database *database = ConnectionFactory::getConnection();
         ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         QueryBuilder queryBuilder = QueryBuilder();
 
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
         queryBuilder.select("SensorID").from("Sensor");
 
@@ -30,7 +37,7 @@ TEST_CASE("Testing GeoFilter::setBBox", "[UT-E-6]") {
 
         bool resultNotEmpty = false;
 
-        while (query->executeStep()){
+        while (query->executeStep()) {
             resultNotEmpty = true;
             int sensorId = query->getColumn("SensorID");
             REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
@@ -40,7 +47,7 @@ TEST_CASE("Testing GeoFilter::setBBox", "[UT-E-6]") {
         REQUIRE(resultNotEmpty);
     }
 
-    SECTION("with bad BBox"){
+    SECTION("with bad BBox") {
         GeoFilter geoFilter1;
 
         BBox b1 = {10, 11, -20, 21}; // impossible : left >= right
@@ -54,15 +61,15 @@ TEST_CASE("Testing GeoFilter::setBBox", "[UT-E-6]") {
 
 TEST_CASE("Testing GeoFilter::extend", "[UT-E-7]") {
 
-    SECTION("with and without extension with valElargissement=0.05"){
-        SQLite::Database * database = ConnectionFactory::getConnection();
+    SECTION("with and without extension with valElargissement=0.05") {
+        SQLite::Database *database = ConnectionFactory::getConnection();
         ConnectionFactory::setDatabase("../tests/data/dbmock.sqlite");
         QueryBuilder queryBuilder = QueryBuilder();
         queryBuilder.select("SensorID").from("Sensor");
 
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
-        SECTION("without extension : no results are found"){
+        SECTION("without extension : no results are found") {
 
             GeoFilter geoFilter3;
             BBox b = {4.7, 50.54412, 4.8, 40.13849};
@@ -75,7 +82,7 @@ TEST_CASE("Testing GeoFilter::extend", "[UT-E-7]") {
             // empty result
         }
 
-        SECTION("extension of the bbox : results found"){
+        SECTION("extension of the bbox : results found") {
             GeoFilter geoFilter4;
             BBox b = {4.7, 50.54412, 4.8, 40.13849};
             REQUIRE_NOTHROW(geoFilter4.setBBox(b));
@@ -91,7 +98,7 @@ TEST_CASE("Testing GeoFilter::extend", "[UT-E-7]") {
 
             bool resultNotEmpty = false;
 
-            while (query->executeStep()){
+            while (query->executeStep()) {
                 resultNotEmpty = true;
                 int sensorId = query->getColumn("SensorID");
                 REQUIRE(std::find(vectResult.begin(), vectResult.end(), sensorId) != vectResult.end());
@@ -102,10 +109,10 @@ TEST_CASE("Testing GeoFilter::extend", "[UT-E-7]") {
         }
     }
 
-    SECTION("extend with ratio=-2"){
+    SECTION("extend with ratio=-2") {
         GeoFilter geoFilter1;
 
-        BBox b = { 45, 30, 50, 4 };
+        BBox b = {45, 30, 50, 4};
 
         REQUIRE_NOTHROW(geoFilter1.setBBox(b));
 

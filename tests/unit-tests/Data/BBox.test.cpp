@@ -1,7 +1,9 @@
 //
-// Created by vwallyn on 11/03/19.
+//        ----[  QUALIT'AIR  ]----
 //
-
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
 
 #include <catch2/catch.hpp>
 #include "../../../src/Data/include/BBox.h"
@@ -31,14 +33,12 @@ TEST_CASE("Test BBbox behavior", "[UT-D-1]") {
         BBox bbox("-8.085938,22.836946,27.333984,37.317752");
         CHECK(!bbox.isNull());
 
-        BBox bbox2(-1,-1,-1,-1);
+        BBox bbox2(-1, -1, -1, -1);
         CHECK(bbox2.isNull());
 
         BBox bbox3;
         CHECK(bbox3.isNull());
     }
-
-
 
 
 }

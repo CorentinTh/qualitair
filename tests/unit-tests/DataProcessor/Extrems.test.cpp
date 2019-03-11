@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 03/03/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"

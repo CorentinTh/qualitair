@@ -1,5 +1,11 @@
-#include "catch2/catch.hpp"
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
 
+#include "catch2/catch.hpp"
 
 #include "../../../src/DataProcessor/include/SpikeDetection.h"
 
@@ -104,7 +110,8 @@ namespace SpikeTest {
         SECTION("Test on simple: time threshold") {
             pointCollection in = {{
                                           {{{"co2", 10}}},
-                                  },{
+                                  },
+                                  {
                                           {{{"co2", 10}}},
                                   }};
 

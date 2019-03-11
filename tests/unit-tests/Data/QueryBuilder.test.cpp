@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 18/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include <catch2/catch.hpp>
@@ -75,16 +78,16 @@ namespace nsquerybuilder {
         QueryBuilder queryBuilder;
 
         queryBuilder.select("AttributeID")
-                    .from("Attribute")
-                    .where("Unit = ?")
-                    .orWhere("Unit = ?");
+                .from("Attribute")
+                .where("Unit = ?")
+                .orWhere("Unit = ?");
 
         REQUIRE(queryBuilder.getQuery() == "SELECT AttributeID FROM Attribute WHERE Unit = ? OR Unit = ?;");
 
         queryBuilder = QueryBuilder();
         queryBuilder.from("Measurement")
-                    .join("Attribute")
-                    .where("SensorID = ?");
+                .join("Attribute")
+                .where("SensorID = ?");
 
         REQUIRE(queryBuilder.getQuery() == "SELECT * FROM Measurement CROSS JOIN Attribute WHERE SensorID = ?;");
     }
@@ -93,8 +96,8 @@ namespace nsquerybuilder {
         QueryBuilder queryBuilder;
 
         queryBuilder.insert("Attribute")
-                    .values({"AttributeID", "Unit", "Description"})
-                    .bind("dummy").bind("dummy").bind("dummy");
+                .values({"AttributeID", "Unit", "Description"})
+                .bind("dummy").bind("dummy").bind("dummy");
 
         REQUIRE(queryBuilder.getQuery() == "INSERT INTO Attribute(AttributeID, Unit, Description) VALUES (?, ?, ?);");
 
@@ -110,30 +113,30 @@ namespace nsquerybuilder {
 
     TEST_CASE("Test QueryBuilder::execute", "[UT-D-10]") {
         QueryBuilder queryBuilder;
-        SQLite::Statement * query;
+        SQLite::Statement *query;
 
         query = queryBuilder.select("SensorID")
-                            .from("Sensor")
-                            .where("Latitude < ?")
-                            .bind(48.0)
-                            .orderBy("SensorID")
-                            .execute();
+                .from("Sensor")
+                .where("Latitude < ?")
+                .bind(48.0)
+                .orderBy("SensorID")
+                .execute();
 
-        for(int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             REQUIRE(query->executeStep());
             REQUIRE(std::stoi(query->getColumn("SensorID")) == i);
         }
 
         queryBuilder = QueryBuilder();
         query = queryBuilder.select("rowid, *")
-                            .from("Measurement")
-                            .where("Value < ?")
-                            .andWhere("AttributeID = ?")
-                            .orWhere("SensorID = ?")
-                            .bind(6)
-                            .bind(2)
-                            .bind(5)
-                            .execute();
+                .from("Measurement")
+                .where("Value < ?")
+                .andWhere("AttributeID = ?")
+                .orWhere("SensorID = ?")
+                .bind(6)
+                .bind(2)
+                .bind(5)
+                .execute();
 
         REQUIRE(query->executeStep());
         REQUIRE((int) query->getColumn("rowid") == 2);
@@ -143,11 +146,11 @@ namespace nsquerybuilder {
 
         queryBuilder = QueryBuilder();
         query = queryBuilder.from("Attribute")
-                            .join("Sensor")
-                            .execute();
+                .join("Sensor")
+                .execute();
 
         int nbRows = 0;
-        while(query->executeStep()) {
+        while (query->executeStep()) {
             nbRows++;
         }
 

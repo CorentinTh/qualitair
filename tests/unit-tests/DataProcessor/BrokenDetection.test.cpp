@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 18/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"
@@ -9,29 +12,29 @@
 
 TEST_CASE("Testing broken detection", "[UT-DP-8]") {
 
-    std::vector<Measurement*> measures = {
+    std::vector<Measurement *> measures = {
             new Measurement(1550150156, Sensor("2", 45.7632485, 4.8335574, "Cordelier - Métro"), Attribute("1", "", ""), 5),
             new Measurement(1550151014, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 10),
             new Measurement(1550158000, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 28),
             new Measurement(1550151014, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("3", "", ""), 1763),// superieur au range
             new Measurement(1550151014, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("1", "", ""), 5),
-            new Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("1", "", "") , 5),
-            new Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("3", "", "") , 1765),
+            new Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("1", "", ""), 5),
+            new Measurement(1550150032, Sensor("147", 28.468412, 14.351684, "Paris - Tour Eiffel"), Attribute("3", "", ""), 1765),
             new Measurement(1650158000, Sensor("3", 45.762994, 4.833632, "Rue de la république"), Attribute("2", "", ""), 28)
     };
 
     std::unordered_map<std::string, std::pair<double, double>> admissibleRanges = {
             {
                     "1",
-                    std::pair<double,double>(1, 10)
+                    std::pair<double, double>(1, 10)
             },
             {
                     "2",
-                    std::pair<double,double>(5, 30)
+                    std::pair<double, double>(5, 30)
             },
             {
                     "3",
-                    std::pair<double,double>(1, 100)
+                    std::pair<double, double>(1, 100)
             }
     };
 

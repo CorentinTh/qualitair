@@ -1,5 +1,8 @@
 //
-// Created by cthomasset on 27/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"
@@ -12,7 +15,7 @@ struct isValue {
 
     isValue(double v) : v(v) {}
 
-    bool operator()(const OT::point_t *i) const { return abs( *(double*)i->data - v) < 0.00001; }
+    bool operator()(const OT::point_t *i) const { return abs(*(double *) i->data - v) < 0.00001; }
 };
 
 bool valueInVector(const vector<const OT::point_t *> *vec, int val) {

@@ -1,5 +1,8 @@
 //
-// Created by vwallyn on 18/02/19.
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
 //
 
 #include "catch2/catch.hpp"
@@ -11,42 +14,42 @@
 
 namespace CLITest {
     json dataJsonSpikes = {
-            {"spatialStep", 2},
+            {"spatialStep",  2},
             {"temporalStep", 1000},
-            {"t0", 1550150155},
-            {"x0",  48.8534},
-            {"y0", 2.3488},
-            {"pics",      {
-                                    {
-                                            {{{"co2",0}}, {{"co2",1}}},
-                                            {{{"co2",0}}, {{"co2",0}}}
-                                    },
-                                    {
-                                            {{{"co2",0}}, {{"co2",1}}},
-                                            {{{"co2",0}}, {{"co2",0}}}
-                                    }
-                            }
+            {"t0",           1550150155},
+            {"x0",           48.8534},
+            {"y0",           2.3488},
+            {"pics",         {
+                                     {
+                                             {{{"co2", 0}}, {{"co2", 1}}},
+                                             {{{"co2", 0}}, {{"co2", 0}}}
+                                     },
+                                     {
+                                             {{{"co2", 0}}, {{"co2", 1}}},
+                                             {{{"co2", 0}}, {{"co2", 0}}}
+                                     }
+                             }
             }
     };
     json dataJsonStats = {
             {"co2",  {
-                         {"avg", 6},
-                         {"min", 2},
-                         {"max", 10},
-                         {"deviation", 2.62}
+                             {"avg",        6},
+                             {"min",        2},
+                             {"max",        10},
+                             {"deviation", 2.62}
                      }
             },
             {"o2",   {
-                         {"avg", 4.88},
-                         {"min", 1},
-                         {"max", 10},
-                         {"deviation", 2.70},
+                             {"avg",        4.88},
+                             {"min",        1},
+                             {"max",        10},
+                             {"deviation", 2.70},
                      }
             },
             {"atmo", {
-                         {"1543359600", 2},
-                         {"1543446000", 3},
-                         {"1543532400", 2}
+                             {"1543359600", 2},
+                             {"1543446000", 3},
+                             {"1543532400", 2}
                      }
             }
     };
@@ -70,7 +73,7 @@ namespace CLITest {
             {
                     {"start", 1550150014},
                     {"end", 1550151032},
-                    {"sensor" ,{
+                    {"sensor", {
                                        {"id", "sensor71"},
                                        {"lat", 48.597855},
                                        {"long", 3.401035},
@@ -82,7 +85,7 @@ namespace CLITest {
             {
                     {"start", 1550150156},
                     {"end", 1650158000},
-                    {"sensor" ,{
+                    {"sensor", {
                                        {"id", "sensor147"},
                                        {"lat", 28.468412},
                                        {"long", 14.351684},
