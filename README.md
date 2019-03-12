@@ -19,7 +19,7 @@
     </a>
 </p>
 
-# Installation procedure
+## Installation procedure
 
 ```bash
 # Download and extract 
@@ -28,10 +28,21 @@ unzip qualitair.zip
 cd qualitair && ./install.sh
 ```
 
-# Create the installation archive
+## Create the installation archive
 In the qualitair project root directory, run :
 ```bash
 cd installer
 ./create-installer.sh
 ```
 You have now a zip archive `qualitair.zip` at the project root directory.
+
+## Crédits
+Applications créée par :
+* Marsaud Bastien
+* Menseau Cyrielle
+* Thomasset Corentin
+* Wallyn Valentin
+
+Dans le cadre du cours de Génie Logiciel à l'INSA de Lyon du processeur Vasile-Marian Scuturici.
+
+
