@@ -14,6 +14,9 @@
     <a href="https://rickrolled.fr/">
         <img src="https://img.shields.io/badge/language-c%2B%2B-green.svg" />
     </a>
+    <a href="https://rickrolled.fr/">
+        <img src="https://img.shields.io/badge/qualite-100%25-green.svg" />
+    </a>
 </p>
 
 # Installation procedure
