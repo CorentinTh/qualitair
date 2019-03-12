@@ -108,12 +108,25 @@ void SpikesCommand::execute() {
         cache.put(*this, res);
     }
 
+    json out = {
+            {"pics", res},
+            {"pics", res},
+            {"spatialStep", interpolationConfig["spatialGranularity"]},
+            {"t0", start},
+            {"temporalStep", interpolationConfig["temporalGranularity"]},
+            {"x0", bbox.getLeft()},
+            {"y0", bbox.getBottom()}
+    };
+
     if (outputArguments.outputFormat == OutputFormat::HUMAN) {
-        OutputCLI::getInstance().printSpikes(res);
+        OutputCLI::getInstance().printSpikes(out);
+//        OutputCLI::getInstance().printSpikes(res);
     } else if (outputArguments.outputFormat == OutputFormat::JSON) {
-        OutputJSON::getInstance().printSpikes(res, outputArguments.outputFile);
+        OutputJSON::getInstance().printSpikes(out, outputArguments.outputFile);
+//        OutputJSON::getInstance().printSpikes(res, outputArguments.outputFile);
     } else {
-        OutputHTML::getInstance().printSpikes(res, outputArguments.outputFile);
+        OutputHTML::getInstance().printSpikes(out, outputArguments.outputFile);
+//        OutputHTML::getInstance().printSpikes(res, outputArguments.outputFile);
     }
 }
 
