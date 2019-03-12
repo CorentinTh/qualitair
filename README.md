@@ -11,6 +11,9 @@
     <a href="https://codecov.io/gh/CorentinTh/qualitair">
         <img src="https://codecov.io/gh/CorentinTh/qualitair/branch/dev/graph/badge.svg?token=b9f6pNeqj9" />
     </a>
+    <a href="https://rickrolled.fr/">
+        <img src="https://img.shields.io/badge/language-c%2B%2B-green.svg" />
+    </a>
 </p>
 
 # Installation procedure
