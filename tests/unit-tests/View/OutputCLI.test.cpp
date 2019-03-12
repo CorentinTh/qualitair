@@ -28,28 +28,12 @@ namespace CLITest {
                             }
             }
     };
-    json dataJsonStats = {
-            {"co2",  {
-                         {"avg", 6},
-                         {"min", 2},
-                         {"max", 10},
-                         {"deviation", 2.62}
-                     }
-            },
-            {"o2",   {
-                         {"avg", 4.88},
-                         {"min", 1},
-                         {"max", 10},
-                         {"deviation", 2.70},
-                     }
-            },
-            {"atmo", {
-                         {"1543359600", 2},
-                         {"1543446000", 3},
-                         {"1543532400", 2}
-                     }
-            }
-    };
+    json dataJsonStatsAtmo = R"({
+            "atmo": 6
+    })"_json;
+    json dataJsonStatsAverage = R"({"avg":true,"co2":6.0,"o2":4.88})"_json;
+    json dataJsonStatsDeviation = R"({"dev":true,"co2":0.0,"o2":0.0})"_json;
+    json dataJsonStatsExtrems = R"({"ext":true,"co2":{"max":4.0,"min":4.0},"o2":{"max":2.0,"min":2.0}})"_json;
     json dataJsonSim = {
             {
                     {
@@ -93,14 +77,12 @@ namespace CLITest {
             }
     };
     json dataJsonIngest = {
-            {"lines_inserted", 4201},
+            {"lines", 4201},
             {"error",          ""}
     };
 
-    /* TODO UPDATE TESTS. BROKEN DUE TO CHANGES FROM COUT TO LOGGING LIBRARY */
-    /* SORRY CYRIELLE */
 
-    /*TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
+    TEST_CASE("Test printSpikes(dataJSON) CLI", "[UT-V-1]") {
 
         SECTION("is the method putting something in cout") {
             std::ofstream out("out.txt");
@@ -132,9 +114,9 @@ namespace CLITest {
             std::ifstream outToRead("expected_out.txt");
             std::string line;
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "Des pics de co2 ont été détectés :");
+            CHECK(line.find("Des pics de co2 ont été détectés :")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == " - en position (50.8534,2.3488) entre 14:15:55 le 14/02/2019 et 14:32:35 le 14/02/2019");
+            CHECK(line.find(" - en position (50.8534,2.3488) entre 14:15:55 le 14/02/2019 et 14:32:35 le 14/02/2019")!=std::string::npos);
             //check if we are at the end of the file
             CHECK(!std::getline(outToRead, line));
             outToRead.close();
@@ -145,68 +127,163 @@ namespace CLITest {
 
     TEST_CASE("Test printStats(dataJSON) CLI", "[UT-V-2]") {
 
-        SECTION("is the method putting something in cout") {
+        SECTION("is the method putting something in cout"){
             std::ofstream out("out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
             std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
-            OutputCLI::getInstance().printStats(dataJsonStats);
-            std::cout.rdbuf(coutbuf); // restore cout
-            out.close();
+            SECTION("for average") {
+                OutputCLI::getInstance().printStats(dataJsonStatsAverage);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
 
-            std::ifstream out2("out.txt");
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out2, line)) {
-                nbCharacters += line.length();
+                std::ifstream out2("out.txt");
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out2, line)) {
+                    nbCharacters += line.length();
+                }
+                out2.close();
+                CHECK(nbCharacters > 0);
+                remove("out.txt");
             }
-            out2.close();
-            CHECK(nbCharacters > 0);
-            remove("out.txt");
+            SECTION("for atmo") {
+                OutputCLI::getInstance().printStats(dataJsonStatsAtmo);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream out2("out.txt");
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out2, line)) {
+                    nbCharacters += line.length();
+                }
+                out2.close();
+                CHECK(nbCharacters > 0);
+                remove("out.txt");
+            }
+            SECTION("for deviation") {
+                OutputCLI::getInstance().printStats(dataJsonStatsDeviation);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream out2("out.txt");
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out2, line)) {
+                    nbCharacters += line.length();
+                }
+                out2.close();
+                CHECK(nbCharacters > 0);
+                remove("out.txt");
+            }
+            SECTION("for extrems") {
+                OutputCLI::getInstance().printStats(dataJsonStatsExtrems);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream out2("out.txt");
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out2, line)) {
+                    nbCharacters += line.length();
+                }
+                out2.close();
+                CHECK(nbCharacters > 0);
+                remove("out.txt");
+            }
         }
+
         SECTION("is the method putting the expected thing in cout") {
             std::ofstream out("expected_out.txt");
             std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
             std::cout.rdbuf(out.rdbuf()); //redirect std::cout to expected_out.txt!
-            OutputCLI::getInstance().printStats(dataJsonStats);
-            std::cout.rdbuf(coutbuf); // restore cout
-            out.close();
 
-            std::ifstream outToRead("expected_out.txt");
-            std::string line;
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "Résultats des analyses :");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == " - ATMO :");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     28/11/2018 : 2");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     29/11/2018 : 3");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     30/11/2018 : 2");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == " - co2 :");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     avg : 6");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     min : 2");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     max : 10");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     deviation : 2.62");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == " - o2 :");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     avg : 4.88");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     min : 1");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     max : 10");
-            CHECK(std::getline(outToRead, line));
-            CHECK(line == "     deviation : 2.7");
-            //check if we are at the end of the file
-            CHECK(!std::getline(outToRead, line));
-            outToRead.close();
-            remove("expected_out.txt");
+            SECTION("for average"){
+                OutputCLI::getInstance().printStats(dataJsonStatsAverage);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream outToRead("expected_out.txt");
+                std::string line;
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Résultat des analyses")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Moyennes :")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - co2 :6")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - o2 :4.88")!=std::string::npos);
+                //check if we are at the end of the file
+                CHECK(!std::getline(outToRead, line));
+                outToRead.close();
+                remove("expected_out.txt");
+            }
+            SECTION("for atmo"){
+                OutputCLI::getInstance().printStats(dataJsonStatsAtmo);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream outToRead("expected_out.txt");
+                std::string line;
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Résultat des analyses")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("ATMO : 6")!=std::string::npos);
+                //check if we are at the end of the file
+                CHECK(!std::getline(outToRead, line));
+                outToRead.close();
+                remove("expected_out.txt");
+            }
+            SECTION("for deviation"){
+                OutputCLI::getInstance().printStats(dataJsonStatsDeviation);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream outToRead("expected_out.txt");
+                std::string line;
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Résultat des analyses")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Ecart-types :")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - co2 :0")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - o2 :0")!=std::string::npos);
+                //check if we are at the end of the file
+                CHECK(!std::getline(outToRead, line));
+                outToRead.close();
+                remove("expected_out.txt");
+            }
+            SECTION("for extrems"){
+                OutputCLI::getInstance().printStats(dataJsonStatsExtrems);
+                std::cout.rdbuf(coutbuf); // restore cout
+                out.close();
+
+                std::ifstream outToRead("expected_out.txt");
+                std::string line;
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Résultat des analyses")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("Minimums et maximums :")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - co2 :")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("    min :4")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("    max :4")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find(" - o2 :")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("    min :2")!=std::string::npos);
+                CHECK(std::getline(outToRead, line));
+                CHECK(line.find("    max :2")!=std::string::npos);
+                //check if we are at the end of the file
+                CHECK(!std::getline(outToRead, line));
+                outToRead.close();
+                remove("expected_out.txt");
+            }
+
+
         }
 
     }
@@ -242,19 +319,19 @@ namespace CLITest {
             std::ifstream outToRead("expected_out.txt");
             std::string line;
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "------");
+            CHECK(line.find("------")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "Les capteurs suivants sont similaires :");
+            CHECK(line.find("Les capteurs suivants sont similaires :")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == " - Capteur sensor1 : positionné en (45.7574995,4.8313017)");
+            CHECK(line.find(" - Capteur sensor1 : positionné en (45.757500,4.831302)")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "   Description : Bellecour - Grande roue");
+            CHECK(line.find("   Description : Bellecour - Grande roue")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == " - Capteur sensor3 : positionné en (45.762994,4.833632)");
+            CHECK(line.find(" - Capteur sensor3 : positionné en (45.762994,4.833632)")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "   Description : Rue de la république");
+            CHECK(line.find("   Description : Rue de la république")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "------");
+            CHECK(line.find("------")!=std::string::npos);
             //check if we are at the end of the file
             CHECK(!std::getline(outToRead, line));
             outToRead.close();
@@ -296,15 +373,15 @@ namespace CLITest {
             std::ifstream outToRead("expected_out.txt");
             std::string line;
             CHECK(std::getline(outToRead, line));
-            CHECK(line.erase(0,39) == "Les capteurs suivants sont en panne :");
+            CHECK(line.find("Les capteurs suivants sont en panne :")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line.erase(0,39) == " - Capteur sensor71 : positionné en (48.597855,3.401035) entre 14:13:34 le 14/02/2019 et 14:30:32 le 14/02/2019");
+            CHECK(line.find(" - Capteur sensor71 : positionné en (48.597855,3.401035) entre 14:13:34 le 14/02/2019 et 14:30:32 le 14/02/2019")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line.erase(0,39) == "   Description : Pétaouchnok");
+            CHECK(line.find("   Description : Pétaouchnok")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line.erase(0,39) == " - Capteur sensor147 : positionné en (28.468412,14.351684) entre 14:15:56 le 14/02/2019 et 03:13:20 le 17/04/2022");
+            CHECK(line.find(" - Capteur sensor147 : positionné en (28.468412,14.351684) entre 14:15:56 le 14/02/2019 et 03:13:20 le 17/04/2022")!=std::string::npos);
             CHECK(std::getline(outToRead, line));
-            CHECK(line.erase(0,39) == "   Description : Paris - Tour Eiffel");
+            CHECK(line.find("   Description : Paris - Tour Eiffel")!=std::string::npos);
             //check if we are at the end of the file
             CHECK(!std::getline(outToRead, line));
             outToRead.close();
@@ -344,11 +421,11 @@ namespace CLITest {
             std::ifstream outToRead("expected_out.txt");
             std::string line;
             CHECK(std::getline(outToRead, line));
-            CHECK(line == "4201 lignes ont été insérées avec succès");
+            CHECK(line.find("4201 elements inserted successfully !")!=std::string::npos);
             //check if we are at the end of the file
             CHECK(!std::getline(outToRead, line));
             outToRead.close();
             remove("expected_out.txt");
         }
-    }*/
+    }
 }

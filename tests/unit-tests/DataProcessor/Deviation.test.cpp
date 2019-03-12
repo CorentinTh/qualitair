@@ -85,15 +85,15 @@ TEST_CASE("Testing deviation", "[UT-DP-4]") {
                     }
             };
     /* END DATASETS */
-    json out1 = R"({"co2":0.0,"o2":0.0})"_json;
+    json out1 = R"({"dev":true,"co2":0.0,"o2":0.0})"_json;
     Deviation agg(ds1);
     CHECK(agg.apply()->dump() == out1.dump());
 
-    json out2 = R"({"co2":3.0,"o2":0.5})"_json;
+    json out2 = R"({"dev":true,"co2":3.0,"o2":0.5})"_json;
     Deviation agg2(ds2);
     CHECK(agg2.apply()->dump() == out2.dump());
 
-    json out3 = R"({"co2":2.45,"o2":2.52})"_json;
+    json out3 = R"({"dev":true,"co2":2.45,"o2":2.52})"_json;
     Deviation agg3(ds3);
     CHECK(agg3.apply()->dump() == out3.dump());
 }
