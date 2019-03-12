@@ -9,7 +9,8 @@
 
 json *Deviation::apply() {
     auto deviations = computeDeviation();
-    json *j = new json(deviations);
+    json* j = new json(deviations);
+    (*j)["dev"] = true;
     return j;
 }
 

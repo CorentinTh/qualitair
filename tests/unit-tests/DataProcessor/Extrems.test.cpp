@@ -87,16 +87,16 @@ TEST_CASE("Testing extrems", "[UT-DP-3]") {
                     }
             };
 
-    json out1 = R"({"co2":{"max":4.0,"min":4.0},"o2":{"max":2.0,"min":2.0}})"_json;
+    json out1 = R"({"ext":true,"co2":{"max":4.0,"min":4.0},"o2":{"max":2.0,"min":2.0}})"_json;
     Extrems agg(ds1);
     CHECK(agg.apply()->dump() == out1.dump());
 
 
-    json out2 = R"({"co2":{"max":10.0,"min":4.0},"o2":{"max":2.0,"min":1.0}})"_json;
+    json out2 = R"({"ext":true,"co2":{"max":10.0,"min":4.0},"o2":{"max":2.0,"min":1.0}})"_json;
     Extrems agg2(ds2);
     CHECK(agg2.apply()->dump() == out2.dump());
 
-    json out3 = R"({"co2":{"max":10.0,"min":2.0},"o2":{"max":10.0,"min":1.0}})"_json;
+    json out3 = R"({"ext":true,"co2":{"max":10.0,"min":2.0},"o2":{"max":10.0,"min":1.0}})"_json;
     Extrems agg3(ds3);
     CHECK(agg3.apply()->dump() == out3.dump());
 }

@@ -14,6 +14,7 @@ json *Extrems::apply() {
         (*j)[it->first]["min"] = extrems[it->first].first;
         (*j)[it->first]["max"] = extrems[it->first].second;
     }
+    (*j)["ext"] = true;
     return j;
 }
 

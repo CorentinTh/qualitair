@@ -26,7 +26,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
     if (!data.empty() && data.find("pics") != data.end()) {
         for (json::iterator it = data.at("pics")[0][0][0].begin(); it != data.at("pics")[0][0][0].end(); ++it) {
             std::string actualType = it.key();
-            LOG(INFO) << "Des pics de " << actualType << " ont été détectés :" << std::endl;
+            LOG(INFO) << "Des pics de "<< actualType <<" ont été détectés :";
 
             double t0, x0, y0;
             int deltaS, deltaT;
@@ -92,9 +92,7 @@ void OutputCLI::printSpikes(json data, std::string filename) {
                 char dateStart[25];
                 strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
-                LOG(INFO) << std::setprecision(8);
-                LOG(INFO) << " - en position (" << s->x << "," << s->y << ")";
-                LOG(INFO) << " entre " << dateStart << " et " << dateEnd << std::endl;
+                LOG(INFO) << " - en position (" << s->x << "," << s->y << ")" << " entre " << dateStart << " et " << dateEnd;
 
                 // delete the pointers
                 delete (s);
@@ -104,34 +102,51 @@ void OutputCLI::printSpikes(json data, std::string filename) {
 }
 
 void OutputCLI::printStats(json data, std::string filename) {
-    if (!data.empty()) {
-        if (data.find("atmo") != data.end()) {
-            LOG(INFO) << "Résultats des analyses :" << std::endl;
-            LOG(INFO) << " - ATMO :" << std::endl;
-            for (json::iterator it = data.at("atmo").begin(); it != data.at("atmo").end(); ++it) {
-                int date = std::stoi(it.key());
-                int indiceAtmo = it.value();
-                time_t tDate = (time_t) date;
-                struct tm *tmDate = localtime(&tDate);
-                char dateChar[12];
-                strftime(dateChar, sizeof(dateChar), "%d/%m/%Y", tmDate);
-                LOG(INFO) << "     " << dateChar << " : " << indiceAtmo << std::endl;
-            }
+    if (!data.empty()){
+        if(data.find("atmo") != data.end()){
+            LOG(INFO) << "Résultat des analyses";
+            int val = data.at("atmo");
+            LOG(INFO) << "ATMO : " << val;
+        }
+        else if(data.find("avg") != data.end()){
+            LOG(INFO) << "Résultat des analyses";
+            LOG(INFO) << "Moyennes :";
             std::string attribute;
-            double min, max, avg, deviation;
+            double moyenne;
             for (json::iterator it = data.begin(); it != data.end(); ++it) {
-                if (it.key() != "atmo") {
+                if (it.key() != "avg"){
                     attribute = it.key();
-                    min = it.value().at("min");
-                    max = it.value().at("max");
-                    avg = it.value().at("avg");
-                    deviation = it.value().at("deviation");
-
-                    LOG(INFO) << " - " << attribute << " :" << std::endl;
-                    LOG(INFO) << "     avg : " << avg << std::endl;
-                    LOG(INFO) << "     min : " << min << std::endl;
-                    LOG(INFO) << "     max : " << max << std::endl;
-                    LOG(INFO) << "     deviation : " << deviation << std::endl;
+                    moyenne = it.value();
+                    LOG(INFO) << " - " << attribute << " :" << moyenne;
+                }
+            }
+        }
+        else if(data.find("dev") != data.end()){
+            LOG(INFO) << "Résultat des analyses";
+            LOG(INFO) << "Ecart-types :";
+            std::string attribute;
+            double deviation;
+            for (json::iterator it = data.begin(); it != data.end(); ++it) {
+                if (it.key() != "dev"){
+                    attribute = it.key();
+                    deviation = it.value();
+                    LOG(INFO) << " - " << attribute << " :" << deviation;
+                }
+            }
+        }
+        else if(data.find("ext") != data.end()){
+            LOG(INFO) << "Résultat des analyses";
+            LOG(INFO) << "Minimums et maximums :";
+            std::string attribute;
+            double minimum, maximum;
+            for (json::iterator it = data.begin(); it != data.end(); ++it) {
+                if (it.key() != "ext"){
+                    attribute = it.key();
+                    minimum = it.value().at("min");
+                    maximum = it.value().at("max");
+                    LOG(INFO) << " - " << attribute << " :";
+                    LOG(INFO) << "    min :" << minimum;
+                    LOG(INFO) << "    max :" << minimum;
                 }
             }
         }
@@ -139,33 +154,29 @@ void OutputCLI::printStats(json data, std::string filename) {
 }
 
 void OutputCLI::printSim(json data, std::string filename) {
-    if (!data.empty()) {
-        for (auto &pair : data.items()) {
-            LOG(INFO) << "Attribut : " << pair.key();
-            for (const auto &listSimilarSensors : pair.value()) {
-                LOG(INFO) << "------" << std::endl;
-                LOG(INFO) << "Les capteurs suivants sont similaires :" << std::endl;
-                double latitude, longitude;
-                std::string description, id;
-                for (const auto &sensor : listSimilarSensors) {
-                    id = sensor.at("id");
-                    latitude = sensor.at("lat");
-                    longitude = sensor.at("long");
-                    description = sensor.at("description");
+    if (!data.empty()){
+        for (const auto & listSimilarSensors : data){
+            LOG(INFO) << "------";
+            LOG(INFO) << "Les capteurs suivants sont similaires :";
+            double latitude, longitude;
+            std::string description, id;
+            for (const auto & sensor : listSimilarSensors){
+                id = sensor.at("id");
+                latitude = sensor.at("lat");
+                longitude = sensor.at("long");
+                description = sensor.at("description");
 
-                    LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-                    LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")" << std::endl;
-                    LOG(INFO) << "   Description : " << description << std::endl;
-                }
+                LOG(INFO) << " - Capteur " << id << " : positionné en (" << std::to_string(latitude) << "," <<  std::to_string(longitude) << ")";
+                LOG(INFO) << "   Description : " << description;
             }
-            LOG(INFO) << "------" << std::endl;
         }
+        LOG(INFO) << "------";
     }
 }
 
 void OutputCLI::printBroken(json data, std::string filename) {
-    if (!data.empty()) {
-        LOG(INFO) << "Les capteurs suivants sont en panne :" << std::endl;
+    if (!data.empty()){
+        LOG(INFO) << "Les capteurs suivants sont en panne :";
         for (json::iterator itSensor = data.begin(); itSensor != data.end(); ++itSensor) {
             double latitude, longitude;
             std::string description, id;
@@ -184,10 +195,8 @@ void OutputCLI::printBroken(json data, std::string filename) {
             char dateStart[25];
             strftime(dateStart, sizeof(dateStart), "%H:%M:%S le %d/%m/%Y", tmStart);
 
-            LOG(INFO) << std::setprecision(9); // TODO a affiner en fonction des donnees fournies
-            LOG(INFO) << " - Capteur " << id << " : positionné en (" << latitude << "," << longitude << ")";
-            LOG(INFO) << " entre " << dateStart << " et " << dateEnd << std::endl;
-            LOG(INFO) << "   Description : " << description << std::endl;
+            LOG(INFO) << " - Capteur " << id << " : positionné en (" << std::to_string(latitude) << "," << std::to_string(longitude) << ")" << " entre " << dateStart << " et " << dateEnd;
+            LOG(INFO) << "   Description : " << description;
         }
     }
 }
@@ -196,9 +205,9 @@ void OutputCLI::printIngest(json data, std::string filename) {
     if (!data.empty()) {
         long output = data["lines"];
         if (output == 0) {
-            LOG(WARNING) << "No element could not be inserted" << std::endl;
+            LOG(WARNING) << "No element could not be inserted";
         } else if (output == -1) {
-            LOG(ERROR) << "File is not properly formatted" << std::endl;
+            LOG(ERROR) << "File is not properly formatted";
         } else {
             LOG(INFO) << output << " elements inserted successfully !";
         }

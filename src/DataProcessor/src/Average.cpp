@@ -10,6 +10,7 @@
 json *Average::apply() {
     auto means = computeAverage();
     json *j = new json(means);
+    (*j)["avg"] = true;
     return j;
 }
 

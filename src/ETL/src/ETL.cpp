@@ -149,8 +149,12 @@ void *ETL::getData(json config, unsigned int recurseCount) {
 
 
     try {
+        cout << config.dump() << endl;
+
         if (config.at("doInterpolation") && config.at("type") == ETL::MEASURE) {
             bool isExtended = ((vector<Measurement *> *) data)->empty();
+
+
 
             if (isExtended) {
                 LOG(DEBUG) << "No point in current area. New try with extended area";
@@ -205,10 +209,7 @@ void *ETL::getData(json config, unsigned int recurseCount) {
                 }
             }
         }
-    } catch (json::out_of_range &e) {
-        LOG(ERROR) << "Missing argument for interpolation. Require BBox and time range (start and end).";
-//        exit(1);
-    }
+    } catch (json::out_of_range &e) {}
 
     return data;
 }

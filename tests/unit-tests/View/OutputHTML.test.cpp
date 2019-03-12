@@ -35,28 +35,12 @@ namespace HTMLTest {
                              }
             }
     };
-    json dataJsonStats = {
-            {"co2",  {
-                             {"avg",        6},
-                             {"min",        2},
-                             {"max",        10},
-                             {"deviation", 2.62}
-                     }
-            },
-            {"o2",   {
-                             {"avg",        4.88},
-                             {"min",        1},
-                             {"max",        10},
-                             {"deviation", 2.70},
-                     }
-            },
-            {"atmo", {
-                             {"1543359600", 2},
-                             {"1543446000", 3},
-                             {"1543532400", 2}
-                     }
-            }
-    };
+    json dataJsonStatsAtmo = R"({
+            "atmo": 6
+    })"_json;
+    json dataJsonStatsAverage = R"({"co2":6.0,"o2":4.88})"_json;
+    json dataJsonStatsDeviation = R"({"co2":0.0,"o2":0.0})"_json;
+    json dataJsonStatsExtrems = R"({"co2":{"max":4.0,"min":4.0},"o2":{"max":2.0,"min":2.0}})"_json;
     json dataJsonSim = {
             {
                     {
@@ -98,7 +82,7 @@ namespace HTMLTest {
             }
     };
     json dataJsonIngest = {
-            {"lines_inserted", 4201},
+            {"lines", 4201},
             {"error",          ""}
     };
 
@@ -144,37 +128,143 @@ namespace HTMLTest {
     TEST_CASE("Test printStats(dataJSON) HTML", "[UT-V-7]") {
 
         SECTION("is the method creating the file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            std::ifstream file(htmlFilename);
-            REQUIRE(file.good());
-            file.close();
-            remove(htmlFilename.c_str());
+            SECTION("for average"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAverage, htmlFilename);
+                std::ifstream file(htmlFilename);
+                REQUIRE(file.good());
+                file.close();
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for atmo"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAtmo, htmlFilename);
+                std::ifstream file(htmlFilename);
+                REQUIRE(file.good());
+                file.close();
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for deviation"){
+                OutputHTML::getInstance().printStats(dataJsonStatsDeviation, htmlFilename);
+                std::ifstream file(htmlFilename);
+                REQUIRE(file.good());
+                file.close();
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for extrems"){
+                OutputHTML::getInstance().printStats(dataJsonStatsExtrems, htmlFilename);
+                std::ifstream file(htmlFilename);
+                REQUIRE(file.good());
+                file.close();
+                remove(htmlFilename.c_str());
+            }
+
         }
         SECTION("is the method putting something in the html file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            int nbCharacters = 0;
-            while (std::getline(out, line)) {
-                nbCharacters += line.length();
+            SECTION("for average"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAverage, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out, line)) {
+                    nbCharacters += line.length();
+                }
+                out.close();
+                REQUIRE(nbCharacters > 0);
+                remove(htmlFilename.c_str());
             }
-            out.close();
-            REQUIRE(nbCharacters > 0);
-            remove(htmlFilename.c_str());
+            SECTION("for atmo"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAtmo, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out, line)) {
+                    nbCharacters += line.length();
+                }
+                out.close();
+                REQUIRE(nbCharacters > 0);
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for deviation"){
+                OutputHTML::getInstance().printStats(dataJsonStatsDeviation, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out, line)) {
+                    nbCharacters += line.length();
+                }
+                out.close();
+                REQUIRE(nbCharacters > 0);
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for extrems"){
+                OutputHTML::getInstance().printStats(dataJsonStatsExtrems, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                int nbCharacters = 0;
+                while (std::getline(out, line)) {
+                    nbCharacters += line.length();
+                }
+                out.close();
+                REQUIRE(nbCharacters > 0);
+                remove(htmlFilename.c_str());
+            }
         }
         SECTION("is the method putting the right thing in the html file") {
-            OutputHTML::getInstance().printStats(dataJsonStats, htmlFilename);
-            std::ifstream out(htmlFilename);
-            std::string line;
-            bool titlePresent = false;
-            while (std::getline(out, line)) {
-                if (line.find("Statistics") != std::string::npos) {
-                    titlePresent = true;
+            SECTION("for average"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAverage, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                bool titlePresent = false;
+                while (std::getline(out, line)) {
+                    if (line.find("Statistics")!=std::string::npos){
+                        titlePresent = true;
+                    }
                 }
+                out.close();
+                REQUIRE(titlePresent);
+                remove(htmlFilename.c_str());
             }
-            out.close();
-            REQUIRE(titlePresent);
-            remove(htmlFilename.c_str());
+            SECTION("for atmo"){
+                OutputHTML::getInstance().printStats(dataJsonStatsAtmo, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                bool titlePresent = false;
+                while (std::getline(out, line)) {
+                    if (line.find("Statistics")!=std::string::npos){
+                        titlePresent = true;
+                    }
+                }
+                out.close();
+                REQUIRE(titlePresent);
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for deviation"){
+                OutputHTML::getInstance().printStats(dataJsonStatsDeviation, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                bool titlePresent = false;
+                while (std::getline(out, line)) {
+                    if (line.find("Statistics")!=std::string::npos){
+                        titlePresent = true;
+                    }
+                }
+                out.close();
+                REQUIRE(titlePresent);
+                remove(htmlFilename.c_str());
+            }
+            SECTION("for extrems"){
+                OutputHTML::getInstance().printStats(dataJsonStatsExtrems, htmlFilename);
+                std::ifstream out(htmlFilename);
+                std::string line;
+                bool titlePresent = false;
+                while (std::getline(out, line)) {
+                    if (line.find("Statistics")!=std::string::npos){
+                        titlePresent = true;
+                    }
+                }
+                out.close();
+                REQUIRE(titlePresent);
+                remove(htmlFilename.c_str());
+            }
         }
     }
 

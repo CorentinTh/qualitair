@@ -135,7 +135,10 @@ void StatsCommand::execute() {
                     if (i == 0) {
                         res[key] = 0.0;
                     }
-                    res[key] = (double) res[key] + (double) means[i].first[key] * ((double) means[i].second[key] / totalAttributesCount[key]);
+                    if( key != "avg"){
+                        res[key] = (double) res[key] + (double) means[i].first[key] * ((double) means[i].second[key] / totalAttributesCount[key]);
+                    }
+
                 }
             }
 
@@ -190,12 +193,16 @@ void StatsCommand::execute() {
                     res = *dataProcessor.computeExtrems(*result);
                 } else {
                     for (auto&[key, value] : (*dataProcessor.computeExtrems(*result)).items()) {
-                        if (res[key]["max"] < value["max"]) {
-                            res[key]["max"] = value["max"];
+
+                        if(key != "ext"){
+                            if (res[key]["max"] < value["max"]) {
+                                res[key]["max"] = value["max"];
+                            }
+                            if (res[key]["min"] > value["min"]) {
+                                res[key]["min"] = value["min"];
+                            }
                         }
-                        if (res[key]["min"] > value["min"]) {
-                            res[key]["min"] = value["min"];
-                        }
+
                     }
                 }
                 LOG(DEBUG) << *dataProcessor.computeExtrems(*result);

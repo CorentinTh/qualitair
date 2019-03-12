@@ -15,6 +15,7 @@ addons:
 stages:
   - "compile"
   - "test"
+  - "release"
 
 before_script:
   - ./build.sh init
@@ -26,10 +27,27 @@ jobs:
       script: ./build.sh qualitair
     - name: "Compile 'utests'"
       script: ./build.sh utests
+
     - stage: "test"
       name: "Unit tests"
       script:
       - ./build.sh utests
       - ./bin/utests
       - ./coverage.sh
+
+    - stage: "release"
+      name: "github-release"
+      script:
+        - cd installer
+        - ./create-installer.sh
+        - cd ..
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        skip_cleanup: true
+        file:
+          - qualitair.zip
+        on:
+          tags: true
+
 
