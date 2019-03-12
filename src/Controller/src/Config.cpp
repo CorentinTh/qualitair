@@ -36,7 +36,7 @@ void Config::load() {
     }
 
     databaseFilepath = reader.Get("general", "database", "");
-    similarityThreshold = reader.GetInteger("similarity", "threshold", 0);
+    similarityThreshold = reader.GetReal("similarity", "threshold", 0);
     brokenTime = (int) reader.GetInteger("breakdown", "brokenTime", 0);
     spikesValueThreshold = reader.GetReal("spikes", "valueThreshold", 0.0);
     spikesTimeThreshold = (int) reader.GetInteger("spikes", "timeThreshold", 0);
