@@ -1,17 +1,23 @@
-#include <iostream>
+//
+//        ----[  QUALIT'AIR  ]----
+//
+//    Marsaud Menseau Thomasset Wallyn
+//  Copyright © 2019 - All right reserved
+//
 
-using namespace std;
+
+#include "easylogging++.h"
+#include "Controller/include/Controller.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 
+int main(int argc, char **argv) {
+    START_EASYLOGGINGPP(argc, argv);
 
-/**
- * Main function
- * @param {int} argc - Argument count
- * @param {char**} argv - Argument string array
- * @return {int}
- */
-int main(int argc, char ** argv){
-    cout << "Hello world!" << endl;
+    Controller controller(argv);
+    controller.execute();
+
     return 0;
 }
 

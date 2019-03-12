@@ -1,0 +1,17 @@
+{
+  "name": "html-templates",
+  "version": "1.0.0",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "gulp"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-inline-source": "^4.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0"
+  },
+  "dependencies": {}
+}
