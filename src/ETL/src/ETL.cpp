@@ -70,7 +70,7 @@ long ETL::ingest(std::string path) {
                 queryBuilder.bind(row.cells[2].as_double());
                 queryBuilder.bind(row.cells[3].as_str());
             } else if (dataType == MEASURE) {
-                queryBuilder.bind(utils::parseISO8601Date(row.cells[0].as_str()) / 1000); //ms -> s
+                queryBuilder.bind(utils::parseISO8601Date(row.cells[0].as_str())); //ms -> s
                 queryBuilder.bind(row.cells[1].as_str());
                 queryBuilder.bind(row.cells[2].as_str());
                 queryBuilder.bind(row.cells[3].as_double());
